@@ -1,0 +1,3 @@
+[submodule "Dependency/Blackbone"]
+	path = Dependency/Blackbone
+	url = https://github.com/DarthTon/Blackbone.git

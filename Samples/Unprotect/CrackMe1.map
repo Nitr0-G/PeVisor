@@ -1,0 +1,76 @@
+ CrackMe1
+
+ Timestamp is 66293104 (Wed Apr 24 19:19:16 2024)
+
+ Preferred load address is 0000000140000000
+
+ Start         Length     Name                   Class
+ 0001:00000000 000009ccH .text                   CODE
+ 0002:00000000 0000001aH .rdata                  DATA
+ 0002:000004f8 00000064H .xdata                  DATA
+ 0003:00000000 0030038aH .data                   DATA
+ 0003:00300390 00000018H .bss                    DATA
+ 0004:00000000 00000078H .pdata                  DATA
+
+  Address         Publics by Value              Rva+Base               Lib:Object
+
+ 0001:00000000       ?mem_cpy@InternalFuncs@@YAPEAXPEAX0_K@Z 0000000140001000     CrackMe1.obj
+ 0001:000000c0       ?str_cmp@InternalFuncs@@YAHPEBD0@Z 00000001400010c0     CrackMe1.obj
+ 0001:00000130       ?str_len@InternalFuncs@@YA_KPEBD@Z 0000000140001130     CrackMe1.obj
+ 0001:00000170       ?GetIcon@ImageFromMemory@@YAPEAUHICON__@@XZ 0000000140001170     CrackMe1.obj
+ 0001:00000200       ?LoadBitmapFromMemory@ImageFromMemory@@YAPEAUHBITMAP__@@PEADHH@Z 0000000140001200     CrackMe1.obj
+ 0001:000002b0       encrypt                    00000001400012b0     CrackMe1.obj
+ 0001:00000340       GenerateKey                0000000140001340     CrackMe1.obj
+ 0001:00000370       LicenseFunction            0000000140001370     CrackMe1.obj
+ 0001:00000480       ?WindowProcedure@@YA_JPEAUHWND__@@I_K_J@Z 0000000140001480     CrackMe1.obj
+ 0001:00000600       ?WinMainCRTStartup@@YAHPEAUHINSTANCE__@@0PEA_WH@Z 0000000140001600     CrackMe1.obj
+ 0002:0000001a       ??_C@_07PBILKAFL@Success?$AA@ 000000014000201a     CrackMe1.obj
+ 0002:00000022       ??_C@_09NJCFLIIN@Try?5again?$AA@ 0000000140002022     CrackMe1.obj
+ 0002:0000002c       ??_C@_07DIMJBLAB@Failure?$AA@ 000000014000202c     CrackMe1.obj
+ 0002:00000034       ??_C@_0BJ@JMHCFCHC@Now?5you?5are?5a?5cracker?5?$DN?$CJ?$AA@ 0000000140002034     CrackMe1.obj
+ 0002:0000004d       ??_C@_06JPHCLLC@Error?$CB?$AA@ 000000014000204d     CrackMe1.obj
+ 0002:00000054       ??_C@_0BM@HAHCIOBC@Window?5Registration?5Failed?$CB?$AA@ 0000000140002054     CrackMe1.obj
+ 0002:00000070       ??_C@_0BI@GFGNBIPO@Window?5Creation?5Failed?$CB?$AA@ 0000000140002070     CrackMe1.obj
+ 0002:00000088       ??_C@_1M@PLKLLLDN@?$AAC?$AAh?$AAe?$AAc?$AAk?$AA?$AA@ 0000000140002088     CrackMe1.obj
+ 0002:00000094       ??_C@_19KFAJFECL@?$AAE?$AAD?$AAI?$AAT?$AA?$AA@ 0000000140002094     CrackMe1.obj
+ 0002:0000009e       ??_C@_1O@MOBNNEMB@?$AAB?$AAU?$AAT?$AAT?$AAO?$AAN?$AA?$AA@ 000000014000209e     CrackMe1.obj
+ 0002:000000ac       ??_C@_1O@ELLBDENI@?$AAS?$AAT?$AAA?$AAT?$AAI?$AAC?$AA?$AA@ 00000001400020ac     CrackMe1.obj
+ 0002:000000ba       ??_C@_19FBJPIBMN@?$AAK?$AAe?$AAy?$AA?3?$AA?$AA@ 00000001400020ba     CrackMe1.obj
+ 0002:000000c4       ??_C@_1M@NDELDCMA@?$AAN?$AAi?$AAc?$AAk?$AA?3?$AA?$AA@ 00000001400020c4     CrackMe1.obj
+ 0002:000000d0       ??_C@_1EC@OHAKJDOG@?$AAC?$AAr?$AAa?$AAc?$AAk?$AAM?$AAe?$AA?5?$AAC?$AAo?$AAd?$AAe?$AA?5?$AAV?$AAi?$AAr?$AAt?$AAu?$AAa?$AAl?$AAi?$AAz?$AAe?$AAr?$AA?5?$AA2?$AA?4?$AA2?$AA?4?$AA2?$AA?4?$AA0@ 00000001400020d0     CrackMe1.obj
+ 0002:00000110       ??_C@_11LOCGONAA@?$AA?$AA@ 0000000140002110     CrackMe1.obj
+ 0002:00000248       __imp_VirtualAlloc         0000000140002248     Kernel32:KERNEL32.dll
+ 0002:00000250       __imp_VirtualFree          0000000140002250     Kernel32:KERNEL32.dll
+ 0002:00000260       __imp_BeginPaint           0000000140002260     user32:USER32.dll
+ 0002:00000268       __imp_CreateIconFromResourceEx 0000000140002268     user32:USER32.dll
+ 0002:00000270       __imp_CreateWindowExW      0000000140002270     user32:USER32.dll
+ 0002:00000278       __imp_DefWindowProcW       0000000140002278     user32:USER32.dll
+ 0002:00000280       __imp_DestroyWindow        0000000140002280     user32:USER32.dll
+ 0002:00000288       __imp_DispatchMessageW     0000000140002288     user32:USER32.dll
+ 0002:00000290       __imp_EndPaint             0000000140002290     user32:USER32.dll
+ 0002:00000298       __imp_GetMessageW          0000000140002298     user32:USER32.dll
+ 0002:000002a0       __imp_GetWindowTextA       00000001400022a0     user32:USER32.dll
+ 0002:000002a8       __imp_LoadCursorW          00000001400022a8     user32:USER32.dll
+ 0002:000002b0       __imp_LookupIconIdFromDirectoryEx 00000001400022b0     user32:USER32.dll
+ 0002:000002b8       __imp_MessageBoxA          00000001400022b8     user32:USER32.dll
+ 0002:000002c0       __imp_PostQuitMessage      00000001400022c0     user32:USER32.dll
+ 0002:000002c8       __imp_RegisterClassW       00000001400022c8     user32:USER32.dll
+ 0002:000002d0       __imp_ShowWindow           00000001400022d0     user32:USER32.dll
+ 0002:000002d8       __imp_TranslateMessage     00000001400022d8     user32:USER32.dll
+ 0002:000002e0       __imp_UpdateWindow         00000001400022e0     user32:USER32.dll
+ 0002:000002f0       __imp_BitBlt               00000001400022f0     Gdi32:GDI32.dll
+ 0002:000002f8       __imp_CreateCompatibleDC   00000001400022f8     Gdi32:GDI32.dll
+ 0002:00000300       __imp_CreateDIBSection     0000000140002300     Gdi32:GDI32.dll
+ 0002:00000308       __imp_DeleteDC             0000000140002308     Gdi32:GDI32.dll
+ 0002:00000310       __imp_GetStockObject       0000000140002310     Gdi32:GDI32.dll
+ 0002:00000318       __imp_SelectObject         0000000140002318     Gdi32:GDI32.dll
+ 0003:00000000       ?Ico@@3PAEA                0000000140003000     CrackMe1.obj
+ 0003:00000300       ?BmpBackgroundImage@@3PAEA 0000000140003300     CrackMe1.obj
+ 0003:00300390       ?hWndNick@@3PEAUHWND__@@EA 0000000140303390     CrackMe1.obj
+ 0003:00300398       ?hWndKey@@3PEAUHWND__@@EA  0000000140303398     CrackMe1.obj
+ 0003:003003a0       ?g_hInst@@3PEAUHINSTANCE__@@EA 00000001403033a0     CrackMe1.obj
+
+ entry point at         0001:00000600
+
+ Static symbols
+

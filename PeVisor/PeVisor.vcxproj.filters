@@ -8,4 +8,68 @@
       <UniqueIdentifier>{1759c9d8-083f-48d3-b8b7-1d4f3bef12ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\Main.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Encode.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Buffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Memory.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Find.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Ldr.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Rtls.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ucHooks.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EmuApiFuncs.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EmuApiBasis.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\InternalEmulationApi.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Trace.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Inc\UCPE.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Encode.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Buffer.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Nativestructs.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\EmuApiFuncs.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\IEApiErrorCodes.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Trace.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

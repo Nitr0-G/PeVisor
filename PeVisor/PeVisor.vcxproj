@@ -18,6 +18,30 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\Buffer.cpp" />
+    <ClCompile Include="Src\EmuApiBasis.cpp" />
+    <ClCompile Include="Src\EmuApiFuncs.cpp" />
+    <ClCompile Include="Src\Encode.cpp" />
+    <ClCompile Include="Src\Find.cpp" />
+    <ClCompile Include="Src\InternalEmulationApi.cpp" />
+    <ClCompile Include="Src\Ldr.cpp" />
+    <ClCompile Include="Src\Main.cpp" />
+    <ClCompile Include="Src\Map.cpp" />
+    <ClCompile Include="Src\Memory.cpp" />
+    <ClCompile Include="Src\Rtls.cpp" />
+    <ClCompile Include="Src\Trace.cpp" />
+    <ClCompile Include="Src\ucHooks.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Inc\Buffer.hpp" />
+    <ClInclude Include="Inc\EmuApiFuncs.hpp" />
+    <ClInclude Include="Inc\Encode.hpp" />
+    <ClInclude Include="Inc\IEApiErrorCodes.hpp" />
+    <ClInclude Include="Inc\Nativestructs.hpp" />
+    <ClInclude Include="Inc\Trace.hpp" />
+    <ClInclude Include="Inc\UCPE.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -42,7 +66,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>ClangCL</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -103,19 +127,20 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)PeVisorLib\Inc;D:\Programs\Soft\Coding\C\VisualStudio\Coders\unicorn\include</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(SolutionDir)PeVisor\Inc;$(SolutionDir)Dependency\Blackbone\src;$(SolutionDir)Dependency\zydis\dependencies\zycore\include;$(SolutionDir)Dependency\zydis\include;$(SolutionDir)Dependency\unicorn\include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Programs\Soft\Coding\C\VisualStudio\Coders\unicorn\bld\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>unicorn-common.lib;unicorn-import.lib;x86_64-softmmu.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <BaseAddress>0x70000000</BaseAddress>
+      <AdditionalLibraryDirectories>D:\Programs\Soft\Coding\C\VisualStudio\Coders\unicorn\bld\Release;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Dependency\zydis\msvc\bin\DebugX64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>unicorn-common.lib;unicorn-import.lib;x86_64-softmmu.lib;Zydis.lib;BlackBone.lib;ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <BaseAddress>
+      </BaseAddress>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>D:\Programs\Soft\Coding\C\VisualStudio\Coders\unicorn\bld\Debug</AdditionalLibraryDirectories>
@@ -129,7 +154,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)PeVisorLib\Inc;D:\Programs\Soft\Coding\C\VisualStudio\Coders\unicorn\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)PeVisor\Inc;$(SolutionDir)Dependency\Blackbone\src;$(SolutionDir)Dependency\zydis\dependencies\zycore\include;$(SolutionDir)Dependency\zydis\include;$(SolutionDir)Dependency\unicorn\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -137,7 +162,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Programs\Soft\Coding\C\VisualStudio\Coders\unicorn\bld\Release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Dependency\zydis\msvc\bin\ReleaseX64;D:\Programs\Soft\Coding\C\VisualStudio\Coders\unicorn\bld\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>unicorn-common.lib;unicorn-import.lib;x86_64-softmmu.lib;Zydis.lib;BlackBone.lib;ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

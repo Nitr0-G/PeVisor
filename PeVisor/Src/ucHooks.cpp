@@ -45,7 +45,7 @@ namespace ucHooks {
 	void HookIntr(uc_engine* uc, int exception, void* user_data)
 	{
 		PeEmulation* ctx = (PeEmulation*)user_data;
-		*outs << "exception #" << std::hex << exception << "\n";
+		*outs << "Exception " << std::hex << exception << "\n";
 
 		if (exception == EXCP01_DB)
 		{
@@ -70,7 +70,7 @@ namespace ucHooks {
 
 			ctx->RtlpDispatchException(&excprec, &CpuContext);
 		}
-		if (exception == EXCP03_INT3)
+		else if (exception == EXCP03_INT3)
 		{
 			ctx->m_LastException = STATUS_BREAKPOINT;
 			uc_emu_stop(uc);
@@ -79,7 +79,6 @@ namespace ucHooks {
 		{
 			ctx->m_LastException = STATUS_SUCCESS;
 		}
-		//uc_emu_stop(uc);
 	}
 
 	void HookRwx(uc_engine* uc, uc_mem_type type,

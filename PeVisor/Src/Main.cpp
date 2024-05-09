@@ -212,15 +212,16 @@ void PeEmulation::InitPsLoadedModuleList()
 		LdrEntry.EntryPoint = (PVOID)m_FakeModules[i]->ImageEntry;
 		LdrEntry.SizeOfImage = m_FakeModules[i]->ImageSize;
 
-		auto fullname = L"\\SystemRoot\\system32\\drivers\\" + m_FakeModules[i]->DllName;
+		//auto fullname = L"\\SystemRoot\\system32\\drivers\\" + m_FakeModules[i]->DllName;
+		auto fullname = m_FakeModules[i]->FullPath.wstring();
 		LdrEntry.FullDllName.Length = (USHORT)fullname.length() * sizeof(WCHAR);
 		LdrEntry.FullDllName.MaximumLength = ((USHORT)fullname.length() + 1) * sizeof(WCHAR);
 		auto FullDllNameBase = HeapAlloc(LdrEntry.FullDllName.MaximumLength);
 		LdrEntry.FullDllName.Buffer = (PWSTR)FullDllNameBase;
 
-		LdrEntry.BaseDllName.Length = (USHORT)fullname.length() - (_countof(L"\\SystemRoot\\system32\\drivers\\") - 1) * sizeof(WCHAR);
-		LdrEntry.BaseDllName.MaximumLength = ((USHORT)fullname.length() + 1 - (_countof(L"\\SystemRoot\\system32\\drivers\\") - 1)) * sizeof(WCHAR);
-		auto BaseDllNameBase = FullDllNameBase + (_countof(L"\\SystemRoot\\system32\\drivers\\") - 1) * sizeof(WCHAR);
+		LdrEntry.BaseDllName.Length = (USHORT)m_FakeModules[i]->DllName.length();
+		LdrEntry.BaseDllName.MaximumLength = ((USHORT)fullname.length() + 1);
+		auto BaseDllNameBase = m_FakeModules[i]->DllName.c_str(); //FullDllNameBase + (_countof(L"\\SystemRoot\\system32\\drivers\\") - 1) * sizeof(WCHAR);
 		LdrEntry.BaseDllName.Buffer = (PWSTR)BaseDllNameBase;
 
 		LdrEntry.ExceptionTable = (PVOID)m_FakeModules[i]->ExceptionTable;
@@ -394,6 +395,8 @@ int main(int argc, char** argv)
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameA", EmuApi::EmuGetModuleFileNameA);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameW", EmuApi::EmuGetModuleFileNameW);
 
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "RtlUnwindEx", EmuApi::EmuRtlUnwindEx);
+
 		////////////////////////////////////////////////////////////////////////////////GUI
 		ctx.RegisterAPIEmulation(L"user32.dll", "MessageBoxA", EmuApi::EmuMessageBoxA);
 		ctx.RegisterAPIEmulation(L"user32.dll", "MessageBoxW", EmuApi::EmuMessageBoxW);
@@ -467,6 +470,8 @@ int main(int argc, char** argv)
 	if (!ctx.m_IsKernel)
 	{
 		ctx.InitTebPeb();
+		ctx.SortModuleList();
+		ctx.InitPsLoadedModuleList();
 
 		ctx.m_InitReg.Rcx = ctx.m_ImageBase;
 		ctx.m_InitReg.Rdx = DLL_PROCESS_ATTACH;

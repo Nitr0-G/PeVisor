@@ -1839,7 +1839,16 @@ void PeEmulation::RtlpUnwindEx(
 
 		if (FunctionEntry != NULL) {
 			RtlpCopyContext(PreviousContext, CurrentContext);
-			ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
+			//ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
+			//	ImageBase,
+			//	ControlPc,
+			//	FunctionEntry,
+			//	PreviousContext,
+			//	&HandlerData,
+			//	&EstablisherFrame,
+			//	NULL);
+
+			ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_EHANDLER,
 				ImageBase,
 				ControlPc,
 				FunctionEntry,
@@ -1915,6 +1924,7 @@ void PeEmulation::RtlpUnwindEx(
 					DispatcherContext.HandlerData = HandlerData;
 					DispatcherContext.HistoryTable = HistoryTable;
 					DispatcherContext.ScopeIndex = ScopeIndex;
+
 					Disposition = RtlpExecuteHandlerForException(ExceptionRecord,
 						(PVOID)EstablisherFrame,
 						CurrentContext,

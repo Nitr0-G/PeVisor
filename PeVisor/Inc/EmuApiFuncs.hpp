@@ -174,6 +174,8 @@ namespace EmuApi
 	void EmuRtlIsProcessorFeaturePresent(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuGetProcessAffinityMask(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
+	void EmuRtlUnwindEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+
 	void EmuNtOpenFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
 	void EmuExAllocatePool(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);

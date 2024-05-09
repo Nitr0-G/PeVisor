@@ -461,6 +461,33 @@ namespace EmuApi
 		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 	}
 
+	void EmuRtlUnwindEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		PVOID TargetFrame = nullptr;
+		PVOID TargetIp = nullptr;
+		PEXCEPTION_RECORD ExceptionRecord = nullptr;
+		EXCEPTION_RECORD ExceptionRecord1{};
+		PVOID ReturnValue = nullptr;
+		PCONTEXT ContextRecord = nullptr;
+		PUNWIND_HISTORY_TABLE HistoryTable = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&TargetFrame, &TargetIp, &ExceptionRecord, &ReturnValue),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8, UC_X86_REG_R9 });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &ContextRecord, sizeof(PCONTEXT));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &HistoryTable, sizeof(PUNWIND_HISTORY_TABLE));
+
+		uc_mem_read(uc, (DWORD_PTR)ExceptionRecord, &ExceptionRecord1, sizeof(EXCEPTION_RECORD));
+
+		//RtlUnwindEx(TargetFrame, TargetIp, ExceptionRecord, ReturnValue, ContextRecord, HistoryTable);
+		ctx->RtlpUnwindEx(TargetFrame, TargetIp, &ExceptionRecord1, ReturnValue, ContextRecord, HistoryTable);
+	}
+
 	void EmuGetModuleHandleW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
 		PeEmulation* ctx = (PeEmulation*)user_data;

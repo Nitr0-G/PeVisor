@@ -63,22 +63,24 @@ namespace ucHooks {
 
 			EXCEPTION_RECORD excprec{};
 			DWORD_PTR Rip = 0;
-			uc_reg_read(uc, UC_X86_REG_RAX, &Rip);
+			uc_reg_read(uc, UC_X86_REG_RIP, &Rip);
 			excprec.ExceptionCode = EXCEPTION_SINGLE_STEP;
 			excprec.ExceptionFlags = 0;
 			excprec.ExceptionAddress = (PVOID)Rip;
 
-			ctx->RtlpDispatchException(&excprec, &CpuContext);
+			BOOL A = ctx->RtlpDispatchException(&excprec, &CpuContext);
+
+			ctx->RtlpRestoreContext(&CpuContext, &excprec);
 		}
 		else if (exception == EXCP03_INT3)
 		{
 			ctx->m_LastException = STATUS_BREAKPOINT;
-			uc_emu_stop(uc);
 		}
 		else
 		{
 			ctx->m_LastException = STATUS_SUCCESS;
 		}
+		uc_emu_stop(uc);
 	}
 
 	void HookRwx(uc_engine* uc, uc_mem_type type,

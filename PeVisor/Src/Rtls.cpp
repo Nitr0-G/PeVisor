@@ -992,6 +992,7 @@ PEXCEPTION_ROUTINE PeEmulation::RtlpVirtualUnwind(
 #define JMP_IMM32_OP 0xe9
 #define JMP_IND_OP 0xff
 #define LEA_OP 0x8d
+#define REPNE_PREFIX 0xf2
 #define REP_PREFIX 0xf3
 #define POP_OP 0x58
 #define RET_OP 0xc3
@@ -1002,6 +1003,8 @@ PEXCEPTION_ROUTINE PeEmulation::RtlpVirtualUnwind(
 	//DWORD_PTR BranchBase;
 	DWORD_PTR BranchTarget;
 	LONG Displacement;
+	ULONG EpilogueOffset = 0;
+	ULONG EpilogueSize;
 	ULONG FrameRegister;
 	ULONG Index;
 	bool InEpilogue;
@@ -1011,8 +1014,10 @@ PEXCEPTION_ROUTINE PeEmulation::RtlpVirtualUnwind(
 	PRUNTIME_FUNCTION PrimaryFunctionEntry;
 	ULONG PrologOffset;
 	ULONG RegisterNumber;
+	ULONG RelativePc;
 	PUNWIND_INFO UnwindInfo;
 	DWORD_PTR ValueFromAddress;
+	UNWIND_CODE UnwindOp;
 
 	RUNTIME_FUNCTION FunctionEntryCell;
 	uc_mem_read(m_uc, (DWORD_PTR)FunctionEntry, &FunctionEntryCell, sizeof(FunctionEntryCell));
@@ -1154,6 +1159,18 @@ PEXCEPTION_ROUTINE PeEmulation::RtlpVirtualUnwind(
 		}
 	}
 
+
+	//
+	// A REPNE prefix may optionally precede a control transfer
+	// instruction with no effect on unwinding.
+	//
+
+	if (NextByteBuffer[0] == REPNE_PREFIX) {
+		NextByte += 1;
+		uc_mem_read(m_uc, (DWORD_PTR)NextByte, NextByteBuffer, sizeof(NextByteBuffer));
+	}
+
+
 	//
 	// If the next instruction is a return or an appropriate jump, then
 	// control is currently in an epilogue and execution of the epilogue
@@ -1186,7 +1203,10 @@ PEXCEPTION_ROUTINE PeEmulation::RtlpVirtualUnwind(
 
 		}
 		else {
-			BranchTarget += 5 + *((LONG UNALIGNED*) & NextByteBuffer[1]);
+			LONG32 delta = NextByteBuffer[1] | (NextByteBuffer[2] << 8) |
+				(NextByteBuffer[3] << 16) | (NextByteBuffer[4] << 24);
+
+			BranchTarget += 5 + delta;
 		}
 
 		//
@@ -1395,8 +1415,84 @@ PEXCEPTION_ROUTINE PeEmulation::RtlpVirtualUnwind(
 		ContextRecord->Rip = ValueFromRsp;
 		ContextRecord->Rsp += 8;
 		return NULL;
-	}
+	} 
+	else if (UnwindInfo->CountOfCodes != 0)
+	{
+		//
+		// Capture the first unwind code and check if it is an epilogue code.
+		// If it is not an epilogue code, the current function entry does not
+		// contain any epilogues (it could represent a body region of a
+		// separated function or it could represent a function which never
+		// returns).
+		//
 
+		UnwindOp = UnwindInfo->UnwindCode[0];
+		if (UnwindOp.UnwindOp == UWOP_SPARE_CODE1) {
+			EpilogueSize = UnwindOp.CodeOffset;
+
+			//
+			// If the low bit of the OpInfo field of the first epilogue code
+			// is set, the function has a single epilogue at the end of the
+			// function. Otherwise, subsequent epilogue unwind codes indicate
+			// the offset of the epilogue(s) from the function end and the
+			// relative PC must be compared against each epilogue record.
+			//
+			// N.B. The relative instruction pointer may not be within the
+			//      bounds of the runtime function entry if control left the
+			//      function in a region described by an indirect function
+			//      entry. Such a region cannot contain any epilogues.
+			//
+
+			RelativePc = (ULONG)(ControlPc - ImageBase);
+			if ((UnwindOp.OpInfo & 1) != 0) {
+				EpilogueOffset = FunctionEntry->EndAddress - EpilogueSize;
+				if (RelativePc - EpilogueOffset < EpilogueSize) {
+					InEpilogue = TRUE;
+				}
+			}
+
+			if (InEpilogue == FALSE) {
+				for (Index = 1; Index < UnwindInfo->CountOfCodes; Index += 1) {
+					UnwindOp = UnwindInfo->UnwindCode[Index];
+
+					if (UnwindOp.UnwindOp == UWOP_SPARE_CODE1) {
+						EpilogueOffset = UnwindOp.EpilogueCode.OffsetLow +
+							UnwindOp.EpilogueCode.OffsetHigh * 256;
+
+						//
+						// An epilogue offset of 0 indicates that this is
+						// a padding entry (the number of epilogue codes
+						// is a multiple of 2).
+						//
+
+						if (EpilogueOffset == 0) {
+							break;
+						}
+
+						EpilogueOffset = FunctionEntry->EndAddress - EpilogueOffset;
+						if (RelativePc - EpilogueOffset < EpilogueSize) {
+
+							InEpilogue = TRUE;
+							break;
+						}
+
+					}
+					else {
+						break;
+					}
+				}
+			}
+
+			if (InEpilogue != FALSE) {
+				FunctionEntry = RtlpUnwindPrologue(ImageBase,
+					ControlPc,
+					RelativePc - EpilogueOffset,
+					FunctionEntry,
+					ContextRecord,
+					ContextPointers);
+			}
+		}
+	}
 	//
 	// Control left the specified function outside an epilogue. Unwind the
 	// subject function and any chained unwind information.
@@ -1426,19 +1522,25 @@ PEXCEPTION_ROUTINE PeEmulation::RtlpVirtualUnwind(
 	uc_mem_read(m_uc, (DWORD_PTR)UnwindInfo, UnwindInfoCell.GetBuffer(), UnwindInfoCell.GetLength());
 	UnwindInfoCellPtr = (PUNWIND_INFO)UnwindInfoCell.GetBuffer();
 
-	PrologOffset = (ULONG)(ControlPc - (FunctionEntryCell.BeginAddress + ImageBase));
-	if ((PrologOffset >= UnwindInfoCellPtr->SizeOfProlog) &&
-		((UnwindInfoCellPtr->Flags & HandlerType) != 0)) {
-		Index = UnwindInfoCellPtr->CountOfCodes;
-		if ((Index & 1) != 0) {
-			Index += 1;
+	if (HandlerType != 0) {
+		PrologOffset = (ULONG)(ControlPc - (FunctionEntryCell.BeginAddress + ImageBase));
+		if ((PrologOffset >= UnwindInfoCellPtr->SizeOfProlog) &&
+			((UnwindInfoCellPtr->Flags & HandlerType) != 0)) {
+			Index = UnwindInfoCellPtr->CountOfCodes;
+			if ((Index & 1) != 0) {
+				Index += 1;
+			}
+
+			*HandlerData = (PVOID)((PUCHAR)UnwindInfo + ((PUCHAR)&UnwindInfoCellPtr->UnwindCode[Index + 2] - (PUCHAR)UnwindInfoCellPtr));
+			return (PEXCEPTION_ROUTINE)(*((PULONG)&UnwindInfoCellPtr->UnwindCode[Index]) + ImageBase);
+
 		}
-
-		*HandlerData = (PVOID)((PUCHAR)UnwindInfo + ((PUCHAR)&UnwindInfoCellPtr->UnwindCode[Index + 2] - (PUCHAR)UnwindInfoCellPtr));
-		return (PEXCEPTION_ROUTINE)(*((PULONG)&UnwindInfoCellPtr->UnwindCode[Index]) + ImageBase);
-
+		else {
+			return NULL;
+		}
 	}
-	else {
+	else
+	{
 		return NULL;
 	}
 }
@@ -1848,7 +1950,7 @@ void PeEmulation::RtlpUnwindEx(
 			//	&EstablisherFrame,
 			//	NULL);
 
-			ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_EHANDLER,
+			ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
 				ImageBase,
 				ControlPc,
 				FunctionEntry,

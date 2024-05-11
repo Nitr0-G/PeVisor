@@ -463,29 +463,38 @@ namespace EmuApi
 
 	void EmuRtlUnwindEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		PeEmulation* ctx = (PeEmulation*)user_data;
-
+		//PeEmulation* ctx = (PeEmulation*)user_data;
+		//
 		PVOID TargetFrame = nullptr;
 		PVOID TargetIp = nullptr;
 		PEXCEPTION_RECORD ExceptionRecord = nullptr;
-		EXCEPTION_RECORD ExceptionRecord1{};
 		PVOID ReturnValue = nullptr;
 		PCONTEXT ContextRecord = nullptr;
 		PUNWIND_HISTORY_TABLE HistoryTable = nullptr;
-
+		
 		ReadArgsFromRegisters(uc,
 			std::make_tuple(&TargetFrame, &TargetIp, &ExceptionRecord, &ReturnValue),
 			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8, UC_X86_REG_R9 });
+
+		uc_reg_read(uc, UC_X86_REG_RDX, &TargetIp);
 
 		DWORD_PTR SP = 0;
 		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
 		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &ContextRecord, sizeof(PCONTEXT));
 		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &HistoryTable, sizeof(PUNWIND_HISTORY_TABLE));
 
-		uc_mem_read(uc, (DWORD_PTR)ExceptionRecord, &ExceptionRecord1, sizeof(EXCEPTION_RECORD));
+		uc_mem_write(uc, SP, &TargetIp, sizeof(TargetIp));
+		*outs << "RtlUnwindEx " << "Target frame: " << TargetFrame << " Target Rip: " << TargetIp
+			<< " ExceptionRecord: " << ExceptionRecord << " ReturnValue: " << ReturnValue
+			<< " ContextRecord: " << ContextRecord << " HistoryTable: " << HistoryTable << "\n";
 
+		//CONTEXT CpuContext{};
+		//
+		//ctx->RtlpCaptureContext(&CpuContext);
+		//
 		//RtlUnwindEx(TargetFrame, TargetIp, ExceptionRecord, ReturnValue, ContextRecord, HistoryTable);
-		ctx->RtlpUnwindEx(TargetFrame, TargetIp, &ExceptionRecord1, ReturnValue, ContextRecord, HistoryTable);
+		//ctx->RtlpUnwindEx(TargetFrame, TargetIp, ExceptionRecord, ReturnValue, ContextRecord, HistoryTable);
+		//uc_reg_write(uc, UC_X86_REG_RIP, TargetIp);
 	}
 
 	void EmuGetModuleHandleW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -1283,10 +1292,6 @@ namespace EmuApi
 
 	void EmuGetProcessAffinityMask(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		PeEmulation* ctx = (PeEmulation*)user_data;
-
-		DWORD eax = 0;
-
 		HANDLE hProcess = nullptr;
 		PDWORD_PTR lpProcessAffinityMask = nullptr;
 		PDWORD_PTR lpSystemAffinityMask = nullptr;
@@ -1295,20 +1300,59 @@ namespace EmuApi
 			std::make_tuple(&hProcess, &lpProcessAffinityMask, &lpSystemAffinityMask),
 			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8 });
 
-		if (hProcess == INVALID_HANDLE_VALUE)
-		{
-			eax = 1;
+		DWORD_PTR ProcessAffinityMask = 0;
+		DWORD_PTR SystemAffinityMask = 0;
 
-			DWORD_PTR ProcessAffinityMask = 0;
-			DWORD_PTR SystemAffinityMask = 0;
+		BOOL Return = GetProcessAffinityMask(hProcess, &ProcessAffinityMask, &SystemAffinityMask);
 
-			uc_mem_write(uc, (DWORD_PTR)lpProcessAffinityMask, &ProcessAffinityMask, sizeof(ProcessAffinityMask));
-			uc_mem_write(uc, (DWORD_PTR)lpSystemAffinityMask, &SystemAffinityMask, sizeof(SystemAffinityMask));
-		}
+		uc_mem_write(uc, (DWORD_PTR)lpProcessAffinityMask, &ProcessAffinityMask, sizeof(ProcessAffinityMask));
+		uc_mem_write(uc, (DWORD_PTR)lpSystemAffinityMask, &SystemAffinityMask, sizeof(SystemAffinityMask));
+		//if (hProcess == INVALID_HANDLE_VALUE)
+		//{
+		//	Rax = 1;
+		//
+		//	DWORD_PTR ProcessAffinityMask = 0;
+		//	DWORD_PTR SystemAffinityMask = 0;
+		//
+		//	uc_mem_write(uc, (DWORD_PTR)lpProcessAffinityMask, &ProcessAffinityMask, sizeof(ProcessAffinityMask));
+		//	uc_mem_write(uc, (DWORD_PTR)lpSystemAffinityMask, &SystemAffinityMask, sizeof(SystemAffinityMask));
+		//}
 
-		*outs << "GetProcessAffinityMask handle " << hProcess << "\n";
+		*outs << "GetProcessAffinityMask " << "hProcess: " << hProcess << " ProcessAffinityMask: " << ProcessAffinityMask
+			<< " SystemAffinityMask: " << SystemAffinityMask << ", return:" << Return << "\n";
 
-		uc_reg_write(uc, UC_X86_REG_EAX, &eax);
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuSetThreadAffinityMask(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		HANDLE hThread = nullptr;
+		DWORD_PTR dwThreadAffinityMask = 0;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&hThread, &dwThreadAffinityMask),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX });
+
+		DWORD_PTR Return = SetThreadAffinityMask(hThread, dwThreadAffinityMask);
+
+		*outs << "SetThreadAffinityMask " << "hThread: " << hThread << " dwThreadAffinityMask: "
+			<< dwThreadAffinityMask << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuSleep(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		DWORD dwMilliseconds = 0;
+
+		uc_reg_read(uc, UC_X86_REG_ECX, &dwMilliseconds);
+
+		Sleep(dwMilliseconds);
+
+		*outs << "Sleep " << "dwMilliseconds: " << dwMilliseconds << "\n";
+
+		//DWORD_PTR Zero = 0;
+		//uc_reg_write(uc, UC_X86_REG_RAX, &Zero);
 	}
 
 	void EmuExAllocatePool(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)

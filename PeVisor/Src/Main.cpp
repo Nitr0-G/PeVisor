@@ -113,6 +113,17 @@ void PeEmulation::InitProcessorState()
 
 	DWORD_PTR cr8 = 0;
 	uc_reg_write(m_uc, UC_X86_REG_CR8, &cr8);
+
+	DWORD_PTR Zero = 0;
+	uc_reg_write(m_uc, UC_X86_REG_DR0, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR1, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR2, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR3, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR4, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR5, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR6, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR7, &Zero);
+
 }
 
 // About: Function for insertion of something in tail list
@@ -410,7 +421,11 @@ int main(int argc, char** argv)
 
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlDeleteCriticalSection", EmuApi::EmuDeleteCriticalSection);
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlIsProcessorFeaturePresent", EmuApi::EmuRtlIsProcessorFeaturePresent);
+
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessAffinityMask", EmuApi::EmuGetProcessAffinityMask);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "SetThreadAffinityMask", EmuApi::EmuSetThreadAffinityMask);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "Sleep", EmuApi::EmuSleep);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "TlsAlloc", EmuApi::EmuTlsAlloc);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "TlsSetValue", EmuApi::EmuTlsSetValue);

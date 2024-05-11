@@ -6,20 +6,34 @@ extern std::ostream* outs;
 
 namespace ucHooks {
 
+	std::vector<std::string> Instrs;
+
 	void HookCode(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		PeEmulation* ctx = (PeEmulation*)user_data;
+		//PeEmulation* ctx = (PeEmulation*)user_data;
 
-		ZydisDecoder DecoderMinimal{ ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_STACK_WIDTH_64, ZYDIS_DECODER_MODE_MINIMAL };
-		ZydisDecodedInstruction Instruction{};
-		ZydisDecodedOperand Operands[ZYDIS_MAX_OPERAND_COUNT];
+		//ZydisDecoder DecoderMinimal{ ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_STACK_WIDTH_64, ZYDIS_DECODER_MODE_MINIMAL };
+		//ZydisDecodedInstruction Instruction{};
+		//ZydisDecodedOperand Operands[ZYDIS_MAX_OPERAND_COUNT];
 
-		ZydisDecoderDecodeFull(
-			&DecoderMinimal,
-			(const void*)address,
-			ZYDIS_MAX_INSTRUCTION_LENGTH,
-			&Instruction,
-			Operands);
+		//ZydisFormatter Formatter;
+		//ZydisFormatterInit(&Formatter, ZYDIS_FORMATTER_STYLE_INTEL);
+
+		//ZydisDecoderDecodeFull(
+		//	&DecoderMinimal,
+		//	(const void*)address,
+		//	ZYDIS_MAX_INSTRUCTION_LENGTH,
+		//	&Instruction,
+		//	Operands);
+
+		//std::stringstream region;
+		//ctx->FindAddressInRegion(address, region);
+
+		//char buffer[256];
+		//ZydisFormatterFormatInstruction(&Formatter, &Instruction, Operands,
+		//	Instruction.operand_count_visible, buffer, sizeof(buffer), address, ZYAN_NULL);
+
+		//Instrs.push_back(region.str());
 
 		//if (Instruction.mnemonic == ZYDIS_MNEMONIC_RDTSC)
 		//{
@@ -143,6 +157,11 @@ namespace ucHooks {
 		DWORD_PTR address, int size, INT_PTR value, void* user_data)
 	{
 		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		for (size_t Index = 0; Index < 20; ++Index)
+		{
+			*outs << Instrs[(Instrs.size() - 1) - Index] << "\n";
+		}
 
 		switch (type) {
 		case UC_MEM_FETCH_PROT: {

@@ -515,6 +515,7 @@ typedef enum _UNWIND_OP_CODES {
 	UWOP_SET_FPREG,
 	UWOP_SAVE_NONVOL,
 	UWOP_SAVE_NONVOL_FAR,
+	//UWOP_EPILOG,
 	UWOP_SPARE_CODE1,
 	UWOP_SPARE_CODE2,
 	UWOP_SAVE_XMM128,
@@ -532,6 +533,12 @@ typedef union _UNWIND_CODE {
 		UCHAR UnwindOp : 4;
 		UCHAR OpInfo : 4;
 	};
+
+	struct {
+		UCHAR OffsetLow;
+		UCHAR UnwindOp : 4;
+		UCHAR OffsetHigh : 4;
+	} EpilogueCode;
 
 	USHORT FrameOffset;
 } UNWIND_CODE, * PUNWIND_CODE;

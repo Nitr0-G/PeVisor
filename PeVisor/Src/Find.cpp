@@ -4,29 +4,43 @@
 // Param 1: address
 // Param 2: Region name for finding
 // Mode: Usermode + Kernelmode
-bool PeEmulation::FindAddressInRegion(_In_ DWORD_PTR address, _Inout_ std::stringstream& RegionName)
+bool PeEmulation::FindAddressInRegion(
+	_In_ DWORD_PTR address, 
+	_Inout_ std::stringstream& RegionName,
+	_In_opt_ bool FindInModules,
+	_In_opt_ bool FindInStack,
+	_In_opt_ bool FindInHeap)
 {
-	for (size_t i = 0; i < m_FakeModules.size(); ++i)
+	if (FindInModules)
 	{
-		if (address >= m_FakeModules[i]->ImageBase && address < m_FakeModules[i]->ImageBase + m_FakeModules[i]->ImageSize)
+		for (size_t i = 0; i < m_FakeModules.size(); ++i)
 		{
-			std::string dllname;
-			UnicodeToANSI(m_FakeModules[i]->DllName, dllname);
-			RegionName << dllname << "+" << std::hex << (address - m_FakeModules[i]->ImageBase);
+			if (address >= m_FakeModules[i]->ImageBase && address < m_FakeModules[i]->ImageBase + m_FakeModules[i]->ImageSize)
+			{
+				std::string dllname;
+				UnicodeToANSI(m_FakeModules[i]->DllName, dllname);
+				RegionName << dllname << "+" << std::uppercase << std::hex << (address - m_FakeModules[i]->ImageBase);
+				return true;
+			}
+		}
+	}
+
+	if (FindInStack)
+	{
+		if (address >= m_StackBase && address < m_StackEnd)
+		{
+			RegionName << "StackBase+" << std::hex << (address - m_StackBase);
 			return true;
 		}
 	}
 
-	if (address >= m_StackBase && address < m_StackEnd)
+	if (FindInHeap)
 	{
-		RegionName << "StackBase+" << std::hex << (address - m_StackBase);
-		return true;
-	}
-
-	if (address >= m_HeapBase && address < m_HeapEnd)
-	{
-		RegionName << "HeapBase+" << std::hex << (address - m_HeapBase);
-		return true;
+		if (address >= m_HeapBase && address < m_HeapEnd)
+		{
+			RegionName << "HeapBase+" << std::hex << (address - m_HeapBase);
+			return true;
+		}
 	}
 
 	if (!m_IsKernel)

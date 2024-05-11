@@ -177,6 +177,13 @@ void PeEmulation::InitKSharedUserData()
 // Mode: Usermode
 void PeEmulation::InitTebPeb()
 {
+//	PPEB MyPeb = 0;
+//#ifdef _WIN64
+//	MyPeb = (PPEB)__readgsqword(0x60);
+//#else
+//	MyPeb = (PPEB)__readfsdword(0x30);
+//#endif
+
 	PEB peb = { 0 };
 
 	m_PebBase = 0x90000ull;
@@ -241,6 +248,9 @@ void PeEmulation::InitPsLoadedModuleList()
 		uc_mem_write(m_uc, FullDllNameBase, fullname.data(), LdrEntry.FullDllName.MaximumLength);
 
 		uc_mem_write(m_uc, LdrEntryBase, &LdrEntry, sizeof(LdrEntry));
+
+		//Win 10
+		if (!m_IsKernel) { uc_mem_write(m_uc, m_PebBase + 0x18, &LdrEntry, sizeof(LdrEntry)); }
 
 		if (m_FakeModules[i]->ImageBase == m_ImageBase)
 		{
@@ -340,7 +350,7 @@ int main(int argc, char** argv)
 	ctx.m_uc = uc;
 	ctx.thisProc.Attach(GetCurrentProcessId());
 
-	uc_hook ucHookInvalidRwx = 0, ucHookRwx = 0, ucHookCode = 0, ucHookIntr = 0;
+	uc_hook ucHookInvalidRwx = 0, ucHookRwx = 0, ucHookCode = 0, ucHookIntr = 0, ucHookCpuid = 0;
 
 	DWORD_PTR Stack = (!ctx.m_IsKernel) ? 0x40000 : 0xFFFFFC0000000000ull;
 	size_t StackSize = 0x10000;
@@ -534,11 +544,14 @@ int main(int argc, char** argv)
 		uc_hook_add(uc, &ucHookRwx, UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE | UC_HOOK_MEM_FETCH,
 			ucHooks::HookRwx, &ctx, 1, 0);
 
-		uc_hook_add(uc, &ucHookCode, UC_HOOK_CODE,
-			ucHooks::HookCode, &ctx, 1, 0);
+		//uc_hook_add(uc, &ucHookCode, UC_HOOK_CODE,
+		//	ucHooks::HookCode, &ctx, 1, 0);
 
 		uc_hook_add(uc, &ucHookIntr, UC_HOOK_INTR,
 			ucHooks::HookIntr, &ctx, 1, 0);
+
+		uc_hook_add(uc, &ucHookCpuid, UC_HOOK_INSN,
+			ucHooks::HookCpuid, &ctx, 1, 0, UC_X86_INS_CPUID);
 	}
 	//////////////////////////////////////////////////////////////// HOOKS_SPACE
 

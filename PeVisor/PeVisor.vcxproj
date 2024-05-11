@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Buffer.hpp" />
+    <ClInclude Include="Inc\CPUID.hpp" />
     <ClInclude Include="Inc\EmuApiFuncs.hpp" />
     <ClInclude Include="Inc\Encode.hpp" />
     <ClInclude Include="Inc\IEApiErrorCodes.hpp" />

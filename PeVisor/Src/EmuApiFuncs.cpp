@@ -463,38 +463,36 @@ namespace EmuApi
 
 	void EmuRtlUnwindEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		//PeEmulation* ctx = (PeEmulation*)user_data;
+		PeEmulation* ctx = (PeEmulation*)user_data;
 		//
 		PVOID TargetFrame = nullptr;
 		PVOID TargetIp = nullptr;
 		PEXCEPTION_RECORD ExceptionRecord = nullptr;
+		EXCEPTION_RECORD ExceptionRecord1{};
 		PVOID ReturnValue = nullptr;
 		PCONTEXT ContextRecord = nullptr;
+		CONTEXT ContextRecord1{};
 		PUNWIND_HISTORY_TABLE HistoryTable = nullptr;
-		
+		UNWIND_HISTORY_TABLE HistoryTable1{};
+
 		ReadArgsFromRegisters(uc,
 			std::make_tuple(&TargetFrame, &TargetIp, &ExceptionRecord, &ReturnValue),
 			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8, UC_X86_REG_R9 });
-
-		uc_reg_read(uc, UC_X86_REG_RDX, &TargetIp);
 
 		DWORD_PTR SP = 0;
 		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
 		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &ContextRecord, sizeof(PCONTEXT));
 		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &HistoryTable, sizeof(PUNWIND_HISTORY_TABLE));
 
-		uc_mem_write(uc, SP, &TargetIp, sizeof(TargetIp));
+		uc_mem_read(uc, (DWORD_PTR)ExceptionRecord, &ExceptionRecord1, sizeof(EXCEPTION_RECORD));
+		uc_mem_read(uc, (DWORD_PTR)ContextRecord, &ContextRecord1, sizeof(CONTEXT));
+		uc_mem_read(uc, (DWORD_PTR)HistoryTable, &HistoryTable1, sizeof(UNWIND_HISTORY_TABLE));
+
+		ctx->RtlpUnwindEx(TargetFrame, TargetIp, &ExceptionRecord1, ReturnValue, &ContextRecord1, &HistoryTable1);
+
 		*outs << "RtlUnwindEx " << "Target frame: " << TargetFrame << " Target Rip: " << TargetIp
 			<< " ExceptionRecord: " << ExceptionRecord << " ReturnValue: " << ReturnValue
 			<< " ContextRecord: " << ContextRecord << " HistoryTable: " << HistoryTable << "\n";
-
-		//CONTEXT CpuContext{};
-		//
-		//ctx->RtlpCaptureContext(&CpuContext);
-		//
-		//RtlUnwindEx(TargetFrame, TargetIp, ExceptionRecord, ReturnValue, ContextRecord, HistoryTable);
-		//ctx->RtlpUnwindEx(TargetFrame, TargetIp, ExceptionRecord, ReturnValue, ContextRecord, HistoryTable);
-		//uc_reg_write(uc, UC_X86_REG_RIP, TargetIp);
 	}
 
 	void EmuGetModuleHandleW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -1351,8 +1349,8 @@ namespace EmuApi
 
 		*outs << "Sleep " << "dwMilliseconds: " << dwMilliseconds << "\n";
 
-		//DWORD_PTR Zero = 0;
-		//uc_reg_write(uc, UC_X86_REG_RAX, &Zero);
+		DWORD_PTR Zero = 0;
+		uc_reg_write(uc, UC_X86_REG_RAX, &Zero);
 	}
 
 	void EmuExAllocatePool(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)

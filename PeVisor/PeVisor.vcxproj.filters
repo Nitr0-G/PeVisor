@@ -71,5 +71,8 @@
     <ClInclude Include="Inc\Trace.hpp">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\CPUID.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

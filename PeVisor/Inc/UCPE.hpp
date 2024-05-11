@@ -1,4 +1,5 @@
 #pragma once
+#include "CPUID.hpp"
 #include "BlackBone/ManualMap/MMap.h"
 #include "BlackBone/Process/Process.h"
 #include "Buffer.hpp"
@@ -9,8 +10,13 @@
 #include <iostream>
 #include <sstream>
 #include <filesystem>
-
+#include <intrin.h>
 using api_emu_callback = std::function<bool(uc_engine* uc)>;
+
+enum IntelEnc : unsigned int { IEbx = 'uneG', IEdx = 'Ieni', IEcx = 'letn' };
+enum AmdEnc : unsigned int { AEbx = 'htuA', AEdx = 'itne', AEcx = 'DMAc' };
+
+enum class CpuVendor { CpuUnknown, CpuIntel, CpuAmd };
 
 typedef struct _KPCR
 {
@@ -107,6 +113,7 @@ typedef struct _MemMapping
 } MemMapping, *PMemMapping;
 
 namespace ucHooks {
+	void HookCpuid(uc_engine* uc, void* user_data);
 	void HookCode(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void HookIntr(uc_engine* uc, int exception, void* user_data);
 	void HookRwx(uc_engine* uc, uc_mem_type type,
@@ -145,7 +152,12 @@ public:
 	void InitKSharedUserData();
 
 public:	//Finders
-	bool FindAddressInRegion(_In_ DWORD_PTR address, _Inout_ std::stringstream& RegionName);
+	bool FindAddressInRegion(
+		_In_ DWORD_PTR address, 
+		_Inout_ std::stringstream& RegionName,
+		_In_opt_ bool FindInModules = true, 
+		_In_opt_ bool FindInStack = true,
+		_In_opt_ bool FindInHeap = true);
 	bool FindAPIByAddress(_In_ DWORD_PTR address, _Inout_ std::wstring& DllName, _Inout_ FakeAPI** api);
 	bool FindSectionByAddress(_In_ DWORD_PTR address, _Inout_ FakeSection** section);
 	bool FindModuleByAddress(_In_ DWORD_PTR address, _Inout_ DWORD_PTR& DllBase);

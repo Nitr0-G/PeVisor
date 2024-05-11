@@ -1862,7 +1862,7 @@ void PeEmulation::RtlpUnwindEx(
 	EXCEPTION_RECORD ExceptionRecord1;
 	PEXCEPTION_ROUTINE ExceptionRoutine;
 	PRUNTIME_FUNCTION FunctionEntry;
-	PVOID HandlerData;
+	PVOID HandlerData = nullptr;
 	DWORD_PTR HighLimit;
 	DWORD_PTR ImageBase;
 	CONTEXT LocalContext;
@@ -1941,24 +1941,31 @@ void PeEmulation::RtlpUnwindEx(
 
 		if (FunctionEntry != NULL) {
 			RtlpCopyContext(PreviousContext, CurrentContext);
-			//ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
-			//	ImageBase,
-			//	ControlPc,
-			//	FunctionEntry,
-			//	PreviousContext,
-			//	&HandlerData,
-			//	&EstablisherFrame,
-			//	NULL);
 
-			ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
-				ImageBase,
-				ControlPc,
-				FunctionEntry,
-				PreviousContext,
-				&HandlerData,
-				&EstablisherFrame,
-				NULL);
+			if (TargetIp == nullptr)
+			{
+				ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
+					ImageBase,
+					ControlPc,
+					FunctionEntry,
+					PreviousContext,
+					&HandlerData,
+					&EstablisherFrame,
+					NULL);
+			}
+			else
+			{
+				ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
+					ImageBase,
+					ControlPc,
+					FunctionEntry,
+					PreviousContext,
+					&HandlerData,
+					&EstablisherFrame,
+					NULL);
 
+				ExceptionRoutine = (PEXCEPTION_ROUTINE)TargetIp;
+			}
 			//
 			// If the establisher frame pointer is not within the specified
 			// stack limits, the establisher frame pointer is unaligned, or

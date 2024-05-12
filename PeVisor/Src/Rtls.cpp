@@ -1865,7 +1865,7 @@ void PeEmulation::RtlpUnwindEx(
 	PVOID HandlerData = nullptr;
 	DWORD_PTR HighLimit;
 	DWORD_PTR ImageBase;
-	CONTEXT LocalContext;
+	CONTEXT LocalContext{};
 	DWORD_PTR LowLimit;
 	PCONTEXT PreviousContext;
 	ULONG ScopeIndex;
@@ -1942,30 +1942,15 @@ void PeEmulation::RtlpUnwindEx(
 		if (FunctionEntry != NULL) {
 			RtlpCopyContext(PreviousContext, CurrentContext);
 
-			if (TargetIp == nullptr)
-			{
-				ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
-					ImageBase,
-					ControlPc,
-					FunctionEntry,
-					PreviousContext,
-					&HandlerData,
-					&EstablisherFrame,
-					NULL);
-			}
-			else
-			{
-				ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
-					ImageBase,
-					ControlPc,
-					FunctionEntry,
-					PreviousContext,
-					&HandlerData,
-					&EstablisherFrame,
-					NULL);
+			ExceptionRoutine = RtlpVirtualUnwind(UNW_FLAG_UHANDLER,
+				ImageBase,
+				ControlPc,
+				FunctionEntry,
+				PreviousContext,
+				&HandlerData,
+				&EstablisherFrame,
+				NULL);
 
-				ExceptionRoutine = (PEXCEPTION_ROUTINE)TargetIp;
-			}
 			//
 			// If the establisher frame pointer is not within the specified
 			// stack limits, the establisher frame pointer is unaligned, or
@@ -2209,6 +2194,14 @@ EXCEPTION_DISPOSITION PeEmulation::RtlpExecuteHandlerForException(
 	uc_reg_write(m_uc, UC_X86_REG_RDX, &EstablisherFrame);
 	uc_reg_write(m_uc, UC_X86_REG_R8, &ContextRecordBase);
 	uc_reg_write(m_uc, UC_X86_REG_R9, &DispatcherContextBase);
+
+	DWORD_PTR Zero = 0;
+	uc_reg_write(m_uc, UC_X86_REG_DR0, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR1, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR2, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR3, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR6, &Zero);
+	uc_reg_write(m_uc, UC_X86_REG_DR7, &Zero);
 
 	DWORD_PTR retAddr = StackAlloc(sizeof(m_ImageEnd));
 	uc_mem_write(m_uc, retAddr, &m_ImageEnd, sizeof(m_ImageEnd));
@@ -2497,12 +2490,12 @@ void PeEmulation::RtlpCaptureContext(_In_ PCONTEXT ContextRecord)
 	uc_reg_read(m_uc, UC_X86_REG_RSP, &ContextRecord->Rsp);
 	uc_reg_read(m_uc, UC_X86_REG_EFLAGS, &ContextRecord->EFlags);
 
-	uc_reg_read(m_uc, UC_X86_REG_DR0, &ContextRecord->Dr0);
-	uc_reg_read(m_uc, UC_X86_REG_DR1, &ContextRecord->Dr1);
-	uc_reg_read(m_uc, UC_X86_REG_DR2, &ContextRecord->Dr2);
-	uc_reg_read(m_uc, UC_X86_REG_DR3, &ContextRecord->Dr3);
-	uc_reg_read(m_uc, UC_X86_REG_DR6, &ContextRecord->Dr6);
-	uc_reg_read(m_uc, UC_X86_REG_DR7, &ContextRecord->Dr7);
+	ContextRecord->Dr0 = 0;
+	ContextRecord->Dr1 = 0;
+	ContextRecord->Dr2 = 0;
+	ContextRecord->Dr3 = 0;
+	ContextRecord->Dr6 = 0;
+	ContextRecord->Dr7 = 0;
 
 	ContextRecord->ContextFlags = CONTEXT_FULL;
 }

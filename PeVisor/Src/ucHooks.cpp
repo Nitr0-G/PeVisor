@@ -8,6 +8,18 @@ namespace ucHooks {
 
 	std::vector<std::string> Instrs;
 
+	void HookSySCall(uc_engine* uc, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		std::stringstream region;
+
+		DWORD_PTR Rip = 0;
+		uc_reg_read(uc, UC_X86_REG_RIP, &Rip);
+		ctx->FindAddressInRegion(Rip, region);
+		*outs << "Syscall at " << region.str() << "\n";
+	}
+
 	void HookCpuid(uc_engine* uc, void* user_data)
 	{
 		PeEmulation* ctx = (PeEmulation*)user_data;
@@ -153,15 +165,11 @@ namespace ucHooks {
 		std::cout << "CPUID at " << region.str() << " with cpuid function: " << szCPUID_FUNCTION << "\n";
 		std::cout << "EAX: " << Regs.Regs.Eax << " EBX: " << Regs.Regs.Ebx << " ECX: " << Regs.Regs.Ecx
 			<< " EDX: " << Regs.Regs.Edx << "\n";
-
-		//Rip += 0x2;
-		//uc_reg_write(uc, UC_X86_REG_RIP, &Rip);
-
 	}
 
 	void HookCode(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		PeEmulation* ctx = (PeEmulation*)user_data;
+		//PeEmulation* ctx = (PeEmulation*)user_data;
 
 		//ZydisDecoder DecoderMinimal{ ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_STACK_WIDTH_64, ZYDIS_DECODER_MODE_MINIMAL };
 		//ZydisDecodedInstruction Instruction{};
@@ -177,15 +185,27 @@ namespace ucHooks {
 		//	&Instruction,
 		//	Operands);
 
-		std::stringstream region;
-		ctx->FindAddressInRegion(address, region);
+		//std::stringstream region;
+		//ctx->FindAddressInRegion(address, region);
 
 		//char buffer[512]{};
 		//ZydisFormatterFormatInstruction(&Formatter, &Instruction, Operands,
 		//	Instruction.operand_count_visible, buffer, sizeof(buffer), address, ZYAN_NULL);
 
-		Instrs.push_back(region.str());
+		//*outs << region.str() << ": " << buffer << "\n";
+		//Instrs.push_back(buffer);
 
+		//DWORD_PTR R8 = 0;
+		//uc_reg_read(uc, UC_X86_REG_R8, &R8);
+		//std::stringstream szR8;
+		//if (ctx->FindAddressInRegion(R8, szR8))
+		//{
+		//	*outs << "R8: " << szR8.str() << "\n";
+		//}
+		//else
+		//{
+		//	*outs << "R8: " << R8 << "\n";
+		//}
 		//if (Instruction.mnemonic == ZYDIS_MNEMONIC_RDTSC)
 		//{
 		//	std::stringstream region;
@@ -240,6 +260,20 @@ namespace ucHooks {
 		else if (exception == EXCP03_INT3)
 		{
 			ctx->m_LastException = STATUS_BREAKPOINT;
+			CONTEXT CpuContext{};
+
+			ctx->RtlpCaptureContext(&CpuContext);
+
+			EXCEPTION_RECORD excprec{};
+			DWORD_PTR Rip = 0;
+			uc_reg_read(uc, UC_X86_REG_RIP, &Rip);
+			excprec.ExceptionCode = EXCEPTION_BREAKPOINT;
+			excprec.ExceptionFlags = 0;
+			excprec.ExceptionAddress = (PVOID)Rip;
+
+			BOOL A = ctx->RtlpDispatchException(&excprec, &CpuContext);
+
+			ctx->RtlpRestoreContext(&CpuContext, &excprec);
 		}
 		else
 		{

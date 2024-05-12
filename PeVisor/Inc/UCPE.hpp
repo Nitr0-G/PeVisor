@@ -114,6 +114,7 @@ typedef struct _MemMapping
 
 namespace ucHooks {
 	void HookCpuid(uc_engine* uc, void* user_data);
+	void HookSySCall(uc_engine* uc, void* user_data);
 	void HookCode(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void HookIntr(uc_engine* uc, int exception, void* user_data);
 	void HookRwx(uc_engine* uc, uc_mem_type type,
@@ -140,6 +141,7 @@ public:
 public:
 	//Usermode only
 	void InitProcessorState();
+	void InitLdrModuleList();
 	void InitTebPeb();
 
 	//Kernelmode only
@@ -285,6 +287,8 @@ public:
 	//Usermode only
 	DWORD_PTR m_PebBase = 0;
 	DWORD_PTR m_PebEnd = 0;
+	DWORD_PTR m_LdrBase = 0;
+	DWORD_PTR m_LdrEnd = 0;
 	DWORD_PTR m_TebBase = 0;
 	DWORD_PTR m_TebEnd = 0;
 	DWORD m_Win32LastError = 0;
@@ -297,6 +301,7 @@ public:
 	DWORD_PTR m_RegistryPathBase = 0;
 	DWORD_PTR m_KThreadBase = 0;
 	DWORD_PTR m_PsLoadedModuleListBase = 0;
+	DWORD_PTR m_LdrModuleListBase = 0;
 	DWORD_PTR m_DriverLdrEntry = 0;
 	DWORD_PTR m_LastRip = 0;
 	DWORD_PTR m_LastRipModule = 0;

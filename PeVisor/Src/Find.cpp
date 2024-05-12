@@ -51,6 +51,12 @@ bool PeEmulation::FindAddressInRegion(
 			return true;
 		}
 
+		if (address >= m_LdrBase && address < m_LdrEnd)
+		{
+			RegionName << "Ldr+" << std::hex << (address - m_LdrBase);
+			return true;
+		}
+
 		if (address >= m_TebBase && address < m_TebEnd)
 		{
 			RegionName << "Teb+" << std::hex << (address - m_TebBase);
@@ -106,50 +112,25 @@ bool PeEmulation::FindSectionByAddress(_In_ DWORD_PTR address, _Inout_ FakeSecti
 // Mode: Usermode + Kernelmode
 bool PeEmulation::FindAPIByAddress(_In_ DWORD_PTR address, _Inout_ std::wstring& DllName, _Inout_ FakeAPI** api)
 {
-	std::vector<std::thread> threads;
-	std::atomic<bool> found(false);
-	std::mutex mtx;
-	std::condition_variable cv;
-
 	for (size_t i = 0; i < m_FakeModules.size(); ++i)
 	{
-		threads.emplace_back([&, i]() {
-			auto& m = m_FakeModules[i];
-			if (address >= m->ImageBase && address < m->ImageBase + m->ImageSize)
+		auto& m = m_FakeModules[i];
+		DllName = m->DllName;
+		if (address >= m->ImageBase && address < m->ImageBase + m->ImageSize)
+		{
+			for (size_t j = 0; j < m->FakeAPIs.size(); ++j)
 			{
-				std::unique_lock<std::mutex> lock(mtx);
-				DllName = m->DllName;
-
-				for (size_t j = 0; j < m->FakeAPIs.size(); ++j)
+				auto r = &m->FakeAPIs[j];
+				if (r->VirtualAddress == address)
 				{
-					auto r = &m->FakeAPIs[j];
-					if (r->VirtualAddress == address)
-					{
-						*api = r;
-						found.store(true);
-						lock.unlock();
-						cv.notify_all();// Notify all pending threads
-						return;
-					}
+					*api = r;
+					return true;
 				}
 			}
-			});
+			break;
+		}
 	}
-
-	// Waiting for one of the threads to finish
-	{
-		std::unique_lock<std::mutex> lock(mtx);
-		cv.wait(lock, [&] { return found.load(); });
-	}
-
-	// Termination of all threads
-	for (auto& t : threads)
-	{
-		if (t.joinable())
-			t.join();
-	}
-
-	return found.load();
+	return false;
 }
 
 // About: Function for finding of module by address

@@ -113,17 +113,6 @@ void PeEmulation::InitProcessorState()
 
 	DWORD_PTR cr8 = 0;
 	uc_reg_write(m_uc, UC_X86_REG_CR8, &cr8);
-
-	DWORD_PTR Zero = 0;
-	uc_reg_write(m_uc, UC_X86_REG_DR0, &Zero);
-	uc_reg_write(m_uc, UC_X86_REG_DR1, &Zero);
-	uc_reg_write(m_uc, UC_X86_REG_DR2, &Zero);
-	uc_reg_write(m_uc, UC_X86_REG_DR3, &Zero);
-	uc_reg_write(m_uc, UC_X86_REG_DR4, &Zero);
-	uc_reg_write(m_uc, UC_X86_REG_DR5, &Zero);
-	uc_reg_write(m_uc, UC_X86_REG_DR6, &Zero);
-	uc_reg_write(m_uc, UC_X86_REG_DR7, &Zero);
-
 }
 
 // About: Function for insertion of something in tail list
@@ -177,17 +166,40 @@ void PeEmulation::InitKSharedUserData()
 // Mode: Usermode
 void PeEmulation::InitTebPeb()
 {
-//	PPEB MyPeb = 0;
+	PPEB MyPeb = 0;
 //#ifdef _WIN64
-//	MyPeb = (PPEB)__readgsqword(0x60);
+	MyPeb = (PPEB)__readgsqword(0x60);
 //#else
 //	MyPeb = (PPEB)__readfsdword(0x30);
 //#endif
 
-	PEB peb = { 0 };
+	PEB peb{};// = MyPeb;
 
 	m_PebBase = 0x90000ull;
 	m_PebEnd = m_PebBase + AlignSize(sizeof(PEB), PAGE_SIZE);
+	m_LdrBase = 0x70000ull;
+	m_LdrEnd = m_LdrBase + AlignSize(sizeof(PEB_LDR_DATA), PAGE_SIZE);
+
+	peb.Ldr = (PPEB_LDR_DATA)m_LdrBase;
+	peb.ProcessHeap = (PVOID)m_HeapBase;
+
+	PEB_LDR_DATA Ldr{};
+
+	Ldr.Length = m_FakeModules.size() - 1;
+
+	Ldr.Initialized = true;
+
+	Ldr.InInitializationOrderModuleList.Blink = Ldr.InInitializationOrderModuleList.Flink 
+		= (PLIST_ENTRY)m_LdrModuleListBase;
+
+	Ldr.InMemoryOrderModuleList.Blink = Ldr.InMemoryOrderModuleList.Flink 
+		= (PLIST_ENTRY)m_LdrModuleListBase;
+
+	Ldr.InLoadOrderModuleList.Blink = Ldr.InMemoryOrderModuleList.Flink
+		= (PLIST_ENTRY)m_LdrModuleListBase;
+
+	uc_mem_map(m_uc, m_LdrBase, m_LdrEnd - m_LdrBase, UC_PROT_READ);
+	uc_mem_write(m_uc, m_LdrBase, &Ldr, sizeof(PEB_LDR_DATA));
 
 	uc_mem_map(m_uc, m_PebBase, m_PebEnd - m_PebBase, UC_PROT_READ);
 	uc_mem_write(m_uc, m_PebBase, &peb, sizeof(PEB));
@@ -207,6 +219,50 @@ void PeEmulation::InitTebPeb()
 	msr.value = m_TebBase;
 
 	uc_reg_write(m_uc, UC_X86_REG_MSR, &msr);
+}
+
+// About: Function for intialization of PsLoadedModuleList in usermode app
+// Mode: Usermode
+void PeEmulation::InitLdrModuleList()
+{
+	m_LdrModuleListBase = HeapAlloc(sizeof(LIST_ENTRY));
+
+	LIST_ENTRY PsLoadedModuleList = { 0 };
+	PsLoadedModuleList.Blink = PsLoadedModuleList.Flink = (PLIST_ENTRY)m_LdrModuleListBase;
+
+	uc_mem_write(m_uc, m_LdrModuleListBase, &PsLoadedModuleList, sizeof(PsLoadedModuleList));
+
+	for (size_t i = 0; i < m_FakeModules.size(); ++i)
+	{
+		auto LdrEntryBase = HeapAlloc(sizeof(LDR_DATA_TABLE_ENTRY));
+
+		LDR_DATA_TABLE_ENTRY LdrEntry = { 0 };
+		LdrEntry.DllBase = (PVOID)m_FakeModules[i]->ImageBase;
+		LdrEntry.ReferenceCount = 1;
+		LdrEntry.EntryPoint = (PVOID)m_FakeModules[i]->ImageEntry;
+		LdrEntry.SizeOfImage = m_FakeModules[i]->ImageSize;
+
+		auto fullname = m_FakeModules[i]->FullPath.wstring();
+		LdrEntry.FullDllName.Length = (USHORT)fullname.length() * sizeof(WCHAR);
+		LdrEntry.FullDllName.MaximumLength = ((USHORT)fullname.length() + 1) * sizeof(WCHAR);
+		auto FullDllNameBase = HeapAlloc(LdrEntry.FullDllName.MaximumLength);
+		LdrEntry.FullDllName.Buffer = (PWSTR)FullDllNameBase;
+
+		auto BaseDllName = m_FakeModules[i]->DllName;
+		LdrEntry.BaseDllName.Length = (USHORT)m_FakeModules[i]->DllName.length() * sizeof(WCHAR);
+		LdrEntry.BaseDllName.MaximumLength = ((USHORT)m_FakeModules[i]->DllName.length() + 1) * sizeof(WCHAR);
+		auto BaseDllNameBase = HeapAlloc(LdrEntry.BaseDllName.MaximumLength);
+		LdrEntry.BaseDllName.Buffer = (PWSTR)BaseDllNameBase;
+
+		uc_mem_write(m_uc, FullDllNameBase, fullname.data(), LdrEntry.FullDllName.MaximumLength);
+		uc_mem_write(m_uc, BaseDllNameBase, BaseDllName.data(), LdrEntry.BaseDllName.MaximumLength);
+
+		uc_mem_write(m_uc, LdrEntryBase, &LdrEntry, sizeof(LdrEntry));
+
+		InsertTailList(m_LdrModuleListBase, LdrEntryBase);
+	}
+
+	return;
 }
 
 // About: Function for intialization of PsLoadedModuleList in driver
@@ -230,27 +286,25 @@ void PeEmulation::InitPsLoadedModuleList()
 		LdrEntry.EntryPoint = (PVOID)m_FakeModules[i]->ImageEntry;
 		LdrEntry.SizeOfImage = m_FakeModules[i]->ImageSize;
 
-		//auto fullname = L"\\SystemRoot\\system32\\drivers\\" + m_FakeModules[i]->DllName;
 		auto fullname = m_FakeModules[i]->FullPath.wstring();
 		LdrEntry.FullDllName.Length = (USHORT)fullname.length() * sizeof(WCHAR);
 		LdrEntry.FullDllName.MaximumLength = ((USHORT)fullname.length() + 1) * sizeof(WCHAR);
 		auto FullDllNameBase = HeapAlloc(LdrEntry.FullDllName.MaximumLength);
 		LdrEntry.FullDllName.Buffer = (PWSTR)FullDllNameBase;
 
-		LdrEntry.BaseDllName.Length = (USHORT)m_FakeModules[i]->DllName.length();
-		LdrEntry.BaseDllName.MaximumLength = ((USHORT)fullname.length() + 1);
-		auto BaseDllNameBase = m_FakeModules[i]->DllName.c_str(); //FullDllNameBase + (_countof(L"\\SystemRoot\\system32\\drivers\\") - 1) * sizeof(WCHAR);
+		auto BaseDllName = m_FakeModules[i]->DllName;
+		LdrEntry.BaseDllName.Length = (USHORT)m_FakeModules[i]->DllName.length() * sizeof(WCHAR);
+		LdrEntry.BaseDllName.MaximumLength = ((USHORT)m_FakeModules[i]->DllName.length() + 1) * sizeof(WCHAR);
+		auto BaseDllNameBase = HeapAlloc(LdrEntry.BaseDllName.MaximumLength);
 		LdrEntry.BaseDllName.Buffer = (PWSTR)BaseDllNameBase;
 
 		LdrEntry.ExceptionTable = (PVOID)m_FakeModules[i]->ExceptionTable;
 		LdrEntry.ExceptionTableSize = m_FakeModules[i]->ExceptionTableSize;
 
 		uc_mem_write(m_uc, FullDllNameBase, fullname.data(), LdrEntry.FullDllName.MaximumLength);
+		uc_mem_write(m_uc, BaseDllNameBase, BaseDllName.data(), LdrEntry.BaseDllName.MaximumLength);
 
 		uc_mem_write(m_uc, LdrEntryBase, &LdrEntry, sizeof(LdrEntry));
-
-		//Win 10
-		if (!m_IsKernel) { uc_mem_write(m_uc, m_PebBase + 0x18, &LdrEntry, sizeof(LdrEntry)); }
 
 		if (m_FakeModules[i]->ImageBase == m_ImageBase)
 		{
@@ -350,7 +404,12 @@ int main(int argc, char** argv)
 	ctx.m_uc = uc;
 	ctx.thisProc.Attach(GetCurrentProcessId());
 
-	uc_hook ucHookInvalidRwx = 0, ucHookRwx = 0, ucHookCode = 0, ucHookIntr = 0, ucHookCpuid = 0;
+	uc_hook ucHookInvalidRwx = 0, 
+		ucHookRwx = 0, 
+		ucHookCode = 0,
+		ucHookIntr = 0,
+		ucHookCpuid = 0, 
+		ucHookSySCall = 0;
 
 	DWORD_PTR Stack = (!ctx.m_IsKernel) ? 0x40000 : 0xFFFFFC0000000000ull;
 	size_t StackSize = 0x10000;
@@ -372,9 +431,9 @@ int main(int argc, char** argv)
 	ctx.m_LoadModuleBase = (!ctx.m_IsKernel) ? 0x180000000ull : 0xFFFFF80000000000ull;
 	ctx.m_HeapBase = (!ctx.m_IsKernel) ? 0x10000000ull : 0xFFFFFA0000000000ull;
 	ctx.m_HeapEnd = ctx.m_HeapBase + 0x1000000ull;
-
+	DWORD_PTR ad = 55;
 	uc_mem_map(uc, ctx.m_HeapBase, ctx.m_HeapEnd - ctx.m_HeapBase, (ctx.m_IsKernel) ? UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC : UC_PROT_READ | UC_PROT_WRITE);
-
+	//uc_mem_write(uc, ctx.m_HeapBase, &ad, 0x200000);
 	auto MapResult = ctx.thisProc.mmap().MapImage(wfilename,
 		ManualImports | NoSxS | NoExceptions | NoDelayLoad | NoTLS | NoExceptions | NoExec,
 		ManualMapCallback, &ctx, 0);
@@ -494,13 +553,27 @@ int main(int argc, char** argv)
 
 	if (!ctx.m_IsKernel)
 	{
-		ctx.InitTebPeb();
 		ctx.SortModuleList();
 		ctx.InitPsLoadedModuleList();
+		ctx.InitLdrModuleList();
+		ctx.InitTebPeb();
 
-		ctx.m_InitReg.Rcx = ctx.m_ImageBase;
-		ctx.m_InitReg.Rdx = DLL_PROCESS_ATTACH;
-		ctx.m_InitReg.R8 = 0;
+		//Dll
+		//ctx.m_InitReg.Rcx = ctx.m_ImageBase;
+		//ctx.m_InitReg.Rdx = DLL_PROCESS_ATTACH;
+		//ctx.m_InitReg.R8 = 0;
+		ctx.m_InitReg.Rax = ctx.m_ExecuteFromRip;
+		ctx.m_InitReg.Rbx = 0;
+		ctx.m_InitReg.Rcx = ctx.m_HeapBase;
+		ctx.m_InitReg.Rdx = ctx.m_ExecuteFromRip;
+		ctx.m_InitReg.R8 = ctx.m_HeapBase;
+		ctx.m_InitReg.R9 = ctx.m_ExecuteFromRip;
+		ctx.m_InitReg.Dr0 = 0;
+		ctx.m_InitReg.Dr1 = 0;
+		ctx.m_InitReg.Dr2 = 0;
+		ctx.m_InitReg.Dr3 = 0;
+		ctx.m_InitReg.Dr6 = 0;
+		ctx.m_InitReg.Dr7 = 0;
 	}
 	else
 	{
@@ -544,14 +617,17 @@ int main(int argc, char** argv)
 		uc_hook_add(uc, &ucHookRwx, UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE | UC_HOOK_MEM_FETCH,
 			ucHooks::HookRwx, &ctx, 1, 0);
 
-		//uc_hook_add(uc, &ucHookCode, UC_HOOK_CODE,
-		//	ucHooks::HookCode, &ctx, 1, 0);
+		uc_hook_add(uc, &ucHookCode, UC_HOOK_CODE,
+			ucHooks::HookCode, &ctx, 1, 0);
 
 		uc_hook_add(uc, &ucHookIntr, UC_HOOK_INTR,
 			ucHooks::HookIntr, &ctx, 1, 0);
 
 		uc_hook_add(uc, &ucHookCpuid, UC_HOOK_INSN,
 			ucHooks::HookCpuid, &ctx, 1, 0, UC_X86_INS_CPUID);
+
+		uc_hook_add(uc, &ucHookSySCall, UC_HOOK_INSN,
+			ucHooks::HookSySCall, &ctx, 1, 0, UC_X86_INS_SYSCALL);
 	}
 	//////////////////////////////////////////////////////////////// HOOKS_SPACE
 
@@ -575,6 +651,8 @@ int main(int argc, char** argv)
 		uc_hook_del(uc, ucHookRwx);
 		uc_hook_del(uc, ucHookCode);
 		uc_hook_del(uc, ucHookIntr);
+		uc_hook_del(uc, ucHookCpuid);
+		uc_hook_del(uc, ucHookSySCall);
 	}
 	//////////////////////////////////////////////////////////////// HOOKS_SPACE
 

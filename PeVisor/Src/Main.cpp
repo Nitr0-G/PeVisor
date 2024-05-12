@@ -166,14 +166,7 @@ void PeEmulation::InitKSharedUserData()
 // Mode: Usermode
 void PeEmulation::InitTebPeb()
 {
-	PPEB MyPeb = 0;
-//#ifdef _WIN64
-	MyPeb = (PPEB)__readgsqword(0x60);
-//#else
-//	MyPeb = (PPEB)__readfsdword(0x30);
-//#endif
-
-	PEB peb{};// = MyPeb;
+	PEB peb{};
 
 	m_PebBase = 0x90000ull;
 	m_PebEnd = m_PebBase + AlignSize(sizeof(PEB), PAGE_SIZE);

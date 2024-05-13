@@ -389,13 +389,13 @@ namespace ucHooks {
 			if (ctx->FindAddressInRegion(address, region))
 				*outs << "UC_MEM_FETCH_PROT from " << region.str() << "\n";
 			else
-				*outs << "UC_MEM_FETCH_PROT from " << address << "\n";
+				*outs << "UC_MEM_FETCH_PROT from " << std::hex << address << "\n";
 
 			std::stringstream region2;
 			if (ctx->FindAddressInRegion(rip, region2))
 				*outs << "UC_MEM_FETCH_PROT rip at " << region2.str() << "\n";
 			else
-				*outs << "UC_MEM_FETCH_PROT rip at " << rip << "\n";
+				*outs << "UC_MEM_FETCH_PROT rip at " << std::hex << rip << "\n";
 
 			uc_emu_stop(uc);
 			break;
@@ -408,13 +408,13 @@ namespace ucHooks {
 			if (ctx->FindAddressInRegion(address, region))
 				*outs << "UC_MEM_WRITE_PROT from " << region.str() << "\n";
 			else
-				*outs << "UC_MEM_WRITE_PROT from " << address << "\n";
+				*outs << "UC_MEM_WRITE_PROT from " << std::hex << address << "\n";
 
 			std::stringstream region2;
 			if (ctx->FindAddressInRegion(rip, region2))
 				*outs << "UC_MEM_WRITE_PROT rip at " << region2.str() << "\n";
 			else
-				*outs << "UC_MEM_WRITE_PROT rip at " << rip << "\n";
+				*outs << "UC_MEM_WRITE_PROT rip at " << std::hex << rip << "\n";
 
 			uc_emu_stop(uc);
 			break;
@@ -427,13 +427,13 @@ namespace ucHooks {
 			if (ctx->FindAddressInRegion(address, region))
 				*outs << "UC_MEM_FETCH_UNMAPPED from " << region.str() << "\n";
 			else
-				*outs << "UC_MEM_FETCH_UNMAPPED from " << address << "\n";
+				*outs << "UC_MEM_FETCH_UNMAPPED from " << std::hex << address << "\n";
 
 			std::stringstream region2;
 			if (ctx->FindAddressInRegion(rip, region2))
 				*outs << "UC_MEM_FETCH_UNMAPPED rip at " << region2.str() << "\n";
 			else
-				*outs << "UC_MEM_FETCH_UNMAPPED rip at " << rip << "\n";
+				*outs << "UC_MEM_FETCH_UNMAPPED rip at " << std::hex << rip << "\n";
 
 			uc_emu_stop(uc);
 			break;
@@ -446,13 +446,13 @@ namespace ucHooks {
 			if (ctx->FindAddressInRegion(address, region))
 				*outs << "UC_MEM_READ_UNMAPPED from " << region.str() << "\n";
 			else
-				*outs << "UC_MEM_READ_UNMAPPED from " << address << "\n";
+				*outs << "UC_MEM_READ_UNMAPPED from " << std::hex << address << "\n";
 
 			std::stringstream region2;
 			if (ctx->FindAddressInRegion(rip, region2))
 				*outs << "UC_MEM_READ_UNMAPPED rip at " << region2.str() << "\n";
 			else
-				*outs << "UC_MEM_READ_UNMAPPED rip at " << rip << "\n";
+				*outs << "UC_MEM_READ_UNMAPPED rip at " << std::hex << rip << "\n";
 
 			uc_emu_stop(uc);
 			break;
@@ -465,13 +465,13 @@ namespace ucHooks {
 			if (ctx->FindAddressInRegion(address, region))
 				*outs << "UC_MEM_WRITE_UNMAPPED from " << region.str() << "\n";
 			else
-				*outs << "UC_MEM_WRITE_UNMAPPED from " << address << "\n";
+				*outs << "UC_MEM_WRITE_UNMAPPED from " << std::hex << address << "\n";
 
 			std::stringstream region2;
 			if (ctx->FindAddressInRegion(rip, region2))
 				*outs << "UC_MEM_WRITE_UNMAPPED rip at " << region2.str() << "\n";
 			else
-				*outs << "UC_MEM_WRITE_UNMAPPED rip at " << rip << "\n";
+				*outs << "UC_MEM_WRITE_UNMAPPED rip at " << std::hex << rip << "\n";
 
 			uc_emu_stop(uc);
 			break;

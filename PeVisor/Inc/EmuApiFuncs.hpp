@@ -9,6 +9,7 @@
 #include "Zydis/Zydis.h"
 #include <iostream>
 #include <sstream>
+//#include "ntdll.h"
 
 #define NtCurrentThread ((HANDLE)-2)
 
@@ -129,6 +130,12 @@ typedef NTSTATUS(NTAPI* TNtQueryInformationProcess)(
 	OUT PULONG          ReturnLength
 	);
 
+typedef NTSTATUS(NTAPI* TNtOpenSection)(
+	OUT PHANDLE             SectionHandle,
+	IN ACCESS_MASK          DesiredAccess,
+	IN POBJECT_ATTRIBUTES   ObjectAttributes
+	);
+
 namespace EmuApi
 {
 	void EmuGetSystemTimeAsFileTime(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -179,6 +186,7 @@ namespace EmuApi
 	void EmuRtlUnwindEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
 	void EmuNtOpenFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuNtOpenSection(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
 	void EmuExAllocatePool(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuNtProtectVirtualMemory(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);

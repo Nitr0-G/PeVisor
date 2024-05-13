@@ -1049,6 +1049,38 @@ namespace EmuApi
 		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 	}
 
+	void EmuNtOpenSection(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PHANDLE SectionHandle = nullptr;
+		HANDLE SectionHandle1 = nullptr;
+		ACCESS_MASK DesiredAccess = 0;
+		POBJECT_ATTRIBUTES ObjectAttributes = nullptr;
+		OBJECT_ATTRIBUTES ObjectAttributes1{};
+		NTSTATUS Status = STATUS_SUCCESS;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&SectionHandle, &DesiredAccess, &ObjectAttributes),
+			{ UC_X86_REG_RCX, UC_X86_REG_EDX, UC_X86_REG_R8 });
+
+		HMODULE hNtdll = LoadLibraryA("ntdll.dll");
+		auto NtOpenSection = (TNtOpenSection)GetProcAddress(
+			hNtdll, "NtOpenSection");
+
+		uc_mem_read(uc, (DWORD_PTR)ObjectAttributes, &ObjectAttributes1, sizeof(OBJECT_ATTRIBUTES));
+		
+		UNICODE_STRING ObjectName{};
+
+		uc_mem_read(uc, (DWORD_PTR)(ObjectAttributes + offsetof(OBJECT_ATTRIBUTES, ObjectName)),
+			&ObjectName, sizeof(UNICODE_STRING));
+
+		Status = NtOpenSection(&SectionHandle1, DesiredAccess, &ObjectAttributes1);
+
+		*outs << "NtOpenSection " << "SectionHandle: " << SectionHandle1 << " DesiredAccess:" << GetAccessMaskString(DesiredAccess)
+			<< "return: " << Status << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Status);
+	}
+
 	void EmuGetLastError(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
 		DWORD r = 0;

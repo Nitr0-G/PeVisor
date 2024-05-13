@@ -176,23 +176,23 @@ void PeEmulation::InitTebPeb()
 	peb.Ldr = (PPEB_LDR_DATA)m_LdrBase;
 	peb.ProcessHeap = (PVOID)m_HeapBase;
 
-	PEB_LDR_DATA Ldr{};
+	//PEB_LDR_DATA Ldr{};
 
-	Ldr.Length = m_FakeModules.size() - 1;
+	//Ldr.Length = m_FakeModules.size() - 1;
 
-	Ldr.Initialized = true;
+	//Ldr.Initialized = true;
 
-	Ldr.InInitializationOrderModuleList.Blink = Ldr.InInitializationOrderModuleList.Flink 
-		= (PLIST_ENTRY)m_LdrModuleListBase;
+	//Ldr.InInitializationOrderModuleList.Blink = Ldr.InInitializationOrderModuleList.Flink
+	//	= (PLIST_ENTRY)m_LdrModuleListBase;
 
-	Ldr.InMemoryOrderModuleList.Blink = Ldr.InMemoryOrderModuleList.Flink 
-		= (PLIST_ENTRY)m_LdrModuleListBase;
+	//Ldr.InMemoryOrderModuleList.Blink = Ldr.InMemoryOrderModuleList.Flink
+	//	= (PLIST_ENTRY)m_LdrModuleListBase;
 
-	Ldr.InLoadOrderModuleList.Blink = Ldr.InMemoryOrderModuleList.Flink
-		= (PLIST_ENTRY)m_LdrModuleListBase;
+	//Ldr.InLoadOrderModuleList.Blink = Ldr.InLoadOrderModuleList.Flink
+	//	= (PLIST_ENTRY)m_LdrModuleListBase;
 
-	uc_mem_map(m_uc, m_LdrBase, m_LdrEnd - m_LdrBase, UC_PROT_READ);
-	uc_mem_write(m_uc, m_LdrBase, &Ldr, sizeof(PEB_LDR_DATA));
+	//uc_mem_map(m_uc, m_LdrBase, m_LdrEnd - m_LdrBase, UC_PROT_READ);
+	//uc_mem_write(m_uc, m_LdrBase, Ldr, sizeof(PEB_LDR_DATA));
 
 	uc_mem_map(m_uc, m_PebBase, m_PebEnd - m_PebBase, UC_PROT_READ);
 	uc_mem_write(m_uc, m_PebBase, &peb, sizeof(PEB));
@@ -218,12 +218,35 @@ void PeEmulation::InitTebPeb()
 // Mode: Usermode
 void PeEmulation::InitLdrModuleList()
 {
-	m_LdrModuleListBase = HeapAlloc(sizeof(LIST_ENTRY));
+	PEB_LDR_DATA Ldr{};
+
+	//m_LdrInInitializationOrderModuleList = HeapAlloc(sizeof(LIST_ENTRY));
+	//m_LdrInMemoryOrderModuleList = HeapAlloc(sizeof(LIST_ENTRY));
+	//m_LdrInLoadOrderModuleList = HeapAlloc(sizeof(LIST_ENTRY));
+
+	Ldr.InInitializationOrderModuleList.Flink = (_LIST_ENTRY*)HeapAlloc(sizeof(LIST_ENTRY));
+	Ldr.InMemoryOrderModuleList.Flink = (_LIST_ENTRY*)HeapAlloc(sizeof(LIST_ENTRY));
+	Ldr.InLoadOrderModuleList.Flink = (_LIST_ENTRY*)HeapAlloc(sizeof(LIST_ENTRY));
+
+	m_LdrInInitializationOrderModuleList = (DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink;
+	m_LdrInMemoryOrderModuleList = (DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink;
+	m_LdrInLoadOrderModuleList = (DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink;
+
+	Ldr.Length = m_FakeModules.size() - 1;
+	Ldr.Initialized = true;
 
 	LIST_ENTRY PsLoadedModuleList = { 0 };
-	PsLoadedModuleList.Blink = PsLoadedModuleList.Flink = (PLIST_ENTRY)m_LdrModuleListBase;
+	PsLoadedModuleList.Blink = PsLoadedModuleList.Flink = (PLIST_ENTRY)Ldr.InInitializationOrderModuleList.Flink;
 
-	uc_mem_write(m_uc, m_LdrModuleListBase, &PsLoadedModuleList, sizeof(PsLoadedModuleList));
+	LIST_ENTRY PsLoadedModuleList1 = { 0 };
+	PsLoadedModuleList1.Blink = PsLoadedModuleList1.Flink = (PLIST_ENTRY)Ldr.InMemoryOrderModuleList.Flink;
+
+	LIST_ENTRY PsLoadedModuleList2 = { 0 };
+	PsLoadedModuleList2.Blink = PsLoadedModuleList2.Flink = (PLIST_ENTRY)Ldr.InLoadOrderModuleList.Flink;
+
+	uc_mem_write(m_uc, (DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink, &PsLoadedModuleList, sizeof(PsLoadedModuleList));
+	uc_mem_write(m_uc, (DWORD_PTR)Ldr.InMemoryOrderModuleList.Flink, &PsLoadedModuleList1, sizeof(PsLoadedModuleList));
+	uc_mem_write(m_uc, (DWORD_PTR)Ldr.InLoadOrderModuleList.Flink, &PsLoadedModuleList2, sizeof(PsLoadedModuleList));
 
 	for (size_t i = 0; i < m_FakeModules.size(); ++i)
 	{
@@ -235,25 +258,34 @@ void PeEmulation::InitLdrModuleList()
 		LdrEntry.EntryPoint = (PVOID)m_FakeModules[i]->ImageEntry;
 		LdrEntry.SizeOfImage = m_FakeModules[i]->ImageSize;
 
-		auto fullname = m_FakeModules[i]->FullPath.wstring();
-		LdrEntry.FullDllName.Length = (USHORT)fullname.length() * sizeof(WCHAR);
-		LdrEntry.FullDllName.MaximumLength = ((USHORT)fullname.length() + 1) * sizeof(WCHAR);
+		auto Fullname = m_FakeModules[i]->FullPath.wstring();
+		LdrEntry.FullDllName.Length = (USHORT)Fullname.length() * sizeof(WCHAR);
+		LdrEntry.FullDllName.MaximumLength = ((USHORT)(Fullname.length() + 1) * sizeof(WCHAR));
 		auto FullDllNameBase = HeapAlloc(LdrEntry.FullDllName.MaximumLength);
 		LdrEntry.FullDllName.Buffer = (PWSTR)FullDllNameBase;
 
 		auto BaseDllName = m_FakeModules[i]->DllName;
 		LdrEntry.BaseDllName.Length = (USHORT)m_FakeModules[i]->DllName.length() * sizeof(WCHAR);
-		LdrEntry.BaseDllName.MaximumLength = ((USHORT)m_FakeModules[i]->DllName.length() + 1) * sizeof(WCHAR);
+		LdrEntry.BaseDllName.MaximumLength = ((USHORT)(m_FakeModules[i]->DllName.length() + 1) * sizeof(WCHAR));
 		auto BaseDllNameBase = HeapAlloc(LdrEntry.BaseDllName.MaximumLength);
 		LdrEntry.BaseDllName.Buffer = (PWSTR)BaseDllNameBase;
 
-		uc_mem_write(m_uc, FullDllNameBase, fullname.data(), LdrEntry.FullDllName.MaximumLength);
-		uc_mem_write(m_uc, BaseDllNameBase, BaseDllName.data(), LdrEntry.BaseDllName.MaximumLength);
+		printf("%p\n", BaseDllNameBase);
+
+		uc_mem_write(m_uc, FullDllNameBase, (void*)Fullname.data(), LdrEntry.FullDllName.MaximumLength);
+		uc_mem_write(m_uc, BaseDllNameBase, (void*)BaseDllName.data(), LdrEntry.BaseDllName.MaximumLength);
 
 		uc_mem_write(m_uc, LdrEntryBase, &LdrEntry, sizeof(LdrEntry));
 
-		InsertTailList(m_LdrModuleListBase, LdrEntryBase);
+		InsertTailList((DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink, LdrEntryBase);
+		InsertTailList((DWORD_PTR)Ldr.InMemoryOrderModuleList.Flink, LdrEntryBase);
+		InsertTailList((DWORD_PTR)Ldr.InLoadOrderModuleList.Flink, LdrEntryBase);
 	}
+
+	m_LdrBase = 0x70000ull;
+	m_LdrEnd = m_LdrBase + AlignSize(sizeof(PEB_LDR_DATA), PAGE_SIZE);
+	uc_mem_map(m_uc, m_LdrBase, m_LdrEnd - m_LdrBase, UC_PROT_READ);
+	uc_mem_write(m_uc, m_LdrBase, &Ldr, sizeof(PEB_LDR_DATA));
 
 	return;
 }
@@ -424,9 +456,9 @@ int main(int argc, char** argv)
 	ctx.m_LoadModuleBase = (!ctx.m_IsKernel) ? 0x180000000ull : 0xFFFFF80000000000ull;
 	ctx.m_HeapBase = (!ctx.m_IsKernel) ? 0x10000000ull : 0xFFFFFA0000000000ull;
 	ctx.m_HeapEnd = ctx.m_HeapBase + 0x1000000ull;
-	DWORD_PTR ad = 55;
+
 	uc_mem_map(uc, ctx.m_HeapBase, ctx.m_HeapEnd - ctx.m_HeapBase, (ctx.m_IsKernel) ? UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC : UC_PROT_READ | UC_PROT_WRITE);
-	//uc_mem_write(uc, ctx.m_HeapBase, &ad, 0x200000);
+
 	auto MapResult = ctx.thisProc.mmap().MapImage(wfilename,
 		ManualImports | NoSxS | NoExceptions | NoDelayLoad | NoTLS | NoExceptions | NoExec,
 		ManualMapCallback, &ctx, 0);
@@ -501,6 +533,8 @@ int main(int argc, char** argv)
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "NtSetInformationThread", EmuApi::EmuNtSetInformationThread);
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "NtQuerySystemInformation", EmuApi::EmuNtQuerySystemInformation);
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "NtOpenFile", EmuApi::EmuNtOpenFile);
+		//ctx.RegisterAPIEmulation(L"ntdll.dll", "NtOpenSection", EmuApi::EmuNtOpenSection);
+		//ctx.RegisterAPIEmulation(L"ntdll.dll", "ZwOpenSection", EmuApi::EmuNtOpenSection);
 
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAllocateHeap", EmuApi::EmuRtlAllocateHeap);
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlFreeHeap", EmuApi::EmuRtlFreeHeap);
@@ -556,10 +590,9 @@ int main(int argc, char** argv)
 		//ctx.m_InitReg.Rdx = DLL_PROCESS_ATTACH;
 		//ctx.m_InitReg.R8 = 0;
 		ctx.m_InitReg.Rax = ctx.m_ExecuteFromRip;
-		ctx.m_InitReg.Rbx = 0;
-		ctx.m_InitReg.Rcx = ctx.m_HeapBase;
+		ctx.m_InitReg.Rcx = ctx.m_PebBase;
 		ctx.m_InitReg.Rdx = ctx.m_ExecuteFromRip;
-		ctx.m_InitReg.R8 = ctx.m_HeapBase;
+		ctx.m_InitReg.R8 = ctx.m_PebBase;
 		ctx.m_InitReg.R9 = ctx.m_ExecuteFromRip;
 		ctx.m_InitReg.Dr0 = 0;
 		ctx.m_InitReg.Dr1 = 0;

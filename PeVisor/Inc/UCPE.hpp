@@ -252,6 +252,8 @@ public: //RTLs
 		_In_ PUNWIND_HISTORY_TABLE HistoryTable OPTIONAL
 	);
 public:
+	//PPEB_LDR_DATA InternalLdr = nullptr;
+
 	blackbone::Process thisProc;
 
 	uc_engine* m_uc = nullptr;
@@ -301,7 +303,9 @@ public:
 	DWORD_PTR m_RegistryPathBase = 0;
 	DWORD_PTR m_KThreadBase = 0;
 	DWORD_PTR m_PsLoadedModuleListBase = 0;
-	DWORD_PTR m_LdrModuleListBase = 0;
+	DWORD_PTR m_LdrInInitializationOrderModuleList = 0;
+	DWORD_PTR m_LdrInMemoryOrderModuleList = 0;
+	DWORD_PTR m_LdrInLoadOrderModuleList = 0;
 	DWORD_PTR m_DriverLdrEntry = 0;
 	DWORD_PTR m_LastRip = 0;
 	DWORD_PTR m_LastRipModule = 0;

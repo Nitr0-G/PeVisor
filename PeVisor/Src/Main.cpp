@@ -526,12 +526,16 @@ int main(int argc, char** argv)
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCommandLineW", EmuApi::EmuGetCommandLineW);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStdHandle", EmuApi::EmuGetStdHandle);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileType", EmuApi::EmuGetFileType);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileSize", EmuApi::EmuGetFileSize);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileSizeEx", EmuApi::EmuGetFileSizeEx);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "ExitProcess", EmuApi::EmuExitProcess);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualProtect", EmuApi::EmuVirtualProtect);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFile", EmuApi::EmuWriteFile);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileW", EmuApi::EmuCreateFileW);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileA", EmuApi::EmuCreateFileA);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentStringsW", EmuApi::EmuGetEnvironmentStringsW);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeEnvironmentStringsW", EmuApi::EmuFreeEnvironmentStringsW);

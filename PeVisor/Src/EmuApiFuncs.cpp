@@ -955,7 +955,7 @@ namespace EmuApi
 		{
 			if (hModule == nullptr)
 			{
-				uc_mem_write(uc, (DWORD_PTR)lpFilename, ctx->m_PathExe.wstring().data(), ctx->m_PathExe.wstring().size());
+				uc_mem_write(uc, (DWORD_PTR)lpFilename, ctx->m_PathExe.wstring().data(), ctx->m_PathExe.wstring().size() * sizeof(wchar_t));
 				size_t len = ctx->m_PathExe.wstring().length();
 				uc_reg_write(uc, UC_X86_REG_RAX, &len);
 
@@ -964,7 +964,7 @@ namespace EmuApi
 			else
 			{
 				auto path = ctx->GetModuleFileInternalEmulation(hModule);
-				uc_mem_write(uc, (DWORD_PTR)lpFilename, path.wstring().data(), path.wstring().size());
+				uc_mem_write(uc, (DWORD_PTR)lpFilename, path.wstring().data(), path.wstring().size() * sizeof(wchar_t));
 				size_t len = path.wstring().length();
 				uc_reg_write(uc, UC_X86_REG_RAX, &len);
 
@@ -981,7 +981,7 @@ namespace EmuApi
 				std::wstring truncatedPath = ctx->m_PathExe.wstring().substr(0, nSize - 1);
 				truncatedPath += L'\0';
 
-				uc_mem_write(uc, (DWORD_PTR)lpFilename, truncatedPath.data(), truncatedPath.size());
+				uc_mem_write(uc, (DWORD_PTR)lpFilename, truncatedPath.data(), truncatedPath.size() * sizeof(wchar_t));
 
 				uc_reg_write(uc, UC_X86_REG_RAX, &nSize);
 
@@ -996,7 +996,7 @@ namespace EmuApi
 				std::wstring truncatedPath = path.wstring().substr(0, nSize - 1);
 				truncatedPath += L'\0';
 
-				uc_mem_write(uc, (DWORD_PTR)lpFilename, truncatedPath.data(), truncatedPath.size());
+				uc_mem_write(uc, (DWORD_PTR)lpFilename, truncatedPath.data(), truncatedPath.size() * sizeof(wchar_t));
 
 				uc_reg_write(uc, UC_X86_REG_RAX, &nSize);
 
@@ -1029,6 +1029,44 @@ namespace EmuApi
 		*outs << "GetCommandLineW, return: " << szCommandLineA << "\n";
 
 		uc_reg_write(uc, UC_X86_REG_RAX, &ctx->EmuCommandLineW);
+	}
+
+	void EmuGetFileSizeEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		HANDLE hFile = nullptr;
+		PLARGE_INTEGER lpFileSize = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&hFile, &lpFileSize),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX });
+
+		LARGE_INTEGER FileSize{};
+		BOOL Return = GetFileSizeEx(hFile, &FileSize);
+
+		uc_mem_write(uc, (DWORD_PTR)lpFileSize, &FileSize, sizeof(FileSize));
+
+		*outs << "GetFileSizeEx hFile: " << hFile << " FileSize: " << FileSize.QuadPart << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuGetFileSize(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		HANDLE hFile = nullptr;
+		LPDWORD lpFileSizeHigh = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&hFile, &lpFileSizeHigh),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX });
+
+		DWORD FileSizeHigh = 0;
+		DWORD Return = GetFileSize(hFile, &FileSizeHigh);
+
+		if (lpFileSizeHigh != nullptr) { uc_mem_write(uc, (DWORD_PTR)lpFileSizeHigh, &FileSizeHigh, sizeof(FileSizeHigh)); }
+
+		*outs << "GetFileSize hFile: " << hFile << " lpFileSizeHigh: " << lpFileSizeHigh << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 	}
 
 	void EmuGetFileType(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -1154,11 +1192,142 @@ namespace EmuApi
 		}
 	}
 
+	void EmuCreateFileW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		LPCWSTR lpFileName = nullptr;
+		DWORD dwDesiredAccess = 0;
+		DWORD dwShareMode = 0;
+		LPSECURITY_ATTRIBUTES lpSecurityAttributes = nullptr;
+		DWORD dwCreationDisposition = 0;
+		DWORD dwFlagsAndAttributes = 0;
+		HANDLE hTemplateFile = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&lpFileName, &dwDesiredAccess, &dwShareMode, &lpSecurityAttributes),
+			{ UC_X86_REG_RCX, UC_X86_REG_EDX, UC_X86_REG_R8D, UC_X86_REG_R9 });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &dwCreationDisposition, sizeof(dwCreationDisposition));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &dwFlagsAndAttributes, sizeof(dwFlagsAndAttributes));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x38, &hTemplateFile, sizeof(hTemplateFile));
+
+		std::wstring wlpFileName;
+		HANDLE Return = INVALID_HANDLE_VALUE;
+		if (EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpFileName, wlpFileName))
+		{
+			if (lpSecurityAttributes != nullptr)
+			{
+				SECURITY_ATTRIBUTES SecurityAttributes{};
+				uc_mem_read(uc, (DWORD_PTR)lpSecurityAttributes, &SecurityAttributes, sizeof(SecurityAttributes));
+
+				SECURITY_DESCRIPTOR SecurityDescriptor{};
+				uc_mem_read(uc, (DWORD_PTR)(lpSecurityAttributes + offsetof(SECURITY_ATTRIBUTES, lpSecurityDescriptor)),
+					&SecurityDescriptor, sizeof(SecurityDescriptor));
+
+				SecurityAttributes.lpSecurityDescriptor = &SecurityDescriptor;
+
+				Return = CreateFileW(
+					wlpFileName.data(),
+					dwDesiredAccess,
+					dwShareMode,
+					&SecurityAttributes,
+					dwCreationDisposition,
+					dwFlagsAndAttributes,
+					hTemplateFile);
+			}
+			else
+			{
+				Return = CreateFileW(
+					wlpFileName.data(),
+					dwDesiredAccess,
+					dwShareMode,
+					nullptr,
+					dwCreationDisposition,
+					dwFlagsAndAttributes,
+					hTemplateFile);
+			}
+		}
+
+		std::string alpFileName;
+		UnicodeToANSI(wlpFileName, alpFileName);
+		*outs << "CreateFileW lpFileName: " << alpFileName << " dwDesiredAccess: " << dwDesiredAccess
+			<< " dwShareMode:" << GetShareAccessString(dwShareMode) << "lpSecurityAttributes: " << lpSecurityAttributes
+			<< " dwCreationDisposition: " << dwCreationDisposition << " dwFlagsAndAttributes: " << dwFlagsAndAttributes
+			<< " hTemplateFile: " << hTemplateFile << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuCreateFileA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		LPCSTR lpFileName = nullptr;
+		DWORD dwDesiredAccess = 0;
+		DWORD dwShareMode = 0;
+		LPSECURITY_ATTRIBUTES lpSecurityAttributes = nullptr;
+		DWORD dwCreationDisposition = 0;
+		DWORD dwFlagsAndAttributes = 0;
+		HANDLE hTemplateFile = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&lpFileName, &dwDesiredAccess, &dwShareMode, &lpSecurityAttributes),
+			{ UC_X86_REG_RCX, UC_X86_REG_EDX, UC_X86_REG_R8D, UC_X86_REG_R9 });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &dwCreationDisposition, sizeof(dwCreationDisposition));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &dwFlagsAndAttributes, sizeof(dwFlagsAndAttributes));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x38, &hTemplateFile, sizeof(hTemplateFile));
+
+		std::string alpFileName;
+		HANDLE Return = INVALID_HANDLE_VALUE;
+		if (EmuReadNullTermString(uc, (DWORD_PTR)lpFileName, alpFileName))
+		{
+			if (lpSecurityAttributes != nullptr)
+			{
+				SECURITY_ATTRIBUTES SecurityAttributes{};
+				uc_mem_read(uc, (DWORD_PTR)lpSecurityAttributes, &SecurityAttributes, sizeof(SecurityAttributes));
+
+				SECURITY_DESCRIPTOR SecurityDescriptor{};
+				uc_mem_read(uc, (DWORD_PTR)(lpSecurityAttributes + offsetof(SECURITY_ATTRIBUTES, lpSecurityDescriptor)),
+					&SecurityDescriptor, sizeof(SecurityDescriptor));
+
+				SecurityAttributes.lpSecurityDescriptor = &SecurityDescriptor;
+
+				Return = CreateFileA(
+					alpFileName.data(), 
+					dwDesiredAccess, 
+					dwShareMode,
+					&SecurityAttributes, 
+					dwCreationDisposition, 
+					dwFlagsAndAttributes, 
+					hTemplateFile);
+			}
+			else
+			{
+				Return = CreateFileA(
+					alpFileName.data(),
+					dwDesiredAccess,
+					dwShareMode,
+					nullptr,
+					dwCreationDisposition,
+					dwFlagsAndAttributes,
+					hTemplateFile);
+			}
+		}
+
+		*outs << "CreateFileA lpFileName: " << alpFileName << " dwDesiredAccess: " << dwDesiredAccess
+			<< " dwShareMode:" << GetShareAccessString(dwShareMode) << "lpSecurityAttributes: " << lpSecurityAttributes
+			<< " dwCreationDisposition: " << dwCreationDisposition << " dwFlagsAndAttributes: " << dwFlagsAndAttributes
+			<< " hTemplateFile: " << hTemplateFile << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
 	void EmuWriteFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
 		HANDLE hFile = nullptr;
 		LPCVOID lpBuffer = nullptr;
-		//LPVOID lpBuffer = nullptr;
 		DWORD nNumberOfBytesToWrite = 0;
 		LPDWORD lpNumberOfBytesWritten = 0;
 		LPOVERLAPPED lpOverlapped = nullptr;
@@ -1166,8 +1335,6 @@ namespace EmuApi
 		ReadArgsFromRegisters(uc,
 			std::make_tuple(&hFile, &lpBuffer, &nNumberOfBytesToWrite, &lpNumberOfBytesWritten),
 			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8D, UC_X86_REG_R9 });
-
-		//uc_mem_read(uc, (DWORD_PTR)lplpBuffer, &lpBuffer, sizeof(lpBuffer));
 
 		DWORD_PTR SP = 0;
 		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
@@ -1198,29 +1365,11 @@ namespace EmuApi
 			if (lpNumberOfBytesWritten != nullptr) 
 			{ uc_mem_write(uc, (DWORD_PTR)lpNumberOfBytesWritten, &NumberOfBytesWritten, sizeof(NumberOfBytesWritten)); }
 
-			*outs << "WriteFile hFile: " << hFile << " lpBuffer: ";
+			*outs << "WriteFile hFile: " << hFile << " lpBuffer: " << lpBuffer << " nNumberOfBytesToWrite: " 
+				<< nNumberOfBytesToWrite << " lpNumberOfBytesWritten: " << lpNumberOfBytesWritten << " lpOverlapped: " << lpOverlapped 
+				<< "\n";
 
-			if (nNumberOfBytesToWrite <= 128)
-			{
-				std::string aszlpBuffer;
-				std::wstring wszlpBuffer;
-				if (EmuReadNullTermString(uc, (DWORD_PTR)lpBuffer, aszlpBuffer))
-				{
-					*outs << aszlpBuffer;
-				}
-				else if (EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpBuffer, wszlpBuffer))
-				{
-					UnicodeToANSI(wszlpBuffer, aszlpBuffer);
-					*outs << aszlpBuffer;
-				}
-			}
-			else
-			{
-				*outs << lpBuffer;
-			}
-
-			*outs << " nNumberOfBytesToWrite: " << nNumberOfBytesToWrite << " lpNumberOfBytesWritten: " << lpNumberOfBytesWritten
-				<< " lpOverlapped: " << lpOverlapped << "\n";
+			VirtualFree(MylpBuffer, 0, MEM_DECOMMIT);
 
 			uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 		}

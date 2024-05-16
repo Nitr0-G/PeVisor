@@ -174,6 +174,8 @@ namespace EmuApi
 	void EmuGetStartupInfoW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuGetStartupInfoA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuGetStdHandle(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuGetFileSize(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuGetFileSizeEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuGetFileType(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuGetProcessHeap(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuGetCommandLineA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -186,6 +188,8 @@ namespace EmuApi
 	void EmuWvsprintfW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
 	void EmuWriteFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuCreateFileW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuCreateFileA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
 	void EmuAreFileApisANSI(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuIsValidCodePage(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);

@@ -1,5 +1,6 @@
 #pragma once
 #include "CPUID.hpp"
+#include "Registers.hpp"
 #include "BlackBone/ManualMap/MMap.h"
 #include "BlackBone/Process/Process.h"
 #include "Buffer.hpp"
@@ -46,9 +47,11 @@ typedef struct _FakeAPI
 
 typedef struct _FakeSection
 {
-	_FakeSection(ULONG a, ULONG b, char* c, bool u) : SectionBase(a), SectionSize(b), IsUnknownSection(u) {}
-
+	_FakeSection(ULONG a, ULONG d, ULONG l, ULONG b, char* c, bool u) 
+		: SectionBase(a), RealflProtect(d), EmuflProtect(l), SectionSize(b), IsUnknownSection(u) {}
 	DWORD SectionBase = 0;
+	DWORD RealflProtect = 0;
+	DWORD EmuflProtect = 0;
 
 	size_t SectionSize = 0;
 
@@ -135,7 +138,7 @@ public: //Basis emu api
 		_In_ const char* ProcedureName,
 		_In_ PVOID callback);
 public:
-	void GetModuleHandleAInternalEmulation(_Out_ DWORD_PTR* ImageBase, _In_ std::wstring& wModuleName);
+	void GetModuleHandleInternalEmulation(_Out_ DWORD_PTR* ImageBase, _In_ std::wstring& wModuleName);
 	NTSTATUS LdrFindDllByNameInternalEmualtion(_In_ const std::wstring& DllName, _Out_ DWORD_PTR* ImageBase, _Out_ size_t* ImageSize, _In_ bool LoadIfNotExist);
 	std::filesystem::path GetModuleFileInternalEmulation(_In_ PVOID hModule);
 public:
@@ -183,7 +186,7 @@ public: //Ldrs
 	DWORD_PTR LdrGetProcAddress(_In_ DWORD_PTR ImageBase, _In_ const char* ProcedureName);
 	void LdrResolveExportTable(_Inout_ FakeModule* module, _In_ PVOID ImageBase, _In_ DWORD_PTR MappedBase);
 	NTSTATUS LdrFindDllByName(_In_ const std::wstring& DllName, _Out_ DWORD_PTR* ImageBase, _Out_ size_t* ImageSize, _In_ bool LoadIfNotExist);
-	NTSTATUS LdrLoadDllByName(_In_ const std::wstring& DllName);
+	NTSTATUS LdrLoadDllByName(_In_ const std::wstring& DllName, _Out_ DWORD_PTR* ImageBase);
 
 public: //ManualMap
 	void MapImageToEngine(
@@ -194,6 +197,9 @@ public: //ManualMap
 		_In_ DWORD_PTR MappedBase,
 		_In_ DWORD_PTR EntryPoint);
 public: //RTLs
+	LPTOP_LEVEL_EXCEPTION_FILTER SetUnhandledExceptionFilter(
+		_In_ LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter);
+	void RtlInitializeSListHead(_Inout_ PSLIST_HEADER ListHead);
 	void RtlpGetStackLimits(_Out_ PDWORD_PTR LowLimit, _Out_ PDWORD_PTR HighLimit);
 	void RtlpCaptureContext(_In_ PCONTEXT ContextRecord);
 	void RtlpRestoreContext(_In_ PCONTEXT ContextRecord, _In_ PEXCEPTION_RECORD ExceptionRecord OPTIONAL);
@@ -251,6 +257,8 @@ public: //RTLs
 		_In_ PCONTEXT OriginalContext,
 		_In_ PUNWIND_HISTORY_TABLE HistoryTable OPTIONAL
 	);
+private:
+	LPTOP_LEVEL_EXCEPTION_FILTER BasepCurrentTopLevelFilter = 0;
 public:
 	//PPEB_LDR_DATA InternalLdr = nullptr;
 
@@ -277,6 +285,7 @@ public:
 	DWORD_PTR m_KSharedUserDataBase = 0;
 	DWORD_PTR m_KSharedUserDataEnd = 0;
 	DWORD_PTR m_StackBase = 0;
+	DWORD_PTR m_StackSize = 0x10000;
 	DWORD_PTR m_StackEnd = 0;
 	DWORD_PTR m_ImageBase = 0;
 	DWORD_PTR m_ImageEnd = 0;
@@ -297,15 +306,11 @@ public:
 	DWORD_PTR m_CommandLineABase = 0;
 	DWORD_PTR m_CommandLineWBase = 0;
 
-
 	//Kernelmode only
 	DWORD_PTR m_DriverObjectBase = 0;
 	DWORD_PTR m_RegistryPathBase = 0;
 	DWORD_PTR m_KThreadBase = 0;
 	DWORD_PTR m_PsLoadedModuleListBase = 0;
-	DWORD_PTR m_LdrInInitializationOrderModuleList = 0;
-	DWORD_PTR m_LdrInMemoryOrderModuleList = 0;
-	DWORD_PTR m_LdrInLoadOrderModuleList = 0;
 	DWORD_PTR m_DriverLdrEntry = 0;
 	DWORD_PTR m_LastRip = 0;
 	DWORD_PTR m_LastRipModule = 0;
@@ -330,9 +335,14 @@ public:
 	std::vector<PFakeModule> m_FakeModules;
 	std::vector<AllocBlock> m_HeapAllocs;
 	std::vector<MemMapping> m_MemMappings;
-	std::vector<DWORD_PTR> m_TlsValue;
+	std::list<std::pair<DWORD, LPVOID>> m_TlsValue;
 
 	std::string filename;
+
+	LPSTR EmuCommandLineA;
+	LPWSTR EmuCommandLineW;
+	std::string szCommandLineA;
+	std::wstring szCommandLineW;
 };
 
 #define API_FUNCTION_SIZE 8

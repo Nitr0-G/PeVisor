@@ -169,43 +169,49 @@ namespace ucHooks {
 
 	void HookCode(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		//PeEmulation* ctx = (PeEmulation*)user_data;
+		/*PeEmulation* ctx = (PeEmulation*)user_data;
 
-		//ZydisDecoder DecoderMinimal{ ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_STACK_WIDTH_64, ZYDIS_DECODER_MODE_MINIMAL };
-		//ZydisDecodedInstruction Instruction{};
-		//ZydisDecodedOperand Operands[ZYDIS_MAX_OPERAND_COUNT];
+		ZydisDecoder DecoderMinimal{ ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_STACK_WIDTH_64, ZYDIS_DECODER_MODE_MINIMAL };
+		ZydisDecodedInstruction Instruction{};
+		ZydisDecodedOperand Operands[ZYDIS_MAX_OPERAND_COUNT];
 
-		//ZydisFormatter Formatter;
-		//ZydisFormatterInit(&Formatter, ZYDIS_FORMATTER_STYLE_INTEL);
+		ZydisFormatter Formatter;
+		ZydisFormatterInit(&Formatter, ZYDIS_FORMATTER_STYLE_INTEL);
 
-		//ZydisDecoderDecodeFull(
-		//	&DecoderMinimal,
-		//	(const void*)address,
-		//	ZYDIS_MAX_INSTRUCTION_LENGTH,
-		//	&Instruction,
-		//	Operands);
+		ZydisDecoderDecodeFull(
+			&DecoderMinimal,
+			(const void*)address,
+			ZYDIS_MAX_INSTRUCTION_LENGTH,
+			&Instruction,
+			Operands);
 
-		//std::stringstream region;
-		//ctx->FindAddressInRegion(address, region);
+		std::stringstream region;
+		ctx->FindAddressInRegion(address, region);
 
-		//char buffer[512]{};
-		//ZydisFormatterFormatInstruction(&Formatter, &Instruction, Operands,
-		//	Instruction.operand_count_visible, buffer, sizeof(buffer), address, ZYAN_NULL);
+		char buffer[512]{};
+		ZydisFormatterFormatInstruction(&Formatter, &Instruction, Operands,
+			Instruction.operand_count_visible, buffer, sizeof(buffer), address, ZYAN_NULL);
 
-		//*outs << region.str() << ": " << buffer << "\n";
+		*outs << region.str() << ": " << buffer << "\n";*/
 		//Instrs.push_back(buffer);
 
-		//DWORD_PTR R8 = 0;
-		//uc_reg_read(uc, UC_X86_REG_R8, &R8);
+		//EmuReadReturnAddress(uc);
+		//DWORD_PTR RCX = EmuReadReturnAddress(uc);
+		////uc_reg_read(uc, UC_X86_REG_RSP, &RCX);
 		//std::stringstream szR8;
-		//if (ctx->FindAddressInRegion(R8, szR8))
+		//if (ctx->FindAddressInRegion(RCX, szR8))
 		//{
-		//	*outs << "R8: " << szR8.str() << "\n";
+		//	*outs << "RCX: " << szR8.str() << "\n";
 		//}
 		//else
 		//{
-		//	*outs << "R8: " << R8 << "\n";
+		//	*outs << "RCX: " << RCX << "\n";
 		//}
+
+		//DWORD_PTR Val = 0;
+		//uc_mem_read(uc, (DWORD_PTR)(ctx->m_HeapBase + 0x1838), &Val, sizeof(Val));
+		//*outs << "Val: " << Val << "\n";
+
 		//if (Instruction.mnemonic == ZYDIS_MNEMONIC_RDTSC)
 		//{
 		//	std::stringstream region;
@@ -279,6 +285,19 @@ namespace ucHooks {
 		{
 			ctx->m_LastException = STATUS_SUCCESS;
 		}
+
+		DWORD_PTR RIP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &RIP);
+		std::stringstream szR8;
+		if (ctx->FindAddressInRegion(RIP, szR8))
+		{
+			*outs << "RIP: " << szR8.str() << "\n";
+		}
+		else
+		{
+			*outs << "RIP: " << RIP << "\n";
+		}
+
 		uc_emu_stop(uc);
 	}
 

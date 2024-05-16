@@ -1,4 +1,5 @@
-#include "EmuApiFuncs.hpp"
+﻿#include "EmuApiFuncs.hpp"
+#include <cstdarg>
 
 extern std::ostream* outs;
 
@@ -75,7 +76,55 @@ extern "C"
 }
 
 namespace InternalEmuApi {
-	bool EmuReadNullTermString(_In_ uc_engine* uc, _In_ DWORD_PTR address, _Inout_ std::string& str)
+	bool EmuWriteNullTermString(_In_ uc_engine* uc, _Inout_ DWORD_PTR address, _In_ const std::string& str)
+	{
+		char c;
+		uc_err err;
+		size_t len = 0;
+		while (len < str.size())
+		{
+			c = str[len];
+			err = uc_mem_write(uc, address + len, &c, sizeof(char));
+			if (err != UC_ERR_OK)
+				return false;
+
+			len += sizeof(char);
+
+			if (len > 1024 * sizeof(char)) { break; }
+		}
+
+		// Write null terminator
+		err = uc_mem_write(uc, address + len, &c, sizeof(char));
+		if (err != UC_ERR_OK) { return false; }
+
+		return true;
+	}
+
+	bool EmuWriteNullTermUnicodeString(_In_ uc_engine* uc, _Inout_ DWORD_PTR address, _In_ const std::wstring& str)
+	{
+		wchar_t c;
+		uc_err err;
+		size_t len = 0;
+		while (len < str.size())
+		{
+			c = str[len];
+			err = uc_mem_write(uc, address + len, &c, sizeof(wchar_t));
+			if (err != UC_ERR_OK) { return false; }
+
+			len += sizeof(wchar_t);
+
+			if (len > 1024 * sizeof(wchar_t)) { break; }
+		}
+
+		// Write null terminator
+		err = uc_mem_write(uc, address + len, &c, sizeof(wchar_t));
+		if (err != UC_ERR_OK) { return false; }
+
+		return true;
+	}
+
+	bool EmuReadNullTermString(_In_ uc_engine* uc, _In_ DWORD_PTR address, _Inout_ std::string& str, _In_opt_ bool OnLengthLimit,
+		_In_opt_ size_t Length)
 	{
 		char c;
 		uc_err err;
@@ -83,23 +132,29 @@ namespace InternalEmuApi {
 		while (1)
 		{
 			err = uc_mem_read(uc, address + len, &c, sizeof(char));
-			if (err != UC_ERR_OK)
-				return false;
-			if (c != '\0')
-				str.push_back(c);
-			else
-				break;
+			if (err != UC_ERR_OK) { return false; }
+			if (c != '\0') { str.push_back(c); }
+			else { break; }
+
+			if (OnLengthLimit)
+			{
+				if (Length >= len)
+				{
+					str.push_back('\0');
+					break;
+				}
+			}
 
 			len += sizeof(char);
 
-			if (len > 1024 * sizeof(char))
-				break;
+			if (len > 1024 * sizeof(char)) { break; }
 		}
 
 		return true;
 	}
 
-	bool EmuReadNullTermUnicodeString(_In_ uc_engine* uc, _In_ DWORD_PTR address, _Inout_ std::wstring& str)
+	bool EmuReadNullTermUnicodeString(_In_ uc_engine* uc, _In_ DWORD_PTR address, _Inout_ std::wstring& str, _In_opt_ bool OnLengthLimit, 
+		_In_opt_ size_t Length)
 	{
 		wchar_t c;
 		uc_err err;
@@ -107,20 +162,53 @@ namespace InternalEmuApi {
 		while (1)
 		{
 			err = uc_mem_read(uc, address + len, &c, sizeof(wchar_t));
-			if (err != UC_ERR_OK)
-				return false;
-			if (c != L'\0')
-				str.push_back(c);
-			else
-				break;
+			if (err != UC_ERR_OK) { return false; }
+			if (c != L'\0') { str.push_back(c); }
+			else { break; }
+
+			if (OnLengthLimit)
+			{
+				if (Length >= len)
+				{
+					str.push_back(L'\0');
+					break;
+				}
+			}
 
 			len += sizeof(wchar_t);
 
-			if (len > 1024 * sizeof(wchar_t))
-				break;
+			if (len > 1024 * sizeof(wchar_t)) { break; }
 		}
 
 		return true;
+	}
+
+	void EmuCopyASCIStrs(_In_ uc_engine* uc, _In_ LPSTR Dst, _In_ std::string Src)
+	{
+		uc_mem_write(uc, (DWORD_PTR)Dst, Src.data(), Src.size());
+		//for (size_t Index = 0; Index < Src.size(); ++Index)
+		//{
+		//	uc_mem_write(uc, (DWORD_PTR)Dst, Src.data() + Index, sizeof(char));
+		//}
+	}
+
+	void EmuCopyUnicodeStrs(_In_ uc_engine* uc, _In_ LPWSTR EmuAddr, _In_ std::wstring Src)
+	{
+		uc_mem_write(uc, (DWORD_PTR)EmuAddr, Src.data(), Src.size() * sizeof(wchar_t));
+		//for (size_t Index = 0; Index < Src.size() * sizeof(wchar_t); Index += sizeof(wchar_t))
+		//{
+		//	uc_mem_write(uc, (DWORD_PTR)Dst, Src.data() + Index, sizeof(wchar_t));
+		//}
+	}
+
+	void EmuCopyBufferFromUc(_In_ uc_engine* uc, _In_ LPVOID MyAddr, _In_ LPVOID EmuAddr, _In_ size_t NumberOfBytes)
+	{
+		uc_mem_read(uc, (DWORD_PTR)EmuAddr, MyAddr, NumberOfBytes);
+	}
+
+	void EmuCopyBufferToUc(_In_ uc_engine* uc, _In_ LPVOID EmuAddr, _In_ LPVOID MyAddr, _In_ size_t NumberOfBytes)
+	{
+		uc_mem_write(uc, (DWORD_PTR)EmuAddr, MyAddr, NumberOfBytes);
 	}
 
 	DWORD_PTR EmuReadReturnAddress(_In_ uc_engine* uc)
@@ -207,7 +295,7 @@ namespace EmuApi
 		UnicodeToANSI(wlpText, alpText);
 		UnicodeToANSI(wlpCaption, alpCaption);
 
-		*outs << "MessageBoxW " << "hWnd: " << hWnd << " Text: " << alpText << " Caption: " 
+		*outs << "MessageBoxW " << "hWnd: " << hWnd << " Text: " << alpText << " Caption: "
 			<< alpCaption << " uType: " << uType << "\n";
 
 		uc_reg_write(uc, UC_X86_REG_RAX, &Res);
@@ -327,7 +415,7 @@ namespace EmuApi
 		uc_mem_write(uc, rcx, &li, sizeof(LARGE_INTEGER));
 
 		*outs << "QueryPerformanceCounter " << r << "\n";
-		
+
 		uc_reg_write(uc, UC_X86_REG_EAX, &r);
 	}
 
@@ -383,7 +471,7 @@ namespace EmuApi
 			ANSIToUnicode(DllName, wDllName);
 
 			ULONG64 ImageBase = 0;
-			NTSTATUS st = ctx->LdrFindDllByNameInternalEmualtion(wDllName, &ImageBase, nullptr , true);
+			NTSTATUS st = ctx->LdrFindDllByNameInternalEmualtion(wDllName, &ImageBase, nullptr, true);
 			if (NT_SUCCESS(st))
 			{
 				r = ImageBase;
@@ -418,32 +506,13 @@ namespace EmuApi
 		uc_reg_write(uc, UC_X86_REG_RAX, &r);
 	}
 
-	void EmuGetModuleHandleA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	void EmuGetProcessHeap(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
 		PeEmulation* ctx = (PeEmulation*)user_data;
 
-		DWORD_PTR rcx;
-		uc_reg_read(uc, UC_X86_REG_RCX, &rcx);
+		uc_reg_write(uc, UC_X86_REG_RAX, &ctx->m_HeapBase);
 
-		std::string ModuleName;
-		DWORD_PTR r = 0;
-		if (EmuReadNullTermString(uc, rcx, ModuleName))
-		{
-			std::wstring wModuleName;
-			ANSIToUnicode(ModuleName, wModuleName);
-			ctx->GetModuleHandleAInternalEmulation(&r, wModuleName);
-
-			*outs << "GetModuleHandleA " << ModuleName << ", return " << r << "\n";
-			if (r == (DWORD_PTR)IApiEmuErrorCode::GetModuleHandleAInvalidValue)
-			{
-				r = 0;
-				uc_reg_write(uc, UC_X86_REG_RAX, &r);
-				//*outs << "Error!!!!!!!!!!!!!!!!!" << "\n";
-				//uc_emu_stop(uc);
-			}
-		}
-
-		uc_reg_write(uc, UC_X86_REG_RAX, &r);
+		*outs << "GetProcessHeap" << ", return: " << ctx->m_HeapBase << "\n";
 	}
 
 	void EmuCloseHandle(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -506,30 +575,271 @@ namespace EmuApi
 			<< " ContextRecord: " << ContextRecord << " HistoryTable: " << HistoryTable << "\n";
 	}
 
+	void EmuGetModuleHandleA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		LPSTR ModuleName;
+		uc_reg_read(uc, UC_X86_REG_RCX, &ModuleName);
+
+		std::string szModuleName;
+		DWORD_PTR ImageBase = 0;
+		if (EmuReadNullTermString(uc, (DWORD_PTR)ModuleName, szModuleName))
+		{
+			std::wstring wModuleName;
+			ANSIToUnicode(szModuleName, wModuleName);
+			ctx->GetModuleHandleInternalEmulation(&ImageBase, wModuleName);
+
+			*outs << "GetModuleHandleA " << szModuleName << ", return " << ImageBase << "\n";
+			if (ImageBase == (DWORD_PTR)IApiEmuErrorCode::GetModuleHandleAInvalidValue)
+			{
+				ImageBase = 0;
+				uc_reg_write(uc, UC_X86_REG_RAX, &ImageBase);
+				//*outs << "Error!!!!!!!!!!!!!!!!!" << "\n";
+				//uc_emu_stop(uc);
+			}
+		}
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &ImageBase);
+	}
+
 	void EmuGetModuleHandleW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
 		PeEmulation* ctx = (PeEmulation*)user_data;
 
-		DWORD_PTR rcx;
-		uc_reg_read(uc, UC_X86_REG_RCX, &rcx);
+		LPWSTR ModuleName = nullptr;
+		uc_reg_read(uc, UC_X86_REG_RCX, &ModuleName);
 
 		std::wstring wModuleName;
-		DWORD_PTR r = 0;
-		if (EmuReadNullTermUnicodeString(uc, rcx, wModuleName))
+		DWORD_PTR ImageBase = 0;
+		if (EmuReadNullTermUnicodeString(uc, (DWORD_PTR)ModuleName, wModuleName))
 		{
 			std::string ModuleName;
 			UnicodeToANSI(wModuleName, ModuleName);
-			ctx->GetModuleHandleAInternalEmulation(&r, wModuleName);
+			ctx->GetModuleHandleInternalEmulation(&ImageBase, wModuleName);
 
-			*outs << "GetModuleHandleW " << ModuleName << ", return " << r << "\n";
-			if (r == (DWORD_PTR)IApiEmuErrorCode::GetModuleHandleAInvalidValue)
+			*outs << "GetModuleHandleW " << ModuleName << ", return " << ImageBase << "\n";
+			if (ImageBase == (DWORD_PTR)IApiEmuErrorCode::GetModuleHandleAInvalidValue)
 			{
-				*outs << "Error!!!!!!!!!!!!!!!!!" << "\n";
-				uc_emu_stop(uc);
+				ImageBase = 0;
+				uc_reg_write(uc, UC_X86_REG_RAX, &ImageBase);
 			}
 		}
 
-		uc_reg_write(uc, UC_X86_REG_RAX, &r);
+		uc_reg_write(uc, UC_X86_REG_RAX, &ImageBase);
+	}
+
+	void EmuVirtualProtect(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		LPVOID lpAddress = nullptr;
+		SIZE_T dwSize = 0;
+		DWORD flNewProtect = 0;
+		PDWORD lpflOldProtect = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&lpAddress, &dwSize, &flNewProtect, &lpflOldProtect),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8D, UC_X86_REG_R9 });
+
+		BOOL Return = true;
+
+		for (auto& FakeModule : ctx->m_FakeModules)
+		{
+			if (address >= FakeModule->ImageBase && address < FakeModule->ImageBase + FakeModule->ImageSize)
+			{
+				for (auto& FakeSection : FakeModule->FakeSections)
+				{
+					LPVOID FakeSectionFullAddr = (LPVOID)(FakeModule->ImageBase + FakeSection.SectionBase);
+					//if (lpAddress == FakeSectionFullAddr)
+					{
+						uc_mem_write(uc, (DWORD_PTR)lpflOldProtect, &FakeSection.RealflProtect, sizeof(FakeSection.RealflProtect));
+					
+						DWORD EmuflProtect = 0;
+
+						std::string szflNewProtect;
+						switch (flNewProtect)
+						{
+						case PAGE_NOACCESS:
+						{
+							szflNewProtect = "PAGE_NOACCESS || UC_PROT_NONE";
+							FakeSection.RealflProtect = PAGE_NOACCESS;
+							EmuflProtect = UC_PROT_NONE;
+							break;
+						}
+						case PAGE_READONLY:
+						{
+							szflNewProtect = "PAGE_READONLY || UC_PROT_READ";
+							FakeSection.RealflProtect = PAGE_READONLY;
+							EmuflProtect = UC_PROT_READ;
+							break;
+						}
+						case PAGE_READWRITE:
+						{
+							szflNewProtect = "PAGE_READWRITE || UC_PROT_READ | UC_PROT_WRITE";
+							FakeSection.RealflProtect = PAGE_READWRITE;
+							EmuflProtect = UC_PROT_READ | UC_PROT_WRITE;
+							break;
+						}
+						case PAGE_WRITECOPY:
+						{
+							szflNewProtect = "PAGE_WRITECOPY || UC_PROT_WRITE";
+							FakeSection.RealflProtect = PAGE_WRITECOPY;
+							EmuflProtect = UC_PROT_WRITE;
+							break;
+						}
+						case PAGE_EXECUTE:
+						{
+							szflNewProtect = "PAGE_EXECUTE || UC_PROT_EXEC";
+							FakeSection.RealflProtect = PAGE_EXECUTE;
+							EmuflProtect = UC_PROT_EXEC;
+							break;
+						}
+						case PAGE_EXECUTE_READ:
+						{
+							szflNewProtect = "PAGE_EXECUTE_READ || UC_PROT_EXEC | UC_PROT_READ";
+							FakeSection.RealflProtect = PAGE_EXECUTE_READ;
+							EmuflProtect = UC_PROT_EXEC | UC_PROT_READ;
+							break;
+						}
+						case PAGE_EXECUTE_READWRITE:
+						{
+							szflNewProtect = "PAGE_EXECUTE_READWRITE || UC_PROT_ALL";
+							FakeSection.RealflProtect = PAGE_EXECUTE_READWRITE;
+							EmuflProtect = UC_PROT_ALL;
+							break;
+						}
+						case PAGE_EXECUTE_WRITECOPY:
+						{
+							szflNewProtect = "PAGE_EXECUTE_WRITECOPY || UC_PROT_EXEC | UC_PROT_WRITE";
+							FakeSection.RealflProtect = PAGE_EXECUTE_WRITECOPY;
+							EmuflProtect = UC_PROT_EXEC | UC_PROT_WRITE;
+							break;
+						}
+						default:
+						{
+							szflNewProtect = "PAGE_EXECUTE_READWRITE || UC_PROT_ALL";
+							FakeSection.RealflProtect = PAGE_EXECUTE_READWRITE;
+							EmuflProtect = UC_PROT_ALL;
+							break;
+						}
+						}
+
+						uc_err Err = uc_mem_protect(uc, ALIGN_TO_4KB((DWORD_PTR)lpAddress), ALIGN_TO_4KB((DWORD_PTR)dwSize), EmuflProtect);
+						
+						if (Err == UC_ERR_OK) { Return = true; }
+						else { Return = false; }
+
+						std::string ModuleName;
+						UnicodeToANSI(FakeModule->DllName, ModuleName);
+
+						*outs << "VirtualProtect lpAddress: " << lpAddress << " Module name: " << ModuleName << " dwSize: " << dwSize
+							<< " flNewProtect: " << szflNewProtect << " lpflOldProtect: " << lpflOldProtect << ", return: " << Return << "\n";
+					}
+				}
+			}
+		}
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+		//TODO: change protection of pages that was generated via VirtualAlloc
+	}
+
+	void EmuExitProcess(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		UINT uExitCode = 0;
+		uc_reg_read(uc, UC_X86_REG_ECX, &uExitCode);
+
+		*outs << "ExitProcess uExitCode: " << uExitCode << "\n";
+
+		uc_emu_stop(uc);
+		_CrtDbgBreak();
+	}
+
+	void EmuWvsprintfW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		LPWSTR unnamedParam1 = nullptr;
+		LPCWSTR unnamedParam2 = nullptr;
+		va_list arglist = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&unnamedParam1, &unnamedParam2, &arglist),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8 });
+
+		wchar_t buf[1024];
+		std::wstring szunnamedParam2;
+		if (EmuReadNullTermUnicodeString(uc, (DWORD_PTR)unnamedParam2, szunnamedParam2))
+		{
+			int Return = CustomWvsprintfW(uc, buf, szunnamedParam2.data(), arglist);
+
+			std::string szbuf;
+			UnicodeToANSI(buf, szbuf);
+			*outs << "wvsprintfW unnamedParam1: " << szbuf << ", return: " << Return << "\n";
+
+			EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)unnamedParam1, buf);
+
+			uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+		}
+	}
+
+	void EmuWvsprintfA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		LPSTR unnamedParam1 = nullptr;
+		LPCSTR unnamedParam2 = nullptr;
+		va_list arglist = nullptr;
+		
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&unnamedParam1, &unnamedParam2, &arglist),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8 });
+
+		char buf[1024];
+		std::string szunnamedParam2;
+		if (EmuReadNullTermString(uc, (DWORD_PTR)unnamedParam2, szunnamedParam2))
+		{
+			int Return = CustomWvsprintfA(uc, buf, szunnamedParam2.data(), arglist);
+
+			*outs << "wvsprintfA unnamedParam1: " << buf << ", return: " << Return << "\n";
+
+			EmuWriteNullTermString(uc, (DWORD_PTR)unnamedParam1, buf);
+
+			uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+		}
+	}
+
+	void EmuGetModuleHandleExW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		DWORD dwFlags = 0;
+		LPCWSTR lpModuleName = nullptr;
+		HMODULE* phModule = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&dwFlags, &lpModuleName, &phModule),
+			{ UC_X86_REG_ECX, UC_X86_REG_RDX, UC_X86_REG_R8 });
+
+		std::wstring wModuleName;
+		DWORD_PTR ImageBaseModule = 0;
+		BOOL Return = true;
+		if (EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpModuleName, wModuleName))
+		{
+			std::string ModuleName;
+			UnicodeToANSI(wModuleName, ModuleName);
+			ctx->GetModuleHandleInternalEmulation(&ImageBaseModule, wModuleName);
+
+			*outs << "GetModuleHandleExW dwFlags: " << dwFlags << " lpModuleName: " << ModuleName
+				<< " phModule: " << ImageBaseModule << ", return " << Return << "\n";
+
+			if (ImageBaseModule == (DWORD_PTR)IApiEmuErrorCode::GetModuleHandleAInvalidValue)
+			{
+				ImageBaseModule = 0;
+
+				uc_mem_write(uc, (DWORD_PTR)phModule, &ImageBaseModule, sizeof(ImageBaseModule));
+				uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+			}
+		}
+
+		uc_mem_write(uc, (DWORD_PTR)phModule, &ImageBaseModule, sizeof(ImageBaseModule));
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 	}
 
 	void EmuIsDebuggerPresent(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -547,7 +857,7 @@ namespace EmuApi
 
 		ReadArgsFromRegisters(uc,
 			std::make_tuple(&hProcess, &pbDebuggerPresent),
-			{ UC_X86_REG_RCX, UC_X86_REG_RDX});
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX });
 
 		bool DebuggerIsNotPresent = false;
 		uc_mem_write(uc, (DWORD_PTR)pbDebuggerPresent, (void*)&DebuggerIsNotPresent, sizeof(bool));
@@ -555,7 +865,7 @@ namespace EmuApi
 		DWORD_PTR Return = 1;
 		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 
-		*outs << "CheckRemoteDebuggerPresent " << "handle: " << std::hex 
+		*outs << "CheckRemoteDebuggerPresent " << "handle: " << std::hex
 			<< hProcess << " " << "DebuggerPresent: " << pbDebuggerPresent << ", return " << Return << "\n";
 	}
 
@@ -698,6 +1008,466 @@ namespace EmuApi
 			*outs << "GetModuleFileNameW " << "hModule: " << hModule << " nSize: " << nSize << " return(path): "
 				<< Name << " ERROR: " << "ERROR_INSUFFICIENT_BUFFER" << "\n";
 		}
+	}
+
+	void EmuGetCommandLineA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		*outs << "GetCommandLineA, return: " << ctx->szCommandLineA << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &ctx->EmuCommandLineA);
+	}
+
+	void EmuGetCommandLineW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		std::string szCommandLineA;
+		UnicodeToANSI(ctx->szCommandLineW, szCommandLineA);
+
+		*outs << "GetCommandLineW, return: " << szCommandLineA << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &ctx->EmuCommandLineW);
+	}
+
+	void EmuGetFileType(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		HANDLE hFile = nullptr;
+		uc_reg_read(uc, UC_X86_REG_RCX, &hFile);
+
+		DWORD Return = GetFileType(hFile);
+
+		*outs << "GetFileType hFile: " << hFile << ", return(type of file): " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuGetStdHandle(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		DWORD nStdHandle = 0;
+		uc_reg_read(uc, UC_X86_REG_ECX, &nStdHandle);
+		HANDLE rv = GetStdHandle(nStdHandle);
+
+		*outs << "GetStdHandle nStdHandle: " << nStdHandle << ", return: " << rv << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &rv);
+	}
+
+	void EmuAreFileApisANSI(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		BOOL Return = AreFileApisANSI();
+
+		*outs << "AreFileApisANSI, return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuIsValidCodePage(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		UINT CodePage = 0;
+		uc_reg_read(uc, UC_X86_REG_ECX, &CodePage);
+
+		BOOL Return = IsValidCodePage(CodePage);
+
+		*outs << "GetACP " << "CodePage: " << CodePage << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuGetACP(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		UINT Return = GetACP();
+
+		*outs << "GetACP, return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuMultiByteToWideChar(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		UINT CodePage = 0;
+		DWORD dwFlags = 0;
+		LPCCH lpMultiByteStr = nullptr;
+		int cbMultiByte = 0;
+		LPWSTR lpWideCharStr = nullptr;
+		int cchWideChar = 0;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&CodePage, &dwFlags, &lpMultiByteStr, &cbMultiByte),
+			{ UC_X86_REG_ECX, UC_X86_REG_EDX, UC_X86_REG_R8, UC_X86_REG_R9D });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &lpWideCharStr, sizeof(lpWideCharStr));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &cchWideChar, sizeof(cchWideChar));
+
+		std::wstring wlpWideCharStr;
+		EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpWideCharStr, wlpWideCharStr, true, cchWideChar);
+
+		std::string alpMultiByteStr;
+		EmuReadNullTermString(uc, (DWORD_PTR)lpMultiByteStr, alpMultiByteStr, true, cbMultiByte);
+
+		ANSIToUnicode(alpMultiByteStr, wlpWideCharStr);
+
+		if (cchWideChar != 0) { EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpMultiByteStr, wlpWideCharStr); }
+
+		size_t SizeStr = wlpWideCharStr.size() * sizeof(wchar_t);
+
+		*outs << "MultiByteToWideChar CodePage: " << CodePage << " dwFlags: " << dwFlags << " lpMultiByteStr: " << alpMultiByteStr
+			<< " cbMultiByte: " << cbMultiByte << " lpWideCharStr: " << alpMultiByteStr << " cchWideChar: " << cchWideChar << ", return: "
+			<< SizeStr << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &SizeStr);
+	}
+
+	void EmuGetStringTypeW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		DWORD dwInfoType = 0;
+		LPCWCH lpSrcStr = nullptr;
+		int cchSrc = 0;
+		LPWORD lpCharType = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&dwInfoType, &lpSrcStr, &cchSrc, &lpCharType),
+			{ UC_X86_REG_ECX, UC_X86_REG_RDX, UC_X86_REG_R8D, UC_X86_REG_R9 });
+
+		std::wstring wlpSrcStr;
+		if (EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpSrcStr, wlpSrcStr, true, cchSrc))
+		{
+			LPWORD CharType = (LPWORD)VirtualAlloc(nullptr, wlpSrcStr.size(), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+			if (CharType != nullptr)
+			{
+				std::string alpSrcStr;
+				UnicodeToANSI(wlpSrcStr, alpSrcStr);
+
+				BOOL Return = GetStringTypeW(dwInfoType, wlpSrcStr.data(), cchSrc, CharType);
+				uc_mem_write(uc, (DWORD_PTR)lpCharType, &CharType, wlpSrcStr.size());
+
+				VirtualFree((LPVOID)CharType, 0, MEM_DECOMMIT);
+
+				*outs << "GetStringTypeW dwInfoType: " << dwInfoType << " lpSrcStr: " << alpSrcStr << " cchSrc: " << cchSrc
+					<< " lpCharType: " << lpCharType << ", return: " << Return << "\n";
+
+				uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+			}
+		}
+	}
+
+	void EmuWriteFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		HANDLE hFile = nullptr;
+		LPCVOID lpBuffer = nullptr;
+		//LPVOID lpBuffer = nullptr;
+		DWORD nNumberOfBytesToWrite = 0;
+		LPDWORD lpNumberOfBytesWritten = 0;
+		LPOVERLAPPED lpOverlapped = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&hFile, &lpBuffer, &nNumberOfBytesToWrite, &lpNumberOfBytesWritten),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8D, UC_X86_REG_R9 });
+
+		//uc_mem_read(uc, (DWORD_PTR)lplpBuffer, &lpBuffer, sizeof(lpBuffer));
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &lpOverlapped, sizeof(lpOverlapped));
+
+		LPVOID MylpBuffer = (LPVOID)VirtualAlloc(nullptr, nNumberOfBytesToWrite, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		if (MylpBuffer != nullptr)
+		{
+			ZeroMemory(MylpBuffer, nNumberOfBytesToWrite);
+			EmuCopyBufferFromUc(uc, MylpBuffer, (LPVOID)lpBuffer, nNumberOfBytesToWrite);
+
+			DWORD NumberOfBytesWritten = 0;
+
+			BOOL Return = true;
+			if (lpOverlapped == nullptr)
+			{
+				Return = WriteFile(hFile, (LPCVOID)MylpBuffer, nNumberOfBytesToWrite, &NumberOfBytesWritten, nullptr);
+			}
+			else
+			{
+				OVERLAPPED Overlapped{};
+
+				uc_mem_read(uc, (DWORD_PTR)lpOverlapped, &Overlapped, sizeof(Overlapped));
+				Return = WriteFile(hFile, (LPCVOID)MylpBuffer, nNumberOfBytesToWrite, &NumberOfBytesWritten, &Overlapped);
+				uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &Overlapped, sizeof(Overlapped));
+			}
+
+			if (lpNumberOfBytesWritten != nullptr) 
+			{ uc_mem_write(uc, (DWORD_PTR)lpNumberOfBytesWritten, &NumberOfBytesWritten, sizeof(NumberOfBytesWritten)); }
+
+			*outs << "WriteFile hFile: " << hFile << " lpBuffer: ";
+
+			if (nNumberOfBytesToWrite <= 128)
+			{
+				std::string aszlpBuffer;
+				std::wstring wszlpBuffer;
+				if (EmuReadNullTermString(uc, (DWORD_PTR)lpBuffer, aszlpBuffer))
+				{
+					*outs << aszlpBuffer;
+				}
+				else if (EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpBuffer, wszlpBuffer))
+				{
+					UnicodeToANSI(wszlpBuffer, aszlpBuffer);
+					*outs << aszlpBuffer;
+				}
+			}
+			else
+			{
+				*outs << lpBuffer;
+			}
+
+			*outs << " nNumberOfBytesToWrite: " << nNumberOfBytesToWrite << " lpNumberOfBytesWritten: " << lpNumberOfBytesWritten
+				<< " lpOverlapped: " << lpOverlapped << "\n";
+
+			uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+		}
+	}
+
+	void EmuSetUnhandledExceptionFilter(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter = 0;
+		uc_reg_read(uc, UC_X86_REG_RCX, &lpTopLevelExceptionFilter);
+
+		LPTOP_LEVEL_EXCEPTION_FILTER PreviousTopLevelFilter = ctx->SetUnhandledExceptionFilter(lpTopLevelExceptionFilter);
+
+		*outs << "SetUnhandledExceptionFilter lpTopLevelExceptionFilter: " << lpTopLevelExceptionFilter << ", return: "
+			<< PreviousTopLevelFilter << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &PreviousTopLevelFilter);
+	}
+
+	void EmuGetEnvironmentStringsW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		DWORD_PTR ProcessParameters = 0;
+		uc_mem_read(uc, ctx->m_PebBase + offsetof(PEB, ProcessParameters), &ProcessParameters, sizeof(ProcessParameters));
+
+		PVOID Environment = nullptr;
+		uc_mem_read(uc, ProcessParameters + offsetof(RTL_USER_PROCESS_PARAMETERS, Environment),
+			&Environment, sizeof(Environment));
+
+		*outs << "GetEnvironmentStringsW, return(RTL_USER_PROCESS_PARAMETERS, Environment): " << Environment << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Environment);
+	}
+
+	void EmuFreeEnvironmentStringsW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		BOOL Return = true;
+
+		*outs << "FreeEnvironmentStringsW, return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuRtlInitializeSListHead(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		PSLIST_HEADER ListHead = nullptr;
+		uc_reg_read(uc, UC_X86_REG_RCX, &ListHead);
+
+		ctx->RtlInitializeSListHead(ListHead);
+
+		*outs << "RtlInitializeSListHead ListHead: " << ListHead << "\n";
+	}
+
+	void EmuLCMapStringW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		LCID Locale = 0;
+		DWORD dwMapFlags = 0;
+		LPCWSTR lpSrcStr = nullptr;
+		int cchSrc = 0;
+		LPWSTR lpDestStr = nullptr;
+		int cchDest = 0;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&Locale, &dwMapFlags, &lpSrcStr, &cchSrc),
+			{ UC_X86_REG_ECX, UC_X86_REG_EDX, UC_X86_REG_R8, UC_X86_REG_R9D });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &lpDestStr, sizeof(lpDestStr));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &cchDest, sizeof(cchDest));
+
+		std::wstring wlpSrcStr;
+		EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpSrcStr, wlpSrcStr, true, cchSrc);
+
+		std::string alpSrcStr;
+		UnicodeToANSI(wlpSrcStr, alpSrcStr);
+
+		int Return = 0;
+		if (lpDestStr != nullptr)
+		{
+			std::wstring wlpDestStr;
+			EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpDestStr, wlpDestStr, true, cchDest);
+
+			Return = LCMapStringW(Locale, dwMapFlags, wlpSrcStr.data(), cchSrc, wlpDestStr.data(), cchDest);
+
+			EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpDestStr, wlpDestStr);
+		}
+		else
+		{
+			Return = LCMapStringW(Locale, dwMapFlags, wlpSrcStr.data(), cchSrc, nullptr, cchDest);
+		}
+
+		*outs << "LCMapStringW Locale: " << Locale << " dwMapFlags: " << dwMapFlags << " lpSrcStr: " << alpSrcStr
+			<< " cchSrc: " << cchSrc << " lpDestStr: " << (DWORD_PTR)lpDestStr << " cchDest: " << cchDest << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuWideCharToMultiByte(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		UINT CodePage = 0;
+		DWORD dwFlags = 0;
+		LPCWCH lpWideCharStr = nullptr;
+		int cchWideChar = 0;
+		LPSTR lpMultiByteStr = nullptr;
+		int cbMultiByte = 0;
+		LPCCH lpDefaultChar = nullptr;
+		LPBOOL lpUsedDefaultChar = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&CodePage, &dwFlags, &lpWideCharStr, &cchWideChar),
+			{ UC_X86_REG_ECX, UC_X86_REG_EDX, UC_X86_REG_R8, UC_X86_REG_R9D });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &lpMultiByteStr, sizeof(lpMultiByteStr));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &cbMultiByte, sizeof(cbMultiByte));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x38, &lpDefaultChar, sizeof(lpDefaultChar));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x40, &lpUsedDefaultChar, sizeof(lpUsedDefaultChar));
+
+		std::wstring wlpWideCharStr;
+		EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpWideCharStr, wlpWideCharStr, true, cchWideChar);
+
+		std::string alpMultiByteStr;
+		EmuReadNullTermString(uc, (DWORD_PTR)lpMultiByteStr, alpMultiByteStr, true, cbMultiByte);
+
+		UnicodeToANSI(wlpWideCharStr, alpMultiByteStr);
+
+		if (cbMultiByte != 0) { EmuWriteNullTermString(uc, (DWORD_PTR)lpMultiByteStr, alpMultiByteStr); }
+
+		size_t SizeStr = alpMultiByteStr.size();
+
+		*outs << "WideCharToMultiByte CodePage: " << CodePage << " dwFlags: " << dwFlags << " lpWideCharStr: " << alpMultiByteStr
+			<< " cchWideChar: " << cchWideChar << " lpMultiByteStr: " << alpMultiByteStr << " cbMultiByte: " << cbMultiByte <<
+			" lpDefaultChar: " << (DWORD_PTR)lpDefaultChar << " lpUsedDefaultChar: " << (DWORD_PTR)lpUsedDefaultChar << ", return: "
+			<< SizeStr << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &SizeStr);
+	}
+
+	void EmuGetCPInfo(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		UINT CodePage = 0;
+		LPCPINFO lpCPInfo = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&CodePage, &lpCPInfo),
+			{ UC_X86_REG_ECX, UC_X86_REG_RDX});
+
+		CPINFO CPInfo{};
+
+		BOOL Return = GetCPInfo(CodePage, &CPInfo);
+
+		//PBYTE DefaultChar = (PBYTE)ctx->HeapAlloc(MAX_DEFAULTCHAR);
+
+		//std::string Dc = (LPSTR)CPInfo.DefaultChar;
+		//EmuCopyASCIStrs(uc, (LPSTR)DefaultChar, Dc);
+
+		uc_mem_write(uc, (DWORD_PTR)lpCPInfo, &CPInfo, sizeof(CPInfo));
+		//uc_mem_write(uc, (DWORD_PTR)lpCPInfo + offsetof(CPInfo, DefaultChar), &DefaultChar, sizeof(DefaultChar));
+
+
+		*outs << "GetCPInfo CodePage: " << CodePage << " lpCPInfo: " << lpCPInfo << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+	}
+
+	void EmuGetStartupInfoW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		//PeEmulation* ctx = (PeEmulation*)user_data;
+
+		//LPSTARTUPINFOW lppStartupInfo = nullptr;
+		//PDWORD_PTR lpStartupInfo = nullptr;
+		//uc_reg_read(uc, UC_X86_REG_RAX, &lppStartupInfo);
+		//uc_mem_read(uc, (DWORD_PTR)lppStartupInfo, &lpStartupInfo, sizeof(lpStartupInfo));
+
+		///*
+		//    LPWSTR  lpReserved;
+		//	LPWSTR  lpDesktop;
+		//	LPWSTR  lpTitle;
+		//*/
+		//STARTUPINFOW StartupInfo{};
+
+		//GetStartupInfoW(&StartupInfo);
+
+		//std::wstring slpReserved = StartupInfo.lpReserved;
+		//std::wstring slpDesktop = StartupInfo.lpDesktop;
+		//std::wstring slpTitle = StartupInfo.lpTitle;
+
+		//LPWSTR wlpReserved = (LPWSTR)ctx->HeapAlloc(slpReserved.size() * sizeof(wchar_t));
+		//LPWSTR wlpDesktop = (LPWSTR)ctx->HeapAlloc(slpDesktop.size() * sizeof(wchar_t));
+		//LPWSTR wlpTitle = (LPWSTR)ctx->HeapAlloc(slpTitle.size() * sizeof(wchar_t));
+		////LPSTARTUPINFOW lpppStartupInfo = (LPSTARTUPINFOW)ctx->HeapAlloc(sizeof(STARTUPINFOW));
+
+		//EmuCopyUnicodeStrs(uc, wlpReserved, slpReserved);
+		//EmuCopyUnicodeStrs(uc, wlpDesktop, slpDesktop);
+		//EmuCopyUnicodeStrs(uc, wlpTitle, slpTitle);
+
+		//StartupInfo.lpReserved = (LPWSTR)wlpReserved;
+		//StartupInfo.lpDesktop = (LPWSTR)wlpDesktop;
+		//StartupInfo.lpTitle = (LPWSTR)wlpTitle;
+
+		//uc_mem_write(uc, (DWORD_PTR)lpppStartupInfo, &StartupInfo, sizeof(StartupInfo));
+		//uc_mem_write(uc, (DWORD_PTR)lppStartupInfo, &StartupInfo, sizeof(StartupInfo));
+
+		//uc_mem_write(uc, (DWORD_PTR)lpStartupInfo + offsetof(STARTUPINFOW, lpReserved), (void*)&wlpReserved, sizeof(wlpReserved));
+		//uc_mem_write(uc, (DWORD_PTR)lpStartupInfo + offsetof(STARTUPINFOW, lpDesktop), (void*)&wlpDesktop, sizeof(wlpDesktop));
+		//uc_mem_write(uc, (DWORD_PTR)lpStartupInfo + offsetof(STARTUPINFOW, lpTitle), (void*)&wlpTitle, sizeof(wlpTitle));
+	}
+
+	void EmuGetStartupInfoA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		//PeEmulation* ctx = (PeEmulation*)user_data;
+
+		//LPSTARTUPINFOA lppStartupInfo = nullptr;
+		//PDWORD_PTR lpStartupInfo = nullptr;
+		//uc_reg_read(uc, UC_X86_REG_RAX, &lppStartupInfo);
+		//uc_mem_read(uc, (DWORD_PTR)lppStartupInfo, &lpStartupInfo, sizeof(lpStartupInfo));
+
+		///*
+		//    LPSTR   lpReserved;
+		//	LPSTR   lpDesktop;
+		//	LPSTR   lpTitle;
+		//*/
+		//STARTUPINFOA StartupInfo{};
+
+		//GetStartupInfoA(&StartupInfo);
+
+		//std::string slpReserved = StartupInfo.lpReserved;
+		//std::string slpDesktop = StartupInfo.lpDesktop;
+		//std::string slpTitle = StartupInfo.lpTitle;
+
+		//LPSTR lpReserved = (LPSTR)ctx->HeapAlloc(slpReserved.size());
+		//LPSTR lpDesktop = (LPSTR)ctx->HeapAlloc(slpDesktop.size());
+		//LPSTR lpTitle = (LPSTR)ctx->HeapAlloc(slpTitle.size());
+
+		//EmuCopyASCIStrs(uc, lpReserved, slpReserved);
+		//EmuCopyASCIStrs(uc, lpDesktop, slpDesktop);
+		//EmuCopyASCIStrs(uc, lpTitle, slpTitle);
+
+		//uc_mem_write(uc, (DWORD_PTR)lpStartupInfo, &StartupInfo, sizeof(STARTUPINFOA));
 	}
 
 	void EmuNtSetInformationThread(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -1083,11 +1853,24 @@ namespace EmuApi
 
 	void EmuGetLastError(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		DWORD r = 0;
+		PeEmulation* ctx = (PeEmulation*)user_data;
 
-		auto err = uc_reg_write(uc, UC_X86_REG_EAX, &r);
+		auto err = uc_reg_write(uc, UC_X86_REG_RAX, &ctx->m_Win32LastError);
 
-		*outs << "GetLastError return " << r << "\n";
+		*outs << "GetLastError return " << ctx->m_Win32LastError << "\n";
+	}
+
+	void EmuSetLastError(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		DWORD dwErrCode = 0;
+
+		uc_reg_read(uc, UC_X86_REG_ECX, &dwErrCode);
+
+		ctx->m_Win32LastError = dwErrCode;
+
+		*outs << "SetLastError dwErrCode: " << dwErrCode << "\n";
 	}
 
 	void EmuInitializeCriticalSectionAndSpinCount(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -1143,54 +1926,134 @@ namespace EmuApi
 		*outs << "InitializeCriticalSectionEx " << lpCriticalSection << "\n";
 	}
 
+	void EmuRtlEnterCriticalSection(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PRTL_CRITICAL_SECTION CriticalSection = nullptr;
+		uc_reg_read(uc, UC_X86_REG_RCX, &CriticalSection);
+
+		NTSTATUS Status = STATUS_SUCCESS;
+		uc_reg_write(uc, UC_X86_REG_RAX, &Status);
+
+		*outs << "RtlEnterCriticalSection " << "CriticalSection: " << CriticalSection << ", return: " << Status << "\n";
+	}
+
+	void EmuRtlLeaveCriticalSection(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PRTL_CRITICAL_SECTION CriticalSection = nullptr;
+		uc_reg_read(uc, UC_X86_REG_RCX, &CriticalSection);
+
+		NTSTATUS Status = STATUS_SUCCESS;
+		uc_reg_write(uc, UC_X86_REG_RAX, &Status);
+
+		*outs << "RtlLeaveCriticalSection " << "CriticalSection: " << CriticalSection << ", return: " << Status << "\n";
+	}
+
 	void EmuTlsAlloc(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		DWORD r = 0;
+		PeEmulation* ctx = (PeEmulation*)user_data;
 
-		uc_reg_write(uc, UC_X86_REG_EAX, &r);
+		uint32_t Return = 0;
+		_rdrand32_step(&Return);
 
-		*outs << "TlsAlloc return " << r << "\n";
+		ctx->m_TlsValue.push_back(std::make_pair(Return, nullptr));
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+
+		*outs << "TlsAlloc, return: " << Return << "\n";
 	}
 
 	void EmuTlsSetValue(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
 		PeEmulation* ctx = (PeEmulation*)user_data;
 
-		DWORD r = 0;
+		DWORD_PTR Return = true;
 
-		DWORD ecx;
-		uc_reg_read(uc, UC_X86_REG_ECX, &ecx);
+		DWORD dwTlsIndex = 0;
+		uc_reg_read(uc, UC_X86_REG_ECX, &dwTlsIndex);
 
-		if (ecx == 0)
+		LPVOID lpTlsValue = nullptr;
+		uc_reg_read(uc, UC_X86_REG_RDX, &lpTlsValue);
+
+		DWORD_PTR TlsValue = 0;
+		uc_mem_read(uc, (DWORD_PTR)lpTlsValue, &TlsValue, sizeof(TlsValue));
+
+		auto it = std::find_if(ctx->m_TlsValue.begin(), ctx->m_TlsValue.end(),
+			[&dwTlsIndex](const std::pair<DWORD, LPVOID>& pair) {
+				return pair.first == dwTlsIndex;
+			});
+
+		if (it == ctx->m_TlsValue.end()) {
+			ctx->m_TlsValue.push_back(std::make_pair(dwTlsIndex, lpTlsValue));
+		}
+		else 
 		{
-			DWORD_PTR rdx;
-			 uc_reg_read(uc, UC_X86_REG_RDX, &rdx);
+			it->second = lpTlsValue;
+		}
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 
-			r = 1;
+		*outs << "TlsSetValue " << "dwTlsIndex: " << dwTlsIndex << " TlsValue: " << TlsValue << ", return: " << Return << "\n";
+	}
 
-			//ctx->m_TlsValue.push_back(rdx);
+	void EmuTlsGetValue(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		DWORD dwTlsIndex = 0;
+		uc_reg_read(uc, UC_X86_REG_ECX, &dwTlsIndex);
+
+		auto it = std::find_if(ctx->m_TlsValue.begin(), ctx->m_TlsValue.end(),
+			[&dwTlsIndex](const std::pair<DWORD, LPVOID>& pair) {
+				return pair.first == dwTlsIndex;
+			});
+
+		LPVOID lpTlsValue = nullptr;
+		DWORD_PTR TlsValue = 0;
+		if (it != ctx->m_TlsValue.end()) {
+			uc_mem_read(uc, (DWORD_PTR)it->second, &TlsValue, sizeof(TlsValue));
+			lpTlsValue = it->second;
 		}
 
-		uc_reg_write(uc, UC_X86_REG_EAX, &r);
+		uc_reg_write(uc, UC_X86_REG_RAX, &lpTlsValue);
 
-		*outs << "TlsSetValue " << ecx << "\n";
+		*outs << "TlsGetValue " << "dwTlsIndex: " << dwTlsIndex << ", return: " << TlsValue << "\n";
 	}
 
 	void EmuTlsFree(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
-		DWORD r = 0;
+		PeEmulation* ctx = (PeEmulation*)user_data;
 
-		DWORD ecx;
-		uc_reg_read(uc, UC_X86_REG_ECX, &ecx);
+		DWORD_PTR Return = true;
 
-		if (ecx == 0)
-		{
-			r = 1;
-		}
+		DWORD dwTlsIndex = 0;
+		uc_reg_read(uc, UC_X86_REG_ECX, &dwTlsIndex);
 
-		uc_reg_write(uc, UC_X86_REG_EAX, &r);
+		ctx->m_TlsValue.remove_if([&](auto& pair) {
+			return pair.first == dwTlsIndex;
+			});
 
-		*outs << "TlsFree " << ecx << "\n";
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+
+		*outs << "TlsFree, return: " << dwTlsIndex << "\n";
+	}
+
+	void EmuFlsAlloc(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+
+	}
+
+	void EmuFlsSetValue(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+
+	}
+
+	void EmuFlsGetValue(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+
+	}
+
+	void EmuFlsFree(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+
 	}
 
 	void EmuDeleteCriticalSection(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -1209,6 +2072,12 @@ namespace EmuApi
 		uc_mem_write(uc, (DWORD_PTR)lpCriticalSection, &CrtSection, sizeof(RTL_CRITICAL_SECTION_64));
 
 		*outs << "DeleteCriticalSection " << lpCriticalSection << "\n";
+	}
+
+	void EmuHeapValidate(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		BOOL Return = true;
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 	}
 
 	void EmuRtlAllocateHeap(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
@@ -1231,7 +2100,10 @@ namespace EmuApi
 			if (Flags & HEAP_ZERO_MEMORY)
 			{
 				BYTE Zero = 0x00;
-				uc_mem_write(uc, alloc, &Zero, Size);
+				for (size_t Index = 0; Index < Size; ++Index)
+				{
+					uc_mem_write(uc, alloc + Index, &Zero, sizeof(Zero));
+				}
 			}
 		}
 		*outs << "RtlAllocateHeap " << "HeapHandle: " << HeapHandle << " Flags: "
@@ -1283,7 +2155,10 @@ namespace EmuApi
 		{
 			alloc = ctx->HeapAlloc(uBytes);
 			BYTE Zero = 0x00;
-			uc_mem_write(uc, alloc, &Zero, uBytes);
+			for (size_t Index = 0; Index < uBytes; ++Index)
+			{
+				uc_mem_write(uc, alloc, &Zero, sizeof(Zero));
+			}
 		}
 
 		*outs << "LocalAlloc " << uBytes << " bytes, allocated at " << std::hex << alloc << "\n";
@@ -1348,16 +2223,6 @@ namespace EmuApi
 
 		uc_mem_write(uc, (DWORD_PTR)lpProcessAffinityMask, &ProcessAffinityMask, sizeof(ProcessAffinityMask));
 		uc_mem_write(uc, (DWORD_PTR)lpSystemAffinityMask, &SystemAffinityMask, sizeof(SystemAffinityMask));
-		//if (hProcess == INVALID_HANDLE_VALUE)
-		//{
-		//	Rax = 1;
-		//
-		//	DWORD_PTR ProcessAffinityMask = 0;
-		//	DWORD_PTR SystemAffinityMask = 0;
-		//
-		//	uc_mem_write(uc, (DWORD_PTR)lpProcessAffinityMask, &ProcessAffinityMask, sizeof(ProcessAffinityMask));
-		//	uc_mem_write(uc, (DWORD_PTR)lpSystemAffinityMask, &SystemAffinityMask, sizeof(SystemAffinityMask));
-		//}
 
 		*outs << "GetProcessAffinityMask " << "hProcess: " << hProcess << " ProcessAffinityMask: " << ProcessAffinityMask
 			<< " SystemAffinityMask: " << SystemAffinityMask << ", return:" << Return << "\n";

@@ -19,18 +19,18 @@ extern "C"
 // Mode: Usermode + Kernelmode
 DWORD_PTR PeEmulation::LdrGetProcAddress(_In_ DWORD_PTR ImageBase, _In_ const char* ProcedureName)
 {
-	if (!strcmp(ProcedureName, "FlsAlloc"))
-	{
-		return 0;
-	}
-	if (!strcmp(ProcedureName, "FlsSetValue"))
-	{
-		return 0;
-	}
-	if (!strcmp(ProcedureName, "FlsFree"))
-	{
-		return 0;
-	}
+	//if (!strcmp(ProcedureName, "FlsAlloc"))
+	//{
+	//	return 0;
+	//}
+	//if (!strcmp(ProcedureName, "FlsSetValue"))
+	//{
+	//	return 0;
+	//}
+	//if (!strcmp(ProcedureName, "FlsFree"))
+	//{
+	//	return 0;
+	//}
 
 	for (size_t i = 0; i < m_FakeModules.size(); ++i)
 	{
@@ -123,9 +123,9 @@ NTSTATUS PeEmulation::LdrFindDllByName(_In_ const std::wstring& DllName, _Out_ D
 	if (newDllName.find(L'.') == std::wstring::npos)
 	{
 		if (m_IsKernel)
-			newDllName += L".SYS";
+			newDllName += L".sys";
 		else
-			newDllName += L".DLL";
+			newDllName += L".dll";
 	}
 
 	auto moduleptr = thisProc.modules().GetModule(newDllName, blackbone::eModSeachType::PEHeaders, mt_default);
@@ -141,7 +141,9 @@ NTSTATUS PeEmulation::LdrFindDllByName(_In_ const std::wstring& DllName, _Out_ D
 	}
 
 	if (LoadIfNotExist)
-		return LdrLoadDllByName(newDllName);
+	{
+		return LdrLoadDllByName(newDllName, ImageBase);
+	}
 
 	return STATUS_OBJECT_NAME_NOT_FOUND;
 }
@@ -149,7 +151,7 @@ NTSTATUS PeEmulation::LdrFindDllByName(_In_ const std::wstring& DllName, _Out_ D
 // About: Function for loading dll by name
 // Param 1: name of dll
 // Mode: Usermode + Kernelmode
-NTSTATUS PeEmulation::LdrLoadDllByName(_In_ const std::wstring& DllName)
+NTSTATUS PeEmulation::LdrLoadDllByName(_In_ const std::wstring& DllName, _Out_ DWORD_PTR* ImageBase)
 {
 	using namespace blackbone;
 
@@ -161,6 +163,11 @@ NTSTATUS PeEmulation::LdrLoadDllByName(_In_ const std::wstring& DllName)
 	{
 		printf("LdrLoadDllByName failed to MapImage %ws, status %X\n", DllName.c_str(), MapResult.status);
 		return MapResult.status;
+	}
+
+	if (ImageBase != nullptr)
+	{
+		*ImageBase = MapResult.result_data->get()->imgPtr;
 	}
 
 	return STATUS_SUCCESS;

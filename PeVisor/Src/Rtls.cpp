@@ -13,6 +13,27 @@ extern "C"
 		);
 }
 
+LPTOP_LEVEL_EXCEPTION_FILTER PeEmulation::SetUnhandledExceptionFilter(
+	_In_ LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter)
+{
+	LPTOP_LEVEL_EXCEPTION_FILTER PreviousTopLevelFilter;
+
+	PreviousTopLevelFilter = BasepCurrentTopLevelFilter;
+	BasepCurrentTopLevelFilter = lpTopLevelExceptionFilter;
+
+	return PreviousTopLevelFilter;
+}
+
+void PeEmulation::RtlInitializeSListHead(_Inout_ PSLIST_HEADER ListHead)
+{
+	if (((uint8_t)ListHead & 0xF) != 0)
+	{
+		RtlRaiseStatus(EXCEPTION_DATATYPE_MISALIGNMENT);
+	}
+
+	*ListHead = {0};
+}
+
 BOOLEAN RtlpIsFrameInBounds(
 	_Inout_ PDWORD_PTR LowLimit,
 	_In_ DWORD_PTR StackFrame,

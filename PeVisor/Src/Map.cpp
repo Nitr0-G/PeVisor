@@ -28,9 +28,9 @@ blackbone::LoadData ManualMapCallback(blackbone::CallbackType type, void* contex
 	PeEmulation* ctx = (PeEmulation*)context;
 	//if (type == blackbone::ImageCallback)
 	//{
-	//	uint64_t desiredBase = ctx->m_LoadModuleBase;
-	//	uint64_t desiredNextLoadBase = PAGE_ALIGN_64k((uint64_t)ctx->m_LoadModuleBase + (uint64_t)modInfo.size + 0x10000ull);
-	//	ctx->m_LoadModuleBase = desiredNextLoadBase;
+	//	//uint64_t desiredBase = ctx->m_LoadModuleBase;
+	//	//uint64_t desiredNextLoadBase = PAGE_ALIGN_64k((uint64_t)ctx->m_LoadModuleBase + (uint64_t)modInfo.size + 0x10000ull);
+	//	//ctx->m_LoadModuleBase = desiredNextLoadBase;
 
 	//	return blackbone::LoadData(blackbone::MT_Default, blackbone::Ldr_None, ctx->m_LoadModuleBase);
 	//}
@@ -102,17 +102,24 @@ void PeEmulation::MapImageToEngine(
 
 	for (WORD i = 0; i < ntheader->FileHeader.NumberOfSections; i++)
 	{
-		int prot = UC_PROT_READ;
+		DWORD EmuflProtect = UC_PROT_READ;
+		DWORD RealflProtect = PAGE_READONLY;
 		if (SectionHeader[i].Characteristics & IMAGE_SCN_MEM_EXECUTE)
-			prot |= UC_PROT_EXEC;
+		{
+			RealflProtect = PAGE_EXECUTE_READ;
+			EmuflProtect |= UC_PROT_EXEC;
+		}
 		if (SectionHeader[i].Characteristics & IMAGE_SCN_MEM_WRITE)
-			prot |= UC_PROT_WRITE;
+		{
+			RealflProtect = PAGE_EXECUTE_READWRITE;
+			EmuflProtect |= UC_PROT_WRITE;
+		}
 
 		auto SectionSize = AlignSize(
 			max(SectionHeader[i].Misc.VirtualSize, SectionHeader[i].SizeOfRawData),
 			SectionAlignment);
 
-		uc_mem_protect(m_uc, image_base + SectionHeader[i].VirtualAddress, SectionSize, prot);
+		uc_mem_protect(m_uc, image_base + SectionHeader[i].VirtualAddress, SectionSize, EmuflProtect);
 
 		if (SectionHeader[i].Characteristics & (IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_CNT_CODE))
 		{
@@ -120,7 +127,13 @@ void PeEmulation::MapImageToEngine(
 				|| 0 == memcmp((char*)SectionHeader[i].Name, "INIT\0\0\0\0", 8)
 				|| 0 == memcmp((char*)SectionHeader[i].Name, "PAGE\0\0\0\0", 8)) ? false : true;
 
-			mod->FakeSections.emplace_back(SectionHeader[i].VirtualAddress, SectionSize, (char*)SectionHeader[i].Name, bIsUnknownSection);
+			mod->FakeSections.emplace_back(
+				SectionHeader[i].VirtualAddress, 
+				RealflProtect, 
+				EmuflProtect, 
+				SectionSize,
+				(char*)SectionHeader[i].Name,
+				bIsUnknownSection);
 
 			uc_hook trace3;
 			uc_hook_add(m_uc, &trace3, UC_HOOK_CODE, ucHooks::EmuUnknownAPI,

@@ -1,8 +1,5 @@
 #include "UCPE.hpp"
 #include <EmuApiFuncs.hpp>
-using namespace blackbone;
-
-//#pragma comment(lib,"ntdll.lib")
 
 std::ostream* outs;
 
@@ -166,6 +163,18 @@ void PeEmulation::InitKSharedUserData()
 // Mode: Usermode
 void PeEmulation::InitTebPeb()
 {
+	RTL_USER_PROCESS_PARAMETERS LocalProcessParameters{};
+	PRTL_USER_PROCESS_PARAMETERS EmuProcessParameters = (PRTL_USER_PROCESS_PARAMETERS)HeapAlloc(sizeof(RTL_USER_PROCESS_PARAMETERS));
+
+	std::wstring MyEnvironment = GetEnvironmentStringsW();
+	LPWCH EmuEnvironment = (LPWCH)HeapAlloc(MyEnvironment.size() * sizeof(wchar_t));
+
+	InternalEmuApi::EmuCopyUnicodeStrs(m_uc, EmuEnvironment, MyEnvironment);
+
+	LocalProcessParameters.Environment = (PVOID)EmuEnvironment;
+
+	uc_mem_write(m_uc, (DWORD_PTR)EmuProcessParameters, &LocalProcessParameters, sizeof(RTL_USER_PROCESS_PARAMETERS));
+
 	PEB peb{};
 
 	m_PebBase = 0x90000ull;
@@ -175,24 +184,7 @@ void PeEmulation::InitTebPeb()
 
 	peb.Ldr = (PPEB_LDR_DATA)m_LdrBase;
 	peb.ProcessHeap = (PVOID)m_HeapBase;
-
-	//PEB_LDR_DATA Ldr{};
-
-	//Ldr.Length = m_FakeModules.size() - 1;
-
-	//Ldr.Initialized = true;
-
-	//Ldr.InInitializationOrderModuleList.Blink = Ldr.InInitializationOrderModuleList.Flink
-	//	= (PLIST_ENTRY)m_LdrModuleListBase;
-
-	//Ldr.InMemoryOrderModuleList.Blink = Ldr.InMemoryOrderModuleList.Flink
-	//	= (PLIST_ENTRY)m_LdrModuleListBase;
-
-	//Ldr.InLoadOrderModuleList.Blink = Ldr.InLoadOrderModuleList.Flink
-	//	= (PLIST_ENTRY)m_LdrModuleListBase;
-
-	//uc_mem_map(m_uc, m_LdrBase, m_LdrEnd - m_LdrBase, UC_PROT_READ);
-	//uc_mem_write(m_uc, m_LdrBase, Ldr, sizeof(PEB_LDR_DATA));
+	peb.ProcessParameters = EmuProcessParameters;
 
 	uc_mem_map(m_uc, m_PebBase, m_PebEnd - m_PebBase, UC_PROT_READ);
 	uc_mem_write(m_uc, m_PebBase, &peb, sizeof(PEB));
@@ -207,11 +199,45 @@ void PeEmulation::InitTebPeb()
 	uc_mem_map(m_uc, m_TebBase, m_TebEnd - m_TebBase, UC_PROT_READ);
 	uc_mem_write(m_uc, m_TebBase, &teb, sizeof(TEB));
 
-	uc_x86_msr msr;
-	msr.rid = (uint32_t)Msr::kIa32GsBase;
-	msr.value = m_TebBase;
+	int StackBase = 0x8;
+	int StackLimit = 0x10;
+	uc_mem_write(m_uc, m_TebBase + StackBase, &m_StackBase, sizeof(m_StackBase));
+	uc_mem_write(m_uc, m_TebBase + StackLimit, &m_StackEnd, sizeof(m_StackEnd));
 
-	uc_reg_write(m_uc, UC_X86_REG_MSR, &msr);
+	uc_x86_msr MsrIa32GsBase;
+	MsrIa32GsBase.rid = (uint32_t)Msr::kIa32GsBase;
+	MsrIa32GsBase.value = m_TebBase;
+
+	uc_reg_write(m_uc, UC_X86_REG_MSR, &MsrIa32GsBase);
+
+	CR4 cr4{};
+	cr4.x64.Bitmap.VME = true;
+	cr4.x64.Bitmap.PVI = true;
+	cr4.x64.Bitmap.TSD = false;
+	cr4.x64.Bitmap.DE = false;
+	cr4.x64.Bitmap.PSE = false;
+	cr4.x64.Bitmap.PAE = false;
+	cr4.x64.Bitmap.MCE = true;
+	cr4.x64.Bitmap.PGE = false;
+	cr4.x64.Bitmap.PCE = true;
+	cr4.x64.Bitmap.OSFXSR = true;
+	cr4.x64.Bitmap.OSXMMEXCPT = true;
+	cr4.x64.Bitmap.UMIP = true;
+	cr4.x64.Bitmap.LA57 = false;
+	cr4.x64.Bitmap.VMXE = false;
+	cr4.x64.Bitmap.SMXE = true;
+	cr4.x64.Bitmap.FSGSBASE = true;
+	cr4.x64.Bitmap.PCIDE = false;
+	cr4.x64.Bitmap.OSXSAVE = true;
+	cr4.x64.Bitmap.KL = true;
+	cr4.x64.Bitmap.SMEP = false;
+	cr4.x64.Bitmap.SMAP = false;
+	cr4.x64.Bitmap.PKE = false;
+	cr4.x64.Bitmap.CET = true;
+	cr4.x64.Bitmap.PKS = false;
+	cr4.x64.Bitmap.UINTR = false;
+
+	uc_reg_write(m_uc, UC_X86_REG_CR4, &cr4.Value);
 }
 
 // About: Function for intialization of PsLoadedModuleList in usermode app
@@ -220,17 +246,9 @@ void PeEmulation::InitLdrModuleList()
 {
 	PEB_LDR_DATA Ldr{};
 
-	//m_LdrInInitializationOrderModuleList = HeapAlloc(sizeof(LIST_ENTRY));
-	//m_LdrInMemoryOrderModuleList = HeapAlloc(sizeof(LIST_ENTRY));
-	//m_LdrInLoadOrderModuleList = HeapAlloc(sizeof(LIST_ENTRY));
-
 	Ldr.InInitializationOrderModuleList.Flink = (_LIST_ENTRY*)HeapAlloc(sizeof(LIST_ENTRY));
 	Ldr.InMemoryOrderModuleList.Flink = (_LIST_ENTRY*)HeapAlloc(sizeof(LIST_ENTRY));
 	Ldr.InLoadOrderModuleList.Flink = (_LIST_ENTRY*)HeapAlloc(sizeof(LIST_ENTRY));
-
-	m_LdrInInitializationOrderModuleList = (DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink;
-	m_LdrInMemoryOrderModuleList = (DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink;
-	m_LdrInLoadOrderModuleList = (DWORD_PTR)Ldr.InInitializationOrderModuleList.Flink;
 
 	Ldr.Length = m_FakeModules.size() - 1;
 	Ldr.Initialized = true;
@@ -258,22 +276,21 @@ void PeEmulation::InitLdrModuleList()
 		LdrEntry.EntryPoint = (PVOID)m_FakeModules[i]->ImageEntry;
 		LdrEntry.SizeOfImage = m_FakeModules[i]->ImageSize;
 
-		auto Fullname = m_FakeModules[i]->FullPath.wstring();
-		LdrEntry.FullDllName.Length = (USHORT)Fullname.length() * sizeof(WCHAR);
-		LdrEntry.FullDllName.MaximumLength = ((USHORT)(Fullname.length() + 1) * sizeof(WCHAR));
-		auto FullDllNameBase = HeapAlloc(LdrEntry.FullDllName.MaximumLength);
-		LdrEntry.FullDllName.Buffer = (PWSTR)FullDllNameBase;
+		LdrEntry.FullDllName.Length = (USHORT)m_FakeModules[i]->FullPath.wstring().length() * sizeof(WCHAR);
+		LdrEntry.FullDllName.MaximumLength = ((USHORT)(m_FakeModules[i]->FullPath.wstring().length() + 1) * sizeof(WCHAR));
+		PWSTR FullDllNameBase = (PWSTR)HeapAlloc(LdrEntry.FullDllName.MaximumLength);
+		LdrEntry.FullDllName.Buffer = FullDllNameBase;
 
-		auto BaseDllName = m_FakeModules[i]->DllName;
 		LdrEntry.BaseDllName.Length = (USHORT)m_FakeModules[i]->DllName.length() * sizeof(WCHAR);
 		LdrEntry.BaseDllName.MaximumLength = ((USHORT)(m_FakeModules[i]->DllName.length() + 1) * sizeof(WCHAR));
-		auto BaseDllNameBase = HeapAlloc(LdrEntry.BaseDllName.MaximumLength);
-		LdrEntry.BaseDllName.Buffer = (PWSTR)BaseDllNameBase;
+		PWSTR BaseDllNameBase = (PWSTR)HeapAlloc(LdrEntry.BaseDllName.MaximumLength);
+		LdrEntry.BaseDllName.Buffer = BaseDllNameBase;
 
-		printf("%p\n", BaseDllNameBase);
+		//printf("%p\n", BaseDllNameBase);
+		//printf("%p\n", LdrEntryBase);
 
-		uc_mem_write(m_uc, FullDllNameBase, (void*)Fullname.data(), LdrEntry.FullDllName.MaximumLength);
-		uc_mem_write(m_uc, BaseDllNameBase, (void*)BaseDllName.data(), LdrEntry.BaseDllName.MaximumLength);
+		InternalEmuApi::EmuCopyUnicodeStrs(m_uc, FullDllNameBase, m_FakeModules[i]->FullPath);
+		InternalEmuApi::EmuCopyUnicodeStrs(m_uc, BaseDllNameBase, m_FakeModules[i]->DllName);
 
 		uc_mem_write(m_uc, LdrEntryBase, &LdrEntry, sizeof(LdrEntry));
 
@@ -420,6 +437,7 @@ int main(int argc, char** argv)
 
 	uc_engine* uc = NULL;
 	auto err = uc_open(UC_ARCH_X86, UC_MODE_64, &uc);
+	uc_ctl_set_cpu_model(uc, UC_CPU_X86_EPYC);
 	if (err)
 	{
 		printf("failed to uc_open %d\n", err);
@@ -437,10 +455,9 @@ int main(int argc, char** argv)
 		ucHookSySCall = 0;
 
 	DWORD_PTR Stack = (!ctx.m_IsKernel) ? 0x40000 : 0xFFFFFC0000000000ull;
-	size_t StackSize = 0x10000;
 
 	virtual_buffer_t StackBuf;
-	if (!StackBuf.GetSpace(StackSize))
+	if (!StackBuf.GetSpace(ctx.m_StackSize))
 	{
 		printf("failed to allocate virtual stack\n");
 		return 0;
@@ -448,16 +465,21 @@ int main(int argc, char** argv)
 
 	//allocate virtual stack for execution
 	memset(StackBuf.GetBuffer(), 0, StackBuf.GetLength());
-	uc_mem_map(uc, Stack, StackSize, UC_PROT_READ | UC_PROT_WRITE);
-	uc_mem_write(uc, Stack, StackBuf.GetBuffer(), StackSize);
+	uc_mem_map(uc, Stack, ctx.m_StackSize, UC_PROT_READ | UC_PROT_WRITE);
+	uc_mem_write(uc, Stack, StackBuf.GetBuffer(), ctx.m_StackSize);
 
 	ctx.m_StackBase = Stack;
-	ctx.m_StackEnd = Stack + StackSize;
+	ctx.m_StackEnd = Stack + ctx.m_StackSize;
 	ctx.m_LoadModuleBase = (!ctx.m_IsKernel) ? 0x180000000ull : 0xFFFFF80000000000ull;
 	ctx.m_HeapBase = (!ctx.m_IsKernel) ? 0x10000000ull : 0xFFFFFA0000000000ull;
 	ctx.m_HeapEnd = ctx.m_HeapBase + 0x1000000ull;
 
+	DWORD_PTR Zero = 0;
 	uc_mem_map(uc, ctx.m_HeapBase, ctx.m_HeapEnd - ctx.m_HeapBase, (ctx.m_IsKernel) ? UC_PROT_READ | UC_PROT_WRITE | UC_PROT_EXEC : UC_PROT_READ | UC_PROT_WRITE);
+	for (size_t Index = 0; Index <= ctx.m_HeapEnd - ctx.m_HeapBase; Index += sizeof(Zero))
+	{
+		uc_mem_write(uc, ctx.m_HeapBase + Index, &Zero, sizeof(Zero));
+	}
 
 	auto MapResult = ctx.thisProc.mmap().MapImage(wfilename,
 		ManualImports | NoSxS | NoExceptions | NoDelayLoad | NoTLS | NoExceptions | NoExec,
@@ -470,7 +492,6 @@ int main(int argc, char** argv)
 	}
 
 	auto res = MapResult.result();
-	// LDR_DATA_TABLE_ENTRY_BASE_T* p = res->
 	ctx.m_PathExe = wfilename;
 	ctx.m_ImageBase = res->baseAddress;
 	ctx.m_ImageEnd = res->baseAddress + res->size;
@@ -495,14 +516,37 @@ int main(int argc, char** argv)
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcAddress", EmuApi::EmuGetProcAddress);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleA", EmuApi::EmuGetModuleHandleA);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleW", EmuApi::EmuGetModuleHandleW);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleExW", EmuApi::EmuGetModuleHandleExW);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLastError", EmuApi::EmuGetLastError);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "SetLastError", EmuApi::EmuSetLastError);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "InitializeCriticalSectionAndSpinCount", EmuApi::EmuInitializeCriticalSectionAndSpinCount);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameA", EmuApi::EmuGetModuleFileNameA);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameW", EmuApi::EmuGetModuleFileNameW);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCommandLineA", EmuApi::EmuGetCommandLineA);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCommandLineW", EmuApi::EmuGetCommandLineW);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStdHandle", EmuApi::EmuGetStdHandle);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileType", EmuApi::EmuGetFileType);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "ExitProcess", EmuApi::EmuExitProcess);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualProtect", EmuApi::EmuVirtualProtect);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFile", EmuApi::EmuWriteFile);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentStringsW", EmuApi::EmuGetEnvironmentStringsW);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeEnvironmentStringsW", EmuApi::EmuFreeEnvironmentStringsW);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "IsProcessorFeaturePresent", EmuApi::EmuRtlIsProcessorFeaturePresent);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "HeapValidate", EmuApi::EmuHeapValidate);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "RtlUnwindEx", EmuApi::EmuRtlUnwindEx);
 
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "SetUnhandledExceptionFilter", EmuApi::EmuSetUnhandledExceptionFilter);
+
 		////////////////////////////////////////////////////////////////////////////////GUI
+		ctx.RegisterAPIEmulation(L"user32.dll", "wvsprintfW", EmuApi::EmuWvsprintfW);
+		ctx.RegisterAPIEmulation(L"user32.dll", "wvsprintfA", EmuApi::EmuWvsprintfA);
 		ctx.RegisterAPIEmulation(L"user32.dll", "MessageBoxA", EmuApi::EmuMessageBoxA);
 		ctx.RegisterAPIEmulation(L"user32.dll", "MessageBoxW", EmuApi::EmuMessageBoxW);
 		ctx.RegisterAPIEmulation(L"user32.dll", "GetProcessWindowStation", EmuApi::EmuGetProcessWindowStation);
@@ -510,20 +554,50 @@ int main(int argc, char** argv)
 		ctx.RegisterAPIEmulation(L"user32.dll", "GetUserObjectInformationA", EmuApi::EmuGetUserObjectInformationA);
 		////////////////////////////////////////////////////////////////////////////////GUI
 
-		if (!ctx.RegisterAPIEmulation(L"kernelbase.dll", "InitializeCriticalSectionEx", EmuApi::EmuInitializeCriticalSectionEx))
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "InitializeCriticalSectionEx", EmuApi::EmuInitializeCriticalSectionEx);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStartupInfoW", EmuApi::EmuGetStartupInfoW);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStartupInfoA", EmuApi::EmuGetStartupInfoA);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStringTypeW", EmuApi::EmuGetStringTypeW);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "LCMapStringW", EmuApi::EmuLCMapStringW);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "WideCharToMultiByte", EmuApi::EmuWideCharToMultiByte);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "MultiByteToWideChar", EmuApi::EmuMultiByteToWideChar);
+
+		ctx.RegisterAPIEmulation(L"kernelbase.dll", "InitializeCriticalSectionEx", EmuApi::EmuInitializeCriticalSectionEx);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "InitializeCriticalSectionEx", EmuApi::EmuInitializeCriticalSectionEx);
 
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlDeleteCriticalSection", EmuApi::EmuDeleteCriticalSection);
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlIsProcessorFeaturePresent", EmuApi::EmuRtlIsProcessorFeaturePresent);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessHeap", EmuApi::EmuGetProcessHeap);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "HeapFree", EmuApi::EmuRtlFreeHeap);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessAffinityMask", EmuApi::EmuGetProcessAffinityMask);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "SetThreadAffinityMask", EmuApi::EmuSetThreadAffinityMask);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "Sleep", EmuApi::EmuSleep);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualProtect", EmuApi::EmuVirtualProtect);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCPInfo", EmuApi::EmuGetCPInfo);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "GetACP", EmuApi::EmuGetACP);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "AreFileApisANSI", EmuApi::EmuAreFileApisANSI);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "IsValidCodePage", EmuApi::EmuIsValidCodePage);
 
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "TlsAlloc", EmuApi::EmuTlsAlloc);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "TlsSetValue", EmuApi::EmuTlsSetValue);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "TlsGetValue", EmuApi::EmuTlsGetValue);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "TlsFree", EmuApi::EmuTlsFree);
+
+		ctx.RegisterAPIEmulation(L"kernelbase.dll", "FlsAlloc", EmuApi::EmuTlsAlloc);
+		ctx.RegisterAPIEmulation(L"kernelbase.dll", "FlsSetValue", EmuApi::EmuTlsSetValue);
+		ctx.RegisterAPIEmulation(L"kernelbase.dll", "FlsGetValue", EmuApi::EmuTlsGetValue);
+		ctx.RegisterAPIEmulation(L"kernelbase.dll", "FlsFree", EmuApi::EmuTlsFree);
+
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "FlsAlloc", EmuApi::EmuTlsAlloc);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "FlsSetValue", EmuApi::EmuTlsSetValue);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "FlsGetValue", EmuApi::EmuTlsGetValue);
+		ctx.RegisterAPIEmulation(L"kernel32.dll", "FlsFree", EmuApi::EmuTlsFree);
+
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalAlloc", EmuApi::EmuLocalAlloc);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalFree", EmuApi::EmuLocalFree);
 		ctx.RegisterAPIEmulation(L"kernel32.dll", "CloseHandle", EmuApi::EmuCloseHandle);
@@ -538,6 +612,9 @@ int main(int argc, char** argv)
 
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAllocateHeap", EmuApi::EmuRtlAllocateHeap);
 		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlFreeHeap", EmuApi::EmuRtlFreeHeap);
+		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlEnterCriticalSection", EmuApi::EmuRtlEnterCriticalSection);
+		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlLeaveCriticalSection", EmuApi::EmuRtlLeaveCriticalSection);
+		ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlInitializeSListHead", EmuApi::EmuRtlInitializeSListHead);
 	}
 	else
 	{
@@ -578,6 +655,14 @@ int main(int argc, char** argv)
 
 	ctx.InitProcessorState();
 
+	ctx.szCommandLineA = "D:\\Programs\\Soft\\Coding\\C\\VisualStudio\\Coders\\PeVisor\\x64\\Debug\\Peb.exe";
+	ctx.EmuCommandLineA = (LPSTR)ctx.HeapAlloc(ctx.szCommandLineA.size());
+	InternalEmuApi::EmuCopyASCIStrs(ctx.m_uc, ctx.EmuCommandLineA, ctx.szCommandLineA);
+
+	ctx.szCommandLineW = L"D:\\Programs\\Soft\\Coding\\C\\VisualStudio\\Coders\\PeVisor\\x64\\Debug\\Peb.exe";
+	ctx.EmuCommandLineW = (LPWSTR)ctx.HeapAlloc(ctx.szCommandLineW.size() * sizeof(wchar_t));
+	InternalEmuApi::EmuCopyUnicodeStrs(ctx.m_uc, ctx.EmuCommandLineW, ctx.szCommandLineW);
+
 	if (!ctx.m_IsKernel)
 	{
 		ctx.SortModuleList();
@@ -589,6 +674,13 @@ int main(int argc, char** argv)
 		//ctx.m_InitReg.Rcx = ctx.m_ImageBase;
 		//ctx.m_InitReg.Rdx = DLL_PROCESS_ATTACH;
 		//ctx.m_InitReg.R8 = 0;
+		//ctx.m_InitReg.Dr0 = 0;
+		//ctx.m_InitReg.Dr1 = 0;
+		//ctx.m_InitReg.Dr2 = 0;
+		//ctx.m_InitReg.Dr3 = 0;
+		//ctx.m_InitReg.Dr6 = 0;
+		//ctx.m_InitReg.Dr7 = 0;
+
 		ctx.m_InitReg.Rax = ctx.m_ExecuteFromRip;
 		ctx.m_InitReg.Rcx = ctx.m_PebBase;
 		ctx.m_InitReg.Rdx = ctx.m_ExecuteFromRip;

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Buffer.cpp" />
+    <ClCompile Include="Src\Crt.cpp" />
     <ClCompile Include="Src\EmuApiBasis.cpp" />
     <ClCompile Include="Src\EmuApiFuncs.cpp" />
     <ClCompile Include="Src\Encode.cpp" />
@@ -32,16 +33,20 @@
     <ClCompile Include="Src\Rtls.cpp" />
     <ClCompile Include="Src\Trace.cpp" />
     <ClCompile Include="Src\ucHooks.cpp" />
+    <ClCompile Include="Src\wsprintf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Buffer.hpp" />
     <ClInclude Include="Inc\CPUID.hpp" />
+    <ClInclude Include="Inc\Crt.hpp" />
     <ClInclude Include="Inc\EmuApiFuncs.hpp" />
     <ClInclude Include="Inc\Encode.hpp" />
     <ClInclude Include="Inc\IEApiErrorCodes.hpp" />
     <ClInclude Include="Inc\Nativestructs.hpp" />
+    <ClInclude Include="Inc\Registers.hpp" />
     <ClInclude Include="Inc\Trace.hpp" />
     <ClInclude Include="Inc\UCPE.hpp" />
+    <ClInclude Include="Inc\wsprintf.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

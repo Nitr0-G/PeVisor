@@ -11,7 +11,7 @@ std::filesystem::path PeEmulation::GetModuleFileInternalEmulation(_In_ PVOID hMo
     return std::filesystem::path();
 }
 
-void PeEmulation::GetModuleHandleAInternalEmulation(_Out_ DWORD_PTR* ImageBase, _In_ std::wstring& wModuleName)
+void PeEmulation::GetModuleHandleInternalEmulation(_Out_ DWORD_PTR* ImageBase, _In_ std::wstring& wModuleName)
 {
 	std::transform(wModuleName.begin(), wModuleName.end(), wModuleName.begin(),
 		[](unsigned char c) { return std::tolower(c); });
@@ -55,9 +55,9 @@ NTSTATUS PeEmulation::LdrFindDllByNameInternalEmualtion(
 	if (newDllName.find(L'.') == std::wstring::npos)
 	{
 		if (m_IsKernel)
-			newDllName += L".SYS";
+			newDllName += L".sys";
 		else
-			newDllName += L".DLL";
+			newDllName += L".dll";
 	}
 
 	auto it = std::find_if(m_FakeModules.begin(), m_FakeModules.end(), [newDllName](PFakeModule module) {
@@ -78,7 +78,9 @@ NTSTATUS PeEmulation::LdrFindDllByNameInternalEmualtion(
 	}
 
 	if (LoadIfNotExist)
-		return LdrLoadDllByName(newDllName);
+	{
+		return LdrLoadDllByName(newDllName, ImageBase);
+	}
 
 	return STATUS_OBJECT_NAME_NOT_FOUND;
 }

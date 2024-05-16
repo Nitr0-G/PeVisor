@@ -48,6 +48,12 @@
     <ClCompile Include="Src\Trace.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Src\wsprintf.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Crt.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\UCPE.hpp">
@@ -72,6 +78,15 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\CPUID.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Registers.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\wsprintf.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Crt.hpp">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

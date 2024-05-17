@@ -646,96 +646,94 @@ namespace EmuApi
 
 		for (auto& FakeModule : ctx->m_FakeModules)
 		{
-			if (address >= FakeModule->ImageBase && address < FakeModule->ImageBase + FakeModule->ImageSize)
+			if ((DWORD_PTR)lpAddress >= FakeModule->ImageBase && (DWORD_PTR)lpAddress < FakeModule->ImageBase + FakeModule->ImageSize)
 			{
 				for (auto& FakeSection : FakeModule->FakeSections)
 				{
-					LPVOID FakeSectionFullAddr = (LPVOID)(FakeModule->ImageBase + FakeSection.SectionBase);
-					//if (lpAddress == FakeSectionFullAddr)
-					{
-						uc_mem_write(uc, (DWORD_PTR)lpflOldProtect, &FakeSection.RealflProtect, sizeof(FakeSection.RealflProtect));
+					uc_mem_write(uc, (DWORD_PTR)lpflOldProtect, &FakeSection.RealflProtect, sizeof(FakeSection.RealflProtect));
 					
-						DWORD EmuflProtect = 0;
+					DWORD EmuflProtect = 0;
 
-						std::string szflNewProtect;
-						switch (flNewProtect)
-						{
-						case PAGE_NOACCESS:
-						{
-							szflNewProtect = "PAGE_NOACCESS || UC_PROT_NONE";
-							FakeSection.RealflProtect = PAGE_NOACCESS;
-							EmuflProtect = UC_PROT_NONE;
-							break;
-						}
-						case PAGE_READONLY:
-						{
-							szflNewProtect = "PAGE_READONLY || UC_PROT_READ";
-							FakeSection.RealflProtect = PAGE_READONLY;
-							EmuflProtect = UC_PROT_READ;
-							break;
-						}
-						case PAGE_READWRITE:
-						{
-							szflNewProtect = "PAGE_READWRITE || UC_PROT_READ | UC_PROT_WRITE";
-							FakeSection.RealflProtect = PAGE_READWRITE;
-							EmuflProtect = UC_PROT_READ | UC_PROT_WRITE;
-							break;
-						}
-						case PAGE_WRITECOPY:
-						{
-							szflNewProtect = "PAGE_WRITECOPY || UC_PROT_WRITE";
-							FakeSection.RealflProtect = PAGE_WRITECOPY;
-							EmuflProtect = UC_PROT_WRITE;
-							break;
-						}
-						case PAGE_EXECUTE:
-						{
-							szflNewProtect = "PAGE_EXECUTE || UC_PROT_EXEC";
-							FakeSection.RealflProtect = PAGE_EXECUTE;
-							EmuflProtect = UC_PROT_EXEC;
-							break;
-						}
-						case PAGE_EXECUTE_READ:
-						{
-							szflNewProtect = "PAGE_EXECUTE_READ || UC_PROT_EXEC | UC_PROT_READ";
-							FakeSection.RealflProtect = PAGE_EXECUTE_READ;
-							EmuflProtect = UC_PROT_EXEC | UC_PROT_READ;
-							break;
-						}
-						case PAGE_EXECUTE_READWRITE:
-						{
-							szflNewProtect = "PAGE_EXECUTE_READWRITE || UC_PROT_ALL";
-							FakeSection.RealflProtect = PAGE_EXECUTE_READWRITE;
-							EmuflProtect = UC_PROT_ALL;
-							break;
-						}
-						case PAGE_EXECUTE_WRITECOPY:
-						{
-							szflNewProtect = "PAGE_EXECUTE_WRITECOPY || UC_PROT_EXEC | UC_PROT_WRITE";
-							FakeSection.RealflProtect = PAGE_EXECUTE_WRITECOPY;
-							EmuflProtect = UC_PROT_EXEC | UC_PROT_WRITE;
-							break;
-						}
-						default:
-						{
-							szflNewProtect = "PAGE_EXECUTE_READWRITE || UC_PROT_ALL";
-							FakeSection.RealflProtect = PAGE_EXECUTE_READWRITE;
-							EmuflProtect = UC_PROT_ALL;
-							break;
-						}
-						}
-
-						uc_err Err = uc_mem_protect(uc, ALIGN_TO_4KB((DWORD_PTR)lpAddress), ALIGN_TO_4KB((DWORD_PTR)dwSize), EmuflProtect);
-						
-						if (Err == UC_ERR_OK) { Return = true; }
-						else { Return = false; }
-
-						std::string ModuleName;
-						UnicodeToANSI(FakeModule->DllName, ModuleName);
-
-						*outs << "VirtualProtect lpAddress: " << lpAddress << " Module name: " << ModuleName << " dwSize: " << dwSize
-							<< " flNewProtect: " << szflNewProtect << " lpflOldProtect: " << lpflOldProtect << ", return: " << Return << "\n";
+					std::string szflNewProtect;
+					switch (flNewProtect)
+					{
+					case PAGE_NOACCESS:
+					{
+						szflNewProtect = "PAGE_NOACCESS || UC_PROT_NONE";
+						FakeSection.RealflProtect = PAGE_NOACCESS;
+						EmuflProtect = UC_PROT_NONE;
+						break;
 					}
+					case PAGE_READONLY:
+					{
+						szflNewProtect = "PAGE_READONLY || UC_PROT_READ";
+						FakeSection.RealflProtect = PAGE_READONLY;
+						EmuflProtect = UC_PROT_READ;
+						break;
+					}
+					case PAGE_READWRITE:
+					{
+						szflNewProtect = "PAGE_READWRITE || UC_PROT_READ | UC_PROT_WRITE";
+						FakeSection.RealflProtect = PAGE_READWRITE;
+						EmuflProtect = UC_PROT_READ | UC_PROT_WRITE;
+						break;
+					}
+					case PAGE_WRITECOPY:
+					{
+						szflNewProtect = "PAGE_WRITECOPY || UC_PROT_WRITE";
+						FakeSection.RealflProtect = PAGE_WRITECOPY;
+						EmuflProtect = UC_PROT_WRITE;
+						break;
+					}
+					case PAGE_EXECUTE:
+					{
+						szflNewProtect = "PAGE_EXECUTE || UC_PROT_EXEC";
+						FakeSection.RealflProtect = PAGE_EXECUTE;
+						EmuflProtect = UC_PROT_EXEC;
+						break;
+					}
+					case PAGE_EXECUTE_READ:
+					{
+						szflNewProtect = "PAGE_EXECUTE_READ || UC_PROT_EXEC | UC_PROT_READ";
+						FakeSection.RealflProtect = PAGE_EXECUTE_READ;
+						EmuflProtect = UC_PROT_EXEC | UC_PROT_READ;
+						break;
+					}
+					case PAGE_EXECUTE_READWRITE:
+					{
+						szflNewProtect = "PAGE_EXECUTE_READWRITE || UC_PROT_ALL";
+						FakeSection.RealflProtect = PAGE_EXECUTE_READWRITE;
+						EmuflProtect = UC_PROT_ALL;
+						break;
+					}
+					case PAGE_EXECUTE_WRITECOPY:
+					{
+						szflNewProtect = "PAGE_EXECUTE_WRITECOPY || UC_PROT_EXEC | UC_PROT_WRITE";
+						FakeSection.RealflProtect = PAGE_EXECUTE_WRITECOPY;
+						EmuflProtect = UC_PROT_EXEC | UC_PROT_WRITE;
+						break;
+					}
+					default:
+					{
+						szflNewProtect = "PAGE_EXECUTE_READWRITE || UC_PROT_ALL";
+						FakeSection.RealflProtect = PAGE_EXECUTE_READWRITE;
+						EmuflProtect = UC_PROT_ALL;
+						break;
+					}
+					}
+
+					uc_err Err = uc_mem_protect(uc, ALIGN_TO_4KB((DWORD_PTR)lpAddress), ALIGN_TO_4KB((DWORD_PTR)dwSize), EmuflProtect);
+						
+					if (Err == UC_ERR_OK) { Return = true; }
+					else { Return = false; }
+
+					std::string ModuleName;
+					UnicodeToANSI(FakeModule->DllName, ModuleName);
+
+					*outs << "VirtualProtect lpAddress: " << lpAddress << " Module name: " << ModuleName << " dwSize: " << dwSize
+						<< " flNewProtect: " << szflNewProtect << " lpflOldProtect: " << lpflOldProtect << ", return: " << Return << "\n";
+
+					break;
 				}
 			}
 		}
@@ -880,9 +878,6 @@ namespace EmuApi
 		ReadArgsFromRegisters(uc,
 			std::make_tuple(&hModule, &lpFilename, &nSize),
 			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8D });
-
-		//std::string lpFilename;
-		//EmuReadNullTermString(uc, (DWORD_PTR)szlpFilename, lpFilename);
 
 		std::string Name;
 
@@ -1192,8 +1187,341 @@ namespace EmuApi
 		}
 	}
 
+	void EmuCreateFileMappingA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		HANDLE hFile = nullptr;
+		LPSECURITY_ATTRIBUTES lpFileMappingAttributes = nullptr;
+		DWORD flProtect = 0;
+		DWORD dwMaximumSizeHigh = 0;
+		DWORD dwMaximumSizeLow = 0;
+		LPCSTR lpName = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&hFile, &lpFileMappingAttributes, &flProtect, &dwMaximumSizeHigh),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8D, UC_X86_REG_R9D });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &dwMaximumSizeLow, sizeof(dwMaximumSizeLow));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &lpName, sizeof(lpName));
+
+		std::string alpName;
+		EmuReadNullTermString(uc, (DWORD_PTR)lpName, alpName);
+
+		HANDLE Return = nullptr;
+
+		if (lpFileMappingAttributes != nullptr)
+		{
+			SECURITY_ATTRIBUTES SecurityAttributes{};
+			uc_mem_read(uc, (DWORD_PTR)lpFileMappingAttributes, &SecurityAttributes, sizeof(SecurityAttributes));
+
+			SECURITY_DESCRIPTOR SecurityDescriptor{};
+			uc_mem_read(uc, (DWORD_PTR)(lpFileMappingAttributes + offsetof(SECURITY_ATTRIBUTES, lpSecurityDescriptor)),
+				&SecurityDescriptor, sizeof(SecurityDescriptor));
+
+			SecurityAttributes.lpSecurityDescriptor = &SecurityDescriptor;
+
+			Return = CreateFileMappingA(
+				hFile,
+				&SecurityAttributes,
+				flProtect,
+				dwMaximumSizeHigh,
+				dwMaximumSizeLow,
+				lpName == nullptr ? lpName : alpName.data());
+		}
+		else
+		{
+			Return = CreateFileMappingA(
+				hFile,
+				lpFileMappingAttributes,
+				flProtect,
+				dwMaximumSizeHigh,
+				dwMaximumSizeLow,
+				lpName == nullptr ? lpName : alpName.data());
+		}
+
+		*outs << "CreateFileMappingW hFile: " << hFile << " lpFileMappingAttributes: " << lpFileMappingAttributes << " flProtect: "
+			<< flProtect << " dwMaximumSizeHigh: " << dwMaximumSizeHigh << " dwMaximumSizeLow: " << dwMaximumSizeLow << " lpName: ";
+
+		if (lpName != nullptr)
+		{
+			*outs << alpName;
+		}
+		else
+		{
+			*outs << (DWORD_PTR)lpName;
+		}
+
+		auto it = std::find_if(ctx->m_HandleMap.begin(), ctx->m_HandleMap.end(),
+			[&hFile](const HandleMapping& mapping)
+			{
+				for (auto& HANDLE : mapping.Handles)
+				{
+					if (HANDLE == hFile)
+					{
+						return HANDLE == hFile;
+					}
+				}
+			});
+
+
+		if (it != ctx->m_HandleMap.end())
+		{
+			it->Handles.push_back(Return);
+		}
+
+		*outs << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+
+		if (GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+			ctx->m_LastException = ERROR_ALREADY_EXISTS;
+		}
+	}
+
+	void EmuCreateFileMappingW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		HANDLE hFile = nullptr;
+		LPSECURITY_ATTRIBUTES lpFileMappingAttributes = nullptr;
+		DWORD flProtect = 0;
+		DWORD dwMaximumSizeHigh = 0;
+		DWORD dwMaximumSizeLow = 0;
+		LPCWSTR lpName = nullptr;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&hFile, &lpFileMappingAttributes, &flProtect, &dwMaximumSizeHigh),
+			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8D, UC_X86_REG_R9D });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &dwMaximumSizeLow, sizeof(dwMaximumSizeLow));
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x30, &lpName, sizeof(lpName));
+
+		std::wstring wlpName;
+		EmuReadNullTermUnicodeString(uc, (DWORD_PTR)lpName, wlpName);
+
+		HANDLE Return = nullptr;
+
+		if (lpFileMappingAttributes != nullptr)
+		{
+			SECURITY_ATTRIBUTES SecurityAttributes{};
+			uc_mem_read(uc, (DWORD_PTR)lpFileMappingAttributes, &SecurityAttributes, sizeof(SecurityAttributes));
+
+			SECURITY_DESCRIPTOR SecurityDescriptor{};
+			uc_mem_read(uc, (DWORD_PTR)(lpFileMappingAttributes + offsetof(SECURITY_ATTRIBUTES, lpSecurityDescriptor)),
+				&SecurityDescriptor, sizeof(SecurityDescriptor));
+
+			SecurityAttributes.lpSecurityDescriptor = &SecurityDescriptor;
+			
+			Return = CreateFileMappingW(
+				hFile,
+				&SecurityAttributes,
+				flProtect,
+				dwMaximumSizeHigh,
+				dwMaximumSizeLow,
+				lpName == nullptr ? lpName : wlpName.data());
+		}
+		else
+		{
+			Return = CreateFileMappingW(
+				hFile,
+				lpFileMappingAttributes,
+				flProtect,
+				dwMaximumSizeHigh,
+				dwMaximumSizeLow,
+				lpName == nullptr ? lpName : wlpName.data());
+		}
+
+		std::string alpName;
+		UnicodeToANSI(wlpName, alpName);
+
+		*outs << "CreateFileMappingW hFile: " << hFile << " lpFileMappingAttributes: " << lpFileMappingAttributes << " flProtect: "
+			<< flProtect << " dwMaximumSizeHigh: " << dwMaximumSizeHigh << " dwMaximumSizeLow: " << dwMaximumSizeLow << " lpName: ";
+
+		if (lpName != nullptr)
+		{
+			*outs << alpName;
+		}
+		else
+		{
+			*outs << (DWORD_PTR)lpName;
+		}
+
+		for (auto& HandleMap : ctx->m_HandleMap)
+		{
+			auto it = std::find_if(HandleMap.Handles.begin(), HandleMap.Handles.end(),
+				[&hFile](const HANDLE& Handle) { return Handle == hFile; });
+		}
+
+		auto it = std::find_if(ctx->m_HandleMap.begin(), ctx->m_HandleMap.end(),
+			[&hFile](const HandleMapping& mapping) 
+			{ 
+				for (auto& HANDLE : mapping.Handles)
+				{
+					if (HANDLE == hFile)
+					{
+						return HANDLE == hFile;
+					}
+				}
+			});
+
+
+		if (it != ctx->m_HandleMap.end())
+		{
+			it->Handles.push_back(Return);
+		}
+
+		*outs << ", return: " << Return << "\n";
+
+		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+
+		if (GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+			ctx->m_LastException = ERROR_ALREADY_EXISTS;
+		}
+	}
+
+	void EmuUnmapViewOfFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		LPCVOID lpBaseAddress = nullptr;
+
+		uc_reg_read(uc, UC_X86_REG_RCX, &lpBaseAddress);
+
+		for (auto& FakeModule : ctx->m_FakeModules)
+		{
+			if ((DWORD_PTR)lpBaseAddress >= FakeModule->ImageBase && (DWORD_PTR)lpBaseAddress < FakeModule->ImageBase + FakeModule->ImageSize)
+			{
+				BOOL Return = true; 
+
+				*outs << "UnmapViewOfFile lpBaseAddress: " << lpBaseAddress << ", return: " << Return << "\n";
+
+				uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+
+				break;
+			}
+		}
+
+		//TODO:unmaping of pages that was generated via MapViewOfFile
+	}
+
+	void EmuMapViewOfFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
+		HANDLE hFileMappingObject = nullptr;
+		DWORD dwDesiredAccess = 0;
+		DWORD dwFileOffsetHigh = 0;
+		DWORD dwFileOffsetLow = 0;
+		SIZE_T dwNumberOfBytesToMap = 0;
+
+		ReadArgsFromRegisters(uc,
+			std::make_tuple(&hFileMappingObject, &dwDesiredAccess, &dwFileOffsetHigh, &dwFileOffsetLow),
+			{ UC_X86_REG_RCX, UC_X86_REG_EDX, UC_X86_REG_R8D, UC_X86_REG_R9D });
+
+		DWORD_PTR SP = 0;
+		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
+		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &dwNumberOfBytesToMap, sizeof(dwNumberOfBytesToMap));
+
+		auto it = std::find_if(ctx->m_HandleMap.begin(), ctx->m_HandleMap.end(),
+			[&hFileMappingObject](const HandleMapping& mapping)
+			{
+				for (auto& HANDLE : mapping.Handles)
+				{
+					if (HANDLE == hFileMappingObject)
+					{
+						return HANDLE == hFileMappingObject;
+					}
+				}
+			});
+
+		if (it != ctx->m_HandleMap.end())
+		{
+			for (auto& Module : ctx->m_FakeModules)
+			{
+				if (Module->DllName == it->ProgName)
+				{
+					*outs << "MapViewOfFile hFileMappingObject: " << hFileMappingObject << " dwDesiredAccess:"
+						<< dwDesiredAccess << "dwFileOffsetHigh: " << dwFileOffsetHigh << " dwFileOffsetLow: "
+						<< dwFileOffsetLow << " dwNumberOfBytesToMap: " << dwNumberOfBytesToMap << ", return: " << Module->ImageBase <<
+						"\n";
+					uc_reg_write(uc, UC_X86_REG_RAX, &Module->ImageBase);
+				}
+			}
+		}
+		else
+		{
+			*outs << "This option of EmuMapViewOfFile not implemented" << "\n";
+			_CrtDbgBreak();
+			//LPVOID Return = MapViewOfFile(hFileMappingObject, dwDesiredAccess, dwFileOffsetHigh, dwFileOffsetLow, dwNumberOfBytesToMap);
+			//
+			//MEMORY_BASIC_INFORMATION info;
+			//VirtualQueryEx(GetCurrentProcess(), Return, &info, sizeof(info));
+			//
+			//SIZE_T szBufferSize = ALIGN_TO_4KB(info.RegionSize);
+			//
+			//DWORD EmuflProtect = 0;
+			//DWORD RealflProtect = 0;
+			//switch (dwDesiredAccess)
+			//{
+			//case FILE_MAP_ALL_ACCESS:
+			//{
+			//	EmuflProtect = UC_PROT_ALL;
+			//	RealflProtect = PAGE_EXECUTE_READWRITE;
+			//	break;
+			//}
+			//case FILE_MAP_READ:
+			//{
+			//	EmuflProtect = UC_PROT_READ;
+			//	RealflProtect = PAGE_READONLY;
+			//	break;
+			//}
+			//case FILE_MAP_WRITE:
+			//{
+			//	EmuflProtect = UC_PROT_WRITE;
+			//	RealflProtect = PAGE_WRITECOPY;
+			//	break;
+			//}
+			//case FILE_MAP_COPY:
+			//{
+			//	EmuflProtect = UC_PROT_WRITE | UC_PROT_READ;
+			//	RealflProtect = PAGE_READWRITE;
+			//	break;
+			//}
+			//case FILE_MAP_EXECUTE:
+			//{
+			//	EmuflProtect = UC_PROT_EXEC;
+			//	RealflProtect = PAGE_EXECUTE;
+			//	break;
+			//}
+			//}
+			//
+			//uc_mem_map_ptr(uc, ALIGN_TO_4KB((DWORD_PTR)Return), szBufferSize, EmuflProtect, Return);
+			//
+			//
+			//ctx->m_FakeAllocations.emplace_back(
+			//	(ULONG)0,
+			//	(ULONG)RealflProtect,
+			//	(ULONG)EmuflProtect,
+			//	szBufferSize,
+			//	(char*)"",
+			//	(bool)false,
+			//	(DWORD_PTR)Return);
+			//
+			//uc_reg_write(uc, UC_X86_REG_RAX, &Return);
+		}
+	}
+
 	void EmuCreateFileW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
 		LPCWSTR lpFileName = nullptr;
 		DWORD dwDesiredAccess = 0;
 		DWORD dwShareMode = 0;
@@ -1256,11 +1584,28 @@ namespace EmuApi
 			<< " dwCreationDisposition: " << dwCreationDisposition << " dwFlagsAndAttributes: " << dwFlagsAndAttributes
 			<< " hTemplateFile: " << hTemplateFile << ", return: " << Return << "\n";
 
+		auto it = std::find_if(ctx->m_HandleMap.begin(), ctx->m_HandleMap.end(),
+			[&wlpFileName](const HandleMapping& mapping) { return mapping.ProgName == wlpFileName; });
+
+		if (it != ctx->m_HandleMap.end())
+		{
+			it->Handles.push_back(Return);
+		}
+		else
+		{
+			HandleMapping stHandleMapping(wlpFileName);
+			stHandleMapping.Handles.push_back(Return);
+
+			ctx->m_HandleMap.push_back(stHandleMapping);
+		}
+
 		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 	}
 
 	void EmuCreateFileA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
 	{
+		PeEmulation* ctx = (PeEmulation*)user_data;
+
 		LPCSTR lpFileName = nullptr;
 		DWORD dwDesiredAccess = 0;
 		DWORD dwShareMode = 0;
@@ -1316,10 +1661,27 @@ namespace EmuApi
 			}
 		}
 
+		std::wstring wlpFileName;
+		ANSIToUnicode(alpFileName, wlpFileName);
 		*outs << "CreateFileA lpFileName: " << alpFileName << " dwDesiredAccess: " << dwDesiredAccess
 			<< " dwShareMode:" << GetShareAccessString(dwShareMode) << "lpSecurityAttributes: " << lpSecurityAttributes
 			<< " dwCreationDisposition: " << dwCreationDisposition << " dwFlagsAndAttributes: " << dwFlagsAndAttributes
 			<< " hTemplateFile: " << hTemplateFile << ", return: " << Return << "\n";
+
+		auto it = std::find_if(ctx->m_HandleMap.begin(), ctx->m_HandleMap.end(),
+			[&wlpFileName](const HandleMapping& mapping) { return mapping.ProgName == wlpFileName; });
+
+		if (it != ctx->m_HandleMap.end())
+		{
+			it->Handles.push_back(Return);
+		}
+		else
+		{
+			HandleMapping stHandleMapping(wlpFileName);
+			stHandleMapping.Handles.push_back(Return);
+
+			ctx->m_HandleMap.push_back(stHandleMapping);
+		}
 
 		uc_reg_write(uc, UC_X86_REG_RAX, &Return);
 	}

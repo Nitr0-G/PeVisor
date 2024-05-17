@@ -190,6 +190,10 @@ namespace EmuApi
 	void EmuWriteFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuCreateFileW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuCreateFileA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuCreateFileMappingA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuCreateFileMappingW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuMapViewOfFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+	void EmuUnmapViewOfFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
 	void EmuAreFileApisANSI(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 	void EmuIsValidCodePage(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);

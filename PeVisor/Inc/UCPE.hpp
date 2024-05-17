@@ -47,9 +47,10 @@ typedef struct _FakeAPI
 
 typedef struct _FakeSection
 {
-	_FakeSection(ULONG a, ULONG d, ULONG l, ULONG b, char* c, bool u) 
-		: SectionBase(a), RealflProtect(d), EmuflProtect(l), SectionSize(b), IsUnknownSection(u) {}
+	_FakeSection(ULONG a, ULONG d, ULONG l, SIZE_T b, char* c, bool u, DWORD_PTR j = 0) 
+		: SectionBase(a), RealflProtect(d), EmuflProtect(l), SectionSize(b), IsUnknownSection(u), SectionFullAddress(j) {}
 	DWORD SectionBase = 0;
+	DWORD_PTR SectionFullAddress = 0;//For sections thar was allocated via VirtualAlloc and etc. funcs
 	DWORD RealflProtect = 0;
 	DWORD EmuflProtect = 0;
 
@@ -81,6 +82,15 @@ typedef struct _FakeModule
 	std::vector<FakeAPI> FakeAPIs;
 	std::vector<FakeSection> FakeSections;
 } FakeModule, *PFakeModule;
+
+typedef struct _HandleMapping
+{
+	_HandleMapping(std::wstring wName) :
+		ProgName(wName) {}
+
+	std::wstring ProgName;
+	std::list<HANDLE> Handles;
+} HandleMapping, *PHandleMapping;
 
 typedef struct _AllocBlock
 {
@@ -334,7 +344,9 @@ public:
 
 	std::vector<PFakeModule> m_FakeModules;
 	std::vector<AllocBlock> m_HeapAllocs;
+	std::vector<HandleMapping> m_HandleMap;
 	std::vector<MemMapping> m_MemMappings;
+	std::vector<FakeSection> m_FakeAllocations;
 	std::list<std::pair<DWORD, LPVOID>> m_TlsValue;
 
 	std::string filename;

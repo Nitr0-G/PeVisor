@@ -1,8 +1,8 @@
 #pragma once
-#include "CPUID.hpp"
-#include "Registers.hpp"
 #include "BlackBone/ManualMap/MMap.h"
 #include "BlackBone/Process/Process.h"
+#include "CPUID.hpp"
+#include "Registers.hpp"
 #include "Buffer.hpp"
 #include "Encode.hpp"
 #include "Nativestructs.hpp"
@@ -359,7 +359,7 @@ public:
 
 #define API_FUNCTION_SIZE 8
 #define PAGE_SIZE 0x1000
-#define PAGE_ALIGN(Va) (ULONG_PTR)(Va) & ~(PAGE_SIZE - 1)
+//#define PAGE_ALIGN(Va) (ULONG_PTR)(Va) & ~(PAGE_SIZE - 1)
 #define PAGE_ALIGN_64(Va) (Va) & ~(0x1000ull - 1)
 #define PAGE_ALIGN_64k(Va) ((Va)) & ~(0x10000ull - 1)
 

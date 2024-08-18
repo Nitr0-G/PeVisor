@@ -1,18 +1,5 @@
 #include "UCPE.hpp"
 
-extern "C"
-{
-	NTSYSAPI
-		PVOID
-		NTAPI
-		RtlImageDirectoryEntryToData(
-			PVOID BaseAddress,
-			BOOLEAN MappedAsImage,
-			USHORT Directory,
-			PULONG Size
-		);
-}
-
 // About: Function for getting of proc address via LDR
 // Param 1: ImageBase
 // Param 2: ProcedureName

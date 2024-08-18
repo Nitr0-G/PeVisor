@@ -3,24 +3,6 @@
 
 std::ostream* outs;
 
-extern "C"
-{
-	NTSYSAPI
-		PIMAGE_NT_HEADERS
-		NTAPI
-		RtlImageNtHeader(IN PVOID BaseAddress);
-
-	NTSYSAPI
-		PVOID
-		NTAPI
-		RtlImageDirectoryEntryToData(
-			PVOID BaseAddress,
-			BOOLEAN MappedAsImage,
-			USHORT Directory,
-			PULONG Size
-		);
-}
-
 static ULONG ExtractEntryPointRva(PVOID ModuleBase)
 {
 	return RtlImageNtHeader(ModuleBase)->OptionalHeader.AddressOfEntryPoint;
@@ -273,7 +255,7 @@ void PeEmulation::InitLdrModuleList()
 		LDR_DATA_TABLE_ENTRY LdrEntry = { 0 };
 		LdrEntry.DllBase = (PVOID)m_FakeModules[i]->ImageBase;
 		LdrEntry.ReferenceCount = 1;
-		LdrEntry.EntryPoint = (PVOID)m_FakeModules[i]->ImageEntry;
+		LdrEntry.EntryPoint = (PLDR_INIT_ROUTINE)m_FakeModules[i]->ImageEntry;
 		LdrEntry.SizeOfImage = m_FakeModules[i]->ImageSize;
 
 		LdrEntry.FullDllName.Length = (USHORT)m_FakeModules[i]->FullPath.wstring().length() * sizeof(WCHAR);

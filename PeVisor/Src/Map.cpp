@@ -1,23 +1,5 @@
 #include "UCPE.hpp"
 
-extern "C"
-{
-	NTSYSAPI
-		PIMAGE_NT_HEADERS
-		NTAPI
-		RtlImageNtHeader(IN PVOID BaseAddress);
-
-	NTSYSAPI
-		PVOID
-		NTAPI
-		RtlImageDirectoryEntryToData(
-			PVOID BaseAddress,
-			BOOLEAN MappedAsImage,
-			USHORT Directory,
-			PULONG Size
-		);
-}
-
 static ULONG ExtractEntryPointRva(PVOID ModuleBase)
 {
 	return RtlImageNtHeader(ModuleBase)->OptionalHeader.AddressOfEntryPoint;

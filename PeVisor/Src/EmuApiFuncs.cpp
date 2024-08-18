@@ -7,7 +7,7 @@ static DWORD GetProcessIdByThreadHandle(HANDLE hThread)
 {
 	THREAD_BASIC_INFORMATION tbi;
 
-	if (NT_SUCCESS(NtQueryInformationThread(hThread, (THREADINFOCLASS)__THREADINFOCLASS::ThreadBasicInformation,
+	if (NT_SUCCESS(NtQueryInformationThread(hThread, (THREADINFOCLASS)THREADINFOCLASS::ThreadBasicInformation,
 		&tbi, sizeof(THREAD_BASIC_INFORMATION), 0)))
 	{
 		return (DWORD)tbi.ClientId.UniqueProcess;
@@ -66,13 +66,6 @@ static std::string GetOpenOptionsString(ULONG openOptions) {
 	if (openOptions & FILE_OPEN_REQUIRING_OPLOCK) result += " FILE_OPEN_REQUIRING_OPLOCK ";
 
 	return result;
-}
-
-extern "C"
-{
-	NTSYSAPI NTSTATUS RtlGetVersion(
-		PRTL_OSVERSIONINFOW lpVersionInformation
-	);
 }
 
 namespace InternalEmuApi {
@@ -538,7 +531,7 @@ namespace EmuApi
 		PVOID TargetIp = nullptr;
 
 		uc_reg_read(uc, UC_X86_REG_RDX, &TargetIp);
-
+		
 		PEXCEPTION_RECORD ExceptionRecord = nullptr;
 		PVOID ReturnValue = nullptr;
 		PCONTEXT ContextRecord = nullptr;
@@ -1994,10 +1987,10 @@ namespace EmuApi
 
 		DWORD_PTR Return = STATUS_SUCCESS;
 
-		if (ThreadInformationClass == (DWORD)THREADINFOCLASS__::ThreadHideFromDebugger && 
+		if (ThreadInformationClass == (DWORD)THREADINFOCLASS::ThreadHideFromDebugger && 
 			ThreadInformation == 0 && ThreadInformationLength == 0)
 		{
-			if (ThreadHandle == NtCurrentThread || 
+			if (ThreadHandle == NtCurrentThread() || 
 				GetCurrentProcessId() == GetProcessIdByThreadHandle(ThreadHandle)) //thread inside this process?
 			{
 				uc_reg_write(uc, UC_X86_REG_RAX, &Return);
@@ -2022,130 +2015,130 @@ namespace EmuApi
 
 		switch (ThreadInformationClass)
 		{
-		case (DWORD)__THREADINFOCLASS::ThreadBasicInformation:
+		case (DWORD)THREADINFOCLASS::ThreadBasicInformation:
 			szThreadInformationClass = "ThreadBasicInformation";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadTimes:
+		case (DWORD)THREADINFOCLASS::ThreadTimes:
 			szThreadInformationClass = "ThreadTimes";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadPriority:
+		case (DWORD)THREADINFOCLASS::ThreadPriority:
 			szThreadInformationClass = "ThreadPriority";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadBasePriority:
+		case (DWORD)THREADINFOCLASS::ThreadBasePriority:
 			szThreadInformationClass = "ThreadBasePriority";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadAffinityMask:
+		case (DWORD)THREADINFOCLASS::ThreadAffinityMask:
 			szThreadInformationClass = "ThreadAffinityMask";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadImpersonationToken:
+		case (DWORD)THREADINFOCLASS::ThreadImpersonationToken:
 			szThreadInformationClass = "ThreadImpersonationToken";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadDescriptorTableEntry:
+		case (DWORD)THREADINFOCLASS::ThreadDescriptorTableEntry:
 			szThreadInformationClass = "ThreadDescriptorTableEntry";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadEnableAlignmentFaultFixup:
+		case (DWORD)THREADINFOCLASS::ThreadEnableAlignmentFaultFixup:
 			szThreadInformationClass = "ThreadEnableAlignmentFaultFixup";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadEventPair:
+		case (DWORD)THREADINFOCLASS::ThreadEventPair:
 			szThreadInformationClass = "ThreadEventPair";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadQuerySetWin32StartAddress:
+		case (DWORD)THREADINFOCLASS::ThreadQuerySetWin32StartAddress:
 			szThreadInformationClass = "ThreadQuerySetWin32StartAddress";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadZeroTlsCell:
+		case (DWORD)THREADINFOCLASS::ThreadZeroTlsCell:
 			szThreadInformationClass = "ThreadZeroTlsCell";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadPerformanceCount:
+		case (DWORD)THREADINFOCLASS::ThreadPerformanceCount:
 			szThreadInformationClass = "ThreadPerformanceCount";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadAmILastThread:
+		case (DWORD)THREADINFOCLASS::ThreadAmILastThread:
 			szThreadInformationClass = "ThreadAmILastThread";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadIdealProcessor:
+		case (DWORD)THREADINFOCLASS::ThreadIdealProcessor:
 			szThreadInformationClass = "ThreadIdealProcessor";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadPriorityBoost:
+		case (DWORD)THREADINFOCLASS::ThreadPriorityBoost:
 			szThreadInformationClass = "ThreadPriorityBoost";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadSetTlsArrayAddress:
+		case (DWORD)THREADINFOCLASS::ThreadSetTlsArrayAddress:
 			szThreadInformationClass = "ThreadSetTlsArrayAddress";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadIsIoPending:
+		case (DWORD)THREADINFOCLASS::ThreadIsIoPending:
 			szThreadInformationClass = "ThreadIsIoPending";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadHideFromDebugger:
+		case (DWORD)THREADINFOCLASS::ThreadHideFromDebugger:
 			szThreadInformationClass = "ThreadHideFromDebugger";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadBreakOnTermination:
+		case (DWORD)THREADINFOCLASS::ThreadBreakOnTermination:
 			szThreadInformationClass = "ThreadBreakOnTermination";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadSwitchLegacyState:
+		case (DWORD)THREADINFOCLASS::ThreadSwitchLegacyState:
 			szThreadInformationClass = "ThreadSwitchLegacyState";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadIsTerminated:
+		case (DWORD)THREADINFOCLASS::ThreadIsTerminated:
 			szThreadInformationClass = "ThreadIsTerminated";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadLastSystemCall:
+		case (DWORD)THREADINFOCLASS::ThreadLastSystemCall:
 			szThreadInformationClass = "ThreadLastSystemCall";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadIoPriority:
+		case (DWORD)THREADINFOCLASS::ThreadIoPriority:
 			szThreadInformationClass = "ThreadIoPriority";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadCycleTime:
+		case (DWORD)THREADINFOCLASS::ThreadCycleTime:
 			szThreadInformationClass = "ThreadCycleTime";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadPagePriority:
+		case (DWORD)THREADINFOCLASS::ThreadPagePriority:
 			szThreadInformationClass = "ThreadPagePriority";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadActualBasePriority:
+		case (DWORD)THREADINFOCLASS::ThreadActualBasePriority:
 			szThreadInformationClass = "ThreadActualBasePriority";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadTebInformation:
+		case (DWORD)THREADINFOCLASS::ThreadTebInformation:
 			szThreadInformationClass = "ThreadTebInformation";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadCSwitchMon:
+		case (DWORD)THREADINFOCLASS::ThreadCSwitchMon:
 			szThreadInformationClass = "ThreadCSwitchMon";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadCSwitchPmu:
+		case (DWORD)THREADINFOCLASS::ThreadCSwitchPmu:
 			szThreadInformationClass = "ThreadCSwitchPmu";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadWow64Context:
+		case (DWORD)THREADINFOCLASS::ThreadWow64Context:
 			szThreadInformationClass = "ThreadWow64Context";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadGroupInformation:
+		case (DWORD)THREADINFOCLASS::ThreadGroupInformation:
 			szThreadInformationClass = "ThreadGroupInformation";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadUmsInformation:
+		case (DWORD)THREADINFOCLASS::ThreadUmsInformation:
 			szThreadInformationClass = "ThreadUmsInformation";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadCounterProfiling:
+		case (DWORD)THREADINFOCLASS::ThreadCounterProfiling:
 			szThreadInformationClass = "ThreadCounterProfiling";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadIdealProcessorEx:
+		case (DWORD)THREADINFOCLASS::ThreadIdealProcessorEx:
 			szThreadInformationClass = "ThreadIdealProcessorEx";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadCpuAccountingInformation:
+		case (DWORD)THREADINFOCLASS::ThreadCpuAccountingInformation:
 			szThreadInformationClass = "ThreadCpuAccountingInformation";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadSuspendCount:
+		case (DWORD)THREADINFOCLASS::ThreadSuspendCount:
 			szThreadInformationClass = "ThreadSuspendCount";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadHeterogeneousCpuPolicy:
+		case (DWORD)THREADINFOCLASS::ThreadHeterogeneousCpuPolicy:
 			szThreadInformationClass = "ThreadHeterogeneousCpuPolicy";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadContainerId:
+		case (DWORD)THREADINFOCLASS::ThreadContainerId:
 			szThreadInformationClass = "ThreadContainerId";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadNameInformation:
+		case (DWORD)THREADINFOCLASS::ThreadNameInformation:
 			szThreadInformationClass = "ThreadNameInformation";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadSelectedCpuSets:
+		case (DWORD)THREADINFOCLASS::ThreadSelectedCpuSets:
 			szThreadInformationClass = "ThreadSelectedCpuSets";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadSystemThreadInformation:
+		case (DWORD)THREADINFOCLASS::ThreadSystemThreadInformation:
 			szThreadInformationClass = "ThreadSystemThreadInformation";
 			break;
-		case (DWORD)__THREADINFOCLASS::ThreadActualGroupAffinity:
+		case (DWORD)THREADINFOCLASS::ThreadActualGroupAffinity:
 			szThreadInformationClass = "ThreadActualGroupAffinity";
 			break;
 		}
@@ -2173,36 +2166,32 @@ namespace EmuApi
 		uc_reg_read(uc, UC_X86_REG_RSP, &SP);
 		uc_mem_read(uc, (DWORD_PTR)SP + 0x28, &ReturnLength, sizeof(PULONG));
 
-		HMODULE hNtdll = LoadLibraryA("ntdll.dll");
-		auto pfnNtQueryInformationProcess = (TNtQueryInformationProcess)GetProcAddress(
-			hNtdll, "NtQueryInformationProcess");
-
 		std::string szProcessInformationClass;
 		DWORD_PTR Return = STATUS_SUCCESS;
 
-		switch ((PROCESSINFOCLASS_)ProcessInformationClass)
+		switch ((PROCESSINFOCLASS)ProcessInformationClass)
 		{
-		case PROCESSINFOCLASS_::ProcessBasicInformation:
+		case PROCESSINFOCLASS::ProcessBasicInformation:
 		{
 			szProcessInformationClass = "ProcessBasicInformation";
 
-			PROCESS_BASIC_INFORMATION_ pbi{};
+			PROCESS_BASIC_INFORMATION pbi{};
 
-			NTSTATUS status = pfnNtQueryInformationProcess(
+			NTSTATUS status = NtQueryInformationProcess(
 				ProcessHandle,
-				PROCESSINFOCLASS_::ProcessTelemetryIdInformation,
+				PROCESSINFOCLASS::ProcessTelemetryIdInformation,
 				&pbi,
-				sizeof(PROCESS_BASIC_INFORMATION_),
+				sizeof(PROCESS_BASIC_INFORMATION),
 				nullptr
 			);
 
-			pbi.UniqueProcessId = 1000;
+			pbi.UniqueProcessId = (HANDLE)1000;
 			pbi.PebBaseAddress = (PPEB)ctx->m_PebBase;
 
-			ProcessInformationLength = sizeof(PROCESS_BASIC_INFORMATION_);
+			ProcessInformationLength = sizeof(PROCESS_BASIC_INFORMATION);
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessDebugPort:
+		case PROCESSINFOCLASS::ProcessDebugPort:
 		{
 			szProcessInformationClass = "ProcessDebugPort";
 
@@ -2211,7 +2200,7 @@ namespace EmuApi
 			ProcessInformationLength = sizeof(DWORD);
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessWow64Information:
+		case PROCESSINFOCLASS::ProcessWow64Information:
 		{
 			szProcessInformationClass = "ProcessWow64Information";
 			PBOOL IsWow64 = nullptr;
@@ -2222,7 +2211,7 @@ namespace EmuApi
 
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessImageFileName:
+		case PROCESSINFOCLASS::ProcessImageFileName:
 		{
 			szProcessInformationClass = "ProcessImageFileName";
 
@@ -2230,7 +2219,7 @@ namespace EmuApi
 			ProcessInformationLength = (ULONG)ctx->m_PathExe.wstring().size();
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessBreakOnTermination:
+		case PROCESSINFOCLASS::ProcessBreakOnTermination:
 		{
 			szProcessInformationClass = "ProcessBreakOnTermination";
 
@@ -2240,7 +2229,7 @@ namespace EmuApi
 
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessDebugObjectHandle:
+		case PROCESSINFOCLASS::ProcessDebugObjectHandle:
 		{
 			szProcessInformationClass = "ProcessDebugObjectHandle";
 
@@ -2250,7 +2239,7 @@ namespace EmuApi
 			Return = STATUS_PORT_NOT_SET;
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessDebugFlags:
+		case PROCESSINFOCLASS::ProcessDebugFlags:
 		{
 			szProcessInformationClass = "ProcessDebugFlags";
 
@@ -2259,14 +2248,14 @@ namespace EmuApi
 			ProcessInformationLength = sizeof(DWORD);
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessTelemetryIdInformation:
+		case PROCESSINFOCLASS::ProcessTelemetryIdInformation:
 		{
 			szProcessInformationClass = "ProcessTelemetryIdInformation";
 
 			PROCESS_TELEMETRY_ID_INFORMATION ptii{};
-			NTSTATUS status = pfnNtQueryInformationProcess(
+			NTSTATUS status = NtQueryInformationProcess(
 				ProcessHandle,
-				PROCESSINFOCLASS_::ProcessTelemetryIdInformation,
+				PROCESSINFOCLASS::ProcessTelemetryIdInformation,
 				&ptii,
 				sizeof(PROCESS_TELEMETRY_ID_INFORMATION),
 				nullptr
@@ -2281,7 +2270,7 @@ namespace EmuApi
 			}
 			break;
 		}
-		case PROCESSINFOCLASS_::ProcessSubsystemInformation:
+		case PROCESSINFOCLASS::ProcessSubsystemInformation:
 		{
 			szProcessInformationClass = "ProcessSubsystemInformation";
 
@@ -2343,10 +2332,6 @@ namespace EmuApi
 			std::make_tuple(&SectionHandle, &DesiredAccess, &ObjectAttributes),
 			{ UC_X86_REG_RCX, UC_X86_REG_EDX, UC_X86_REG_R8 });
 
-		HMODULE hNtdll = LoadLibraryA("ntdll.dll");
-		auto NtOpenSection = (TNtOpenSection)GetProcAddress(
-			hNtdll, "NtOpenSection");
-
 		uc_mem_read(uc, (DWORD_PTR)ObjectAttributes, &ObjectAttributes1, sizeof(OBJECT_ATTRIBUTES));
 		
 		UNICODE_STRING ObjectName{};
@@ -2393,7 +2378,7 @@ namespace EmuApi
 			std::make_tuple(&lpCriticalSection, &dwSpinCount),
 			{ UC_X86_REG_RCX, UC_X86_REG_EDX });
 
-		RTL_CRITICAL_SECTION_64 CrtSection;
+		RTL_CRITICAL_SECTION CrtSection;
 		CrtSection.DebugInfo = 0;
 		CrtSection.LockCount = 0;
 		CrtSection.LockSemaphore = 0;
@@ -2401,7 +2386,7 @@ namespace EmuApi
 		CrtSection.RecursionCount = 0;
 		CrtSection.SpinCount = dwSpinCount;
 
-		uc_mem_write(uc, (DWORD_PTR)lpCriticalSection, &CrtSection, sizeof(RTL_CRITICAL_SECTION_64));
+		uc_mem_write(uc, (DWORD_PTR)lpCriticalSection, &CrtSection, sizeof(RTL_CRITICAL_SECTION));
 
 		DWORD r = 1;
 
@@ -2420,7 +2405,7 @@ namespace EmuApi
 			std::make_tuple(&lpCriticalSection, &dwSpinCount, &Flags),
 			{ UC_X86_REG_RCX, UC_X86_REG_EDX, UC_X86_REG_R8D });
 
-		RTL_CRITICAL_SECTION_64 CrtSection;
+		RTL_CRITICAL_SECTION CrtSection;
 		CrtSection.DebugInfo = 0;
 		CrtSection.LockCount = 0;
 		CrtSection.LockSemaphore = 0;
@@ -2428,7 +2413,7 @@ namespace EmuApi
 		CrtSection.RecursionCount = 0;
 		CrtSection.SpinCount = dwSpinCount;
 
-		uc_mem_write(uc, (DWORD_PTR)lpCriticalSection, &CrtSection, sizeof(RTL_CRITICAL_SECTION_64));
+		uc_mem_write(uc, (DWORD_PTR)lpCriticalSection, &CrtSection, sizeof(RTL_CRITICAL_SECTION));
 
 		DWORD r = 1;
 
@@ -2572,7 +2557,7 @@ namespace EmuApi
 		LPCRITICAL_SECTION lpCriticalSection = nullptr;
 		uc_reg_read(uc, UC_X86_REG_RCX, &lpCriticalSection);
 
-		RTL_CRITICAL_SECTION_64 CrtSection;
+		RTL_CRITICAL_SECTION CrtSection;
 		CrtSection.DebugInfo = 0;
 		CrtSection.LockCount = 0;
 		CrtSection.LockSemaphore = 0;
@@ -2580,7 +2565,7 @@ namespace EmuApi
 		CrtSection.RecursionCount = 0;
 		CrtSection.SpinCount = 0;
 
-		uc_mem_write(uc, (DWORD_PTR)lpCriticalSection, &CrtSection, sizeof(RTL_CRITICAL_SECTION_64));
+		uc_mem_write(uc, (DWORD_PTR)lpCriticalSection, &CrtSection, sizeof(RTL_CRITICAL_SECTION));
 
 		*outs << "DeleteCriticalSection " << lpCriticalSection << "\n";
 	}
@@ -2824,7 +2809,7 @@ namespace EmuApi
 			uc_mem_read(uc, (DWORD_PTR)NumberOfBytesToProtect, &NumberOfBytes, sizeof(NumberOfBytes));
 
 			EndAddress = RequestAddress + NumberOfBytes - 1;
-			BaseAddress = PAGE_ALIGN(RequestAddress);
+			BaseAddress = (DWORD_PTR)PAGE_ALIGN(RequestAddress);
 			EndAddress = AlignSize(EndAddress, PAGE_SIZE);
 
 			int prot = 0;
@@ -2966,8 +2951,8 @@ namespace EmuApi
 			if (SystemInformationClass == SystemKernelDebuggerInformation)
 			{
 				SYSTEM_KERNEL_DEBUGGER_INFORMATION info;
-				info.DebuggerEnabled = FALSE;
-				info.DebuggerNotPresent = TRUE;
+				info.KernelDebuggerEnabled = FALSE;
+				info.KernelDebuggerNotPresent = TRUE;
 				uc_mem_write(uc, (DWORD_PTR)SystemInformation, &info, sizeof(info));
 			}
 		}
@@ -3265,7 +3250,7 @@ namespace EmuApi
 		case SystemDynamicTimeZoneInformation:
 			szSystemInformationClass = "SystemDynamicTimeZoneInformation";
 			break;
-		case SystemCodeIntegrityInformation_:
+		case SystemCodeIntegrityInformation:
 			szSystemInformationClass = "SystemCodeIntegrityInformation_";
 			break;
 		case SystemProcessorMicrocodeUpdateInformation:
@@ -3307,7 +3292,7 @@ namespace EmuApi
 		case SystemLowPriorityIoInformation:
 			szSystemInformationClass = "SystemLowPriorityIoInformation";
 			break;
-		case SystemBootEntropyInformation:
+		case SystemTpmBootEntropyInformation:
 			szSystemInformationClass = "SystemBootEntropyInformation";
 			break;
 		case SystemVerifierCountersInformation:
@@ -3358,9 +3343,6 @@ namespace EmuApi
 		case SystemPlatformBinaryInformation:
 			szSystemInformationClass = "SystemPlatformBinaryInformation";
 			break;
-		case SystemThrottleNotificationInformation:
-			szSystemInformationClass = "SystemThrottleNotificationInformation";
-			break;
 		case SystemHypervisorProcessorCountInformation:
 			szSystemInformationClass = "SystemHypervisorProcessorCountInformation";
 			break;
@@ -3381,9 +3363,6 @@ namespace EmuApi
 			break;
 		case SystemProcessorPerformanceInformationEx:
 			szSystemInformationClass = "SystemProcessorPerformanceInformationEx";
-			break;
-		case SystemSpare0:
-			szSystemInformationClass = "SystemSpare0";
 			break;
 		case SystemSecureBootPolicyInformation:
 			szSystemInformationClass = "SystemSecureBootPolicyInformation";
@@ -3606,7 +3585,7 @@ namespace EmuApi
 		DWORD_PTR rcx;
 		uc_reg_read(uc, UC_X86_REG_RCX, &rcx);
 
-		RTL_OSVERSIONINFOW verinfo = { 0 };
+		RTL_OSVERSIONINFOEXW verinfo = { 0 };
 
 		uc_mem_read(uc, rcx, &verinfo, sizeof(verinfo));
 

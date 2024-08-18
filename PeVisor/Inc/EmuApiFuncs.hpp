@@ -12,109 +12,7 @@
 #include <iostream>
 #include <sstream>
 
-#define NtCurrentThread ((HANDLE)-2)
 #define ALIGN_TO_4KB(size) (((size) + 4095) / 4096) * 4096
-
-typedef enum class __PROCESSINFOCLASS {
-	ProcessBasicInformation = 0,
-	ProcessDebugPort = 7,
-	ProcessWow64Information = 26,
-	ProcessImageFileName = 27,
-	ProcessBreakOnTermination = 29,
-	ProcessDebugObjectHandle = 30,
-	ProcessDebugFlags = 31,
-	ProcessTelemetryIdInformation = 64,
-	ProcessSubsystemInformation = 75
-} PROCESSINFOCLASS_;
-
-typedef struct __PROCESS_BASIC_INFORMATION {
-	NTSTATUS ExitStatus;
-	PPEB PebBaseAddress;
-	ULONG_PTR AffinityMask;
-	KPRIORITY BasePriority;
-	ULONG_PTR UniqueProcessId;
-	ULONG_PTR InheritedFromUniqueProcessId;
-} PROCESS_BASIC_INFORMATION_;
-
-typedef enum _SUBSYSTEM_INFORMATION_TYPE {
-	SubsystemInformationTypeWin32,
-	SubsystemInformationTypeWSL,
-	MaxSubsystemInformationType
-} SUBSYSTEM_INFORMATION_TYPE, * PSUBSYSTEM_INFORMATION_TYPE;
-
-typedef struct _PROCESS_TELEMETRY_ID_INFORMATION {
-	ULONG HeaderSize;
-	ULONG ProcessId;
-	ULONG64 ProcessStartKey;
-	ULONG64 CreateTime;
-	ULONG64 CreateInterruptTime;
-	ULONG64 CreateUnbiasedInterruptTime;
-	ULONG64 ProcessSequenceNumber;
-	ULONG64 SessionCreateTime;
-	ULONG SessionId;
-	ULONG BootId;
-	ULONG ImageChecksum;
-	ULONG ImageTimeDateStamp;
-	ULONG UserSidOffset;
-	ULONG ImagePathOffset;
-	ULONG PackageNameOffset;
-	ULONG RelativeAppNameOffset;
-	ULONG CommandLineOffset;
-} PROCESS_TELEMETRY_ID_INFORMATION, * PPROCESS_TELEMETRY_ID_INFORMATION;
-
-typedef struct _THREAD_BASIC_INFORMATION {
-	NTSTATUS ExitStatus;
-	PVOID TebBaseAddress;
-	CLIENT_ID ClientId;
-	KAFFINITY AffinityMask;
-	KPRIORITY Priority;
-	KPRIORITY BasePriority;
-} THREAD_BASIC_INFORMATION, * PTHREAD_BASIC_INFORMATION;
-
-typedef enum class __THREADINFOCLASS {
-	ThreadBasicInformation = 0x0,
-	ThreadTimes = 0x01,
-	ThreadPriority = 0x02,
-	ThreadBasePriority = 0x03,
-	ThreadAffinityMask = 0x04,
-	ThreadImpersonationToken = 0x05,
-	ThreadDescriptorTableEntry = 0x06,
-	ThreadEnableAlignmentFaultFixup = 0x07,
-	ThreadEventPair = 0x08,
-	ThreadQuerySetWin32StartAddress = 0x09,
-	ThreadZeroTlsCell = 0x0A,
-	ThreadPerformanceCount = 0x0B,
-	ThreadAmILastThread = 0x0C,
-	ThreadIdealProcessor = 0x0D,
-	ThreadPriorityBoost = 0x0E,
-	ThreadSetTlsArrayAddress = 0x0F,
-	ThreadIsIoPending = 0x10,
-	ThreadHideFromDebugger = 0x11,
-	ThreadBreakOnTermination = 0x12,
-	ThreadSwitchLegacyState = 0x13,
-	ThreadIsTerminated = 0x14,
-	ThreadLastSystemCall = 0x15,
-	ThreadIoPriority = 0x16,
-	ThreadCycleTime = 0x17,
-	ThreadPagePriority = 0x18,
-	ThreadActualBasePriority = 0x19,
-	ThreadTebInformation = 0x1A,
-	ThreadCSwitchMon = 0x1B,
-	ThreadCSwitchPmu = 0x1C,
-	ThreadWow64Context = 0x1D,
-	ThreadGroupInformation = 0x1E,
-	ThreadUmsInformation = 0x1F,
-	ThreadCounterProfiling = 0x20,
-	ThreadIdealProcessorEx = 0x21,
-	ThreadCpuAccountingInformation = 0x22,
-	ThreadSuspendCount = 0x23,
-	ThreadHeterogeneousCpuPolicy = 0x24,
-	ThreadContainerId = 0x25,
-	ThreadNameInformation = 0x26,
-	ThreadSelectedCpuSets = 0x27,
-	ThreadSystemThreadInformation = 0x28,
-	ThreadActualGroupAffinity = 0x29
-} THREADINFOCLASS__;
 
 namespace InternalEmuApi {
 	bool EmuWriteNullTermString(_In_ uc_engine* uc, _Inout_ DWORD_PTR address, _In_ const std::string& str);
@@ -131,20 +29,6 @@ namespace InternalEmuApi {
 }
 
 using namespace InternalEmuApi;
-
-typedef NTSTATUS(NTAPI* TNtQueryInformationProcess)(
-	IN HANDLE           ProcessHandle,
-	IN PROCESSINFOCLASS_ ProcessInformationClass,
-	OUT PVOID           ProcessInformation,
-	IN ULONG            ProcessInformationLength,
-	OUT PULONG          ReturnLength
-	);
-
-typedef NTSTATUS(NTAPI* TNtOpenSection)(
-	OUT PHANDLE             SectionHandle,
-	IN ACCESS_MASK          DesiredAccess,
-	IN POBJECT_ATTRIBUTES   ObjectAttributes
-	);
 
 namespace EmuApi
 {

@@ -1,18 +1,5 @@
 #include "UCPE.hpp"
 
-extern "C"
-{
-	NTSYSAPI
-		PVOID
-		NTAPI
-		RtlImageDirectoryEntryToData(
-			PVOID BaseAddress,
-			BOOLEAN MappedAsImage,
-			USHORT Directory,
-			PULONG Size
-		);
-}
-
 LPTOP_LEVEL_EXCEPTION_FILTER PeEmulation::SetUnhandledExceptionFilter(
 	_In_ LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter)
 {

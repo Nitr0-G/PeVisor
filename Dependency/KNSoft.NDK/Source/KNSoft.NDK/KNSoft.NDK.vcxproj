@@ -67,7 +67,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)OutDir\$(PlatformTarget)\</OutDir>
     <IntDir>IntDir\$(PlatformTarget)\</IntDir>
-    <IncludePath>$(SolutionDir)Include;$(SolutionDir)Include\KNSoft\NDK\3rdParty\phnt;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Include;$(ProjectDir)Include\KNSoft\NDK\3rdParty\phnt;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

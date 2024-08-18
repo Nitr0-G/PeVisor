@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.props" Condition="Exists('..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.props')" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{1a6001a4-2e81-4cfb-86f3-e1fe1b4a5991}</ProjectGuid>
+    <RootNamespace>KNSoft.NDK</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>KNSoft.NDK</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <ConfigurationType>Utility</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <ConfigurationType>Utility</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <ConfigurationType>Utility</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <OutDir>$(SolutionDir)OutDir\$(PlatformTarget)\</OutDir>
+    <IntDir>IntDir\$(PlatformTarget)\</IntDir>
+    <IncludePath>$(SolutionDir)Include;$(SolutionDir)Include\KNSoft\NDK\3rdParty\phnt;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)OutDir\$(PlatformTarget)\</OutDir>
+    <IntDir>IntDir\$(PlatformTarget)\</IntDir>
+    <IncludePath>$(SolutionDir)Include;$(SolutionDir)Include\KNSoft\NDK\3rdParty\phnt;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)OutDir\$(PlatformTarget)\</OutDir>
+    <IntDir>IntDir\$(PlatformTarget)\</IntDir>
+    <IncludePath>$(SolutionDir)Include;$(SolutionDir)Include\KNSoft\NDK\3rdParty\phnt;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntbcd.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntdbg.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntexapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntgdi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntimage.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntioapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntkeapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntldr.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntlpcapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntmisc.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntmmapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntnls.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntobapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntpebteb.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntpfapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntpnpapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntpoapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntpsapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntregapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntrtl.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntsam.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntseapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntsmss.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntsxs.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\nttmapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\nttp.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntwmi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntwow64.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntxcapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\ntzwapi.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\3rdParty\phnt\phnt.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Extension\CPUID.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Extension\Extension.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Extension\MSToolChain.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Extension\SMBIOS.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Extension\StrSafe.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Addendum.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Dbg.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Ex.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Extension\Runtime.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Extension\Security.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Io.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Ke.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Macro.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\MinDef.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Mm.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\NT.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Ob.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Private\Ntdef_Around.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Private\TargetArch.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Private\Winnt_Around.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Rtl\Assertion.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Rtl\Memory.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Rtl\Rtl.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Se.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Wow\Io.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Wow\Ldr.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Wow\Rtl.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Wow\Sxs.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NT\Wow\Wow.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\UnitTest\UnitTest.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Win32\API\Kernel32.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Win32\API\Ntdll.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Win32\API\Ntdll.Hash.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Win32\API\User32.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Win32\Def\CommCtrl.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\Win32\Def\WinUser.h" />
+    <ClInclude Include="..\Include\KNSoft\NDK\NDK.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Include\KNSoft\NDK\UnitTest\UnitTest.inl" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Precomp4C_LibCreate Include="WinAPI\KNSoft.NDK.WinAPI.xml" />
+    <Precomp4C_LibCreate Include="WinAPI\KNSoft.NDK.Ntdll.Hash.xml" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.targets" Condition="Exists('..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.props'))" />
+    <Error Condition="!Exists('..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KNSoft.Precomp4C.1.0.9-alpha\build\KNSoft.Precomp4C.targets'))" />
+  </Target>
+</Project>

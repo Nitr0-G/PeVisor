@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="UnitTestFramework.c" />
+    <ClCompile Include="Main.c" />
+    <ClCompile Include="NT\PebTebKUSD.c">
+      <Filter>NT</Filter>
+    </ClCompile>
+    <ClCompile Include="StrSafe.c" />
+    <ClCompile Include="NT\PebLdr.c">
+      <Filter>NT</Filter>
+    </ClCompile>
+    <ClCompile Include="Extension\MSToolChain.c">
+      <Filter>Extension</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NT">
+      <UniqueIdentifier>{62d5419b-ca75-423e-b61b-b51ebb1a1c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extension">
+      <UniqueIdentifier>{465796cb-eade-41ce-a5d4-197bee582c40}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

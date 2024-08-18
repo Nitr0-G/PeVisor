@@ -368,7 +368,7 @@ xcopy "$(ProjectDir)..\..\DIA\$(Platform)\symsrv.dll" "$(TargetDir)" /Y</Command
     </ProjectReference>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)..\3rd_party\DIA\lib\amd64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>diaguids.lib;Ole32.lib;D:\Programs\Soft\Coding\C\VisualStudio\Coders\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.Ntdll.Hash;D:\Programs\Soft\Coding\C\VisualStudio\Coders\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.WinAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>diaguids.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)..\..\DIA\$(Platform)\msdia140.dll" "$(TargetDir)" /Y

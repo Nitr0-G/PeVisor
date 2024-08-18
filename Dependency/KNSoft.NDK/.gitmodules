@@ -1,0 +1,3 @@
+[submodule "Source/Include/KNSoft/NDK/3rdParty/phnt"]
+	path = Source/Include/KNSoft/NDK/3rdParty/phnt
+	url = https://github.com/RatinCN/phnt.git

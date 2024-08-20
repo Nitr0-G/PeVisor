@@ -7,7 +7,6 @@
 *.so
 *.so.*
 *.exe
-*.dll
 *.class
 *.jar
 *.gem

@@ -81,7 +81,7 @@ config.log
 
 [Dd]ebug/
 [Rr]elease/
-x64/
+OutDir/
 build/
 build_*
 rust_build

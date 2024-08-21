@@ -6,7 +6,6 @@
 *.dSYM
 *.so
 *.so.*
-*.exe
 *.class
 *.jar
 *.gem

@@ -379,7 +379,7 @@ int main(int argc, char** argv)
 
 	if (argc < 2)
 	{
-		printf("usage: unicorn_pe (filename) [-k] [-disasm]\n");
+		printf("usage: PeVisor (filename) [-k] [-disasm]\n");
 		return -1;
 	}
 

@@ -1,6 +1,5 @@
 #include "UCPE.hpp"
 #include <EmuApiFuncs.hpp>
-
 std::ostream* outs;
 
 static ULONG ExtractEntryPointRva(PVOID ModuleBase)
@@ -167,6 +166,13 @@ void PeEmulation::InitTebPeb()
 	peb.Ldr = (PPEB_LDR_DATA)m_LdrBase;
 	peb.ProcessHeap = (PVOID)m_HeapBase;
 	peb.ProcessParameters = EmuProcessParameters;
+	peb.InheritedAddressSpace = false;
+	peb.BeingDebugged = NtCurrentPeb()->BeingDebugged;
+	//std::cout << "Being debugged is  = " << peb.BeingDebugged;
+	peb.Ldr->Length = sizeof(PEB_LDR_DATA);
+	peb.Ldr->Initialized = true;
+
+
 
 	uc_mem_map(m_uc, m_PebBase, m_PebEnd - m_PebBase, UC_PROT_READ);
 	uc_mem_write(m_uc, m_PebBase, &peb, sizeof(PEB));

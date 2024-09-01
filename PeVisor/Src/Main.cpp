@@ -169,8 +169,8 @@ void PeEmulation::InitTebPeb()
 	peb.InheritedAddressSpace = false;
 	peb.BeingDebugged = NtCurrentPeb()->BeingDebugged;
 	//std::cout << "Being debugged is  = " << peb.BeingDebugged;
-	peb.Ldr->Length = sizeof(PEB_LDR_DATA);
-	peb.Ldr->Initialized = true;
+	peb.Ldr->Length = sizeof(PEB_LDR_DATA); // according to info that we have, this should be equal to size of a structure itself in bytes
+	peb.Ldr->Initialized = true; // this should always be true
 
 
 

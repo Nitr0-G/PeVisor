@@ -166,12 +166,11 @@ void PeEmulation::InitTebPeb()
 	peb.Ldr = (PPEB_LDR_DATA)m_LdrBase;
 	peb.ProcessHeap = (PVOID)m_HeapBase;
 	peb.ProcessParameters = EmuProcessParameters;
-	peb.InheritedAddressSpace = false;
+	peb.InheritedAddressSpace = NtCurrentPeb()->InheritedAddressSpace; // apparently this is always getting initialized with 0
+	peb.ReadImageFileExecOptions = NtCurrentPeb()->ReadImageFileExecOptions;
 	peb.BeingDebugged = NtCurrentPeb()->BeingDebugged;
-	//std::cout << "Being debugged is  = " << peb.BeingDebugged;
-	peb.Ldr->Length = sizeof(PEB_LDR_DATA); // according to info that we have, this should be equal to size of a structure itself in bytes
-	peb.Ldr->Initialized = true; // this should always be true
-
+	peb.BitField = NtCurrentPeb()->BitField;
+	
 
 
 	uc_mem_map(m_uc, m_PebBase, m_PebEnd - m_PebBase, UC_PROT_READ);

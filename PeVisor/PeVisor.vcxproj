@@ -22,7 +22,12 @@
     <ClCompile Include="Src\Buffer.cpp" />
     <ClCompile Include="Src\Crt.cpp" />
     <ClCompile Include="Src\EmuApiBasis.cpp" />
-    <ClCompile Include="Src\EmuApiFuncs.cpp" />
+    <ClCompile Include="Src\Emu\EmuUtils.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\fileapiEmu.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\memoryapiEmu.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\processthreadsapiEmu.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\wininetEmu.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.cpp" />
     <ClCompile Include="Src\Encode.cpp" />
     <ClCompile Include="Src\Find.cpp" />
     <ClCompile Include="Src\InternalEmulationApi.cpp" />
@@ -39,7 +44,13 @@
     <ClInclude Include="Inc\Buffer.hpp" />
     <ClInclude Include="Inc\CPUID.hpp" />
     <ClInclude Include="Inc\Crt.hpp" />
-    <ClInclude Include="Inc\EmuApiFuncs.hpp" />
+    <ClInclude Include="Inc\Emu\EmuGeneral.hpp" />
+    <ClInclude Include="Inc\Emu\EmuUtils.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\fileapiEmu.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\memoryapiEmu.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\processthreadsapiEmu.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\wininetEmu.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.hpp" />
     <ClInclude Include="Inc\Encode.hpp" />
     <ClInclude Include="Inc\IEApiErrorCodes.hpp" />
     <ClInclude Include="Inc\Nativestructs.hpp" />
@@ -143,7 +154,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\unicorn\bld\Debug;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Dependency\zydis\msvc\bin\DebugX64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>unicorn-common.lib;unicorn-import.lib;x86_64-softmmu.lib;Zydis.lib;BlackBone.lib;ntdll.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.Ntdll.Hash.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.WinAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>unicorn-common.lib;unicorn-import.lib;x86_64-softmmu.lib;Zydis.lib;BlackBone.lib;ntdll.lib;Wininet.lib;Onecore.lib;WindowsApp.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.Ntdll.Hash.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.WinAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <BaseAddress>
       </BaseAddress>

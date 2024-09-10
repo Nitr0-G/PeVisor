@@ -7,6 +7,42 @@
     <Filter Include="Inc">
       <UniqueIdentifier>{1759c9d8-083f-48d3-b8b7-1d4f3bef12ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\Emu">
+      <UniqueIdentifier>{69fba827-4f27-4b9e-8524-ef8a4e9c2754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Emu">
+      <UniqueIdentifier>{5192afe5-9cee-4861-b4e2-5b075967d3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Emu\Windows Kits">
+      <UniqueIdentifier>{cb6c5e8e-ed33-4768-9296-5f6d3dca5f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Emu\Windows Kits\10">
+      <UniqueIdentifier>{282a59a8-d459-4cb9-90c5-f858c3099196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Emu\Windows Kits\10\Include">
+      <UniqueIdentifier>{cd5da5cd-2fbf-4723-bd18-a1f25ca179b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0">
+      <UniqueIdentifier>{b942c810-56c7-4497-ac98-86402f7917ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um">
+      <UniqueIdentifier>{5f83aafd-9f99-4ff1-87b3-80b8d8289c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Emu\Windows Kits">
+      <UniqueIdentifier>{40ba5837-b296-4caf-a0ad-39fda15d1f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Emu\Windows Kits\10">
+      <UniqueIdentifier>{990e7923-907f-4975-a175-346f74a2584f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Emu\Windows Kits\10\Include">
+      <UniqueIdentifier>{0dd7a716-448e-442b-841d-d7aa39c73d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0">
+      <UniqueIdentifier>{164a8dd3-58e3-402a-88ce-42eae4a6088f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um">
+      <UniqueIdentifier>{9286c9b1-c076-49e2-98e7-2b0da5426ff6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Main.cpp">
@@ -33,9 +69,6 @@
     <ClCompile Include="Src\ucHooks.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\EmuApiFuncs.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\EmuApiBasis.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -54,6 +87,24 @@
     <ClCompile Include="Src\Crt.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Emu\EmuUtils.cpp">
+      <Filter>Src\Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\processthreadsapiEmu.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\fileapiEmu.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\wininetEmu.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\memoryapiEmu.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\UCPE.hpp">
@@ -66,9 +117,6 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Nativestructs.hpp">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\EmuApiFuncs.hpp">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\IEApiErrorCodes.hpp">
@@ -88,6 +136,27 @@
     </ClInclude>
     <ClInclude Include="Inc\Crt.hpp">
       <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\EmuGeneral.hpp">
+      <Filter>Inc\Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\EmuUtils.hpp">
+      <Filter>Inc\Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\processthreadsapiEmu.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\fileapiEmu.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\wininetEmu.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\memoryapiEmu.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

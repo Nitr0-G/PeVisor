@@ -12,7 +12,7 @@ static DWORD GetProcessIdByThreadHandle(HANDLE hThread)
 	{
 		return (DWORD)tbi.ClientId.UniqueProcess;
 	}
-
+	
 	return 0;
 }
 
@@ -247,7 +247,8 @@ namespace EmuApi
 		LPCSTR lpText = nullptr;
 		LPCSTR lpCaption = nullptr;
 		UINT uType = 0;
-
+		RAWINPUT;
+		PCRAWINPUTDEVICE;
 		ReadArgsFromRegisters(uc,
 			std::make_tuple(&hWnd, &lpText, &lpCaption, &uType),
 			{ UC_X86_REG_RCX, UC_X86_REG_RDX, UC_X86_REG_R8, UC_X86_REG_R9W });

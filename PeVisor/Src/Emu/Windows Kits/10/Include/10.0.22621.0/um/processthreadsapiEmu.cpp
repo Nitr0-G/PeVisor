@@ -4272,50 +4272,6 @@ void EmuApi::EmuSetThreadSelectedCpuSetMasks(uc_engine* uc, DWORD_PTR address, s
 /*
 HRESULT
 __cdecl
-GetMachineTypeAttributes(
-    _In_   USHORT                Machine                ,
-    _Out_  MACHINE_ATTRIBUTES *  MachineTypeAttributes  );
-
-*/
-void EmuApi::EmuGetMachineTypeAttributes(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    USHORT Machine{};
-    uc_reg_read(uc, UC_X86_REG_CX, &Machine);
-
-    MACHINE_ATTRIBUTES * MachineTypeAttributes{};
-    uc_reg_read(uc, UC_X86_REG_RDX, &MachineTypeAttributes);
-
-    enum _MACHINE_ATTRIBUTES rlMachineTypeAttributes{};
-
-    if(MachineTypeAttributes != nullptr)
-    {
-        uc_mem_read(uc, (DWORD_PTR)MachineTypeAttributes, &rlMachineTypeAttributes, sizeof(rlMachineTypeAttributes));
-    }
-
-
-    HRESULT GetMachineTypeAttributesResult = GetMachineTypeAttributes((USHORT)Machine,(MACHINE_ATTRIBUTES *)&rlMachineTypeAttributes);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &GetMachineTypeAttributesResult);
-    uc_reg_write(uc, UC_X86_REG_CX, &Machine);
-    uc_reg_write(uc, UC_X86_REG_RDX, &MachineTypeAttributes);
-
-    if(MachineTypeAttributes != nullptr)
-    {
-        uc_mem_write(uc, (DWORD_PTR)MachineTypeAttributes, &rlMachineTypeAttributes, sizeof(rlMachineTypeAttributes));
-    }
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuGetMachineTypeAttributes\n";
-    #endif
-
-    return;
-}
-
-
-/*
-HRESULT
-__cdecl
 SetThreadDescription(
       HANDLE  hThread              ,
       PCWSTR  lpThreadDescription  );

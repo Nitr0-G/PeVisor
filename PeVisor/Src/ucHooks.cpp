@@ -1,5 +1,6 @@
 #include "UCPE.hpp"
-#include "EmuApiFuncs.hpp"
+//#include "EmuApiFuncs.hpp"
+#include "Emu/EmuUtils.hpp"
 #include "Trace.hpp"
 #include <fstream>
 extern std::ostream* outs;

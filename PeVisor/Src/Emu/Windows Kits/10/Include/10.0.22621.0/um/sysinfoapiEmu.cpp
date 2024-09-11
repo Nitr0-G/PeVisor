@@ -233,84 +233,6 @@ void EmuApi::EmuIsUserCetAvailableInEnvironment(uc_engine* uc, DWORD_PTR address
 /*
 BOOL
 __cdecl
-GetSystemLeapSecondInformation(
-      PBOOL   Enabled  ,
-      PDWORD  Flags    );
-
-*/
-void EmuApi::EmuGetSystemLeapSecondInformation(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    PBOOL Enabled{};
-    uc_reg_read(uc, UC_X86_REG_RCX, &Enabled);
-
-    BOOL rlEnabled{};
-
-    if(Enabled != nullptr)
-    {
-        uc_mem_read(uc, (DWORD_PTR)Enabled, &rlEnabled, sizeof(rlEnabled));
-    }
-
-    PDWORD Flags{};
-    uc_reg_read(uc, UC_X86_REG_RDX, &Flags);
-
-    DWORD rlFlags{};
-
-    if(Flags != nullptr)
-    {
-        uc_mem_read(uc, (DWORD_PTR)Flags, &rlFlags, sizeof(rlFlags));
-    }
-
-
-    BOOL GetSystemLeapSecondInformationResult = GetSystemLeapSecondInformation((PBOOL)&rlEnabled,(PDWORD)&rlFlags);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &GetSystemLeapSecondInformationResult);
-    uc_reg_write(uc, UC_X86_REG_RCX, &Enabled);
-
-    if(Enabled != nullptr)
-    {
-        uc_mem_write(uc, (DWORD_PTR)Enabled, &rlEnabled, sizeof(rlEnabled));
-    }
-    uc_reg_write(uc, UC_X86_REG_RDX, &Flags);
-
-    if(Flags != nullptr)
-    {
-        uc_mem_write(uc, (DWORD_PTR)Flags, &rlFlags, sizeof(rlFlags));
-    }
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuGetSystemLeapSecondInformation\n";
-    #endif
-
-    return;
-}
-
-
-/*
-DWORD
-__cdecl
-GetVersion(VOID);
-
-*/
-//void EmuApi::EmuGetVersion(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-//{
-//
-//
-//    DWORD GetVersionResult = GetVersion();
-//
-//
-//    uc_reg_write(uc, UC_X86_REG_EAX, &GetVersionResult);
-//    #ifdef TRACE_LOG_CONSOLE
-//    *outs << "EmuGetVersion\n";
-//    #endif
-//
-//    return;
-//}
-
-
-/*
-BOOL
-__cdecl
 SetLocalTime(
       const SYSTEMTIME *  lpSystemTime  );
 
@@ -1858,27 +1780,4 @@ void EmuApi::EmuSetComputerNameExA(uc_engine* uc, DWORD_PTR address, size_t size
 
     return;
 }
-
-
-/*
-DEVELOPER_DRIVE_ENABLEMENT_STATE
-__cdecl
-GetDeveloperDriveEnablementState(VOID);
-
-*/
-void EmuApi::EmuGetDeveloperDriveEnablementState(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-
-    DEVELOPER_DRIVE_ENABLEMENT_STATE GetDeveloperDriveEnablementStateResult = GetDeveloperDriveEnablementState();
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &GetDeveloperDriveEnablementStateResult);
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuGetDeveloperDriveEnablementState\n";
-    #endif
-
-    return;
-}
-
 

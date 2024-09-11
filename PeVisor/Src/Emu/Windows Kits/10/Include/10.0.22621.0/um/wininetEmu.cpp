@@ -5661,43 +5661,6 @@ void EmuApi::EmuInternetCheckConnectionW(uc_engine* uc, DWORD_PTR address, size_
 
 
 /*
-DWORD
-__cdecl
-InternetAuthNotifyCallback(
-      DWORD_PTR  dwContext   ,
-      DWORD      dwReturn    ,
-      LPVOID     lpReserved  );
-
-*/
-void EmuApi::EmuInternetAuthNotifyCallback(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    DWORD_PTR dwContext{};
-    uc_reg_read(uc, UC_X86_REG_RCX, &dwContext);
-
-    DWORD dwReturn{};
-    uc_reg_read(uc, UC_X86_REG_EDX, &dwReturn);
-
-    LPVOID lpReserved{};
-    uc_reg_read(uc, UC_X86_REG_R8, &lpReserved);
-
-
-    DWORD InternetAuthNotifyCallbackResult = InternetAuthNotifyCallback((DWORD_PTR)dwContext,(DWORD)dwReturn,(LPVOID)&lpReserved);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &InternetAuthNotifyCallbackResult);
-    uc_reg_write(uc, UC_X86_REG_RCX, &dwContext);
-    uc_reg_write(uc, UC_X86_REG_EDX, &dwReturn);
-    uc_reg_write(uc, UC_X86_REG_R8, &lpReserved);
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuInternetAuthNotifyCallback\n";
-    #endif
-
-    return;
-}
-
-
-/*
 BOOL
 __cdecl
 ResumeSuspendedDownload(

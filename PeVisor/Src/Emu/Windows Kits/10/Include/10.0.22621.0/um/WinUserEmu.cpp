@@ -7473,50 +7473,6 @@ void EmuApi::EmuGetClipboardData(uc_engine* uc, DWORD_PTR address, size_t size, 
 
 
 /*
-BOOL
-__cdecl
-GetClipboardMetadata(
-      UINT               format    ,
-      PGETCLIPBMETADATA  metadata  );
-
-*/
-void EmuApi::EmuGetClipboardMetadata(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    UINT format{};
-    uc_reg_read(uc, UC_X86_REG_ECX, &format);
-
-    PGETCLIPBMETADATA metadata{};
-    uc_reg_read(uc, UC_X86_REG_RDX, &metadata);
-
-    GETCLIPBMETADATA stmetadata{};
-
-    if(metadata != nullptr)
-    {
-        uc_mem_read(uc, (DWORD_PTR)metadata, &stmetadata, sizeof(stmetadata));
-    }
-
-
-    BOOL GetClipboardMetadataResult = GetClipboardMetadata((UINT)format,(PGETCLIPBMETADATA)&stmetadata);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &GetClipboardMetadataResult);
-    uc_reg_write(uc, UC_X86_REG_ECX, &format);
-    uc_reg_write(uc, UC_X86_REG_RDX, &metadata);
-
-    if(metadata != nullptr)
-    {
-        uc_mem_write(uc, (DWORD_PTR)metadata, &stmetadata, sizeof(stmetadata));
-    }
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuGetClipboardMetadata\n";
-    #endif
-
-    return;
-}
-
-
-/*
 UINT
 __cdecl
 RegisterClipboardFormatA(
@@ -11130,28 +11086,6 @@ void EmuApi::EmuIsMouseInPointerEnabled(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_EAX, &IsMouseInPointerEnabledResult);
     #ifdef TRACE_LOG_CONSOLE
     *outs << "EmuIsMouseInPointerEnabled\n";
-    #endif
-
-    return;
-}
-
-
-/*
-BOOL
-__cdecl
-EnableMouseInPointerForThread(VOID);
-
-*/
-void EmuApi::EmuEnableMouseInPointerForThread(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-
-    BOOL EnableMouseInPointerForThreadResult = EnableMouseInPointerForThread();
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &EnableMouseInPointerForThreadResult);
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuEnableMouseInPointerForThread\n";
     #endif
 
     return;
@@ -22871,33 +22805,6 @@ void EmuApi::EmuCreateIconFromResourceEx(uc_engine* uc, DWORD_PTR address, size_
 
 
 /*
-UINT
-__cdecl
-SetThreadCursorCreationScaling(
-      UINT  cursorDpi  );
-
-*/
-void EmuApi::EmuSetThreadCursorCreationScaling(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    UINT cursorDpi{};
-    uc_reg_read(uc, UC_X86_REG_ECX, &cursorDpi);
-
-
-    UINT SetThreadCursorCreationScalingResult = SetThreadCursorCreationScaling((UINT)cursorDpi);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadCursorCreationScalingResult);
-    uc_reg_write(uc, UC_X86_REG_ECX, &cursorDpi);
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuSetThreadCursorCreationScaling\n";
-    #endif
-
-    return;
-}
-
-
-/*
 HANDLE
 __cdecl
 LoadImageA(
@@ -28056,67 +27963,6 @@ void EmuApi::EmuGetDisplayAutoRotationPreferences(uc_engine* uc, DWORD_PTR addre
 /*
 BOOL
 __cdecl
-GetDisplayAutoRotationPreferencesByProcessId(
-      DWORD                     dwProcessId    ,
-      ORIENTATION_PREFERENCE *  pOrientation   ,
-      BOOL *                    fRotateScreen  );
-
-*/
-void EmuApi::EmuGetDisplayAutoRotationPreferencesByProcessId(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    DWORD dwProcessId{};
-    uc_reg_read(uc, UC_X86_REG_ECX, &dwProcessId);
-
-    ORIENTATION_PREFERENCE * pOrientation{};
-    uc_reg_read(uc, UC_X86_REG_RDX, &pOrientation);
-
-    enum ORIENTATION_PREFERENCE rlpOrientation{};
-
-    if(pOrientation != nullptr)
-    {
-        uc_mem_read(uc, (DWORD_PTR)pOrientation, &rlpOrientation, sizeof(rlpOrientation));
-    }
-
-    PBOOL fRotateScreen{};
-    uc_reg_read(uc, UC_X86_REG_R8, &fRotateScreen);
-
-    BOOL rlfRotateScreen{};
-
-    if(fRotateScreen != nullptr)
-    {
-        uc_mem_read(uc, (DWORD_PTR)fRotateScreen, &rlfRotateScreen, sizeof(rlfRotateScreen));
-    }
-
-
-    BOOL GetDisplayAutoRotationPreferencesByProcessIdResult = GetDisplayAutoRotationPreferencesByProcessId((DWORD)dwProcessId,(ORIENTATION_PREFERENCE *)&rlpOrientation,(BOOL *)&rlfRotateScreen);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &GetDisplayAutoRotationPreferencesByProcessIdResult);
-    uc_reg_write(uc, UC_X86_REG_ECX, &dwProcessId);
-    uc_reg_write(uc, UC_X86_REG_RDX, &pOrientation);
-
-    if(pOrientation != nullptr)
-    {
-        uc_mem_write(uc, (DWORD_PTR)pOrientation, &rlpOrientation, sizeof(rlpOrientation));
-    }
-    uc_reg_write(uc, UC_X86_REG_R8, &fRotateScreen);
-
-    if(fRotateScreen != nullptr)
-    {
-        uc_mem_write(uc, (DWORD_PTR)fRotateScreen, &rlfRotateScreen, sizeof(rlfRotateScreen));
-    }
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuGetDisplayAutoRotationPreferencesByProcessId\n";
-    #endif
-
-    return;
-}
-
-
-/*
-BOOL
-__cdecl
 SetDisplayAutoRotationPreferences(
       ORIENTATION_PREFERENCE  orientation  );
 
@@ -28193,86 +28039,3 @@ void EmuApi::EmuSetProcessRestrictionExemption(uc_engine* uc, DWORD_PTR address,
 
     return;
 }
-
-
-/*
-BOOL
-__cdecl
-SetAdditionalForegroundBoostProcesses(
-      HWND      topLevelWindow      ,
-      DWORD     processHandleCount  ,
-      HANDLE *  processHandleArray  );
-
-*/
-void EmuApi::EmuSetAdditionalForegroundBoostProcesses(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    HWND topLevelWindow{};
-    uc_reg_read(uc, UC_X86_REG_RCX, &topLevelWindow);
-
-    DWORD processHandleCount{};
-    uc_reg_read(uc, UC_X86_REG_EDX, &processHandleCount);
-
-    PHANDLE processHandleArray{};
-    uc_reg_read(uc, UC_X86_REG_R8, &processHandleArray);
-
-    HANDLE rlprocessHandleArray{};
-
-    if(processHandleArray != nullptr)
-    {
-        uc_mem_read(uc, (DWORD_PTR)processHandleArray, &rlprocessHandleArray, sizeof(rlprocessHandleArray));
-    }
-
-
-    BOOL SetAdditionalForegroundBoostProcessesResult = SetAdditionalForegroundBoostProcesses((HWND)topLevelWindow,(DWORD)processHandleCount,(HANDLE *)rlprocessHandleArray);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &SetAdditionalForegroundBoostProcessesResult);
-    uc_reg_write(uc, UC_X86_REG_RCX, &topLevelWindow);
-    uc_reg_write(uc, UC_X86_REG_EDX, &processHandleCount);
-    uc_reg_write(uc, UC_X86_REG_R8, &processHandleArray);
-
-    if(processHandleArray != nullptr)
-    {
-        uc_mem_write(uc, (DWORD_PTR)processHandleArray, &rlprocessHandleArray, sizeof(rlprocessHandleArray));
-    }
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuSetAdditionalForegroundBoostProcesses\n";
-    #endif
-
-    return;
-}
-
-
-/*
-BOOL
-__cdecl
-RegisterForTooltipDismissNotification(
-      HWND                   hWnd     ,
-      TOOLTIP_DISMISS_FLAGS  tdFlags  );
-
-*/
-void EmuApi::EmuRegisterForTooltipDismissNotification(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-{
-
-    HWND hWnd{};
-    uc_reg_read(uc, UC_X86_REG_RCX, &hWnd);
-
-    TOOLTIP_DISMISS_FLAGS tdFlags{};
-    uc_reg_read(uc, UC_X86_REG_EDX, &tdFlags);
-
-
-    BOOL RegisterForTooltipDismissNotificationResult = RegisterForTooltipDismissNotification((HWND)hWnd,(TOOLTIP_DISMISS_FLAGS)tdFlags);
-
-
-    uc_reg_write(uc, UC_X86_REG_EAX, &RegisterForTooltipDismissNotificationResult);
-    uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-    uc_reg_write(uc, UC_X86_REG_EDX, &tdFlags);
-    #ifdef TRACE_LOG_CONSOLE
-    *outs << "EmuRegisterForTooltipDismissNotification\n";
-    #endif
-
-    return;
-}
-
-

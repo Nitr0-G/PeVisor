@@ -1,5 +1,7 @@
 #include "UCPE.hpp"
 #include <EmuApiFuncs.hpp>
+#include "../../Dependency/KNSoft.NDK/Source/Include/KNSoft/NDK/NDK.h"
+#include <processthreadsapi.h>
 std::ostream* outs;
 
 static ULONG ExtractEntryPointRva(PVOID ModuleBase)
@@ -164,15 +166,100 @@ void PeEmulation::InitTebPeb()
 	m_LdrEnd = m_LdrBase + AlignSize(sizeof(PEB_LDR_DATA), PAGE_SIZE);
 
 	peb.Ldr = (PPEB_LDR_DATA)m_LdrBase;
-	peb.ProcessHeap = (PVOID)m_HeapBase;
 	peb.ProcessParameters = EmuProcessParameters;
 	peb.InheritedAddressSpace = NtCurrentPeb()->InheritedAddressSpace; // apparently this is always getting initialized with 0
 	peb.ReadImageFileExecOptions = NtCurrentPeb()->ReadImageFileExecOptions;
 	peb.BeingDebugged = NtCurrentPeb()->BeingDebugged;
 	peb.BitField = NtCurrentPeb()->BitField;
-	
-
-
+	peb.Mutant = NtCurrentPeb()->Mutant;
+	InitLdrModuleList(); // need to initialize this structure inside that method
+	peb.ImageBaseAddress = NtCurrentPeb()->ImageBaseAddress;
+	peb.ProcessParameters = NtCurrentPeb()->ProcessParameters; // this should be implemented something like peb.ProcessParameters = getProcessParameters()?
+	peb.SubSystemData = NtCurrentPeb()->SubSystemData;
+	peb.ProcessHeap = NtCurrentPeb()->ProcessHeap; // // this is intialized to 0x000002413f480000. Which one to keep?
+	peb.FastPebLock = NtCurrentPeb()->FastPebLock; 
+	peb.AtlThunkSListPtr = NtCurrentPeb()->AtlThunkSListPtr;
+	peb.IFEOKey = NtCurrentPeb()->IFEOKey;
+	peb.CrossProcessFlags = NtCurrentPeb()->CrossProcessFlags;
+	peb.KernelCallbackTable = NtCurrentPeb()->KernelCallbackTable;
+	peb.UserSharedInfoPtr = NtCurrentPeb()->UserSharedInfoPtr;
+	peb.SystemReserved = NtCurrentPeb()->SystemReserved;
+	peb.AtlThunkSListPtr32 = NtCurrentPeb()->AtlThunkSListPtr32;
+	peb.ApiSetMap = NtCurrentPeb()->ApiSetMap;
+	peb.TlsExpansionCounter = NtCurrentPeb()->TlsExpansionCounter;
+	peb.TlsBitmap = NtCurrentPeb()->TlsBitmap;
+	peb.TlsBitmapBits[1] = TLS_MINIMUM_AVAILABLE;
+	peb.ReadOnlySharedMemoryBase = NtCurrentPeb()->ReadOnlySharedMemoryBase;
+	peb.SharedData = NtCurrentPeb()->SharedData;
+	peb.ReadOnlyStaticServerData = NtCurrentPeb()->ReadOnlyStaticServerData;
+	peb.AnsiCodePageData = NtCurrentPeb()->AnsiCodePageData;
+	peb.OemCodePageData = NtCurrentPeb()->OemCodePageData;
+	peb.UnicodeCaseTableData = NtCurrentPeb()->UnicodeCaseTableData;
+	peb.NumberOfProcessors = NtCurrentPeb()->NumberOfProcessors;
+	peb.NtGlobalFlag = NtCurrentPeb()->NtGlobalFlag;
+	peb.CriticalSectionTimeout = NtCurrentPeb()->CriticalSectionTimeout;
+	peb.HeapSegmentReserve = NtCurrentPeb()->HeapSegmentReserve;
+	peb.HeapSegmentCommit = NtCurrentPeb()->HeapSegmentCommit;
+	peb.HeapDeCommitTotalFreeThreshold = NtCurrentPeb()->HeapDeCommitTotalFreeThreshold;
+	peb.HeapDeCommitFreeBlockThreshold = NtCurrentPeb()->HeapDeCommitFreeBlockThreshold;
+	peb.NumberOfHeaps = NtCurrentPeb()->NumberOfHeaps;
+	peb.MaximumNumberOfHeaps = NtCurrentPeb()->MaximumNumberOfHeaps;
+	peb.ProcessHeaps = NtCurrentPeb()->ProcessHeaps; // is a pointer to an array of heap pointers, their count is NumberOfHeaps.
+	peb.GdiSharedHandleTable = NtCurrentPeb()->GdiSharedHandleTable;
+	peb.ProcessStarterHelper = NtCurrentPeb()->ProcessStarterHelper;
+	peb.GdiDCAttributeList = NtCurrentPeb()->GdiDCAttributeList;
+	peb.LoaderLock = NtCurrentPeb()->LoaderLock;
+	peb.OSMajorVersion = NtCurrentPeb()->OSMajorVersion;
+	peb.OSMinorVersion = NtCurrentPeb()->OSMinorVersion;
+	peb.OSBuildNumber = NtCurrentPeb()->OSBuildNumber;
+	peb.OSCSDVersion = NtCurrentPeb()->OSCSDVersion;
+	peb.OSPlatformId = NtCurrentPeb()->OSPlatformId;
+	peb.ImageSubsystem = NtCurrentPeb()->ImageSubsystem;
+	peb.ImageSubsystemMajorVersion = NtCurrentPeb()->ImageSubsystemMajorVersion;
+	peb.ImageSubsystemMinorVersion = NtCurrentPeb()->ImageSubsystemMinorVersion;
+	peb.ActiveProcessAffinityMask = NtCurrentPeb()->ActiveProcessAffinityMask;
+	peb.GdiHandleBuffer[59] = NtCurrentPeb()->GdiHandleBuffer[59]; 
+	peb.PostProcessInitRoutine = NtCurrentPeb()->PostProcessInitRoutine;
+	peb.TlsExpansionBitmap = NtCurrentPeb()->TlsExpansionBitmap;
+	peb.TlsExpansionBitmapBits[31] = NtCurrentPeb()->TlsExpansionBitmapBits[31];
+	peb.SessionId = NtCurrentPeb()->SessionId;
+	peb.AppCompatFlags = NtCurrentPeb()->AppCompatFlags;
+	peb.AppCompatFlagsUser = NtCurrentPeb()->AppCompatFlagsUser;
+	peb.pShimData = NtCurrentPeb()->pShimData;
+	peb.AppCompatInfo = NtCurrentPeb()->AppCompatInfo;
+	peb.CSDVersion = NtCurrentPeb()->CSDVersion;
+	peb.ActivationContextData = NtCurrentPeb()->ActivationContextData;
+	peb.ProcessAssemblyStorageMap = NtCurrentPeb()->ProcessAssemblyStorageMap;
+	peb.SystemDefaultActivationContextData = NtCurrentPeb()->SystemDefaultActivationContextData;
+	peb.SystemAssemblyStorageMap = NtCurrentPeb()->SystemAssemblyStorageMap;
+	peb.MinimumStackCommit = NtCurrentPeb()->MinimumStackCommit;
+	peb.SparePointers[1] = NtCurrentPeb()->SparePointers[1];
+	peb.PatchLoaderData = NtCurrentPeb()->PatchLoaderData;
+	peb.ChpeV2ProcessInfo = NtCurrentPeb()->ChpeV2ProcessInfo;
+	peb.AppModelFeatureState = NtCurrentPeb()->AppModelFeatureState;
+	peb.SpareUlongs[1] = NtCurrentPeb()->SpareUlongs[1];
+	peb.ActiveCodePage = NtCurrentPeb()->ActiveCodePage;
+	peb.OemCodePage = NtCurrentPeb()->OemCodePage;
+	peb.UseCaseMapping = NtCurrentPeb()->UseCaseMapping;
+	peb.UnusedNlsField = NtCurrentPeb()->UnusedNlsField;
+	peb.WerRegistrationData = NtCurrentPeb()->WerRegistrationData;
+	peb.WerShipAssertPtr = NtCurrentPeb()->WerShipAssertPtr;
+	peb.EcCodeBitMap = NtCurrentPeb()->EcCodeBitMap;
+	peb.pImageHeaderHash = NtCurrentPeb()->pImageHeaderHash;
+	peb.TracingFlags = NtCurrentPeb()->TracingFlags;
+	peb.CsrServerReadOnlySharedMemoryBase = NtCurrentPeb()->CsrServerReadOnlySharedMemoryBase;
+	peb.TppWorkerpListLock = NtCurrentPeb()->TppWorkerpListLock;
+	peb.TppWorkerpList = NtCurrentPeb()->TppWorkerpList;
+	peb.WaitOnAddressHashTable[127] = NtCurrentPeb()->WaitOnAddressHashTable[127];
+	peb.TelemetryCoverageHeader = NtCurrentPeb()->TelemetryCoverageHeader;
+	peb.CloudFileFlags = NtCurrentPeb()->CloudFileFlags;
+	peb.CloudFileDiagFlags = NtCurrentPeb()->CloudFileDiagFlags;
+	peb.PlaceholderCompatibilityMode = NtCurrentPeb()->PlaceholderCompatibilityMode;
+	peb.PlaceholderCompatibilityModeReserved[6] = NtCurrentPeb()->PlaceholderCompatibilityModeReserved[6];
+	peb.LeapSecondData = NtCurrentPeb()->LeapSecondData;
+	peb.LeapSecondFlags = NtCurrentPeb()->LeapSecondFlags;
+	peb.NtGlobalFlag2 = NtCurrentPeb()->NtGlobalFlag2;
+	peb.ExtendedFeatureDisableMask = NtCurrentPeb()->ExtendedFeatureDisableMask;
 	uc_mem_map(m_uc, m_PebBase, m_PebEnd - m_PebBase, UC_PROT_READ);
 	uc_mem_write(m_uc, m_PebBase, &peb, sizeof(PEB));
 
@@ -239,6 +326,7 @@ void PeEmulation::InitLdrModuleList()
 
 	Ldr.Length = m_FakeModules.size() - 1;
 	Ldr.Initialized = true;
+	
 
 	LIST_ENTRY PsLoadedModuleList = { 0 };
 	PsLoadedModuleList.Blink = PsLoadedModuleList.Flink = (PLIST_ENTRY)Ldr.InInitializationOrderModuleList.Flink;

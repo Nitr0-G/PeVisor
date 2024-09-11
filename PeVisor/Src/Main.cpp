@@ -1,7 +1,6 @@
 #include "UCPE.hpp"
 #include <EmuApiFuncs.hpp>
-#include "../../Dependency/KNSoft.NDK/Source/Include/KNSoft/NDK/NDK.h"
-#include <processthreadsapi.h>
+
 std::ostream* outs;
 
 static ULONG ExtractEntryPointRva(PVOID ModuleBase)

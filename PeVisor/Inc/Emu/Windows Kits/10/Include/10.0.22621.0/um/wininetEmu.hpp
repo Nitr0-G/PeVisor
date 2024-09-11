@@ -22,10 +22,8 @@
 namespace EmuApi {
     void EmuInternetTimeFromSystemTimeA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetTimeFromSystemTimeW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetTimeFromSystemTime(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetTimeToSystemTimeA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetTimeToSystemTimeW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetTimeToSystemTime(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetCrackUrlA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetCrackUrlW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetCreateUrlA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -61,7 +59,6 @@ namespace EmuApi {
     void EmuInternetGetLastResponseInfoW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetSetStatusCallbackA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetSetStatusCallbackW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetSetStatusCallback(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuFtpFindFirstFileA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuFtpFindFirstFileW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuFtpGetFileA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -128,7 +125,6 @@ namespace EmuApi {
     void EmuInternetErrorDlg(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetConfirmZoneCrossingA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetConfirmZoneCrossingW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetConfirmZoneCrossing(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCreateUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCreateUrlCacheEntryW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCommitUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -137,7 +133,6 @@ namespace EmuApi {
     void EmuRetrieveUrlCacheEntryFileW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuUnlockUrlCacheEntryFileA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuUnlockUrlCacheEntryFileW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuUnlockUrlCacheEntryFile(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuRetrieveUrlCacheEntryStreamA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuRetrieveUrlCacheEntryStreamW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuReadUrlCacheEntryStream(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -159,7 +154,6 @@ namespace EmuApi {
     void EmuDeleteUrlCacheGroup(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetUrlCacheEntryGroupA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetUrlCacheEntryGroupW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuSetUrlCacheEntryGroup(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuFindFirstUrlCacheEntryExA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuFindFirstUrlCacheEntryExW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuFindNextUrlCacheEntryExA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -171,14 +165,11 @@ namespace EmuApi {
     void EmuFindCloseUrlCache(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuDeleteUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuDeleteUrlCacheEntryW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuDeleteUrlCacheEntry(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetDialA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetDialW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetDial(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetHangUp(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetGoOnlineA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetGoOnlineW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetGoOnline(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetAutodial(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetAutodialHangup(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetGetConnectedState(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -188,10 +179,8 @@ namespace EmuApi {
     void EmuInternetInitializeAutoProxyDll(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuDetectAutoProxyUrl(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCreateMD5SSOHash(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetGetConnectedStateEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetSetDialStateA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetSetDialStateW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuInternetSetDialState(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetSetPerSiteCookieDecisionA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetSetPerSiteCookieDecisionW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInternetGetPerSiteCookieDecisionA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -206,4 +195,4 @@ namespace EmuApi {
 }
 
 
-/* number of functions: 181*/
+/* number of functions: 171*/

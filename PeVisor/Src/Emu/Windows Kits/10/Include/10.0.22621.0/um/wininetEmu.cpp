@@ -1,4 +1,3 @@
-#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/wininetEmu.hpp"
 /*
  ███▄ ▄███▓▄▄▄      ██▀███  ██▓█    ██  ██████     ▄▄▄      ██ ▄█▄▄▄          ███▄    █ ██▄▄▄█████▓██▀███  ▒█████   ▄████ 
 ▓██▒▀█▀ ██▒████▄   ▓██ ▒ ██▓██▒██  ▓██▒██    ▒    ▒████▄    ██▄█▒████▄        ██ ▀█   █▓██▓  ██▒ ▓▓██ ▒ ██▒██▒  ██▒██▒ ▀█▒
@@ -12,6 +11,7 @@
                                                                                                                           
 
 */
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/wininetEmu.hpp"
 /*
 BOOL
 __cdecl
@@ -61,7 +61,9 @@ void EmuApi::EmuInternetTimeFromSystemTimeA(uc_engine* uc, DWORD_PTR address, si
     uc_reg_write(uc, UC_X86_REG_EDX, &dwRFC);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszTime, rlalpszTime)) { printf("Error when read lpszTime in InternetTimeFromSystemTimeA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cbTime);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetTimeFromSystemTimeA\n";
+    #endif
 
     return;
 }
@@ -116,7 +118,9 @@ void EmuApi::EmuInternetTimeFromSystemTimeW(uc_engine* uc, DWORD_PTR address, si
     uc_reg_write(uc, UC_X86_REG_EDX, &dwRFC);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszTime, rlwlpszTime)) { printf("Error when read lpszTime in InternetTimeFromSystemTimeW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cbTime);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetTimeFromSystemTimeW\n";
+    #endif
 
     return;
 }
@@ -166,7 +170,9 @@ void EmuApi::EmuInternetTimeToSystemTimeA(uc_engine* uc, DWORD_PTR address, size
         uc_mem_write(uc, (DWORD_PTR)pst, &stpst, sizeof(stpst));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetTimeToSystemTimeA\n";
+    #endif
 
     return;
 }
@@ -216,7 +222,9 @@ void EmuApi::EmuInternetTimeToSystemTimeW(uc_engine* uc, DWORD_PTR address, size
         uc_mem_write(uc, (DWORD_PTR)pst, &stpst, sizeof(stpst));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetTimeToSystemTimeW\n";
+    #endif
 
     return;
 }
@@ -271,7 +279,9 @@ void EmuApi::EmuInternetCrackUrlA(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpUrlComponents, &stlpUrlComponents, sizeof(stlpUrlComponents));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCrackUrlA\n";
+    #endif
 
     return;
 }
@@ -326,7 +336,9 @@ void EmuApi::EmuInternetCrackUrlW(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpUrlComponents, &stlpUrlComponents, sizeof(stlpUrlComponents));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCrackUrlW\n";
+    #endif
 
     return;
 }
@@ -393,7 +405,9 @@ void EmuApi::EmuInternetCreateUrlA(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwUrlLength, &rllpdwUrlLength, sizeof(rllpdwUrlLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCreateUrlA\n";
+    #endif
 
     return;
 }
@@ -460,7 +474,9 @@ void EmuApi::EmuInternetCreateUrlW(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwUrlLength, &rllpdwUrlLength, sizeof(rllpdwUrlLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCreateUrlW\n";
+    #endif
 
     return;
 }
@@ -518,7 +534,9 @@ void EmuApi::EmuInternetCanonicalizeUrlA(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCanonicalizeUrlA\n";
+    #endif
 
     return;
 }
@@ -576,7 +594,9 @@ void EmuApi::EmuInternetCanonicalizeUrlW(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCanonicalizeUrlW\n";
+    #endif
 
     return;
 }
@@ -645,7 +665,9 @@ void EmuApi::EmuInternetCombineUrlA(uc_engine* uc, DWORD_PTR address, size_t siz
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCombineUrlA\n";
+    #endif
 
     return;
 }
@@ -714,7 +736,9 @@ void EmuApi::EmuInternetCombineUrlW(uc_engine* uc, DWORD_PTR address, size_t siz
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCombineUrlW\n";
+    #endif
 
     return;
 }
@@ -771,7 +795,9 @@ void EmuApi::EmuInternetOpenA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszProxy, rlalpszProxy)) { printf("Error when read lpszProxy in InternetOpenA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszProxyBypass, rlalpszProxyBypass)) { printf("Error when read lpszProxyBypass in InternetOpenA"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetOpenA\n";
+    #endif
 
     return;
 }
@@ -828,7 +854,9 @@ void EmuApi::EmuInternetOpenW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszProxy, rlwlpszProxy)) { printf("Error when read lpszProxy in InternetOpenW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszProxyBypass, rlwlpszProxyBypass)) { printf("Error when read lpszProxyBypass in InternetOpenW"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetOpenW\n";
+    #endif
 
     return;
 }
@@ -853,7 +881,9 @@ void EmuApi::EmuInternetCloseHandle(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetCloseHandleResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInternet);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCloseHandle\n";
+    #endif
 
     return;
 }
@@ -925,7 +955,9 @@ void EmuApi::EmuInternetConnectA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwService, sizeof(dwService));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetConnectA\n";
+    #endif
 
     return;
 }
@@ -997,7 +1029,9 @@ void EmuApi::EmuInternetConnectW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwService, sizeof(dwService));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetConnectW\n";
+    #endif
 
     return;
 }
@@ -1056,7 +1090,9 @@ void EmuApi::EmuInternetOpenUrlA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_R9D, &dwHeadersLength);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetOpenUrlA\n";
+    #endif
 
     return;
 }
@@ -1115,7 +1151,9 @@ void EmuApi::EmuInternetOpenUrlW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_R9D, &dwHeadersLength);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetOpenUrlW\n";
+    #endif
 
     return;
 }
@@ -1167,7 +1205,9 @@ void EmuApi::EmuInternetReadFile(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwNumberOfBytesRead, &rllpdwNumberOfBytesRead, sizeof(rllpdwNumberOfBytesRead));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetReadFile\n";
+    #endif
 
     return;
 }
@@ -1219,7 +1259,9 @@ void EmuApi::EmuInternetReadFileExA(uc_engine* uc, DWORD_PTR address, size_t siz
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &dwContext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetReadFileExA\n";
+    #endif
 
     return;
 }
@@ -1271,7 +1313,9 @@ void EmuApi::EmuInternetReadFileExW(uc_engine* uc, DWORD_PTR address, size_t siz
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &dwContext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetReadFileExW\n";
+    #endif
 
     return;
 }
@@ -1331,7 +1375,9 @@ void EmuApi::EmuInternetSetFilePointer(uc_engine* uc, DWORD_PTR address, size_t 
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwMoveMethod);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetFilePointer\n";
+    #endif
 
     return;
 }
@@ -1383,7 +1429,9 @@ void EmuApi::EmuInternetWriteFile(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwNumberOfBytesWritten, &rllpdwNumberOfBytesWritten, sizeof(rllpdwNumberOfBytesWritten));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetWriteFile\n";
+    #endif
 
     return;
 }
@@ -1435,7 +1483,9 @@ void EmuApi::EmuInternetQueryDataAvailable(uc_engine* uc, DWORD_PTR address, siz
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &dwContext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetQueryDataAvailable\n";
+    #endif
 
     return;
 }
@@ -1465,7 +1515,9 @@ void EmuApi::EmuInternetFindNextFileA(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetFindNextFileAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFind);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpvFindData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetFindNextFileA\n";
+    #endif
 
     return;
 }
@@ -1495,7 +1547,9 @@ void EmuApi::EmuInternetFindNextFileW(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetFindNextFileWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFind);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpvFindData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetFindNextFileW\n";
+    #endif
 
     return;
 }
@@ -1547,7 +1601,9 @@ void EmuApi::EmuInternetQueryOptionA(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetQueryOptionA\n";
+    #endif
 
     return;
 }
@@ -1599,7 +1655,9 @@ void EmuApi::EmuInternetQueryOptionW(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetQueryOptionW\n";
+    #endif
 
     return;
 }
@@ -1639,7 +1697,9 @@ void EmuApi::EmuInternetSetOptionA(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EDX, &dwOption);
     uc_reg_write(uc, UC_X86_REG_R8, &lpBuffer);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwBufferLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetOptionA\n";
+    #endif
 
     return;
 }
@@ -1679,7 +1739,9 @@ void EmuApi::EmuInternetSetOptionW(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EDX, &dwOption);
     uc_reg_write(uc, UC_X86_REG_R8, &lpBuffer);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwBufferLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetOptionW\n";
+    #endif
 
     return;
 }
@@ -1727,7 +1789,9 @@ void EmuApi::EmuInternetSetOptionExA(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_R8, &lpBuffer);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwBufferLength);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetOptionExA\n";
+    #endif
 
     return;
 }
@@ -1775,7 +1839,9 @@ void EmuApi::EmuInternetSetOptionExW(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_R8, &lpBuffer);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwBufferLength);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetOptionExW\n";
+    #endif
 
     return;
 }
@@ -1817,7 +1883,9 @@ void EmuApi::EmuInternetLockRequestFile(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)lphLockRequestInfo, &rllphLockRequestInfo, sizeof(rllphLockRequestInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetLockRequestFile\n";
+    #endif
 
     return;
 }
@@ -1842,7 +1910,9 @@ void EmuApi::EmuInternetUnlockRequestFile(uc_engine* uc, DWORD_PTR address, size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetUnlockRequestFileResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hLockRequestInfo);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetUnlockRequestFile\n";
+    #endif
 
     return;
 }
@@ -1904,7 +1974,9 @@ void EmuApi::EmuInternetGetLastResponseInfoA(uc_engine* uc, DWORD_PTR address, s
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetLastResponseInfoA\n";
+    #endif
 
     return;
 }
@@ -1966,7 +2038,9 @@ void EmuApi::EmuInternetGetLastResponseInfoW(uc_engine* uc, DWORD_PTR address, s
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetLastResponseInfoW\n";
+    #endif
 
     return;
 }
@@ -1996,7 +2070,9 @@ void EmuApi::EmuInternetSetStatusCallbackA(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_RAX, &InternetSetStatusCallbackAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInternet);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpfnInternetCallback);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetStatusCallbackA\n";
+    #endif
 
     return;
 }
@@ -2026,7 +2102,9 @@ void EmuApi::EmuInternetSetStatusCallbackW(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_RAX, &InternetSetStatusCallbackWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInternet);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpfnInternetCallback);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetStatusCallbackW\n";
+    #endif
 
     return;
 }
@@ -2089,7 +2167,9 @@ void EmuApi::EmuFtpFindFirstFileA(uc_engine* uc, DWORD_PTR address, size_t size,
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpFindFirstFileA\n";
+    #endif
 
     return;
 }
@@ -2152,7 +2232,9 @@ void EmuApi::EmuFtpFindFirstFileW(uc_engine* uc, DWORD_PTR address, size_t size,
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpFindFirstFileW\n";
+    #endif
 
     return;
 }
@@ -2216,7 +2298,9 @@ void EmuApi::EmuFtpGetFileA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlagsAndAttributes, sizeof(dwFlagsAndAttributes));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpGetFileA\n";
+    #endif
 
     return;
 }
@@ -2280,7 +2364,9 @@ void EmuApi::EmuFtpGetFileW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlagsAndAttributes, sizeof(dwFlagsAndAttributes));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpGetFileW\n";
+    #endif
 
     return;
 }
@@ -2334,7 +2420,9 @@ void EmuApi::EmuFtpPutFileA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszNewRemoteFile, rlalpszNewRemoteFile)) { printf("Error when read lpszNewRemoteFile in FtpPutFileA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpPutFileA\n";
+    #endif
 
     return;
 }
@@ -2388,7 +2476,9 @@ void EmuApi::EmuFtpPutFileW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszNewRemoteFile, rlwlpszNewRemoteFile)) { printf("Error when read lpszNewRemoteFile in FtpPutFileW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpPutFileW\n";
+    #endif
 
     return;
 }
@@ -2452,7 +2542,9 @@ void EmuApi::EmuFtpGetFileEx(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlagsAndAttributes, sizeof(dwFlagsAndAttributes));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpGetFileEx\n";
+    #endif
 
     return;
 }
@@ -2506,7 +2598,9 @@ void EmuApi::EmuFtpPutFileEx(uc_engine* uc, DWORD_PTR address, size_t size, void
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszNewRemoteFile, rlalpszNewRemoteFile)) { printf("Error when read lpszNewRemoteFile in FtpPutFileEx"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpPutFileEx\n";
+    #endif
 
     return;
 }
@@ -2539,7 +2633,9 @@ void EmuApi::EmuFtpDeleteFileA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpDeleteFileAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszFileName, rlalpszFileName)) { printf("Error when read lpszFileName in FtpDeleteFileA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpDeleteFileA\n";
+    #endif
 
     return;
 }
@@ -2572,7 +2668,9 @@ void EmuApi::EmuFtpDeleteFileW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpDeleteFileWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFileName, rlwlpszFileName)) { printf("Error when read lpszFileName in FtpDeleteFileW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpDeleteFileW\n";
+    #endif
 
     return;
 }
@@ -2613,7 +2711,9 @@ void EmuApi::EmuFtpRenameFileA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszExisting, rlalpszExisting)) { printf("Error when read lpszExisting in FtpRenameFileA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszNew, rlalpszNew)) { printf("Error when read lpszNew in FtpRenameFileA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpRenameFileA\n";
+    #endif
 
     return;
 }
@@ -2654,7 +2754,9 @@ void EmuApi::EmuFtpRenameFileW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszExisting, rlwlpszExisting)) { printf("Error when read lpszExisting in FtpRenameFileW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszNew, rlwlpszNew)) { printf("Error when read lpszNew in FtpRenameFileW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpRenameFileW\n";
+    #endif
 
     return;
 }
@@ -2705,7 +2807,9 @@ void EmuApi::EmuFtpOpenFileA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_R8D, &dwAccess);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpOpenFileA\n";
+    #endif
 
     return;
 }
@@ -2756,7 +2860,9 @@ void EmuApi::EmuFtpOpenFileW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_R8D, &dwAccess);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpOpenFileW\n";
+    #endif
 
     return;
 }
@@ -2789,7 +2895,9 @@ void EmuApi::EmuFtpCreateDirectoryA(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpCreateDirectoryAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszDirectory, rlalpszDirectory)) { printf("Error when read lpszDirectory in FtpCreateDirectoryA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpCreateDirectoryA\n";
+    #endif
 
     return;
 }
@@ -2822,7 +2930,9 @@ void EmuApi::EmuFtpCreateDirectoryW(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpCreateDirectoryWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszDirectory, rlwlpszDirectory)) { printf("Error when read lpszDirectory in FtpCreateDirectoryW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpCreateDirectoryW\n";
+    #endif
 
     return;
 }
@@ -2855,7 +2965,9 @@ void EmuApi::EmuFtpRemoveDirectoryA(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpRemoveDirectoryAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszDirectory, rlalpszDirectory)) { printf("Error when read lpszDirectory in FtpRemoveDirectoryA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpRemoveDirectoryA\n";
+    #endif
 
     return;
 }
@@ -2888,7 +3000,9 @@ void EmuApi::EmuFtpRemoveDirectoryW(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpRemoveDirectoryWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszDirectory, rlwlpszDirectory)) { printf("Error when read lpszDirectory in FtpRemoveDirectoryW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpRemoveDirectoryW\n";
+    #endif
 
     return;
 }
@@ -2921,7 +3035,9 @@ void EmuApi::EmuFtpSetCurrentDirectoryA(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpSetCurrentDirectoryAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszDirectory, rlalpszDirectory)) { printf("Error when read lpszDirectory in FtpSetCurrentDirectoryA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpSetCurrentDirectoryA\n";
+    #endif
 
     return;
 }
@@ -2954,7 +3070,9 @@ void EmuApi::EmuFtpSetCurrentDirectoryW(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_EAX, &FtpSetCurrentDirectoryWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hConnect);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszDirectory, rlwlpszDirectory)) { printf("Error when read lpszDirectory in FtpSetCurrentDirectoryW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpSetCurrentDirectoryW\n";
+    #endif
 
     return;
 }
@@ -3004,7 +3122,9 @@ void EmuApi::EmuFtpGetCurrentDirectoryA(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwCurrentDirectory, &rllpdwCurrentDirectory, sizeof(rllpdwCurrentDirectory));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpGetCurrentDirectoryA\n";
+    #endif
 
     return;
 }
@@ -3054,7 +3174,9 @@ void EmuApi::EmuFtpGetCurrentDirectoryW(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwCurrentDirectory, &rllpdwCurrentDirectory, sizeof(rllpdwCurrentDirectory));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpGetCurrentDirectoryW\n";
+    #endif
 
     return;
 }
@@ -3122,7 +3244,9 @@ void EmuApi::EmuFtpCommandA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)phFtpCommand, &rlphFtpCommand, sizeof(rlphFtpCommand));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpCommandA\n";
+    #endif
 
     return;
 }
@@ -3190,7 +3314,9 @@ void EmuApi::EmuFtpCommandW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)phFtpCommand, &rlphFtpCommand, sizeof(rlphFtpCommand));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpCommandW\n";
+    #endif
 
     return;
 }
@@ -3232,7 +3358,9 @@ void EmuApi::EmuFtpGetFileSize(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwFileSizeHigh, &rllpdwFileSizeHigh, sizeof(rllpdwFileSizeHigh));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFtpGetFileSize\n";
+    #endif
 
     return;
 }
@@ -3314,7 +3442,9 @@ void EmuApi::EmuGopherCreateLocatorA(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherCreateLocatorA\n";
+    #endif
 
     return;
 }
@@ -3396,7 +3526,9 @@ void EmuApi::EmuGopherCreateLocatorW(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwBufferLength, &rllpdwBufferLength, sizeof(rllpdwBufferLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherCreateLocatorW\n";
+    #endif
 
     return;
 }
@@ -3441,7 +3573,9 @@ void EmuApi::EmuGopherGetLocatorTypeA(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwGopherType, &rllpdwGopherType, sizeof(rllpdwGopherType));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherGetLocatorTypeA\n";
+    #endif
 
     return;
 }
@@ -3486,7 +3620,9 @@ void EmuApi::EmuGopherGetLocatorTypeW(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwGopherType, &rllpdwGopherType, sizeof(rllpdwGopherType));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherGetLocatorTypeW\n";
+    #endif
 
     return;
 }
@@ -3557,7 +3693,9 @@ void EmuApi::EmuGopherFindFirstFileA(uc_engine* uc, DWORD_PTR address, size_t si
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherFindFirstFileA\n";
+    #endif
 
     return;
 }
@@ -3628,7 +3766,9 @@ void EmuApi::EmuGopherFindFirstFileW(uc_engine* uc, DWORD_PTR address, size_t si
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherFindFirstFileW\n";
+    #endif
 
     return;
 }
@@ -3682,7 +3822,9 @@ void EmuApi::EmuGopherOpenFileA(uc_engine* uc, DWORD_PTR address, size_t size, v
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszView, rlalpszView)) { printf("Error when read lpszView in GopherOpenFileA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherOpenFileA\n";
+    #endif
 
     return;
 }
@@ -3736,7 +3878,9 @@ void EmuApi::EmuGopherOpenFileW(uc_engine* uc, DWORD_PTR address, size_t size, v
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszView, rlwlpszView)) { printf("Error when read lpszView in GopherOpenFileW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherOpenFileW\n";
+    #endif
 
     return;
 }
@@ -3829,7 +3973,9 @@ void EmuApi::EmuGopherGetAttributeA(uc_engine* uc, DWORD_PTR address, size_t siz
     }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &lpfnEnumerator, sizeof(lpfnEnumerator));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherGetAttributeA\n";
+    #endif
 
     return;
 }
@@ -3922,7 +4068,9 @@ void EmuApi::EmuGopherGetAttributeW(uc_engine* uc, DWORD_PTR address, size_t siz
     }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &lpfnEnumerator, sizeof(lpfnEnumerator));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGopherGetAttributeW\n";
+    #endif
 
     return;
 }
@@ -4007,7 +4155,9 @@ void EmuApi::EmuHttpOpenRequestA(uc_engine* uc, DWORD_PTR address, size_t size, 
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lplpszAcceptTypes, rlalplpszAcceptTypes)) { printf("Error when read lplpszAcceptTypes in HttpOpenRequestA"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpOpenRequestA\n";
+    #endif
 
     return;
 }
@@ -4092,7 +4242,9 @@ void EmuApi::EmuHttpOpenRequestW(uc_engine* uc, DWORD_PTR address, size_t size, 
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lplpszAcceptTypes, rlwlplpszAcceptTypes)) { printf("Error when read lplpszAcceptTypes in HttpOpenRequestW"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpOpenRequestW\n";
+    #endif
 
     return;
 }
@@ -4135,7 +4287,9 @@ void EmuApi::EmuHttpAddRequestHeadersA(uc_engine* uc, DWORD_PTR address, size_t 
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszHeaders, rlalpszHeaders)) { printf("Error when read lpszHeaders in HttpAddRequestHeadersA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwHeadersLength);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwModifiers);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpAddRequestHeadersA\n";
+    #endif
 
     return;
 }
@@ -4178,7 +4332,9 @@ void EmuApi::EmuHttpAddRequestHeadersW(uc_engine* uc, DWORD_PTR address, size_t 
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszHeaders, rlwlpszHeaders)) { printf("Error when read lpszHeaders in HttpAddRequestHeadersW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwHeadersLength);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwModifiers);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpAddRequestHeadersW\n";
+    #endif
 
     return;
 }
@@ -4229,7 +4385,9 @@ void EmuApi::EmuHttpSendRequestA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_R8D, &dwHeadersLength);
     uc_reg_write(uc, UC_X86_REG_R9, &lpOptional);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwOptionalLength, sizeof(dwOptionalLength));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpSendRequestA\n";
+    #endif
 
     return;
 }
@@ -4280,7 +4438,9 @@ void EmuApi::EmuHttpSendRequestW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_R8D, &dwHeadersLength);
     uc_reg_write(uc, UC_X86_REG_R9, &lpOptional);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwOptionalLength, sizeof(dwOptionalLength));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpSendRequestW\n";
+    #endif
 
     return;
 }
@@ -4352,7 +4512,9 @@ void EmuApi::EmuHttpSendRequestExA(uc_engine* uc, DWORD_PTR address, size_t size
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpSendRequestExA\n";
+    #endif
 
     return;
 }
@@ -4424,7 +4586,9 @@ void EmuApi::EmuHttpSendRequestExW(uc_engine* uc, DWORD_PTR address, size_t size
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwContext, sizeof(dwContext));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpSendRequestExW\n";
+    #endif
 
     return;
 }
@@ -4476,7 +4640,9 @@ void EmuApi::EmuHttpEndRequestA(uc_engine* uc, DWORD_PTR address, size_t size, v
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &dwContext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpEndRequestA\n";
+    #endif
 
     return;
 }
@@ -4528,7 +4694,9 @@ void EmuApi::EmuHttpEndRequestW(uc_engine* uc, DWORD_PTR address, size_t size, v
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &dwContext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpEndRequestW\n";
+    #endif
 
     return;
 }
@@ -4600,7 +4768,9 @@ void EmuApi::EmuHttpQueryInfoA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwIndex, &rllpdwIndex, sizeof(rllpdwIndex));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpQueryInfoA\n";
+    #endif
 
     return;
 }
@@ -4672,7 +4842,9 @@ void EmuApi::EmuHttpQueryInfoW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwIndex, &rllpdwIndex, sizeof(rllpdwIndex));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpQueryInfoW\n";
+    #endif
 
     return;
 }
@@ -4716,7 +4888,9 @@ void EmuApi::EmuInternetSetCookieA(uc_engine* uc, DWORD_PTR address, size_t size
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszUrl, rlalpszUrl)) { printf("Error when read lpszUrl in InternetSetCookieA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszCookieName, rlalpszCookieName)) { printf("Error when read lpszCookieName in InternetSetCookieA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszCookieData, rlalpszCookieData)) { printf("Error when read lpszCookieData in InternetSetCookieA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetCookieA\n";
+    #endif
 
     return;
 }
@@ -4760,7 +4934,9 @@ void EmuApi::EmuInternetSetCookieW(uc_engine* uc, DWORD_PTR address, size_t size
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszUrl, rlwlpszUrl)) { printf("Error when read lpszUrl in InternetSetCookieW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszCookieName, rlwlpszCookieName)) { printf("Error when read lpszCookieName in InternetSetCookieW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszCookieData, rlwlpszCookieData)) { printf("Error when read lpszCookieData in InternetSetCookieW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetCookieW\n";
+    #endif
 
     return;
 }
@@ -4821,7 +4997,9 @@ void EmuApi::EmuInternetGetCookieA(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwSize, &rllpdwSize, sizeof(rllpdwSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetCookieA\n";
+    #endif
 
     return;
 }
@@ -4882,7 +5060,9 @@ void EmuApi::EmuInternetGetCookieW(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwSize, &rllpdwSize, sizeof(rllpdwSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetCookieW\n";
+    #endif
 
     return;
 }
@@ -4939,7 +5119,9 @@ void EmuApi::EmuInternetSetCookieExA(uc_engine* uc, DWORD_PTR address, size_t si
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszCookieData, rlalpszCookieData)) { printf("Error when read lpszCookieData in InternetSetCookieExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetCookieExA\n";
+    #endif
 
     return;
 }
@@ -4996,7 +5178,9 @@ void EmuApi::EmuInternetSetCookieExW(uc_engine* uc, DWORD_PTR address, size_t si
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszCookieData, rlwlpszCookieData)) { printf("Error when read lpszCookieData in InternetSetCookieExW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetCookieExW\n";
+    #endif
 
     return;
 }
@@ -5070,7 +5254,9 @@ void EmuApi::EmuInternetGetCookieExA(uc_engine* uc, DWORD_PTR address, size_t si
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetCookieExA\n";
+    #endif
 
     return;
 }
@@ -5144,7 +5330,9 @@ void EmuApi::EmuInternetGetCookieExW(uc_engine* uc, DWORD_PTR address, size_t si
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetCookieExW\n";
+    #endif
 
     return;
 }
@@ -5185,7 +5373,9 @@ void EmuApi::EmuInternetFreeCookies(uc_engine* uc, DWORD_PTR address, size_t siz
         uc_mem_write(uc, (DWORD_PTR)pCookies, &stpCookies, sizeof(stpCookies));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwCookieCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetFreeCookies\n";
+    #endif
 
     return;
 }
@@ -5275,7 +5465,9 @@ void EmuApi::EmuInternetGetCookieEx2(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)pdwCookieCount, &rlpdwCookieCount, sizeof(rlpdwCookieCount));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetCookieEx2\n";
+    #endif
 
     return;
 }
@@ -5353,7 +5545,9 @@ void EmuApi::EmuInternetSetCookieEx2(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)pdwCookieState, &rlpdwCookieState, sizeof(rlpdwCookieState));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetCookieEx2\n";
+    #endif
 
     return;
 }
@@ -5378,7 +5572,9 @@ void EmuApi::EmuInternetAttemptConnect(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetAttemptConnectResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetAttemptConnect\n";
+    #endif
 
     return;
 }
@@ -5416,7 +5612,9 @@ void EmuApi::EmuInternetCheckConnectionA(uc_engine* uc, DWORD_PTR address, size_
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszUrl, rlalpszUrl)) { printf("Error when read lpszUrl in InternetCheckConnectionA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCheckConnectionA\n";
+    #endif
 
     return;
 }
@@ -5454,10 +5652,50 @@ void EmuApi::EmuInternetCheckConnectionW(uc_engine* uc, DWORD_PTR address, size_
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszUrl, rlwlpszUrl)) { printf("Error when read lpszUrl in InternetCheckConnectionW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetCheckConnectionW\n";
+    #endif
 
     return;
 }
+
+
+/*
+DWORD
+__cdecl
+InternetAuthNotifyCallback(
+      DWORD_PTR  dwContext   ,
+      DWORD      dwReturn    ,
+      LPVOID     lpReserved  );
+
+*/
+void EmuApi::EmuInternetAuthNotifyCallback(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    DWORD_PTR dwContext{};
+    uc_reg_read(uc, UC_X86_REG_RCX, &dwContext);
+
+    DWORD dwReturn{};
+    uc_reg_read(uc, UC_X86_REG_EDX, &dwReturn);
+
+    LPVOID lpReserved{};
+    uc_reg_read(uc, UC_X86_REG_R8, &lpReserved);
+
+
+    DWORD InternetAuthNotifyCallbackResult = InternetAuthNotifyCallback((DWORD_PTR)dwContext,(DWORD)dwReturn,(LPVOID)&lpReserved);
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &InternetAuthNotifyCallbackResult);
+    uc_reg_write(uc, UC_X86_REG_RCX, &dwContext);
+    uc_reg_write(uc, UC_X86_REG_EDX, &dwReturn);
+    uc_reg_write(uc, UC_X86_REG_R8, &lpReserved);
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetAuthNotifyCallback\n";
+    #endif
+
+    return;
+}
+
 
 /*
 BOOL
@@ -5483,7 +5721,9 @@ void EmuApi::EmuResumeSuspendedDownload(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_EAX, &ResumeSuspendedDownloadResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hRequest);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwResultCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuResumeSuspendedDownload\n";
+    #endif
 
     return;
 }
@@ -5543,7 +5783,9 @@ void EmuApi::EmuInternetErrorDlg(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lppvData, &dplppvData, sizeof(dplppvData));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetErrorDlg\n";
+    #endif
 
     return;
 }
@@ -5589,7 +5831,9 @@ void EmuApi::EmuInternetConfirmZoneCrossingA(uc_engine* uc, DWORD_PTR address, s
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)szUrlPrev, rlaszUrlPrev)) { printf("Error when read szUrlPrev in InternetConfirmZoneCrossingA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)szUrlNew, rlaszUrlNew)) { printf("Error when read szUrlNew in InternetConfirmZoneCrossingA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &bPost);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetConfirmZoneCrossingA\n";
+    #endif
 
     return;
 }
@@ -5635,7 +5879,9 @@ void EmuApi::EmuInternetConfirmZoneCrossingW(uc_engine* uc, DWORD_PTR address, s
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)szUrlPrev, rlwszUrlPrev)) { printf("Error when read szUrlPrev in InternetConfirmZoneCrossingW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)szUrlNew, rlwszUrlNew)) { printf("Error when read szUrlNew in InternetConfirmZoneCrossingW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &bPost);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetConfirmZoneCrossingW\n";
+    #endif
 
     return;
 }
@@ -5692,7 +5938,9 @@ void EmuApi::EmuCreateUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t si
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszFileExtension, rlalpszFileExtension)) { printf("Error when read lpszFileExtension in CreateUrlCacheEntryA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszFileName, rlalpszFileName)) { printf("Error when read lpszFileName in CreateUrlCacheEntryA"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateUrlCacheEntryA\n";
+    #endif
 
     return;
 }
@@ -5749,7 +5997,9 @@ void EmuApi::EmuCreateUrlCacheEntryW(uc_engine* uc, DWORD_PTR address, size_t si
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFileExtension, rlwlpszFileExtension)) { printf("Error when read lpszFileExtension in CreateUrlCacheEntryW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFileName, rlwlpszFileName)) { printf("Error when read lpszFileName in CreateUrlCacheEntryW"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateUrlCacheEntryW\n";
+    #endif
 
     return;
 }
@@ -5841,7 +6091,9 @@ void EmuApi::EmuCommitUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t si
     uc_mem_write(uc, (DWORD_PTR)SP+56, &cchHeaderInfo, sizeof(cchHeaderInfo));
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszFileExtension, rlalpszFileExtension)) { printf("Error when read lpszFileExtension in CommitUrlCacheEntryA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszOriginalUrl, rlalpszOriginalUrl)) { printf("Error when read lpszOriginalUrl in CommitUrlCacheEntryA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCommitUrlCacheEntryA\n";
+    #endif
 
     return;
 }
@@ -5924,7 +6176,9 @@ void EmuApi::EmuCommitUrlCacheEntryW(uc_engine* uc, DWORD_PTR address, size_t si
     uc_mem_write(uc, (DWORD_PTR)SP+48, &cchHeaderInfo, sizeof(cchHeaderInfo));
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFileExtension, rlwlpszFileExtension)) { printf("Error when read lpszFileExtension in CommitUrlCacheEntryW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszOriginalUrl, rlwlpszOriginalUrl)) { printf("Error when read lpszOriginalUrl in CommitUrlCacheEntryW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCommitUrlCacheEntryW\n";
+    #endif
 
     return;
 }
@@ -5991,7 +6245,9 @@ void EmuApi::EmuRetrieveUrlCacheEntryFileA(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRetrieveUrlCacheEntryFileA\n";
+    #endif
 
     return;
 }
@@ -6058,7 +6314,9 @@ void EmuApi::EmuRetrieveUrlCacheEntryFileW(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRetrieveUrlCacheEntryFileW\n";
+    #endif
 
     return;
 }
@@ -6091,7 +6349,9 @@ void EmuApi::EmuUnlockUrlCacheEntryFileA(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_EAX, &UnlockUrlCacheEntryFileAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszUrlName, rlalpszUrlName)) { printf("Error when read lpszUrlName in UnlockUrlCacheEntryFileA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnlockUrlCacheEntryFileA\n";
+    #endif
 
     return;
 }
@@ -6124,7 +6384,9 @@ void EmuApi::EmuUnlockUrlCacheEntryFileW(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_EAX, &UnlockUrlCacheEntryFileWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszUrlName, rlwlpszUrlName)) { printf("Error when read lpszUrlName in UnlockUrlCacheEntryFileW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnlockUrlCacheEntryFileW\n";
+    #endif
 
     return;
 }
@@ -6199,7 +6461,9 @@ void EmuApi::EmuRetrieveUrlCacheEntryStreamA(uc_engine* uc, DWORD_PTR address, s
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &fRandomRead);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRetrieveUrlCacheEntryStreamA\n";
+    #endif
 
     return;
 }
@@ -6274,7 +6538,9 @@ void EmuApi::EmuRetrieveUrlCacheEntryStreamW(uc_engine* uc, DWORD_PTR address, s
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &fRandomRead);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRetrieveUrlCacheEntryStreamW\n";
+    #endif
 
     return;
 }
@@ -6334,7 +6600,9 @@ void EmuApi::EmuReadUrlCacheEntryStream(uc_engine* uc, DWORD_PTR address, size_t
         uc_mem_write(uc, (DWORD_PTR)lpdwLen, &rllpdwLen, sizeof(rllpdwLen));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &Reserved, sizeof(Reserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReadUrlCacheEntryStream\n";
+    #endif
 
     return;
 }
@@ -6386,7 +6654,9 @@ void EmuApi::EmuReadUrlCacheEntryStreamEx(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwLen, &rllpdwLen, sizeof(rllpdwLen));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReadUrlCacheEntryStreamEx\n";
+    #endif
 
     return;
 }
@@ -6416,7 +6686,9 @@ void EmuApi::EmuUnlockUrlCacheEntryStream(uc_engine* uc, DWORD_PTR address, size
     uc_reg_write(uc, UC_X86_REG_EAX, &UnlockUrlCacheEntryStreamResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hUrlCacheStream);
     uc_reg_write(uc, UC_X86_REG_EDX, &Reserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnlockUrlCacheEntryStream\n";
+    #endif
 
     return;
 }
@@ -6478,7 +6750,9 @@ void EmuApi::EmuGetUrlCacheEntryInfoA(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUrlCacheEntryInfoA\n";
+    #endif
 
     return;
 }
@@ -6540,7 +6814,9 @@ void EmuApi::EmuGetUrlCacheEntryInfoW(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUrlCacheEntryInfoW\n";
+    #endif
 
     return;
 }
@@ -6605,7 +6881,9 @@ void EmuApi::EmuFindFirstUrlCacheGroup(uc_engine* uc, DWORD_PTR address, size_t 
         uc_mem_write(uc, (DWORD_PTR)lpGroupId, &rllpGroupId, sizeof(rllpGroupId));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstUrlCacheGroup\n";
+    #endif
 
     return;
 }
@@ -6652,7 +6930,9 @@ void EmuApi::EmuFindNextUrlCacheGroup(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)lpGroupId, &rllpGroupId, sizeof(rllpGroupId));
     }
     uc_reg_write(uc, UC_X86_REG_R8, &lpReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextUrlCacheGroup\n";
+    #endif
 
     return;
 }
@@ -6729,7 +7009,9 @@ void EmuApi::EmuGetUrlCacheGroupAttributeA(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)lpcbGroupInfo, &rllpcbGroupInfo, sizeof(rllpcbGroupInfo));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUrlCacheGroupAttributeA\n";
+    #endif
 
     return;
 }
@@ -6806,7 +7088,9 @@ void EmuApi::EmuGetUrlCacheGroupAttributeW(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)lpcbGroupInfo, &rllpcbGroupInfo, sizeof(rllpcbGroupInfo));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUrlCacheGroupAttributeW\n";
+    #endif
 
     return;
 }
@@ -6866,7 +7150,9 @@ void EmuApi::EmuSetUrlCacheGroupAttributeA(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)lpGroupInfo, &stlpGroupInfo, sizeof(stlpGroupInfo));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUrlCacheGroupAttributeA\n";
+    #endif
 
     return;
 }
@@ -6926,7 +7212,9 @@ void EmuApi::EmuSetUrlCacheGroupAttributeW(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)lpGroupInfo, &stlpGroupInfo, sizeof(stlpGroupInfo));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUrlCacheGroupAttributeW\n";
+    #endif
 
     return;
 }
@@ -7026,7 +7314,9 @@ void EmuApi::EmuGetUrlCacheEntryInfoExA(uc_engine* uc, DWORD_PTR address, size_t
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUrlCacheEntryInfoExA\n";
+    #endif
 
     return;
 }
@@ -7126,7 +7416,9 @@ void EmuApi::EmuGetUrlCacheEntryInfoExW(uc_engine* uc, DWORD_PTR address, size_t
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUrlCacheEntryInfoExW\n";
+    #endif
 
     return;
 }
@@ -7176,7 +7468,9 @@ void EmuApi::EmuSetUrlCacheEntryInfoA(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)lpCacheEntryInfo, &stlpCacheEntryInfo, sizeof(stlpCacheEntryInfo));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFieldControl);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUrlCacheEntryInfoA\n";
+    #endif
 
     return;
 }
@@ -7226,7 +7520,9 @@ void EmuApi::EmuSetUrlCacheEntryInfoW(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)lpCacheEntryInfo, &stlpCacheEntryInfo, sizeof(stlpCacheEntryInfo));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFieldControl);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUrlCacheEntryInfoW\n";
+    #endif
 
     return;
 }
@@ -7256,7 +7552,9 @@ void EmuApi::EmuCreateUrlCacheGroup(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RAX, &CreateUrlCacheGroupResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateUrlCacheGroup\n";
+    #endif
 
     return;
 }
@@ -7291,7 +7589,9 @@ void EmuApi::EmuDeleteUrlCacheGroup(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RCX, &GroupId);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R8, &lpReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteUrlCacheGroup\n";
+    #endif
 
     return;
 }
@@ -7359,7 +7659,9 @@ void EmuApi::EmuSetUrlCacheEntryGroupA(uc_engine* uc, DWORD_PTR address, size_t 
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cbGroupAttributes, sizeof(cbGroupAttributes));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUrlCacheEntryGroupA\n";
+    #endif
 
     return;
 }
@@ -7427,7 +7729,9 @@ void EmuApi::EmuSetUrlCacheEntryGroupW(uc_engine* uc, DWORD_PTR address, size_t 
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cbGroupAttributes, sizeof(cbGroupAttributes));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUrlCacheEntryGroupW\n";
+    #endif
 
     return;
 }
@@ -7534,7 +7838,9 @@ void EmuApi::EmuFindFirstUrlCacheEntryExA(uc_engine* uc, DWORD_PTR address, size
         uc_mem_write(uc, (DWORD_PTR)lpcbGroupAttributes, &rllpcbGroupAttributes, sizeof(rllpcbGroupAttributes));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+72, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstUrlCacheEntryExA\n";
+    #endif
 
     return;
 }
@@ -7641,7 +7947,9 @@ void EmuApi::EmuFindFirstUrlCacheEntryExW(uc_engine* uc, DWORD_PTR address, size
         uc_mem_write(uc, (DWORD_PTR)lpcbGroupAttributes, &rllpcbGroupAttributes, sizeof(rllpcbGroupAttributes));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+72, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstUrlCacheEntryExW\n";
+    #endif
 
     return;
 }
@@ -7730,7 +8038,9 @@ void EmuApi::EmuFindNextUrlCacheEntryExA(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)lpcbGroupAttributes, &rllpcbGroupAttributes, sizeof(rllpcbGroupAttributes));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextUrlCacheEntryExA\n";
+    #endif
 
     return;
 }
@@ -7819,7 +8129,9 @@ void EmuApi::EmuFindNextUrlCacheEntryExW(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)lpcbGroupAttributes, &rllpcbGroupAttributes, sizeof(rllpcbGroupAttributes));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpReserved, sizeof(lpReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextUrlCacheEntryExW\n";
+    #endif
 
     return;
 }
@@ -7881,7 +8193,9 @@ void EmuApi::EmuFindFirstUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstUrlCacheEntryA\n";
+    #endif
 
     return;
 }
@@ -7943,7 +8257,9 @@ void EmuApi::EmuFindFirstUrlCacheEntryW(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstUrlCacheEntryW\n";
+    #endif
 
     return;
 }
@@ -8002,7 +8318,9 @@ void EmuApi::EmuFindNextUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextUrlCacheEntryA\n";
+    #endif
 
     return;
 }
@@ -8061,7 +8379,9 @@ void EmuApi::EmuFindNextUrlCacheEntryW(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpcbCacheEntryInfo, &rllpcbCacheEntryInfo, sizeof(rllpcbCacheEntryInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextUrlCacheEntryW\n";
+    #endif
 
     return;
 }
@@ -8086,7 +8406,9 @@ void EmuApi::EmuFindCloseUrlCache(uc_engine* uc, DWORD_PTR address, size_t size,
 
     uc_reg_write(uc, UC_X86_REG_EAX, &FindCloseUrlCacheResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hEnumHandle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindCloseUrlCache\n";
+    #endif
 
     return;
 }
@@ -8114,7 +8436,9 @@ void EmuApi::EmuDeleteUrlCacheEntryA(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DeleteUrlCacheEntryAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszUrlName, rlalpszUrlName)) { printf("Error when read lpszUrlName in DeleteUrlCacheEntryA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteUrlCacheEntryA\n";
+    #endif
 
     return;
 }
@@ -8142,7 +8466,9 @@ void EmuApi::EmuDeleteUrlCacheEntryW(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DeleteUrlCacheEntryWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszUrlName, rlwlpszUrlName)) { printf("Error when read lpszUrlName in DeleteUrlCacheEntryW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteUrlCacheEntryW\n";
+    #endif
 
     return;
 }
@@ -8205,7 +8531,9 @@ void EmuApi::EmuInternetDialA(uc_engine* uc, DWORD_PTR address, size_t size, voi
         uc_mem_write(uc, (DWORD_PTR)lpdwConnection, &rllpdwConnection, sizeof(rllpdwConnection));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetDialA\n";
+    #endif
 
     return;
 }
@@ -8268,7 +8596,9 @@ void EmuApi::EmuInternetDialW(uc_engine* uc, DWORD_PTR address, size_t size, voi
         uc_mem_write(uc, (DWORD_PTR)lpdwConnection, &rllpdwConnection, sizeof(rllpdwConnection));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwReserved, sizeof(dwReserved));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetDialW\n";
+    #endif
 
     return;
 }
@@ -8298,7 +8628,9 @@ void EmuApi::EmuInternetHangUp(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetHangUpResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &dwConnection);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetHangUp\n";
+    #endif
 
     return;
 }
@@ -8336,7 +8668,9 @@ void EmuApi::EmuInternetGoOnlineA(uc_engine* uc, DWORD_PTR address, size_t size,
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszURL, rlalpszURL)) { printf("Error when read lpszURL in InternetGoOnlineA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_RDX, &hwndParent);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGoOnlineA\n";
+    #endif
 
     return;
 }
@@ -8374,7 +8708,9 @@ void EmuApi::EmuInternetGoOnlineW(uc_engine* uc, DWORD_PTR address, size_t size,
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszURL, rlwlpszURL)) { printf("Error when read lpszURL in InternetGoOnlineW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_RDX, &hwndParent);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGoOnlineW\n";
+    #endif
 
     return;
 }
@@ -8404,7 +8740,9 @@ void EmuApi::EmuInternetAutodial(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetAutodialResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_RDX, &hwndParent);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetAutodial\n";
+    #endif
 
     return;
 }
@@ -8429,7 +8767,9 @@ void EmuApi::EmuInternetAutodialHangup(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetAutodialHangupResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetAutodialHangup\n";
+    #endif
 
     return;
 }
@@ -8471,7 +8811,9 @@ void EmuApi::EmuInternetGetConnectedState(uc_engine* uc, DWORD_PTR address, size
         uc_mem_write(uc, (DWORD_PTR)lpdwFlags, &rllpdwFlags, sizeof(rllpdwFlags));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetConnectedState\n";
+    #endif
 
     return;
 }
@@ -8526,7 +8868,9 @@ void EmuApi::EmuInternetGetConnectedStateExA(uc_engine* uc, DWORD_PTR address, s
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszConnectionName, rlalpszConnectionName)) { printf("Error when read lpszConnectionName in InternetGetConnectedStateExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchNameLen);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetConnectedStateExA\n";
+    #endif
 
     return;
 }
@@ -8581,7 +8925,9 @@ void EmuApi::EmuInternetGetConnectedStateExW(uc_engine* uc, DWORD_PTR address, s
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszConnectionName, rlwlpszConnectionName)) { printf("Error when read lpszConnectionName in InternetGetConnectedStateExW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchNameLen);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetConnectedStateExW\n";
+    #endif
 
     return;
 }
@@ -8606,7 +8952,9 @@ void EmuApi::EmuDeleteWpadCacheForNetworks(uc_engine* uc, DWORD_PTR address, siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DeleteWpadCacheForNetworksResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &namelessArg_0);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteWpadCacheForNetworks\n";
+    #endif
 
     return;
 }
@@ -8631,7 +8979,9 @@ void EmuApi::EmuInternetInitializeAutoProxyDll(uc_engine* uc, DWORD_PTR address,
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetInitializeAutoProxyDllResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetInitializeAutoProxyDll\n";
+    #endif
 
     return;
 }
@@ -8669,7 +9019,9 @@ void EmuApi::EmuDetectAutoProxyUrl(uc_engine* uc, DWORD_PTR address, size_t size
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pszAutoProxyUrl, rlapszAutoProxyUrl)) { printf("Error when read pszAutoProxyUrl in DetectAutoProxyUrl"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &cchAutoProxyUrl);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwDetectFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDetectAutoProxyUrl\n";
+    #endif
 
     return;
 }
@@ -8730,7 +9082,9 @@ void EmuApi::EmuCreateMD5SSOHash(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)pbHexHash, &rlpbHexHash, sizeof(rlpbHexHash));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateMD5SSOHash\n";
+    #endif
 
     return;
 }
@@ -8768,7 +9122,9 @@ void EmuApi::EmuInternetSetDialStateA(uc_engine* uc, DWORD_PTR address, size_t s
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszConnectoid, rlalpszConnectoid)) { printf("Error when read lpszConnectoid in InternetSetDialStateA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwState);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetDialStateA\n";
+    #endif
 
     return;
 }
@@ -8806,7 +9162,9 @@ void EmuApi::EmuInternetSetDialStateW(uc_engine* uc, DWORD_PTR address, size_t s
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszConnectoid, rlwlpszConnectoid)) { printf("Error when read lpszConnectoid in InternetSetDialStateW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwState);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetDialStateW\n";
+    #endif
 
     return;
 }
@@ -8839,7 +9197,9 @@ void EmuApi::EmuInternetSetPerSiteCookieDecisionA(uc_engine* uc, DWORD_PTR addre
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetSetPerSiteCookieDecisionAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pchHostName, rlapchHostName)) { printf("Error when read pchHostName in InternetSetPerSiteCookieDecisionA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwDecision);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetPerSiteCookieDecisionA\n";
+    #endif
 
     return;
 }
@@ -8872,7 +9232,9 @@ void EmuApi::EmuInternetSetPerSiteCookieDecisionW(uc_engine* uc, DWORD_PTR addre
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetSetPerSiteCookieDecisionWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pchHostName, rlwpchHostName)) { printf("Error when read pchHostName in InternetSetPerSiteCookieDecisionW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwDecision);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetSetPerSiteCookieDecisionW\n";
+    #endif
 
     return;
 }
@@ -8905,7 +9267,9 @@ void EmuApi::EmuInternetGetPerSiteCookieDecisionA(uc_engine* uc, DWORD_PTR addre
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetGetPerSiteCookieDecisionAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pchHostName, rlapchHostName)) { printf("Error when read pchHostName in InternetGetPerSiteCookieDecisionA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_RDX, &pResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetPerSiteCookieDecisionA\n";
+    #endif
 
     return;
 }
@@ -8938,7 +9302,9 @@ void EmuApi::EmuInternetGetPerSiteCookieDecisionW(uc_engine* uc, DWORD_PTR addre
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetGetPerSiteCookieDecisionWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pchHostName, rlwpchHostName)) { printf("Error when read pchHostName in InternetGetPerSiteCookieDecisionW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_RDX, &pResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetGetPerSiteCookieDecisionW\n";
+    #endif
 
     return;
 }
@@ -8958,7 +9324,9 @@ void EmuApi::EmuInternetClearAllPerSiteCookieDecisions(uc_engine* uc, DWORD_PTR 
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InternetClearAllPerSiteCookieDecisionsResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetClearAllPerSiteCookieDecisions\n";
+    #endif
 
     return;
 }
@@ -9001,7 +9369,9 @@ void EmuApi::EmuInternetEnumPerSiteCookieDecisionA(uc_engine* uc, DWORD_PTR addr
     uc_reg_write(uc, UC_X86_REG_RDX, &pcSiteNameSize);
     uc_reg_write(uc, UC_X86_REG_R8, &pdwDecision);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetEnumPerSiteCookieDecisionA\n";
+    #endif
 
     return;
 }
@@ -9044,7 +9414,9 @@ void EmuApi::EmuInternetEnumPerSiteCookieDecisionW(uc_engine* uc, DWORD_PTR addr
     uc_reg_write(uc, UC_X86_REG_RDX, &pcSiteNameSize);
     uc_reg_write(uc, UC_X86_REG_R8, &pdwDecision);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternetEnumPerSiteCookieDecisionW\n";
+    #endif
 
     return;
 }
@@ -9087,7 +9459,9 @@ void EmuApi::EmuPrivacySetZonePreferenceW(uc_engine* uc, DWORD_PTR address, size
     uc_reg_write(uc, UC_X86_REG_EDX, &dwType);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwTemplate);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pszPreference, rlwpszPreference)) { printf("Error when read pszPreference in PrivacySetZonePreferenceW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPrivacySetZonePreferenceW\n";
+    #endif
 
     return;
 }
@@ -9162,7 +9536,9 @@ void EmuApi::EmuPrivacyGetZonePreferenceW(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)pdwBufferLength, &rlpdwBufferLength, sizeof(rlpdwBufferLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPrivacyGetZonePreferenceW\n";
+    #endif
 
     return;
 }
@@ -9207,7 +9583,9 @@ void EmuApi::EmuHttpIsHostHstsEnabled(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)pfIsHsts, &rlpfIsHsts, sizeof(rlpfIsHsts));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHttpIsHostHstsEnabled\n";
+    #endif
 
     return;
 }

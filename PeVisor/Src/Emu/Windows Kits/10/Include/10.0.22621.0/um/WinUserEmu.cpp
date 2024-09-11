@@ -1,4 +1,3 @@
-#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/WinUserEmu.hpp"
 /*
  ███▄ ▄███▓▄▄▄      ██▀███  ██▓█    ██  ██████     ▄▄▄      ██ ▄█▄▄▄          ███▄    █ ██▄▄▄█████▓██▀███  ▒█████   ▄████ 
 ▓██▒▀█▀ ██▒████▄   ▓██ ▒ ██▓██▒██  ▓██▒██    ▒    ▒████▄    ██▄█▒████▄        ██ ▀█   █▓██▓  ██▒ ▓▓██ ▒ ██▒██▒  ██▒██▒ ▀█▒
@@ -12,6 +11,175 @@
                                                                                                                           
 
 */
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/WinUserEmu.hpp"
+/*
+int
+__cdecl
+wvsprintfA(
+      LPSTR    namelessArg_0  ,
+      LPCSTR   namelessArg_1  ,
+      va_list  arglist        );
+
+*/
+void EmuApi::EmuwvsprintfA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    LPSTR namelessArg_0{};
+    uc_reg_read(uc, UC_X86_REG_RCX, &namelessArg_0);
+
+    std::string rlanamelessArg_0;
+    if(!EmuReadNullTermString(uc, (DWORD_PTR)namelessArg_0, rlanamelessArg_0)) { printf("Error when read namelessArg_0 in wvsprintfA"); _CrtDbgBreak(); }
+
+    LPSTR namelessArg_1{};
+    uc_reg_read(uc, UC_X86_REG_RDX, &namelessArg_1);
+
+    std::string rlanamelessArg_1;
+    if(!EmuReadNullTermString(uc, (DWORD_PTR)namelessArg_1, rlanamelessArg_1)) { printf("Error when read namelessArg_1 in wvsprintfA"); _CrtDbgBreak(); }
+
+    va_list arglist{};
+    uc_reg_read(uc, UC_X86_REG_R8, &arglist);
+
+    std::string rlaarglist;
+    if(!EmuReadNullTermString(uc, (DWORD_PTR)arglist, rlaarglist)) { printf("Error when read arglist in wvsprintfA"); _CrtDbgBreak(); }
+
+
+    int wvsprintfAResult = wvsprintfA((LPSTR)rlanamelessArg_0.data(),(LPCSTR)rlanamelessArg_1.data(),(va_list)rlaarglist.data());
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &wvsprintfAResult);
+    if(!EmuWriteNullTermString(uc, (DWORD_PTR)namelessArg_0, rlanamelessArg_0)) { printf("Error when read namelessArg_0 in wvsprintfA"); _CrtDbgBreak(); }
+    if(!EmuWriteNullTermString(uc, (DWORD_PTR)namelessArg_1, rlanamelessArg_1)) { printf("Error when read namelessArg_1 in wvsprintfA"); _CrtDbgBreak(); }
+    if(!EmuWriteNullTermString(uc, (DWORD_PTR)arglist, rlaarglist)) { printf("Error when read arglist in wvsprintfA"); _CrtDbgBreak(); }
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuwvsprintfA\n";
+    #endif
+
+    return;
+}
+
+
+/*
+int
+__cdecl
+wvsprintfW(
+      LPWSTR   namelessArg_0  ,
+      LPCWSTR  namelessArg_1  ,
+      va_list  arglist        );
+
+*/
+void EmuApi::EmuwvsprintfW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    LPWSTR namelessArg_0{};
+    uc_reg_read(uc, UC_X86_REG_RCX, &namelessArg_0);
+
+    std::wstring rlwnamelessArg_0;
+    if(!EmuReadNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_0, rlwnamelessArg_0)) { printf("Error when read namelessArg_0 in wvsprintfW"); _CrtDbgBreak(); }
+
+    LPWSTR namelessArg_1{};
+    uc_reg_read(uc, UC_X86_REG_RDX, &namelessArg_1);
+
+    std::wstring rlwnamelessArg_1;
+    if(!EmuReadNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_1, rlwnamelessArg_1)) { printf("Error when read namelessArg_1 in wvsprintfW"); _CrtDbgBreak(); }
+
+    va_list arglist{};
+    uc_reg_read(uc, UC_X86_REG_R8, &arglist);
+
+    std::string rlaarglist;
+    if(!EmuReadNullTermString(uc, (DWORD_PTR)arglist, rlaarglist)) { printf("Error when read arglist in wvsprintfW"); _CrtDbgBreak(); }
+
+
+    int wvsprintfWResult = wvsprintfW((LPWSTR)rlwnamelessArg_0.data(),(LPCWSTR)rlwnamelessArg_1.data(),(va_list)rlaarglist.data());
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &wvsprintfWResult);
+    if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_0, rlwnamelessArg_0)) { printf("Error when read namelessArg_0 in wvsprintfW"); _CrtDbgBreak(); }
+    if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_1, rlwnamelessArg_1)) { printf("Error when read namelessArg_1 in wvsprintfW"); _CrtDbgBreak(); }
+    if(!EmuWriteNullTermString(uc, (DWORD_PTR)arglist, rlaarglist)) { printf("Error when read arglist in wvsprintfW"); _CrtDbgBreak(); }
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuwvsprintfW\n";
+    #endif
+
+    return;
+}
+
+
+/*
+int
+__cdecl
+wsprintfA(
+      LPSTR   namelessArg_0  ,
+      LPCSTR  namelessArg_1  );
+
+*/
+void EmuApi::EmuwsprintfA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    LPSTR namelessArg_0{};
+    uc_reg_read(uc, UC_X86_REG_RCX, &namelessArg_0);
+
+    std::string rlanamelessArg_0;
+    if(!EmuReadNullTermString(uc, (DWORD_PTR)namelessArg_0, rlanamelessArg_0)) { printf("Error when read namelessArg_0 in wsprintfA"); _CrtDbgBreak(); }
+
+    LPSTR namelessArg_1{};
+    uc_reg_read(uc, UC_X86_REG_RDX, &namelessArg_1);
+
+    std::string rlanamelessArg_1;
+    if(!EmuReadNullTermString(uc, (DWORD_PTR)namelessArg_1, rlanamelessArg_1)) { printf("Error when read namelessArg_1 in wsprintfA"); _CrtDbgBreak(); }
+
+
+    int wsprintfAResult = wsprintfA((LPSTR)rlanamelessArg_0.data(),(LPCSTR)rlanamelessArg_1.data());
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &wsprintfAResult);
+    if(!EmuWriteNullTermString(uc, (DWORD_PTR)namelessArg_0, rlanamelessArg_0)) { printf("Error when read namelessArg_0 in wsprintfA"); _CrtDbgBreak(); }
+    if(!EmuWriteNullTermString(uc, (DWORD_PTR)namelessArg_1, rlanamelessArg_1)) { printf("Error when read namelessArg_1 in wsprintfA"); _CrtDbgBreak(); }
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuwsprintfA\n";
+    #endif
+
+    return;
+}
+
+
+/*
+int
+__cdecl
+wsprintfW(
+      LPWSTR   namelessArg_0  ,
+      LPCWSTR  namelessArg_1  );
+
+*/
+void EmuApi::EmuwsprintfW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    LPWSTR namelessArg_0{};
+    uc_reg_read(uc, UC_X86_REG_RCX, &namelessArg_0);
+
+    std::wstring rlwnamelessArg_0;
+    if(!EmuReadNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_0, rlwnamelessArg_0)) { printf("Error when read namelessArg_0 in wsprintfW"); _CrtDbgBreak(); }
+
+    LPWSTR namelessArg_1{};
+    uc_reg_read(uc, UC_X86_REG_RDX, &namelessArg_1);
+
+    std::wstring rlwnamelessArg_1;
+    if(!EmuReadNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_1, rlwnamelessArg_1)) { printf("Error when read namelessArg_1 in wsprintfW"); _CrtDbgBreak(); }
+
+
+    int wsprintfWResult = wsprintfW((LPWSTR)rlwnamelessArg_0.data(),(LPCWSTR)rlwnamelessArg_1.data());
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &wsprintfWResult);
+    if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_0, rlwnamelessArg_0)) { printf("Error when read namelessArg_0 in wsprintfW"); _CrtDbgBreak(); }
+    if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)namelessArg_1, rlwnamelessArg_1)) { printf("Error when read namelessArg_1 in wsprintfW"); _CrtDbgBreak(); }
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuwsprintfW\n";
+    #endif
+
+    return;
+}
+
+
 /*
 HKL
 __cdecl
@@ -39,7 +207,9 @@ void EmuApi::EmuLoadKeyboardLayoutA(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadKeyboardLayoutAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pwszKLID, rlapwszKLID)) { printf("Error when read pwszKLID in LoadKeyboardLayoutA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadKeyboardLayoutA\n";
+    #endif
 
     return;
 }
@@ -72,7 +242,9 @@ void EmuApi::EmuLoadKeyboardLayoutW(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadKeyboardLayoutWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pwszKLID, rlwpwszKLID)) { printf("Error when read pwszKLID in LoadKeyboardLayoutW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadKeyboardLayoutW\n";
+    #endif
 
     return;
 }
@@ -102,7 +274,9 @@ void EmuApi::EmuActivateKeyboardLayout(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_RAX, &ActivateKeyboardLayoutResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hkl);
     uc_reg_write(uc, UC_X86_REG_EDX, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuActivateKeyboardLayout\n";
+    #endif
 
     return;
 }
@@ -175,7 +349,9 @@ void EmuApi::EmuToUnicodeEx(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cchBuff, sizeof(cchBuff));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &wFlags, sizeof(wFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwhkl, sizeof(dwhkl));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuToUnicodeEx\n";
+    #endif
 
     return;
 }
@@ -200,7 +376,9 @@ void EmuApi::EmuUnloadKeyboardLayout(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnloadKeyboardLayoutResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hkl);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnloadKeyboardLayout\n";
+    #endif
 
     return;
 }
@@ -228,7 +406,9 @@ void EmuApi::EmuGetKeyboardLayoutNameA(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetKeyboardLayoutNameAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pwszKLID, rlapwszKLID)) { printf("Error when read pwszKLID in GetKeyboardLayoutNameA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyboardLayoutNameA\n";
+    #endif
 
     return;
 }
@@ -256,7 +436,9 @@ void EmuApi::EmuGetKeyboardLayoutNameW(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetKeyboardLayoutNameWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pwszKLID, rlwpwszKLID)) { printf("Error when read pwszKLID in GetKeyboardLayoutNameW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyboardLayoutNameW\n";
+    #endif
 
     return;
 }
@@ -286,7 +468,9 @@ void EmuApi::EmuGetKeyboardLayoutList(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_EAX, &GetKeyboardLayoutListResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nBuff);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpList);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyboardLayoutList\n";
+    #endif
 
     return;
 }
@@ -311,7 +495,9 @@ void EmuApi::EmuGetKeyboardLayout(uc_engine* uc, DWORD_PTR address, size_t size,
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetKeyboardLayoutResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &idThread);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyboardLayout\n";
+    #endif
 
     return;
 }
@@ -383,7 +569,9 @@ void EmuApi::EmuGetMouseMovePointsEx(uc_engine* uc, DWORD_PTR address, size_t si
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &nBufPoints);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &resolution, sizeof(resolution));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMouseMovePointsEx\n";
+    #endif
 
     return;
 }
@@ -426,7 +614,9 @@ void EmuApi::EmuOpenDesktopA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R8D, &fInherit);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwDesiredAccess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenDesktopA\n";
+    #endif
 
     return;
 }
@@ -469,7 +659,9 @@ void EmuApi::EmuOpenDesktopW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R8D, &fInherit);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwDesiredAccess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenDesktopW\n";
+    #endif
 
     return;
 }
@@ -504,7 +696,9 @@ void EmuApi::EmuOpenInputDesktop(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_ECX, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_EDX, &fInherit);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwDesiredAccess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenInputDesktop\n";
+    #endif
 
     return;
 }
@@ -539,7 +733,9 @@ void EmuApi::EmuEnumDesktopsA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hwinsta);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_R8, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumDesktopsA\n";
+    #endif
 
     return;
 }
@@ -574,7 +770,9 @@ void EmuApi::EmuEnumDesktopsW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hwinsta);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_R8, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumDesktopsW\n";
+    #endif
 
     return;
 }
@@ -609,7 +807,9 @@ void EmuApi::EmuEnumDesktopWindows(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_RCX, &hDesktop);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpfn);
     uc_reg_write(uc, UC_X86_REG_R8, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumDesktopWindows\n";
+    #endif
 
     return;
 }
@@ -634,7 +834,9 @@ void EmuApi::EmuSwitchDesktop(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SwitchDesktopResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDesktop);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSwitchDesktop\n";
+    #endif
 
     return;
 }
@@ -659,7 +861,9 @@ void EmuApi::EmuSetThreadDesktop(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadDesktopResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDesktop);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadDesktop\n";
+    #endif
 
     return;
 }
@@ -684,7 +888,9 @@ void EmuApi::EmuCloseDesktop(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CloseDesktopResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDesktop);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCloseDesktop\n";
+    #endif
 
     return;
 }
@@ -709,7 +915,9 @@ void EmuApi::EmuGetThreadDesktop(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetThreadDesktopResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwThreadId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadDesktop\n";
+    #endif
 
     return;
 }
@@ -764,7 +972,9 @@ void EmuApi::EmuCreateWindowStationA(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpsa, &stlpsa, sizeof(stlpsa));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateWindowStationA\n";
+    #endif
 
     return;
 }
@@ -819,7 +1029,9 @@ void EmuApi::EmuCreateWindowStationW(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpsa, &stlpsa, sizeof(stlpsa));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateWindowStationW\n";
+    #endif
 
     return;
 }
@@ -857,7 +1069,9 @@ void EmuApi::EmuOpenWindowStationA(uc_engine* uc, DWORD_PTR address, size_t size
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszWinSta, rlalpszWinSta)) { printf("Error when read lpszWinSta in OpenWindowStationA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &fInherit);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwDesiredAccess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenWindowStationA\n";
+    #endif
 
     return;
 }
@@ -895,7 +1109,9 @@ void EmuApi::EmuOpenWindowStationW(uc_engine* uc, DWORD_PTR address, size_t size
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszWinSta, rlwlpszWinSta)) { printf("Error when read lpszWinSta in OpenWindowStationW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &fInherit);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwDesiredAccess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenWindowStationW\n";
+    #endif
 
     return;
 }
@@ -925,7 +1141,9 @@ void EmuApi::EmuEnumWindowStationsA(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_EAX, &EnumWindowStationsAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_RDX, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumWindowStationsA\n";
+    #endif
 
     return;
 }
@@ -955,7 +1173,9 @@ void EmuApi::EmuEnumWindowStationsW(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_EAX, &EnumWindowStationsWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_RDX, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumWindowStationsW\n";
+    #endif
 
     return;
 }
@@ -980,7 +1200,9 @@ void EmuApi::EmuCloseWindowStation(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CloseWindowStationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWinSta);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCloseWindowStation\n";
+    #endif
 
     return;
 }
@@ -1005,7 +1227,9 @@ void EmuApi::EmuSetProcessWindowStation(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessWindowStationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWinSta);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessWindowStation\n";
+    #endif
 
     return;
 }
@@ -1025,7 +1249,9 @@ void EmuApi::EmuGetProcessWindowStation(uc_engine* uc, DWORD_PTR address, size_t
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetProcessWindowStationResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessWindowStation\n";
+    #endif
 
     return;
 }
@@ -1072,7 +1298,9 @@ void EmuApi::EmuSetUserObjectSecurity(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)pSIRequested, &rlpSIRequested, sizeof(rlpSIRequested));
     }
     uc_reg_write(uc, UC_X86_REG_R8, &pSID);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUserObjectSecurity\n";
+    #endif
 
     return;
 }
@@ -1144,7 +1372,9 @@ void EmuApi::EmuGetUserObjectSecurity(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)lpnLengthNeeded, &rllpnLengthNeeded, sizeof(rllpnLengthNeeded));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUserObjectSecurity\n";
+    #endif
 
     return;
 }
@@ -1204,7 +1434,9 @@ void EmuApi::EmuGetUserObjectInformationA(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)lpnLengthNeeded, &rllpnLengthNeeded, sizeof(rllpnLengthNeeded));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUserObjectInformationA\n";
+    #endif
 
     return;
 }
@@ -1264,7 +1496,9 @@ void EmuApi::EmuGetUserObjectInformationW(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)lpnLengthNeeded, &rllpnLengthNeeded, sizeof(rllpnLengthNeeded));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUserObjectInformationW\n";
+    #endif
 
     return;
 }
@@ -1304,7 +1538,9 @@ void EmuApi::EmuSetUserObjectInformationA(uc_engine* uc, DWORD_PTR address, size
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8, &pvInfo);
     uc_reg_write(uc, UC_X86_REG_R9D, &nLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUserObjectInformationA\n";
+    #endif
 
     return;
 }
@@ -1344,7 +1580,9 @@ void EmuApi::EmuSetUserObjectInformationW(uc_engine* uc, DWORD_PTR address, size
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8, &pvInfo);
     uc_reg_write(uc, UC_X86_REG_R9D, &nLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetUserObjectInformationW\n";
+    #endif
 
     return;
 }
@@ -1369,7 +1607,9 @@ void EmuApi::EmuIsHungAppWindow(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsHungAppWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsHungAppWindow\n";
+    #endif
 
     return;
 }
@@ -1388,7 +1628,9 @@ void EmuApi::EmuDisableProcessWindowsGhosting(uc_engine* uc, DWORD_PTR address, 
     DisableProcessWindowsGhosting();
 
 
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDisableProcessWindowsGhosting\n";
+    #endif
 
     return;
 }
@@ -1416,7 +1658,9 @@ void EmuApi::EmuRegisterWindowMessageA(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterWindowMessageAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in RegisterWindowMessageA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterWindowMessageA\n";
+    #endif
 
     return;
 }
@@ -1444,7 +1688,9 @@ void EmuApi::EmuRegisterWindowMessageW(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterWindowMessageWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in RegisterWindowMessageW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterWindowMessageW\n";
+    #endif
 
     return;
 }
@@ -1481,7 +1727,9 @@ void EmuApi::EmuTrackMouseEvent(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpEventTrack, &stlpEventTrack, sizeof(stlpEventTrack));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTrackMouseEvent\n";
+    #endif
 
     return;
 }
@@ -1533,7 +1781,9 @@ void EmuApi::EmuDrawEdge(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &edge);
     uc_reg_write(uc, UC_X86_REG_R9D, &grfFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawEdge\n";
+    #endif
 
     return;
 }
@@ -1585,7 +1835,9 @@ void EmuApi::EmuDrawFrameControl(uc_engine* uc, DWORD_PTR address, size_t size, 
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &namelessArg_2);
     uc_reg_write(uc, UC_X86_REG_R9D, &namelessArg_3);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawFrameControl\n";
+    #endif
 
     return;
 }
@@ -1637,7 +1889,9 @@ void EmuApi::EmuDrawCaption(uc_engine* uc, DWORD_PTR address, size_t size, void*
         uc_mem_write(uc, (DWORD_PTR)lprect, &stlprect, sizeof(stlprect));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawCaption\n";
+    #endif
 
     return;
 }
@@ -1701,7 +1955,9 @@ void EmuApi::EmuDrawAnimatedRects(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lprcTo, &stlprcTo, sizeof(stlprcTo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawAnimatedRects\n";
+    #endif
 
     return;
 }
@@ -1753,7 +2009,9 @@ void EmuApi::EmuGetMessageA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RDX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_R8D, &wMsgFilterMin);
     uc_reg_write(uc, UC_X86_REG_R9D, &wMsgFilterMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMessageA\n";
+    #endif
 
     return;
 }
@@ -1805,7 +2063,9 @@ void EmuApi::EmuGetMessageW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RDX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_R8D, &wMsgFilterMin);
     uc_reg_write(uc, UC_X86_REG_R9D, &wMsgFilterMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMessageW\n";
+    #endif
 
     return;
 }
@@ -1842,7 +2102,9 @@ void EmuApi::EmuTranslateMessage(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTranslateMessage\n";
+    #endif
 
     return;
 }
@@ -1879,7 +2141,9 @@ void EmuApi::EmuDispatchMessageA(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDispatchMessageA\n";
+    #endif
 
     return;
 }
@@ -1916,7 +2180,9 @@ void EmuApi::EmuDispatchMessageW(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDispatchMessageW\n";
+    #endif
 
     return;
 }
@@ -1941,7 +2207,9 @@ void EmuApi::EmuSetMessageQueue(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetMessageQueueResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &cMessagesMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMessageQueue\n";
+    #endif
 
     return;
 }
@@ -2001,7 +2269,9 @@ void EmuApi::EmuPeekMessageA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_R8D, &wMsgFilterMin);
     uc_reg_write(uc, UC_X86_REG_R9D, &wMsgFilterMax);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &wRemoveMsg, sizeof(wRemoveMsg));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPeekMessageA\n";
+    #endif
 
     return;
 }
@@ -2061,7 +2331,9 @@ void EmuApi::EmuPeekMessageW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_R8D, &wMsgFilterMin);
     uc_reg_write(uc, UC_X86_REG_R9D, &wMsgFilterMax);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &wRemoveMsg, sizeof(wRemoveMsg));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPeekMessageW\n";
+    #endif
 
     return;
 }
@@ -2101,7 +2373,9 @@ void EmuApi::EmuRegisterHotKey(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EDX, &id);
     uc_reg_write(uc, UC_X86_REG_R8D, &fsModifiers);
     uc_reg_write(uc, UC_X86_REG_R9D, &vk);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterHotKey\n";
+    #endif
 
     return;
 }
@@ -2131,7 +2405,9 @@ void EmuApi::EmuUnregisterHotKey(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterHotKeyResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &id);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterHotKey\n";
+    #endif
 
     return;
 }
@@ -2161,7 +2437,9 @@ void EmuApi::EmuExitWindowsEx(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EAX, &ExitWindowsExResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uFlags);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwReason);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuExitWindowsEx\n";
+    #endif
 
     return;
 }
@@ -2186,7 +2464,9 @@ void EmuApi::EmuSwapMouseButton(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SwapMouseButtonResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &fSwap);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSwapMouseButton\n";
+    #endif
 
     return;
 }
@@ -2206,7 +2486,9 @@ void EmuApi::EmuGetMessagePos(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetMessagePosResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMessagePos\n";
+    #endif
 
     return;
 }
@@ -2226,7 +2508,9 @@ void EmuApi::EmuGetMessageTime(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetMessageTimeResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMessageTime\n";
+    #endif
 
     return;
 }
@@ -2246,7 +2530,9 @@ void EmuApi::EmuGetMessageExtraInfo(uc_engine* uc, DWORD_PTR address, size_t siz
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetMessageExtraInfoResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMessageExtraInfo\n";
+    #endif
 
     return;
 }
@@ -2266,7 +2552,9 @@ void EmuApi::EmuGetUnpredictedMessagePos(uc_engine* uc, DWORD_PTR address, size_
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetUnpredictedMessagePosResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUnpredictedMessagePos\n";
+    #endif
 
     return;
 }
@@ -2286,7 +2574,9 @@ void EmuApi::EmuIsWow64Message(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsWow64MessageResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsWow64Message\n";
+    #endif
 
     return;
 }
@@ -2311,7 +2601,9 @@ void EmuApi::EmuSetMessageExtraInfo(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetMessageExtraInfoResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMessageExtraInfo\n";
+    #endif
 
     return;
 }
@@ -2351,7 +2643,9 @@ void EmuApi::EmuSendMessageA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendMessageA\n";
+    #endif
 
     return;
 }
@@ -2391,7 +2685,9 @@ void EmuApi::EmuSendMessageW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendMessageW\n";
+    #endif
 
     return;
 }
@@ -2461,7 +2757,9 @@ void EmuApi::EmuSendMessageTimeoutA(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwResult, &rllpdwResult, sizeof(rllpdwResult));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendMessageTimeoutA\n";
+    #endif
 
     return;
 }
@@ -2531,7 +2829,9 @@ void EmuApi::EmuSendMessageTimeoutW(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwResult, &rllpdwResult, sizeof(rllpdwResult));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendMessageTimeoutW\n";
+    #endif
 
     return;
 }
@@ -2571,7 +2871,9 @@ void EmuApi::EmuSendNotifyMessageA(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendNotifyMessageA\n";
+    #endif
 
     return;
 }
@@ -2611,7 +2913,9 @@ void EmuApi::EmuSendNotifyMessageW(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendNotifyMessageW\n";
+    #endif
 
     return;
 }
@@ -2664,7 +2968,9 @@ void EmuApi::EmuSendMessageCallbackA(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpResultCallBack, sizeof(lpResultCallBack));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwData, sizeof(dwData));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendMessageCallbackA\n";
+    #endif
 
     return;
 }
@@ -2717,7 +3023,9 @@ void EmuApi::EmuSendMessageCallbackW(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpResultCallBack, sizeof(lpResultCallBack));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwData, sizeof(dwData));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendMessageCallbackW\n";
+    #endif
 
     return;
 }
@@ -2794,7 +3102,9 @@ void EmuApi::EmuBroadcastSystemMessageExA(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)pbsmInfo, &stpbsmInfo, sizeof(stpbsmInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBroadcastSystemMessageExA\n";
+    #endif
 
     return;
 }
@@ -2871,7 +3181,9 @@ void EmuApi::EmuBroadcastSystemMessageExW(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)pbsmInfo, &stpbsmInfo, sizeof(stpbsmInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBroadcastSystemMessageExW\n";
+    #endif
 
     return;
 }
@@ -2931,7 +3243,9 @@ void EmuApi::EmuBroadcastSystemMessageA(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_R8D, &Msg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBroadcastSystemMessageA\n";
+    #endif
 
     return;
 }
@@ -2991,7 +3305,9 @@ void EmuApi::EmuBroadcastSystemMessageW(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_R8D, &Msg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBroadcastSystemMessageW\n";
+    #endif
 
     return;
 }
@@ -3026,7 +3342,9 @@ void EmuApi::EmuRegisterDeviceNotificationA(uc_engine* uc, DWORD_PTR address, si
     uc_reg_write(uc, UC_X86_REG_RCX, &hRecipient);
     uc_reg_write(uc, UC_X86_REG_RDX, &NotificationFilter);
     uc_reg_write(uc, UC_X86_REG_R8D, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterDeviceNotificationA\n";
+    #endif
 
     return;
 }
@@ -3061,7 +3379,9 @@ void EmuApi::EmuRegisterDeviceNotificationW(uc_engine* uc, DWORD_PTR address, si
     uc_reg_write(uc, UC_X86_REG_RCX, &hRecipient);
     uc_reg_write(uc, UC_X86_REG_RDX, &NotificationFilter);
     uc_reg_write(uc, UC_X86_REG_R8D, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterDeviceNotificationW\n";
+    #endif
 
     return;
 }
@@ -3086,7 +3406,9 @@ void EmuApi::EmuUnregisterDeviceNotification(uc_engine* uc, DWORD_PTR address, s
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterDeviceNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Handle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterDeviceNotification\n";
+    #endif
 
     return;
 }
@@ -3133,7 +3455,9 @@ void EmuApi::EmuRegisterPowerSettingNotification(uc_engine* uc, DWORD_PTR addres
         uc_mem_write(uc, (DWORD_PTR)PowerSettingGuid, &rlPowerSettingGuid, sizeof(rlPowerSettingGuid));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterPowerSettingNotification\n";
+    #endif
 
     return;
 }
@@ -3158,7 +3482,9 @@ void EmuApi::EmuUnregisterPowerSettingNotification(uc_engine* uc, DWORD_PTR addr
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterPowerSettingNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Handle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterPowerSettingNotification\n";
+    #endif
 
     return;
 }
@@ -3188,7 +3514,9 @@ void EmuApi::EmuRegisterSuspendResumeNotification(uc_engine* uc, DWORD_PTR addre
     uc_reg_write(uc, UC_X86_REG_RAX, &RegisterSuspendResumeNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hRecipient);
     uc_reg_write(uc, UC_X86_REG_EDX, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterSuspendResumeNotification\n";
+    #endif
 
     return;
 }
@@ -3213,7 +3541,9 @@ void EmuApi::EmuUnregisterSuspendResumeNotification(uc_engine* uc, DWORD_PTR add
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterSuspendResumeNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Handle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterSuspendResumeNotification\n";
+    #endif
 
     return;
 }
@@ -3253,7 +3583,9 @@ void EmuApi::EmuPostMessageA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPostMessageA\n";
+    #endif
 
     return;
 }
@@ -3293,7 +3625,9 @@ void EmuApi::EmuPostMessageW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPostMessageW\n";
+    #endif
 
     return;
 }
@@ -3333,7 +3667,9 @@ void EmuApi::EmuPostThreadMessageA(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPostThreadMessageA\n";
+    #endif
 
     return;
 }
@@ -3373,7 +3709,9 @@ void EmuApi::EmuPostThreadMessageW(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPostThreadMessageW\n";
+    #endif
 
     return;
 }
@@ -3408,7 +3746,9 @@ void EmuApi::EmuAttachThreadInput(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_ECX, &idAttach);
     uc_reg_write(uc, UC_X86_REG_EDX, &idAttachTo);
     uc_reg_write(uc, UC_X86_REG_R8D, &fAttach);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAttachThreadInput\n";
+    #endif
 
     return;
 }
@@ -3433,7 +3773,9 @@ void EmuApi::EmuReplyMessage(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &ReplyMessageResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReplyMessage\n";
+    #endif
 
     return;
 }
@@ -3453,7 +3795,9 @@ void EmuApi::EmuWaitMessage(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &WaitMessageResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWaitMessage\n";
+    #endif
 
     return;
 }
@@ -3483,7 +3827,9 @@ void EmuApi::EmuWaitForInputIdle(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &WaitForInputIdleResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwMilliseconds);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWaitForInputIdle\n";
+    #endif
 
     return;
 }
@@ -3523,7 +3869,9 @@ void EmuApi::EmuDefWindowProcA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefWindowProcA\n";
+    #endif
 
     return;
 }
@@ -3563,7 +3911,9 @@ void EmuApi::EmuDefWindowProcW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefWindowProcW\n";
+    #endif
 
     return;
 }
@@ -3587,7 +3937,9 @@ void EmuApi::EmuPostQuitMessage(uc_engine* uc, DWORD_PTR address, size_t size, v
 
 
     uc_reg_write(uc, UC_X86_REG_ECX, &nExitCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPostQuitMessage\n";
+    #endif
 
     return;
 }
@@ -3635,7 +3987,9 @@ void EmuApi::EmuCallWindowProcA(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_R8D, &Msg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCallWindowProcA\n";
+    #endif
 
     return;
 }
@@ -3683,7 +4037,9 @@ void EmuApi::EmuCallWindowProcW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_R8D, &Msg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCallWindowProcW\n";
+    #endif
 
     return;
 }
@@ -3703,7 +4059,9 @@ void EmuApi::EmuInSendMessage(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InSendMessageResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInSendMessage\n";
+    #endif
 
     return;
 }
@@ -3728,7 +4086,9 @@ void EmuApi::EmuInSendMessageEx(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &InSendMessageExResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpReserved);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInSendMessageEx\n";
+    #endif
 
     return;
 }
@@ -3748,7 +4108,9 @@ void EmuApi::EmuGetDoubleClickTime(uc_engine* uc, DWORD_PTR address, size_t size
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDoubleClickTimeResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDoubleClickTime\n";
+    #endif
 
     return;
 }
@@ -3773,7 +4135,9 @@ void EmuApi::EmuSetDoubleClickTime(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetDoubleClickTimeResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &namelessArg_0);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDoubleClickTime\n";
+    #endif
 
     return;
 }
@@ -3810,7 +4174,9 @@ void EmuApi::EmuRegisterClassA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpWndClass, &stlpWndClass, sizeof(stlpWndClass));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterClassA\n";
+    #endif
 
     return;
 }
@@ -3847,7 +4213,9 @@ void EmuApi::EmuRegisterClassW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpWndClass, &stlpWndClass, sizeof(stlpWndClass));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterClassW\n";
+    #endif
 
     return;
 }
@@ -3880,7 +4248,9 @@ void EmuApi::EmuUnregisterClassA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterClassAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpClassName, rlalpClassName)) { printf("Error when read lpClassName in UnregisterClassA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_RDX, &hInstance);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterClassA\n";
+    #endif
 
     return;
 }
@@ -3913,7 +4283,9 @@ void EmuApi::EmuUnregisterClassW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterClassWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpClassName, rlwlpClassName)) { printf("Error when read lpClassName in UnregisterClassW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_RDX, &hInstance);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterClassW\n";
+    #endif
 
     return;
 }
@@ -3963,7 +4335,9 @@ void EmuApi::EmuGetClassInfoA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpWndClass, &stlpWndClass, sizeof(stlpWndClass));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassInfoA\n";
+    #endif
 
     return;
 }
@@ -4013,7 +4387,9 @@ void EmuApi::EmuGetClassInfoW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpWndClass, &stlpWndClass, sizeof(stlpWndClass));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassInfoW\n";
+    #endif
 
     return;
 }
@@ -4050,7 +4426,9 @@ void EmuApi::EmuRegisterClassExA(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)namelessArg_0, &stnamelessArg_0, sizeof(stnamelessArg_0));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterClassExA\n";
+    #endif
 
     return;
 }
@@ -4087,7 +4465,9 @@ void EmuApi::EmuRegisterClassExW(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)namelessArg_0, &stnamelessArg_0, sizeof(stnamelessArg_0));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterClassExW\n";
+    #endif
 
     return;
 }
@@ -4137,7 +4517,9 @@ void EmuApi::EmuGetClassInfoExA(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpwcx, &stlpwcx, sizeof(stlpwcx));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassInfoExA\n";
+    #endif
 
     return;
 }
@@ -4187,7 +4569,9 @@ void EmuApi::EmuGetClassInfoExW(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpwcx, &stlpwcx, sizeof(stlpwcx));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassInfoExW\n";
+    #endif
 
     return;
 }
@@ -4276,7 +4660,9 @@ void EmuApi::EmuCreateWindowExA(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_mem_write(uc, (DWORD_PTR)SP+80, &hMenu, sizeof(hMenu));
     uc_mem_write(uc, (DWORD_PTR)SP+88, &hInstance, sizeof(hInstance));
     uc_mem_write(uc, (DWORD_PTR)SP+96, &lpParam, sizeof(lpParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateWindowExA\n";
+    #endif
 
     return;
 }
@@ -4365,7 +4751,9 @@ void EmuApi::EmuCreateWindowExW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_mem_write(uc, (DWORD_PTR)SP+80, &hMenu, sizeof(hMenu));
     uc_mem_write(uc, (DWORD_PTR)SP+88, &hInstance, sizeof(hInstance));
     uc_mem_write(uc, (DWORD_PTR)SP+96, &lpParam, sizeof(lpParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateWindowExW\n";
+    #endif
 
     return;
 }
@@ -4390,7 +4778,9 @@ void EmuApi::EmuIsWindow(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsWindow\n";
+    #endif
 
     return;
 }
@@ -4415,7 +4805,9 @@ void EmuApi::EmuIsMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* user
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsMenuResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsMenu\n";
+    #endif
 
     return;
 }
@@ -4445,7 +4837,9 @@ void EmuApi::EmuIsChild(uc_engine* uc, DWORD_PTR address, size_t size, void* use
     uc_reg_write(uc, UC_X86_REG_EAX, &IsChildResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_RDX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsChild\n";
+    #endif
 
     return;
 }
@@ -4470,7 +4864,9 @@ void EmuApi::EmuDestroyWindow(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DestroyWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDestroyWindow\n";
+    #endif
 
     return;
 }
@@ -4500,7 +4896,9 @@ void EmuApi::EmuShowWindow(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &ShowWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nCmdShow);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShowWindow\n";
+    #endif
 
     return;
 }
@@ -4535,7 +4933,9 @@ void EmuApi::EmuAnimateWindow(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwTime);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAnimateWindow\n";
+    #endif
 
     return;
 }
@@ -4611,7 +5011,9 @@ void EmuApi::EmuGetLayeredWindowAttributes(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)pdwFlags, &rlpdwFlags, sizeof(rlpdwFlags));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLayeredWindowAttributes\n";
+    #endif
 
     return;
 }
@@ -4646,7 +5048,9 @@ void EmuApi::EmuPrintWindow(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hdcBlt);
     uc_reg_write(uc, UC_X86_REG_R8D, &nFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPrintWindow\n";
+    #endif
 
     return;
 }
@@ -4686,7 +5090,9 @@ void EmuApi::EmuSetLayeredWindowAttributes(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_EDX, &crKey);
     uc_reg_write(uc, UC_X86_REG_R8B, &bAlpha);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetLayeredWindowAttributes\n";
+    #endif
 
     return;
 }
@@ -4716,7 +5122,9 @@ void EmuApi::EmuShowWindowAsync(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &ShowWindowAsyncResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nCmdShow);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShowWindowAsync\n";
+    #endif
 
     return;
 }
@@ -4746,7 +5154,9 @@ void EmuApi::EmuFlashWindow(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EAX, &FlashWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &bInvert);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFlashWindow\n";
+    #endif
 
     return;
 }
@@ -4783,7 +5193,9 @@ void EmuApi::EmuFlashWindowEx(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)pfwi, &stpfwi, sizeof(stpfwi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFlashWindowEx\n";
+    #endif
 
     return;
 }
@@ -4813,7 +5225,9 @@ void EmuApi::EmuShowOwnedPopups(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &ShowOwnedPopupsResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &fShow);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShowOwnedPopups\n";
+    #endif
 
     return;
 }
@@ -4838,7 +5252,9 @@ void EmuApi::EmuOpenIcon(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
     uc_reg_write(uc, UC_X86_REG_EAX, &OpenIconResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenIcon\n";
+    #endif
 
     return;
 }
@@ -4863,7 +5279,9 @@ void EmuApi::EmuCloseWindow(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CloseWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCloseWindow\n";
+    #endif
 
     return;
 }
@@ -4916,7 +5334,9 @@ void EmuApi::EmuMoveWindow(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_R9D, &nWidth);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &nHeight, sizeof(nHeight));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &bRepaint, sizeof(bRepaint));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMoveWindow\n";
+    #endif
 
     return;
 }
@@ -4974,7 +5394,9 @@ void EmuApi::EmuSetWindowPos(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cx, sizeof(cx));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &cy, sizeof(cy));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &uFlags, sizeof(uFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowPos\n";
+    #endif
 
     return;
 }
@@ -5016,7 +5438,9 @@ void EmuApi::EmuGetWindowPlacement(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpwndpl, &rllpwndpl, sizeof(rllpwndpl));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowPlacement\n";
+    #endif
 
     return;
 }
@@ -5058,7 +5482,9 @@ void EmuApi::EmuSetWindowPlacement(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpwndpl, &rllpwndpl, sizeof(rllpwndpl));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowPlacement\n";
+    #endif
 
     return;
 }
@@ -5100,7 +5526,9 @@ void EmuApi::EmuGetWindowDisplayAffinity(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)pdwAffinity, &rlpdwAffinity, sizeof(rlpdwAffinity));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowDisplayAffinity\n";
+    #endif
 
     return;
 }
@@ -5130,7 +5558,9 @@ void EmuApi::EmuSetWindowDisplayAffinity(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_EAX, &SetWindowDisplayAffinityResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwAffinity);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowDisplayAffinity\n";
+    #endif
 
     return;
 }
@@ -5155,7 +5585,9 @@ void EmuApi::EmuBeginDeferWindowPos(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_RAX, &BeginDeferWindowPosResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nNumWindows);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBeginDeferWindowPos\n";
+    #endif
 
     return;
 }
@@ -5218,7 +5650,9 @@ void EmuApi::EmuDeferWindowPos(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_mem_write(uc, (DWORD_PTR)SP+48, &cx, sizeof(cx));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &cy, sizeof(cy));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &uFlags, sizeof(uFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeferWindowPos\n";
+    #endif
 
     return;
 }
@@ -5243,7 +5677,9 @@ void EmuApi::EmuEndDeferWindowPos(uc_engine* uc, DWORD_PTR address, size_t size,
 
     uc_reg_write(uc, UC_X86_REG_EAX, &EndDeferWindowPosResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWinPosInfo);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEndDeferWindowPos\n";
+    #endif
 
     return;
 }
@@ -5268,7 +5704,9 @@ void EmuApi::EmuIsWindowVisible(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsWindowVisibleResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsWindowVisible\n";
+    #endif
 
     return;
 }
@@ -5293,7 +5731,9 @@ void EmuApi::EmuIsIconic(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsIconicResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsIconic\n";
+    #endif
 
     return;
 }
@@ -5313,7 +5753,9 @@ void EmuApi::EmuAnyPopup(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &AnyPopupResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAnyPopup\n";
+    #endif
 
     return;
 }
@@ -5338,7 +5780,9 @@ void EmuApi::EmuBringWindowToTop(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &BringWindowToTopResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBringWindowToTop\n";
+    #endif
 
     return;
 }
@@ -5363,7 +5807,9 @@ void EmuApi::EmuIsZoomed(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsZoomedResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsZoomed\n";
+    #endif
 
     return;
 }
@@ -5414,7 +5860,9 @@ void EmuApi::EmuCreateDialogParamA(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateDialogParamA\n";
+    #endif
 
     return;
 }
@@ -5465,7 +5913,9 @@ void EmuApi::EmuCreateDialogParamW(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateDialogParamW\n";
+    #endif
 
     return;
 }
@@ -5525,7 +5975,9 @@ void EmuApi::EmuCreateDialogIndirectParamA(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateDialogIndirectParamA\n";
+    #endif
 
     return;
 }
@@ -5585,7 +6037,9 @@ void EmuApi::EmuCreateDialogIndirectParamW(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateDialogIndirectParamW\n";
+    #endif
 
     return;
 }
@@ -5636,7 +6090,9 @@ void EmuApi::EmuDialogBoxParamA(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDialogBoxParamA\n";
+    #endif
 
     return;
 }
@@ -5687,7 +6143,9 @@ void EmuApi::EmuDialogBoxParamW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDialogBoxParamW\n";
+    #endif
 
     return;
 }
@@ -5747,7 +6205,9 @@ void EmuApi::EmuDialogBoxIndirectParamA(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDialogBoxIndirectParamA\n";
+    #endif
 
     return;
 }
@@ -5807,7 +6267,9 @@ void EmuApi::EmuDialogBoxIndirectParamW(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_R8, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_R9, &lpDialogFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwInitParam, sizeof(dwInitParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDialogBoxIndirectParamW\n";
+    #endif
 
     return;
 }
@@ -5837,7 +6299,9 @@ void EmuApi::EmuEndDialog(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_EAX, &EndDialogResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_RDX, &nResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEndDialog\n";
+    #endif
 
     return;
 }
@@ -5867,7 +6331,9 @@ void EmuApi::EmuGetDlgItem(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetDlgItemResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDDlgItem);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDlgItem\n";
+    #endif
 
     return;
 }
@@ -5907,7 +6373,9 @@ void EmuApi::EmuSetDlgItemInt(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDDlgItem);
     uc_reg_write(uc, UC_X86_REG_R8D, &uValue);
     uc_reg_write(uc, UC_X86_REG_R9D, &bSigned);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDlgItemInt\n";
+    #endif
 
     return;
 }
@@ -5959,7 +6427,9 @@ void EmuApi::EmuGetDlgItemInt(uc_engine* uc, DWORD_PTR address, size_t size, voi
         uc_mem_write(uc, (DWORD_PTR)lpTranslated, &rllpTranslated, sizeof(rllpTranslated));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &bSigned);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDlgItemInt\n";
+    #endif
 
     return;
 }
@@ -5997,7 +6467,9 @@ void EmuApi::EmuSetDlgItemTextA(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDDlgItem);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in SetDlgItemTextA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDlgItemTextA\n";
+    #endif
 
     return;
 }
@@ -6035,7 +6507,9 @@ void EmuApi::EmuSetDlgItemTextW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDDlgItem);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in SetDlgItemTextW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDlgItemTextW\n";
+    #endif
 
     return;
 }
@@ -6078,7 +6552,9 @@ void EmuApi::EmuGetDlgItemTextA(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDDlgItem);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in GetDlgItemTextA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cchMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDlgItemTextA\n";
+    #endif
 
     return;
 }
@@ -6121,7 +6597,9 @@ void EmuApi::EmuGetDlgItemTextW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDDlgItem);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in GetDlgItemTextW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cchMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDlgItemTextW\n";
+    #endif
 
     return;
 }
@@ -6156,7 +6634,9 @@ void EmuApi::EmuCheckDlgButton(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDButton);
     uc_reg_write(uc, UC_X86_REG_R8D, &uCheck);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCheckDlgButton\n";
+    #endif
 
     return;
 }
@@ -6196,7 +6676,9 @@ void EmuApi::EmuCheckRadioButton(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDFirstButton);
     uc_reg_write(uc, UC_X86_REG_R8D, &nIDLastButton);
     uc_reg_write(uc, UC_X86_REG_R9D, &nIDCheckButton);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCheckRadioButton\n";
+    #endif
 
     return;
 }
@@ -6226,7 +6708,9 @@ void EmuApi::EmuIsDlgButtonChecked(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EAX, &IsDlgButtonCheckedResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIDButton);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsDlgButtonChecked\n";
+    #endif
 
     return;
 }
@@ -6274,7 +6758,9 @@ void EmuApi::EmuSendDlgItemMessageA(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_R8D, &Msg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendDlgItemMessageA\n";
+    #endif
 
     return;
 }
@@ -6322,7 +6808,9 @@ void EmuApi::EmuSendDlgItemMessageW(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_R8D, &Msg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendDlgItemMessageW\n";
+    #endif
 
     return;
 }
@@ -6357,7 +6845,9 @@ void EmuApi::EmuGetNextDlgGroupItem(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_RDX, &hCtl);
     uc_reg_write(uc, UC_X86_REG_R8D, &bPrevious);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetNextDlgGroupItem\n";
+    #endif
 
     return;
 }
@@ -6392,7 +6882,9 @@ void EmuApi::EmuGetNextDlgTabItem(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_RDX, &hCtl);
     uc_reg_write(uc, UC_X86_REG_R8D, &bPrevious);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetNextDlgTabItem\n";
+    #endif
 
     return;
 }
@@ -6417,7 +6909,9 @@ void EmuApi::EmuGetDlgCtrlID(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDlgCtrlIDResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDlgCtrlID\n";
+    #endif
 
     return;
 }
@@ -6437,7 +6931,9 @@ void EmuApi::EmuGetDialogBaseUnits(uc_engine* uc, DWORD_PTR address, size_t size
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDialogBaseUnitsResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDialogBaseUnits\n";
+    #endif
 
     return;
 }
@@ -6477,7 +6973,9 @@ void EmuApi::EmuDefDlgProcA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefDlgProcA\n";
+    #endif
 
     return;
 }
@@ -6517,7 +7015,9 @@ void EmuApi::EmuDefDlgProcW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EDX, &Msg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefDlgProcW\n";
+    #endif
 
     return;
 }
@@ -6552,7 +7052,9 @@ void EmuApi::EmuSetDialogControlDpiChangeBehavior(uc_engine* uc, DWORD_PTR addre
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &mask);
     uc_reg_write(uc, UC_X86_REG_R8D, &values);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDialogControlDpiChangeBehavior\n";
+    #endif
 
     return;
 }
@@ -6577,7 +7079,9 @@ void EmuApi::EmuGetDialogControlDpiChangeBehavior(uc_engine* uc, DWORD_PTR addre
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDialogControlDpiChangeBehaviorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDialogControlDpiChangeBehavior\n";
+    #endif
 
     return;
 }
@@ -6612,7 +7116,9 @@ void EmuApi::EmuSetDialogDpiChangeBehavior(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
     uc_reg_write(uc, UC_X86_REG_EDX, &mask);
     uc_reg_write(uc, UC_X86_REG_R8D, &values);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDialogDpiChangeBehavior\n";
+    #endif
 
     return;
 }
@@ -6637,7 +7143,9 @@ void EmuApi::EmuGetDialogDpiChangeBehavior(uc_engine* uc, DWORD_PTR address, siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDialogDpiChangeBehaviorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDlg);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDialogDpiChangeBehavior\n";
+    #endif
 
     return;
 }
@@ -6679,7 +7187,9 @@ void EmuApi::EmuCallMsgFilterA(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &nCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCallMsgFilterA\n";
+    #endif
 
     return;
 }
@@ -6721,7 +7231,9 @@ void EmuApi::EmuCallMsgFilterW(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &nCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCallMsgFilterW\n";
+    #endif
 
     return;
 }
@@ -6746,7 +7258,9 @@ void EmuApi::EmuOpenClipboard(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
     uc_reg_write(uc, UC_X86_REG_EAX, &OpenClipboardResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndNewOwner);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenClipboard\n";
+    #endif
 
     return;
 }
@@ -6766,7 +7280,9 @@ void EmuApi::EmuCloseClipboard(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CloseClipboardResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCloseClipboard\n";
+    #endif
 
     return;
 }
@@ -6786,7 +7302,9 @@ void EmuApi::EmuGetClipboardSequenceNumber(uc_engine* uc, DWORD_PTR address, siz
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetClipboardSequenceNumberResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipboardSequenceNumber\n";
+    #endif
 
     return;
 }
@@ -6806,7 +7324,9 @@ void EmuApi::EmuGetClipboardOwner(uc_engine* uc, DWORD_PTR address, size_t size,
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetClipboardOwnerResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipboardOwner\n";
+    #endif
 
     return;
 }
@@ -6831,7 +7351,9 @@ void EmuApi::EmuSetClipboardViewer(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetClipboardViewerResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndNewViewer);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetClipboardViewer\n";
+    #endif
 
     return;
 }
@@ -6851,7 +7373,9 @@ void EmuApi::EmuGetClipboardViewer(uc_engine* uc, DWORD_PTR address, size_t size
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetClipboardViewerResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipboardViewer\n";
+    #endif
 
     return;
 }
@@ -6881,7 +7405,9 @@ void EmuApi::EmuChangeClipboardChain(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &ChangeClipboardChainResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndRemove);
     uc_reg_write(uc, UC_X86_REG_RDX, &hWndNewNext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuChangeClipboardChain\n";
+    #endif
 
     return;
 }
@@ -6911,7 +7437,9 @@ void EmuApi::EmuSetClipboardData(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetClipboardDataResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uFormat);
     uc_reg_write(uc, UC_X86_REG_RDX, &hMem);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetClipboardData\n";
+    #endif
 
     return;
 }
@@ -6936,10 +7464,57 @@ void EmuApi::EmuGetClipboardData(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetClipboardDataResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uFormat);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipboardData\n";
+    #endif
 
     return;
 }
+
+
+/*
+BOOL
+__cdecl
+GetClipboardMetadata(
+      UINT               format    ,
+      PGETCLIPBMETADATA  metadata  );
+
+*/
+void EmuApi::EmuGetClipboardMetadata(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    UINT format{};
+    uc_reg_read(uc, UC_X86_REG_ECX, &format);
+
+    PGETCLIPBMETADATA metadata{};
+    uc_reg_read(uc, UC_X86_REG_RDX, &metadata);
+
+    GETCLIPBMETADATA stmetadata{};
+
+    if(metadata != nullptr)
+    {
+        uc_mem_read(uc, (DWORD_PTR)metadata, &stmetadata, sizeof(stmetadata));
+    }
+
+
+    BOOL GetClipboardMetadataResult = GetClipboardMetadata((UINT)format,(PGETCLIPBMETADATA)&stmetadata);
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &GetClipboardMetadataResult);
+    uc_reg_write(uc, UC_X86_REG_ECX, &format);
+    uc_reg_write(uc, UC_X86_REG_RDX, &metadata);
+
+    if(metadata != nullptr)
+    {
+        uc_mem_write(uc, (DWORD_PTR)metadata, &stmetadata, sizeof(stmetadata));
+    }
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipboardMetadata\n";
+    #endif
+
+    return;
+}
+
 
 /*
 UINT
@@ -6963,7 +7538,9 @@ void EmuApi::EmuRegisterClipboardFormatA(uc_engine* uc, DWORD_PTR address, size_
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterClipboardFormatAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszFormat, rlalpszFormat)) { printf("Error when read lpszFormat in RegisterClipboardFormatA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterClipboardFormatA\n";
+    #endif
 
     return;
 }
@@ -6991,7 +7568,9 @@ void EmuApi::EmuRegisterClipboardFormatW(uc_engine* uc, DWORD_PTR address, size_
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterClipboardFormatWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFormat, rlwlpszFormat)) { printf("Error when read lpszFormat in RegisterClipboardFormatW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterClipboardFormatW\n";
+    #endif
 
     return;
 }
@@ -7011,7 +7590,9 @@ void EmuApi::EmuCountClipboardFormats(uc_engine* uc, DWORD_PTR address, size_t s
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CountClipboardFormatsResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCountClipboardFormats\n";
+    #endif
 
     return;
 }
@@ -7036,7 +7617,9 @@ void EmuApi::EmuEnumClipboardFormats(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &EnumClipboardFormatsResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &format);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumClipboardFormats\n";
+    #endif
 
     return;
 }
@@ -7074,7 +7657,9 @@ void EmuApi::EmuGetClipboardFormatNameA(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_ECX, &format);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszFormatName, rlalpszFormatName)) { printf("Error when read lpszFormatName in GetClipboardFormatNameA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchMaxCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipboardFormatNameA\n";
+    #endif
 
     return;
 }
@@ -7112,7 +7697,9 @@ void EmuApi::EmuGetClipboardFormatNameW(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_ECX, &format);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFormatName, rlwlpszFormatName)) { printf("Error when read lpszFormatName in GetClipboardFormatNameW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchMaxCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipboardFormatNameW\n";
+    #endif
 
     return;
 }
@@ -7132,7 +7719,9 @@ void EmuApi::EmuEmptyClipboard(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &EmptyClipboardResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEmptyClipboard\n";
+    #endif
 
     return;
 }
@@ -7157,7 +7746,9 @@ void EmuApi::EmuIsClipboardFormatAvailable(uc_engine* uc, DWORD_PTR address, siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsClipboardFormatAvailableResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &format);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsClipboardFormatAvailable\n";
+    #endif
 
     return;
 }
@@ -7199,7 +7790,9 @@ void EmuApi::EmuGetPriorityClipboardFormat(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)paFormatPriorityList, &rlpaFormatPriorityList, sizeof(rlpaFormatPriorityList));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &cFormats);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPriorityClipboardFormat\n";
+    #endif
 
     return;
 }
@@ -7219,7 +7812,9 @@ void EmuApi::EmuGetOpenClipboardWindow(uc_engine* uc, DWORD_PTR address, size_t 
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetOpenClipboardWindowResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetOpenClipboardWindow\n";
+    #endif
 
     return;
 }
@@ -7244,7 +7839,9 @@ void EmuApi::EmuAddClipboardFormatListener(uc_engine* uc, DWORD_PTR address, siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &AddClipboardFormatListenerResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAddClipboardFormatListener\n";
+    #endif
 
     return;
 }
@@ -7269,7 +7866,9 @@ void EmuApi::EmuRemoveClipboardFormatListener(uc_engine* uc, DWORD_PTR address, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RemoveClipboardFormatListenerResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRemoveClipboardFormatListener\n";
+    #endif
 
     return;
 }
@@ -7328,7 +7927,9 @@ void EmuApi::EmuGetUpdatedClipboardFormats(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)pcFormatsOut, &rlpcFormatsOut, sizeof(rlpcFormatsOut));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUpdatedClipboardFormats\n";
+    #endif
 
     return;
 }
@@ -7364,7 +7965,9 @@ void EmuApi::EmuCharToOemA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &CharToOemAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pSrc, rlapSrc)) { printf("Error when read pSrc in CharToOemA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pDst, rlapDst)) { printf("Error when read pDst in CharToOemA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharToOemA\n";
+    #endif
 
     return;
 }
@@ -7400,7 +8003,9 @@ void EmuApi::EmuCharToOemW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &CharToOemWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pSrc, rlwpSrc)) { printf("Error when read pSrc in CharToOemW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pDst, rlapDst)) { printf("Error when read pDst in CharToOemW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharToOemW\n";
+    #endif
 
     return;
 }
@@ -7436,7 +8041,9 @@ void EmuApi::EmuOemToCharA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &OemToCharAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pSrc, rlapSrc)) { printf("Error when read pSrc in OemToCharA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pDst, rlapDst)) { printf("Error when read pDst in OemToCharA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOemToCharA\n";
+    #endif
 
     return;
 }
@@ -7472,7 +8079,9 @@ void EmuApi::EmuOemToCharW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &OemToCharWResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pSrc, rlapSrc)) { printf("Error when read pSrc in OemToCharW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pDst, rlwpDst)) { printf("Error when read pDst in OemToCharW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOemToCharW\n";
+    #endif
 
     return;
 }
@@ -7513,7 +8122,9 @@ void EmuApi::EmuCharToOemBuffA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszSrc, rlalpszSrc)) { printf("Error when read lpszSrc in CharToOemBuffA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszDst, rlalpszDst)) { printf("Error when read lpszDst in CharToOemBuffA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchDstLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharToOemBuffA\n";
+    #endif
 
     return;
 }
@@ -7554,7 +8165,9 @@ void EmuApi::EmuCharToOemBuffW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszSrc, rlwlpszSrc)) { printf("Error when read lpszSrc in CharToOemBuffW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszDst, rlalpszDst)) { printf("Error when read lpszDst in CharToOemBuffW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchDstLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharToOemBuffW\n";
+    #endif
 
     return;
 }
@@ -7595,7 +8208,9 @@ void EmuApi::EmuOemToCharBuffA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszSrc, rlalpszSrc)) { printf("Error when read lpszSrc in OemToCharBuffA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszDst, rlalpszDst)) { printf("Error when read lpszDst in OemToCharBuffA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchDstLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOemToCharBuffA\n";
+    #endif
 
     return;
 }
@@ -7636,7 +8251,9 @@ void EmuApi::EmuOemToCharBuffW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszSrc, rlalpszSrc)) { printf("Error when read lpszSrc in OemToCharBuffW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszDst, rlwlpszDst)) { printf("Error when read lpszDst in OemToCharBuffW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchDstLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOemToCharBuffW\n";
+    #endif
 
     return;
 }
@@ -7664,7 +8281,9 @@ void EmuApi::EmuCharUpperA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CharUpperAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpsz, rlalpsz)) { printf("Error when read lpsz in CharUpperA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharUpperA\n";
+    #endif
 
     return;
 }
@@ -7692,7 +8311,9 @@ void EmuApi::EmuCharUpperW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CharUpperWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpsz, rlwlpsz)) { printf("Error when read lpsz in CharUpperW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharUpperW\n";
+    #endif
 
     return;
 }
@@ -7725,7 +8346,9 @@ void EmuApi::EmuCharUpperBuffA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &CharUpperBuffAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpsz, rlalpsz)) { printf("Error when read lpsz in CharUpperBuffA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &cchLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharUpperBuffA\n";
+    #endif
 
     return;
 }
@@ -7758,7 +8381,9 @@ void EmuApi::EmuCharUpperBuffW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &CharUpperBuffWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpsz, rlwlpsz)) { printf("Error when read lpsz in CharUpperBuffW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &cchLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharUpperBuffW\n";
+    #endif
 
     return;
 }
@@ -7786,7 +8411,9 @@ void EmuApi::EmuCharLowerA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CharLowerAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpsz, rlalpsz)) { printf("Error when read lpsz in CharLowerA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharLowerA\n";
+    #endif
 
     return;
 }
@@ -7814,7 +8441,9 @@ void EmuApi::EmuCharLowerW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CharLowerWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpsz, rlwlpsz)) { printf("Error when read lpsz in CharLowerW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharLowerW\n";
+    #endif
 
     return;
 }
@@ -7847,7 +8476,9 @@ void EmuApi::EmuCharLowerBuffA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &CharLowerBuffAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpsz, rlalpsz)) { printf("Error when read lpsz in CharLowerBuffA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &cchLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharLowerBuffA\n";
+    #endif
 
     return;
 }
@@ -7880,7 +8511,9 @@ void EmuApi::EmuCharLowerBuffW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &CharLowerBuffWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpsz, rlwlpsz)) { printf("Error when read lpsz in CharLowerBuffW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &cchLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharLowerBuffW\n";
+    #endif
 
     return;
 }
@@ -7908,7 +8541,9 @@ void EmuApi::EmuCharNextA(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CharNextAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpsz, rlalpsz)) { printf("Error when read lpsz in CharNextA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharNextA\n";
+    #endif
 
     return;
 }
@@ -7936,7 +8571,9 @@ void EmuApi::EmuCharNextW(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CharNextWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpsz, rlwlpsz)) { printf("Error when read lpsz in CharNextW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharNextW\n";
+    #endif
 
     return;
 }
@@ -7972,7 +8609,9 @@ void EmuApi::EmuCharPrevA(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &CharPrevAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszStart, rlalpszStart)) { printf("Error when read lpszStart in CharPrevA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszCurrent, rlalpszCurrent)) { printf("Error when read lpszCurrent in CharPrevA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharPrevA\n";
+    #endif
 
     return;
 }
@@ -8008,7 +8647,9 @@ void EmuApi::EmuCharPrevW(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &CharPrevWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszStart, rlwlpszStart)) { printf("Error when read lpszStart in CharPrevW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszCurrent, rlwlpszCurrent)) { printf("Error when read lpszCurrent in CharPrevW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharPrevW\n";
+    #endif
 
     return;
 }
@@ -8046,7 +8687,9 @@ void EmuApi::EmuCharNextExA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_CX, &CodePage);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpCurrentChar, rlalpCurrentChar)) { printf("Error when read lpCurrentChar in CharNextExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharNextExA\n";
+    #endif
 
     return;
 }
@@ -8092,7 +8735,9 @@ void EmuApi::EmuCharPrevExA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpStart, rlalpStart)) { printf("Error when read lpStart in CharPrevExA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpCurrentChar, rlalpCurrentChar)) { printf("Error when read lpCurrentChar in CharPrevExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCharPrevExA\n";
+    #endif
 
     return;
 }
@@ -8117,7 +8762,9 @@ void EmuApi::EmuIsCharAlphaA(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharAlphaAResult);
     uc_reg_write(uc, UC_X86_REG_CL, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharAlphaA\n";
+    #endif
 
     return;
 }
@@ -8142,7 +8789,9 @@ void EmuApi::EmuIsCharAlphaW(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharAlphaWResult);
     uc_reg_write(uc, UC_X86_REG_CX, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharAlphaW\n";
+    #endif
 
     return;
 }
@@ -8167,7 +8816,9 @@ void EmuApi::EmuIsCharAlphaNumericA(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharAlphaNumericAResult);
     uc_reg_write(uc, UC_X86_REG_CL, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharAlphaNumericA\n";
+    #endif
 
     return;
 }
@@ -8192,7 +8843,9 @@ void EmuApi::EmuIsCharAlphaNumericW(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharAlphaNumericWResult);
     uc_reg_write(uc, UC_X86_REG_CX, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharAlphaNumericW\n";
+    #endif
 
     return;
 }
@@ -8217,7 +8870,9 @@ void EmuApi::EmuIsCharUpperA(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharUpperAResult);
     uc_reg_write(uc, UC_X86_REG_CL, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharUpperA\n";
+    #endif
 
     return;
 }
@@ -8242,7 +8897,9 @@ void EmuApi::EmuIsCharUpperW(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharUpperWResult);
     uc_reg_write(uc, UC_X86_REG_CX, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharUpperW\n";
+    #endif
 
     return;
 }
@@ -8267,7 +8924,9 @@ void EmuApi::EmuIsCharLowerA(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharLowerAResult);
     uc_reg_write(uc, UC_X86_REG_CL, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharLowerA\n";
+    #endif
 
     return;
 }
@@ -8292,7 +8951,9 @@ void EmuApi::EmuIsCharLowerW(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsCharLowerWResult);
     uc_reg_write(uc, UC_X86_REG_CX, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsCharLowerW\n";
+    #endif
 
     return;
 }
@@ -8317,7 +8978,9 @@ void EmuApi::EmuSetFocus(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetFocusResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFocus\n";
+    #endif
 
     return;
 }
@@ -8337,7 +9000,9 @@ void EmuApi::EmuGetActiveWindow(uc_engine* uc, DWORD_PTR address, size_t size, v
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetActiveWindowResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetActiveWindow\n";
+    #endif
 
     return;
 }
@@ -8357,7 +9022,9 @@ void EmuApi::EmuGetFocus(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetFocusResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFocus\n";
+    #endif
 
     return;
 }
@@ -8377,7 +9044,9 @@ void EmuApi::EmuGetKBCodePage(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetKBCodePageResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKBCodePage\n";
+    #endif
 
     return;
 }
@@ -8402,7 +9071,9 @@ void EmuApi::EmuGetKeyState(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_AX, &GetKeyStateResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nVirtKey);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyState\n";
+    #endif
 
     return;
 }
@@ -8427,7 +9098,9 @@ void EmuApi::EmuGetAsyncKeyState(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_AX, &GetAsyncKeyStateResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &vKey);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetAsyncKeyState\n";
+    #endif
 
     return;
 }
@@ -8464,7 +9137,9 @@ void EmuApi::EmuGetKeyboardState(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpKeyState, &rllpKeyState, sizeof(rllpKeyState));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyboardState\n";
+    #endif
 
     return;
 }
@@ -8501,7 +9176,9 @@ void EmuApi::EmuSetKeyboardState(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpKeyState, &rllpKeyState, sizeof(rllpKeyState));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetKeyboardState\n";
+    #endif
 
     return;
 }
@@ -8539,7 +9216,9 @@ void EmuApi::EmuGetKeyNameTextA(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_ECX, &lParam);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in GetKeyNameTextA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyNameTextA\n";
+    #endif
 
     return;
 }
@@ -8577,7 +9256,9 @@ void EmuApi::EmuGetKeyNameTextW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_ECX, &lParam);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in GetKeyNameTextW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyNameTextW\n";
+    #endif
 
     return;
 }
@@ -8602,7 +9283,9 @@ void EmuApi::EmuGetKeyboardType(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetKeyboardTypeResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nTypeFlag);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetKeyboardType\n";
+    #endif
 
     return;
 }
@@ -8674,7 +9357,9 @@ void EmuApi::EmuToAscii(uc_engine* uc, DWORD_PTR address, size_t size, void* use
         uc_mem_write(uc, (DWORD_PTR)lpChar, &rllpChar, sizeof(rllpChar));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &uFlags, sizeof(uFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuToAscii\n";
+    #endif
 
     return;
 }
@@ -8751,7 +9436,9 @@ void EmuApi::EmuToAsciiEx(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &uFlags, sizeof(uFlags));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwhkl, sizeof(dwhkl));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuToAsciiEx\n";
+    #endif
 
     return;
 }
@@ -8819,7 +9506,9 @@ void EmuApi::EmuToUnicode(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pwszBuff, rlwpwszBuff)) { printf("Error when read pwszBuff in ToUnicode"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cchBuff, sizeof(cchBuff));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &wFlags, sizeof(wFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuToUnicode\n";
+    #endif
 
     return;
 }
@@ -8844,7 +9533,9 @@ void EmuApi::EmuOemKeyScan(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &OemKeyScanResult);
     uc_reg_write(uc, UC_X86_REG_CX, &wOemChar);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOemKeyScan\n";
+    #endif
 
     return;
 }
@@ -8869,7 +9560,9 @@ void EmuApi::EmuVkKeyScanA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_AX, &VkKeyScanAResult);
     uc_reg_write(uc, UC_X86_REG_CL, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVkKeyScanA\n";
+    #endif
 
     return;
 }
@@ -8894,7 +9587,9 @@ void EmuApi::EmuVkKeyScanW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_AX, &VkKeyScanWResult);
     uc_reg_write(uc, UC_X86_REG_CX, &ch);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVkKeyScanW\n";
+    #endif
 
     return;
 }
@@ -8924,7 +9619,9 @@ void EmuApi::EmuVkKeyScanExA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_AX, &VkKeyScanExAResult);
     uc_reg_write(uc, UC_X86_REG_CL, &ch);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwhkl);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVkKeyScanExA\n";
+    #endif
 
     return;
 }
@@ -8954,7 +9651,9 @@ void EmuApi::EmuVkKeyScanExW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_AX, &VkKeyScanExWResult);
     uc_reg_write(uc, UC_X86_REG_CX, &ch);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwhkl);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVkKeyScanExW\n";
+    #endif
 
     return;
 }
@@ -8993,7 +9692,9 @@ void EmuApi::Emukeybd_event(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_DL, &bScan);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &dwExtraInfo);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "Emukeybd_event\n";
+    #endif
 
     return;
 }
@@ -9040,7 +9741,9 @@ void EmuApi::Emumouse_event(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_R8D, &dy);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwData);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwExtraInfo, sizeof(dwExtraInfo));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "Emumouse_event\n";
+    #endif
 
     return;
 }
@@ -9087,7 +9790,9 @@ void EmuApi::EmuSendInput(uc_engine* uc, DWORD_PTR address, size_t size, void* u
         uc_mem_write(uc, (DWORD_PTR)pInputs, &stpInputs, sizeof(stpInputs));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &cbSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSendInput\n";
+    #endif
 
     return;
 }
@@ -9139,7 +9844,9 @@ void EmuApi::EmuGetTouchInputInfo(uc_engine* uc, DWORD_PTR address, size_t size,
         uc_mem_write(uc, (DWORD_PTR)pInputs, &stpInputs, sizeof(stpInputs));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &cbSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTouchInputInfo\n";
+    #endif
 
     return;
 }
@@ -9164,7 +9871,9 @@ void EmuApi::EmuCloseTouchInputHandle(uc_engine* uc, DWORD_PTR address, size_t s
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CloseTouchInputHandleResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hTouchInput);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCloseTouchInputHandle\n";
+    #endif
 
     return;
 }
@@ -9194,7 +9903,9 @@ void EmuApi::EmuRegisterTouchWindow(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterTouchWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &ulFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterTouchWindow\n";
+    #endif
 
     return;
 }
@@ -9219,7 +9930,9 @@ void EmuApi::EmuUnregisterTouchWindow(uc_engine* uc, DWORD_PTR address, size_t s
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterTouchWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterTouchWindow\n";
+    #endif
 
     return;
 }
@@ -9261,7 +9974,9 @@ void EmuApi::EmuIsTouchWindow(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)pulFlags, &rlpulFlags, sizeof(rlpulFlags));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsTouchWindow\n";
+    #endif
 
     return;
 }
@@ -9291,7 +10006,9 @@ void EmuApi::EmuInitializeTouchInjection(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_EAX, &InitializeTouchInjectionResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &maxCount);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwMode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInitializeTouchInjection\n";
+    #endif
 
     return;
 }
@@ -9321,7 +10038,9 @@ void EmuApi::EmuInjectTouchInput(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &InjectTouchInputResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &count);
     uc_reg_write(uc, UC_X86_REG_RDX, &contacts);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInjectTouchInput\n";
+    #endif
 
     return;
 }
@@ -9368,7 +10087,9 @@ void EmuApi::EmuGetPointerCursorId(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)cursorId, &rlcursorId, sizeof(rlcursorId));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerCursorId\n";
+    #endif
 
     return;
 }
@@ -9410,7 +10131,9 @@ void EmuApi::EmuGetPointerInfo(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)pointerInfo, &dppointerInfo, sizeof(dppointerInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerInfo\n";
+    #endif
 
     return;
 }
@@ -9469,7 +10192,9 @@ void EmuApi::EmuGetPointerInfoHistory(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)pointerInfo, &dppointerInfo, sizeof(dppointerInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerInfoHistory\n";
+    #endif
 
     return;
 }
@@ -9528,7 +10253,9 @@ void EmuApi::EmuGetPointerFrameInfo(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)pointerInfo, &dppointerInfo, sizeof(dppointerInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerFrameInfo\n";
+    #endif
 
     return;
 }
@@ -9604,7 +10331,9 @@ void EmuApi::EmuGetPointerFrameInfoHistory(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)pointerInfo, &dppointerInfo, sizeof(dppointerInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerFrameInfoHistory\n";
+    #endif
 
     return;
 }
@@ -9646,7 +10375,9 @@ void EmuApi::EmuGetPointerTouchInfo(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)touchInfo, &dptouchInfo, sizeof(dptouchInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerTouchInfo\n";
+    #endif
 
     return;
 }
@@ -9705,7 +10436,9 @@ void EmuApi::EmuGetPointerTouchInfoHistory(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)touchInfo, &dptouchInfo, sizeof(dptouchInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerTouchInfoHistory\n";
+    #endif
 
     return;
 }
@@ -9764,7 +10497,9 @@ void EmuApi::EmuGetPointerFrameTouchInfo(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)touchInfo, &dptouchInfo, sizeof(dptouchInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerFrameTouchInfo\n";
+    #endif
 
     return;
 }
@@ -9840,7 +10575,9 @@ void EmuApi::EmuGetPointerFrameTouchInfoHistory(uc_engine* uc, DWORD_PTR address
     {
         uc_mem_write(uc, (DWORD_PTR)touchInfo, &dptouchInfo, sizeof(dptouchInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerFrameTouchInfoHistory\n";
+    #endif
 
     return;
 }
@@ -9882,7 +10619,9 @@ void EmuApi::EmuGetPointerPenInfo(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)penInfo, &dppenInfo, sizeof(dppenInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerPenInfo\n";
+    #endif
 
     return;
 }
@@ -9941,7 +10680,9 @@ void EmuApi::EmuGetPointerPenInfoHistory(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)penInfo, &dppenInfo, sizeof(dppenInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerPenInfoHistory\n";
+    #endif
 
     return;
 }
@@ -10000,7 +10741,9 @@ void EmuApi::EmuGetPointerFramePenInfo(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)penInfo, &dppenInfo, sizeof(dppenInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerFramePenInfo\n";
+    #endif
 
     return;
 }
@@ -10076,7 +10819,9 @@ void EmuApi::EmuGetPointerFramePenInfoHistory(uc_engine* uc, DWORD_PTR address, 
     {
         uc_mem_write(uc, (DWORD_PTR)penInfo, &dppenInfo, sizeof(dppenInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerFramePenInfoHistory\n";
+    #endif
 
     return;
 }
@@ -10101,7 +10846,9 @@ void EmuApi::EmuSkipPointerFrameMessages(uc_engine* uc, DWORD_PTR address, size_
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SkipPointerFrameMessagesResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &pointerId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSkipPointerFrameMessages\n";
+    #endif
 
     return;
 }
@@ -10131,7 +10878,9 @@ void EmuApi::EmuRegisterPointerInputTarget(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterPointerInputTargetResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &pointerType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterPointerInputTarget\n";
+    #endif
 
     return;
 }
@@ -10161,7 +10910,9 @@ void EmuApi::EmuUnregisterPointerInputTarget(uc_engine* uc, DWORD_PTR address, s
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterPointerInputTargetResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &pointerType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterPointerInputTarget\n";
+    #endif
 
     return;
 }
@@ -10196,7 +10947,9 @@ void EmuApi::EmuRegisterPointerInputTargetEx(uc_engine* uc, DWORD_PTR address, s
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &pointerType);
     uc_reg_write(uc, UC_X86_REG_R8D, &fObserve);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterPointerInputTargetEx\n";
+    #endif
 
     return;
 }
@@ -10226,7 +10979,9 @@ void EmuApi::EmuUnregisterPointerInputTargetEx(uc_engine* uc, DWORD_PTR address,
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterPointerInputTargetExResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &pointerType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterPointerInputTargetEx\n";
+    #endif
 
     return;
 }
@@ -10261,7 +11016,9 @@ void EmuApi::EmuCreateSyntheticPointerDevice(uc_engine* uc, DWORD_PTR address, s
     uc_reg_write(uc, UC_X86_REG_ECX, &pointerType);
     uc_reg_write(uc, UC_X86_REG_EDX, &maxCount);
     uc_reg_write(uc, UC_X86_REG_R8D, &mode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateSyntheticPointerDevice\n";
+    #endif
 
     return;
 }
@@ -10296,7 +11053,9 @@ void EmuApi::EmuInjectSyntheticPointerInput(uc_engine* uc, DWORD_PTR address, si
     uc_reg_write(uc, UC_X86_REG_RCX, &device);
     uc_reg_write(uc, UC_X86_REG_RDX, &pointerInfo);
     uc_reg_write(uc, UC_X86_REG_R8D, &count);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInjectSyntheticPointerInput\n";
+    #endif
 
     return;
 }
@@ -10320,7 +11079,9 @@ void EmuApi::EmuDestroySyntheticPointerDevice(uc_engine* uc, DWORD_PTR address, 
 
 
     uc_reg_write(uc, UC_X86_REG_RCX, &device);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDestroySyntheticPointerDevice\n";
+    #endif
 
     return;
 }
@@ -10345,7 +11106,9 @@ void EmuApi::EmuEnableMouseInPointer(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &EnableMouseInPointerResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &fEnable);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnableMouseInPointer\n";
+    #endif
 
     return;
 }
@@ -10365,10 +11128,35 @@ void EmuApi::EmuIsMouseInPointerEnabled(uc_engine* uc, DWORD_PTR address, size_t
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsMouseInPointerEnabledResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsMouseInPointerEnabled\n";
+    #endif
 
     return;
 }
+
+
+/*
+BOOL
+__cdecl
+EnableMouseInPointerForThread(VOID);
+
+*/
+void EmuApi::EmuEnableMouseInPointerForThread(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+
+    BOOL EnableMouseInPointerForThreadResult = EnableMouseInPointerForThread();
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &EnableMouseInPointerForThreadResult);
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnableMouseInPointerForThread\n";
+    #endif
+
+    return;
+}
+
 
 /*
 BOOL
@@ -10394,7 +11182,9 @@ void EmuApi::EmuRegisterTouchHitTestingWindow(uc_engine* uc, DWORD_PTR address, 
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterTouchHitTestingWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &value);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterTouchHitTestingWindow\n";
+    #endif
 
     return;
 }
@@ -10465,7 +11255,9 @@ void EmuApi::EmuEvaluateProximityToRect(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)pProximityEval, &stpProximityEval, sizeof(stpProximityEval));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEvaluateProximityToRect\n";
+    #endif
 
     return;
 }
@@ -10529,7 +11321,9 @@ void EmuApi::EmuEvaluateProximityToPolygon(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)pProximityEval, &stpProximityEval, sizeof(stpProximityEval));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEvaluateProximityToPolygon\n";
+    #endif
 
     return;
 }
@@ -10583,7 +11377,9 @@ void EmuApi::EmuPackTouchHitTestingProximityEvaluation(uc_engine* uc, DWORD_PTR 
     {
         uc_mem_write(uc, (DWORD_PTR)pProximityEval, &stpProximityEval, sizeof(stpProximityEval));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPackTouchHitTestingProximityEvaluation\n";
+    #endif
 
     return;
 }
@@ -10643,7 +11439,9 @@ void EmuApi::EmuGetWindowFeedbackSetting(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)pSize, &rlpSize, sizeof(rlpSize));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &config, sizeof(config));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowFeedbackSetting\n";
+    #endif
 
     return;
 }
@@ -10691,7 +11489,9 @@ void EmuApi::EmuSetWindowFeedbackSetting(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFlags);
     uc_reg_write(uc, UC_X86_REG_R9D, &Func_size);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &configuration, sizeof(configuration));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowFeedbackSetting\n";
+    #endif
 
     return;
 }
@@ -10738,7 +11538,9 @@ void EmuApi::EmuGetPointerInputTransform(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)inputTransform, &stinputTransform, sizeof(stinputTransform));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerInputTransform\n";
+    #endif
 
     return;
 }
@@ -10775,7 +11577,9 @@ void EmuApi::EmuGetLastInputInfo(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)plii, &stplii, sizeof(stplii));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLastInputInfo\n";
+    #endif
 
     return;
 }
@@ -10805,7 +11609,9 @@ void EmuApi::EmuMapVirtualKeyA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &MapVirtualKeyAResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uCode);
     uc_reg_write(uc, UC_X86_REG_EDX, &uMapType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapVirtualKeyA\n";
+    #endif
 
     return;
 }
@@ -10835,7 +11641,9 @@ void EmuApi::EmuMapVirtualKeyW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &MapVirtualKeyWResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uCode);
     uc_reg_write(uc, UC_X86_REG_EDX, &uMapType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapVirtualKeyW\n";
+    #endif
 
     return;
 }
@@ -10870,7 +11678,9 @@ void EmuApi::EmuMapVirtualKeyExA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_ECX, &uCode);
     uc_reg_write(uc, UC_X86_REG_EDX, &uMapType);
     uc_reg_write(uc, UC_X86_REG_R8, &dwhkl);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapVirtualKeyExA\n";
+    #endif
 
     return;
 }
@@ -10905,7 +11715,9 @@ void EmuApi::EmuMapVirtualKeyExW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_ECX, &uCode);
     uc_reg_write(uc, UC_X86_REG_EDX, &uMapType);
     uc_reg_write(uc, UC_X86_REG_R8, &dwhkl);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapVirtualKeyExW\n";
+    #endif
 
     return;
 }
@@ -10925,7 +11737,9 @@ void EmuApi::EmuGetInputState(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetInputStateResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetInputState\n";
+    #endif
 
     return;
 }
@@ -10950,7 +11764,9 @@ void EmuApi::EmuGetQueueStatus(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetQueueStatusResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetQueueStatus\n";
+    #endif
 
     return;
 }
@@ -10970,7 +11786,9 @@ void EmuApi::EmuGetCapture(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetCaptureResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCapture\n";
+    #endif
 
     return;
 }
@@ -10995,7 +11813,9 @@ void EmuApi::EmuSetCapture(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetCaptureResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetCapture\n";
+    #endif
 
     return;
 }
@@ -11015,7 +11835,9 @@ void EmuApi::EmuReleaseCapture(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &ReleaseCaptureResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReleaseCapture\n";
+    #endif
 
     return;
 }
@@ -11075,7 +11897,9 @@ void EmuApi::EmuMsgWaitForMultipleObjects(uc_engine* uc, DWORD_PTR address, size
     uc_reg_write(uc, UC_X86_REG_R8D, &fWaitAll);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwMilliseconds);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwWakeMask, sizeof(dwWakeMask));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMsgWaitForMultipleObjects\n";
+    #endif
 
     return;
 }
@@ -11135,7 +11959,9 @@ void EmuApi::EmuMsgWaitForMultipleObjectsEx(uc_engine* uc, DWORD_PTR address, si
     uc_reg_write(uc, UC_X86_REG_R8D, &dwMilliseconds);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwWakeMask);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMsgWaitForMultipleObjectsEx\n";
+    #endif
 
     return;
 }
@@ -11175,7 +12001,9 @@ void EmuApi::EmuSetTimer(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_RDX, &nIDEvent);
     uc_reg_write(uc, UC_X86_REG_R8D, &uElapse);
     uc_reg_write(uc, UC_X86_REG_R9, &lpTimerFunc);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetTimer\n";
+    #endif
 
     return;
 }
@@ -11223,7 +12051,9 @@ void EmuApi::EmuSetCoalescableTimer(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_R8D, &uElapse);
     uc_reg_write(uc, UC_X86_REG_R9, &lpTimerFunc);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &uToleranceDelay, sizeof(uToleranceDelay));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetCoalescableTimer\n";
+    #endif
 
     return;
 }
@@ -11253,7 +12083,9 @@ void EmuApi::EmuKillTimer(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_EAX, &KillTimerResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &uIDEvent);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuKillTimer\n";
+    #endif
 
     return;
 }
@@ -11278,7 +12110,9 @@ void EmuApi::EmuIsWindowUnicode(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsWindowUnicodeResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsWindowUnicode\n";
+    #endif
 
     return;
 }
@@ -11308,7 +12142,9 @@ void EmuApi::EmuEnableWindow(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EAX, &EnableWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &bEnable);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnableWindow\n";
+    #endif
 
     return;
 }
@@ -11333,7 +12169,9 @@ void EmuApi::EmuIsWindowEnabled(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsWindowEnabledResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsWindowEnabled\n";
+    #endif
 
     return;
 }
@@ -11366,7 +12204,9 @@ void EmuApi::EmuLoadAcceleratorsA(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadAcceleratorsAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpTableName, rlalpTableName)) { printf("Error when read lpTableName in LoadAcceleratorsA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadAcceleratorsA\n";
+    #endif
 
     return;
 }
@@ -11399,7 +12239,9 @@ void EmuApi::EmuLoadAcceleratorsW(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadAcceleratorsWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpTableName, rlwlpTableName)) { printf("Error when read lpTableName in LoadAcceleratorsW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadAcceleratorsW\n";
+    #endif
 
     return;
 }
@@ -11441,7 +12283,9 @@ void EmuApi::EmuCreateAcceleratorTableA(uc_engine* uc, DWORD_PTR address, size_t
         uc_mem_write(uc, (DWORD_PTR)paccel, &stpaccel, sizeof(stpaccel));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &cAccel);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateAcceleratorTableA\n";
+    #endif
 
     return;
 }
@@ -11483,7 +12327,9 @@ void EmuApi::EmuCreateAcceleratorTableW(uc_engine* uc, DWORD_PTR address, size_t
         uc_mem_write(uc, (DWORD_PTR)paccel, &stpaccel, sizeof(stpaccel));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &cAccel);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateAcceleratorTableW\n";
+    #endif
 
     return;
 }
@@ -11508,7 +12354,9 @@ void EmuApi::EmuDestroyAcceleratorTable(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DestroyAcceleratorTableResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hAccel);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDestroyAcceleratorTable\n";
+    #endif
 
     return;
 }
@@ -11555,7 +12403,9 @@ void EmuApi::EmuCopyAcceleratorTableA(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)lpAccelDst, &stlpAccelDst, sizeof(stlpAccelDst));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &cAccelEntries);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCopyAcceleratorTableA\n";
+    #endif
 
     return;
 }
@@ -11602,7 +12452,9 @@ void EmuApi::EmuCopyAcceleratorTableW(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)lpAccelDst, &stlpAccelDst, sizeof(stlpAccelDst));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &cAccelEntries);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCopyAcceleratorTableW\n";
+    #endif
 
     return;
 }
@@ -11649,7 +12501,9 @@ void EmuApi::EmuTranslateAcceleratorA(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTranslateAcceleratorA\n";
+    #endif
 
     return;
 }
@@ -11696,7 +12550,9 @@ void EmuApi::EmuTranslateAcceleratorW(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTranslateAcceleratorW\n";
+    #endif
 
     return;
 }
@@ -11721,7 +12577,9 @@ void EmuApi::EmuGetSystemMetrics(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetSystemMetricsResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSystemMetrics\n";
+    #endif
 
     return;
 }
@@ -11751,7 +12609,9 @@ void EmuApi::EmuGetSystemMetricsForDpi(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetSystemMetricsForDpiResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_EDX, &dpi);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSystemMetricsForDpi\n";
+    #endif
 
     return;
 }
@@ -11784,7 +12644,9 @@ void EmuApi::EmuLoadMenuA(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadMenuAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpMenuName, rlalpMenuName)) { printf("Error when read lpMenuName in LoadMenuA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadMenuA\n";
+    #endif
 
     return;
 }
@@ -11817,7 +12679,9 @@ void EmuApi::EmuLoadMenuW(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadMenuWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpMenuName, rlwlpMenuName)) { printf("Error when read lpMenuName in LoadMenuW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadMenuW\n";
+    #endif
 
     return;
 }
@@ -11847,7 +12711,9 @@ void EmuApi::EmuLoadMenuIndirectA(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpMenuTemplate, &lpMenuTemplate, sizeof(lpMenuTemplate));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadMenuIndirectA\n";
+    #endif
 
     return;
 }
@@ -11877,7 +12743,9 @@ void EmuApi::EmuLoadMenuIndirectW(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpMenuTemplate, &lpMenuTemplate, sizeof(lpMenuTemplate));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadMenuIndirectW\n";
+    #endif
 
     return;
 }
@@ -11902,7 +12770,9 @@ void EmuApi::EmuGetMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* use
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetMenuResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenu\n";
+    #endif
 
     return;
 }
@@ -11932,7 +12802,9 @@ void EmuApi::EmuSetMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* use
     uc_reg_write(uc, UC_X86_REG_EAX, &SetMenuResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hMenu);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMenu\n";
+    #endif
 
     return;
 }
@@ -11983,7 +12855,9 @@ void EmuApi::EmuChangeMenuA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszNewItem, rlalpszNewItem)) { printf("Error when read lpszNewItem in ChangeMenuA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cmdInsert);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuChangeMenuA\n";
+    #endif
 
     return;
 }
@@ -12034,7 +12908,9 @@ void EmuApi::EmuChangeMenuW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszNewItem, rlwlpszNewItem)) { printf("Error when read lpszNewItem in ChangeMenuW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cmdInsert);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuChangeMenuW\n";
+    #endif
 
     return;
 }
@@ -12074,7 +12950,9 @@ void EmuApi::EmuHiliteMenuItem(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RDX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_R8D, &uIDHiliteItem);
     uc_reg_write(uc, UC_X86_REG_R9D, &uHilite);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHiliteMenuItem\n";
+    #endif
 
     return;
 }
@@ -12125,7 +13003,9 @@ void EmuApi::EmuGetMenuStringA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in GetMenuStringA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cchMax);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuStringA\n";
+    #endif
 
     return;
 }
@@ -12176,7 +13056,9 @@ void EmuApi::EmuGetMenuStringW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in GetMenuStringW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &cchMax);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuStringW\n";
+    #endif
 
     return;
 }
@@ -12211,7 +13093,9 @@ void EmuApi::EmuGetMenuState(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &uId);
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuState\n";
+    #endif
 
     return;
 }
@@ -12236,7 +13120,9 @@ void EmuApi::EmuDrawMenuBar(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DrawMenuBarResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawMenuBar\n";
+    #endif
 
     return;
 }
@@ -12266,7 +13152,9 @@ void EmuApi::EmuGetSystemMenu(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RAX, &GetSystemMenuResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &bRevert);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSystemMenu\n";
+    #endif
 
     return;
 }
@@ -12286,7 +13174,9 @@ void EmuApi::EmuCreateMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CreateMenuResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateMenu\n";
+    #endif
 
     return;
 }
@@ -12306,7 +13196,9 @@ void EmuApi::EmuCreatePopupMenu(uc_engine* uc, DWORD_PTR address, size_t size, v
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CreatePopupMenuResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreatePopupMenu\n";
+    #endif
 
     return;
 }
@@ -12331,7 +13223,9 @@ void EmuApi::EmuDestroyMenu(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DestroyMenuResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDestroyMenu\n";
+    #endif
 
     return;
 }
@@ -12366,7 +13260,9 @@ void EmuApi::EmuCheckMenuItem(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &uIDCheckItem);
     uc_reg_write(uc, UC_X86_REG_R8D, &uCheck);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCheckMenuItem\n";
+    #endif
 
     return;
 }
@@ -12401,7 +13297,9 @@ void EmuApi::EmuEnableMenuItem(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &uIDEnableItem);
     uc_reg_write(uc, UC_X86_REG_R8D, &uEnable);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnableMenuItem\n";
+    #endif
 
     return;
 }
@@ -12431,7 +13329,9 @@ void EmuApi::EmuGetSubMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetSubMenuResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &nPos);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSubMenu\n";
+    #endif
 
     return;
 }
@@ -12461,7 +13361,9 @@ void EmuApi::EmuGetMenuItemID(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EAX, &GetMenuItemIDResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &nPos);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuItemID\n";
+    #endif
 
     return;
 }
@@ -12486,7 +13388,9 @@ void EmuApi::EmuGetMenuItemCount(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetMenuItemCountResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuItemCount\n";
+    #endif
 
     return;
 }
@@ -12537,7 +13441,9 @@ void EmuApi::EmuInsertMenuA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &uIDNewItem);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpNewItem, rlalpNewItem)) { printf("Error when read lpNewItem in InsertMenuA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInsertMenuA\n";
+    #endif
 
     return;
 }
@@ -12588,7 +13494,9 @@ void EmuApi::EmuInsertMenuW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &uIDNewItem);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpNewItem, rlwlpNewItem)) { printf("Error when read lpNewItem in InsertMenuW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInsertMenuW\n";
+    #endif
 
     return;
 }
@@ -12631,7 +13539,9 @@ void EmuApi::EmuAppendMenuA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EDX, &uFlags);
     uc_reg_write(uc, UC_X86_REG_R8, &uIDNewItem);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpNewItem, rlalpNewItem)) { printf("Error when read lpNewItem in AppendMenuA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAppendMenuA\n";
+    #endif
 
     return;
 }
@@ -12674,7 +13584,9 @@ void EmuApi::EmuAppendMenuW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EDX, &uFlags);
     uc_reg_write(uc, UC_X86_REG_R8, &uIDNewItem);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpNewItem, rlwlpNewItem)) { printf("Error when read lpNewItem in AppendMenuW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAppendMenuW\n";
+    #endif
 
     return;
 }
@@ -12725,7 +13637,9 @@ void EmuApi::EmuModifyMenuA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &uIDNewItem);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpNewItem, rlalpNewItem)) { printf("Error when read lpNewItem in ModifyMenuA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuModifyMenuA\n";
+    #endif
 
     return;
 }
@@ -12776,7 +13690,9 @@ void EmuApi::EmuModifyMenuW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &uIDNewItem);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpNewItem, rlwlpNewItem)) { printf("Error when read lpNewItem in ModifyMenuW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuModifyMenuW\n";
+    #endif
 
     return;
 }
@@ -12811,7 +13727,9 @@ void EmuApi::EmuRemoveMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &uPosition);
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRemoveMenu\n";
+    #endif
 
     return;
 }
@@ -12846,7 +13764,9 @@ void EmuApi::EmuDeleteMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &uPosition);
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteMenu\n";
+    #endif
 
     return;
 }
@@ -12894,7 +13814,9 @@ void EmuApi::EmuSetMenuItemBitmaps(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_R8D, &uFlags);
     uc_reg_write(uc, UC_X86_REG_R9, &hBitmapUnchecked);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &hBitmapChecked, sizeof(hBitmapChecked));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMenuItemBitmaps\n";
+    #endif
 
     return;
 }
@@ -12914,7 +13836,9 @@ void EmuApi::EmuGetMenuCheckMarkDimensions(uc_engine* uc, DWORD_PTR address, siz
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetMenuCheckMarkDimensionsResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuCheckMarkDimensions\n";
+    #endif
 
     return;
 }
@@ -12984,7 +13908,9 @@ void EmuApi::EmuTrackPopupMenu(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)prcRect, &stprcRect, sizeof(stprcRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTrackPopupMenu\n";
+    #endif
 
     return;
 }
@@ -13049,7 +13975,9 @@ void EmuApi::EmuTrackPopupMenuEx(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lptpm, &rllptpm, sizeof(rllptpm));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTrackPopupMenuEx\n";
+    #endif
 
     return;
 }
@@ -13133,7 +14061,9 @@ void EmuApi::EmuCalculatePopupWindowPosition(uc_engine* uc, DWORD_PTR address, s
     {
         uc_mem_write(uc, (DWORD_PTR)popupWindowPosition, &stpopupWindowPosition, sizeof(stpopupWindowPosition));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCalculatePopupWindowPosition\n";
+    #endif
 
     return;
 }
@@ -13175,7 +14105,9 @@ void EmuApi::EmuGetMenuInfo(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)namelessArg_1, &stnamelessArg_1, sizeof(stnamelessArg_1));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuInfo\n";
+    #endif
 
     return;
 }
@@ -13217,7 +14149,9 @@ void EmuApi::EmuSetMenuInfo(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)namelessArg_1, &rlnamelessArg_1, sizeof(rlnamelessArg_1));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMenuInfo\n";
+    #endif
 
     return;
 }
@@ -13237,7 +14171,9 @@ void EmuApi::EmuEndMenu(uc_engine* uc, DWORD_PTR address, size_t size, void* use
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &EndMenuResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEndMenu\n";
+    #endif
 
     return;
 }
@@ -13289,7 +14225,9 @@ void EmuApi::EmuInsertMenuItemA(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpmi, &rllpmi, sizeof(rllpmi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInsertMenuItemA\n";
+    #endif
 
     return;
 }
@@ -13341,7 +14279,9 @@ void EmuApi::EmuInsertMenuItemW(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpmi, &rllpmi, sizeof(rllpmi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInsertMenuItemW\n";
+    #endif
 
     return;
 }
@@ -13393,7 +14333,9 @@ void EmuApi::EmuGetMenuItemInfoA(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpmii, &stlpmii, sizeof(stlpmii));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuItemInfoA\n";
+    #endif
 
     return;
 }
@@ -13445,7 +14387,9 @@ void EmuApi::EmuGetMenuItemInfoW(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpmii, &stlpmii, sizeof(stlpmii));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuItemInfoW\n";
+    #endif
 
     return;
 }
@@ -13497,7 +14441,9 @@ void EmuApi::EmuSetMenuItemInfoA(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpmii, &rllpmii, sizeof(rllpmii));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMenuItemInfoA\n";
+    #endif
 
     return;
 }
@@ -13549,7 +14495,9 @@ void EmuApi::EmuSetMenuItemInfoW(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpmii, &rllpmii, sizeof(rllpmii));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMenuItemInfoW\n";
+    #endif
 
     return;
 }
@@ -13584,7 +14532,9 @@ void EmuApi::EmuGetMenuDefaultItem(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &fByPos);
     uc_reg_write(uc, UC_X86_REG_R8D, &gmdiFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuDefaultItem\n";
+    #endif
 
     return;
 }
@@ -13619,7 +14569,9 @@ void EmuApi::EmuSetMenuDefaultItem(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_RCX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_EDX, &uItem);
     uc_reg_write(uc, UC_X86_REG_R8D, &fByPos);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMenuDefaultItem\n";
+    #endif
 
     return;
 }
@@ -13671,7 +14623,9 @@ void EmuApi::EmuGetMenuItemRect(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lprcItem, &stlprcItem, sizeof(stlprcItem));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuItemRect\n";
+    #endif
 
     return;
 }
@@ -13706,7 +14660,9 @@ void EmuApi::EmuMenuItemFromPoint(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hMenu);
     uc_reg_write(uc, UC_X86_REG_R8, &ptScreen);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMenuItemFromPoint\n";
+    #endif
 
     return;
 }
@@ -13754,7 +14710,9 @@ void EmuApi::EmuDragObject(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_R8D, &fmt);
     uc_reg_write(uc, UC_X86_REG_R9, &data);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &hcur, sizeof(hcur));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDragObject\n";
+    #endif
 
     return;
 }
@@ -13784,7 +14742,9 @@ void EmuApi::EmuDragDetect(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &DragDetectResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &pt);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDragDetect\n";
+    #endif
 
     return;
 }
@@ -13824,7 +14784,9 @@ void EmuApi::EmuDrawIcon(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_EDX, &X);
     uc_reg_write(uc, UC_X86_REG_R8D, &Y);
     uc_reg_write(uc, UC_X86_REG_R9, &hIcon);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawIcon\n";
+    #endif
 
     return;
 }
@@ -13887,7 +14849,9 @@ void EmuApi::EmuDrawTextA(uc_engine* uc, DWORD_PTR address, size_t size, void* u
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &format, sizeof(format));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawTextA\n";
+    #endif
 
     return;
 }
@@ -13950,7 +14914,9 @@ void EmuApi::EmuDrawTextW(uc_engine* uc, DWORD_PTR address, size_t size, void* u
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &format, sizeof(format));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawTextW\n";
+    #endif
 
     return;
 }
@@ -14030,7 +14996,9 @@ void EmuApi::EmuDrawTextExA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)lpdtp, &stlpdtp, sizeof(stlpdtp));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawTextExA\n";
+    #endif
 
     return;
 }
@@ -14110,7 +15078,9 @@ void EmuApi::EmuDrawTextExW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)lpdtp, &stlpdtp, sizeof(stlpdtp));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawTextExW\n";
+    #endif
 
     return;
 }
@@ -14178,7 +15148,9 @@ void EmuApi::EmuGrayStringA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_mem_write(uc, (DWORD_PTR)SP+56, &Y, sizeof(Y));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &nWidth, sizeof(nWidth));
     uc_mem_write(uc, (DWORD_PTR)SP+72, &nHeight, sizeof(nHeight));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGrayStringA\n";
+    #endif
 
     return;
 }
@@ -14246,7 +15218,9 @@ void EmuApi::EmuGrayStringW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_mem_write(uc, (DWORD_PTR)SP+56, &Y, sizeof(Y));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &nWidth, sizeof(nWidth));
     uc_mem_write(uc, (DWORD_PTR)SP+72, &nHeight, sizeof(nHeight));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGrayStringW\n";
+    #endif
 
     return;
 }
@@ -14319,7 +15293,9 @@ void EmuApi::EmuDrawStateA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_mem_write(uc, (DWORD_PTR)SP+64, &cx, sizeof(cx));
     uc_mem_write(uc, (DWORD_PTR)SP+72, &cy, sizeof(cy));
     uc_mem_write(uc, (DWORD_PTR)SP+80, &uFlags, sizeof(uFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawStateA\n";
+    #endif
 
     return;
 }
@@ -14392,7 +15368,9 @@ void EmuApi::EmuDrawStateW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_mem_write(uc, (DWORD_PTR)SP+64, &cx, sizeof(cx));
     uc_mem_write(uc, (DWORD_PTR)SP+72, &cy, sizeof(cy));
     uc_mem_write(uc, (DWORD_PTR)SP+80, &uFlags, sizeof(uFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawStateW\n";
+    #endif
 
     return;
 }
@@ -14470,7 +15448,9 @@ void EmuApi::EmuTabbedTextOutA(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)lpnTabStopPositions, &rllpnTabStopPositions, sizeof(rllpnTabStopPositions));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+64, &nTabOrigin, sizeof(nTabOrigin));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTabbedTextOutA\n";
+    #endif
 
     return;
 }
@@ -14548,7 +15528,9 @@ void EmuApi::EmuTabbedTextOutW(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)lpnTabStopPositions, &rllpnTabStopPositions, sizeof(rllpnTabStopPositions));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+64, &nTabOrigin, sizeof(nTabOrigin));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTabbedTextOutW\n";
+    #endif
 
     return;
 }
@@ -14611,7 +15593,9 @@ void EmuApi::EmuGetTabbedTextExtentA(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpnTabStopPositions, &rllpnTabStopPositions, sizeof(rllpnTabStopPositions));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTabbedTextExtentA\n";
+    #endif
 
     return;
 }
@@ -14674,7 +15658,9 @@ void EmuApi::EmuGetTabbedTextExtentW(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpnTabStopPositions, &rllpnTabStopPositions, sizeof(rllpnTabStopPositions));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTabbedTextExtentW\n";
+    #endif
 
     return;
 }
@@ -14699,7 +15685,9 @@ void EmuApi::EmuUpdateWindow(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UpdateWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUpdateWindow\n";
+    #endif
 
     return;
 }
@@ -14724,7 +15712,9 @@ void EmuApi::EmuSetActiveWindow(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetActiveWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetActiveWindow\n";
+    #endif
 
     return;
 }
@@ -14744,7 +15734,9 @@ void EmuApi::EmuGetForegroundWindow(uc_engine* uc, DWORD_PTR address, size_t siz
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetForegroundWindowResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetForegroundWindow\n";
+    #endif
 
     return;
 }
@@ -14769,7 +15761,9 @@ void EmuApi::EmuPaintDesktop(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &PaintDesktopResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hdc);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPaintDesktop\n";
+    #endif
 
     return;
 }
@@ -14798,7 +15792,9 @@ void EmuApi::EmuSwitchToThisWindow(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &fUnknown);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSwitchToThisWindow\n";
+    #endif
 
     return;
 }
@@ -14823,7 +15819,9 @@ void EmuApi::EmuSetForegroundWindow(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetForegroundWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetForegroundWindow\n";
+    #endif
 
     return;
 }
@@ -14848,7 +15846,9 @@ void EmuApi::EmuAllowSetForegroundWindow(uc_engine* uc, DWORD_PTR address, size_
 
     uc_reg_write(uc, UC_X86_REG_EAX, &AllowSetForegroundWindowResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwProcessId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAllowSetForegroundWindow\n";
+    #endif
 
     return;
 }
@@ -14873,7 +15873,9 @@ void EmuApi::EmuLockSetForegroundWindow(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_EAX, &LockSetForegroundWindowResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uLockCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLockSetForegroundWindow\n";
+    #endif
 
     return;
 }
@@ -14898,7 +15900,9 @@ void EmuApi::EmuWindowFromDC(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_RAX, &WindowFromDCResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDC);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWindowFromDC\n";
+    #endif
 
     return;
 }
@@ -14923,7 +15927,9 @@ void EmuApi::EmuGetDC(uc_engine* uc, DWORD_PTR address, size_t size, void* user_
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetDCResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDC\n";
+    #endif
 
     return;
 }
@@ -14958,7 +15964,9 @@ void EmuApi::EmuGetDCEx(uc_engine* uc, DWORD_PTR address, size_t size, void* use
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hrgnClip);
     uc_reg_write(uc, UC_X86_REG_R8D, &flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDCEx\n";
+    #endif
 
     return;
 }
@@ -14983,7 +15991,9 @@ void EmuApi::EmuGetWindowDC(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetWindowDCResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowDC\n";
+    #endif
 
     return;
 }
@@ -15013,7 +16023,9 @@ void EmuApi::EmuReleaseDC(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_EAX, &ReleaseDCResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hDC);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReleaseDC\n";
+    #endif
 
     return;
 }
@@ -15055,7 +16067,9 @@ void EmuApi::EmuBeginPaint(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     {
         uc_mem_write(uc, (DWORD_PTR)lpPaint, &stlpPaint, sizeof(stlpPaint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBeginPaint\n";
+    #endif
 
     return;
 }
@@ -15085,7 +16099,9 @@ void EmuApi::EmuEndPaint(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_EAX, &EndPaintResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpPaint);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEndPaint\n";
+    #endif
 
     return;
 }
@@ -15132,7 +16148,9 @@ void EmuApi::EmuGetUpdateRect(uc_engine* uc, DWORD_PTR address, size_t size, voi
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &bErase);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUpdateRect\n";
+    #endif
 
     return;
 }
@@ -15167,7 +16185,9 @@ void EmuApi::EmuGetUpdateRgn(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hRgn);
     uc_reg_write(uc, UC_X86_REG_R8D, &bErase);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetUpdateRgn\n";
+    #endif
 
     return;
 }
@@ -15202,7 +16222,9 @@ void EmuApi::EmuSetWindowRgn(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hRgn);
     uc_reg_write(uc, UC_X86_REG_R8D, &bRedraw);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowRgn\n";
+    #endif
 
     return;
 }
@@ -15232,7 +16254,9 @@ void EmuApi::EmuGetWindowRgn(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EAX, &GetWindowRgnResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hRgn);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowRgn\n";
+    #endif
 
     return;
 }
@@ -15274,7 +16298,9 @@ void EmuApi::EmuGetWindowRgnBox(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowRgnBox\n";
+    #endif
 
     return;
 }
@@ -15304,7 +16330,9 @@ void EmuApi::EmuExcludeUpdateRgn(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &ExcludeUpdateRgnResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hDC);
     uc_reg_write(uc, UC_X86_REG_RDX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuExcludeUpdateRgn\n";
+    #endif
 
     return;
 }
@@ -15351,7 +16379,9 @@ void EmuApi::EmuInvalidateRect(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &bErase);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInvalidateRect\n";
+    #endif
 
     return;
 }
@@ -15393,7 +16423,9 @@ void EmuApi::EmuValidateRect(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuValidateRect\n";
+    #endif
 
     return;
 }
@@ -15428,7 +16460,9 @@ void EmuApi::EmuInvalidateRgn(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hRgn);
     uc_reg_write(uc, UC_X86_REG_R8D, &bErase);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInvalidateRgn\n";
+    #endif
 
     return;
 }
@@ -15458,7 +16492,9 @@ void EmuApi::EmuValidateRgn(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EAX, &ValidateRgnResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hRgn);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuValidateRgn\n";
+    #endif
 
     return;
 }
@@ -15510,7 +16546,9 @@ void EmuApi::EmuRedrawWindow(uc_engine* uc, DWORD_PTR address, size_t size, void
     }
     uc_reg_write(uc, UC_X86_REG_R8, &hrgnUpdate);
     uc_reg_write(uc, UC_X86_REG_R9D, &flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRedrawWindow\n";
+    #endif
 
     return;
 }
@@ -15535,7 +16573,9 @@ void EmuApi::EmuLockWindowUpdate(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &LockWindowUpdateResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndLock);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLockWindowUpdate\n";
+    #endif
 
     return;
 }
@@ -15607,7 +16647,9 @@ void EmuApi::EmuScrollWindow(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lpClipRect, &stlpClipRect, sizeof(stlpClipRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuScrollWindow\n";
+    #endif
 
     return;
 }
@@ -15701,7 +16743,9 @@ void EmuApi::EmuScrollDC(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     {
         uc_mem_write(uc, (DWORD_PTR)lprcUpdate, &stlprcUpdate, sizeof(stlprcUpdate));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuScrollDC\n";
+    #endif
 
     return;
 }
@@ -15800,7 +16844,9 @@ void EmuApi::EmuScrollWindowEx(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)prcUpdate, &stprcUpdate, sizeof(stprcUpdate));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+64, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuScrollWindowEx\n";
+    #endif
 
     return;
 }
@@ -15840,7 +16886,9 @@ void EmuApi::EmuSetScrollPos(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EDX, &nBar);
     uc_reg_write(uc, UC_X86_REG_R8D, &nPos);
     uc_reg_write(uc, UC_X86_REG_R9D, &bRedraw);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetScrollPos\n";
+    #endif
 
     return;
 }
@@ -15870,7 +16918,9 @@ void EmuApi::EmuGetScrollPos(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EAX, &GetScrollPosResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nBar);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetScrollPos\n";
+    #endif
 
     return;
 }
@@ -15918,7 +16968,9 @@ void EmuApi::EmuSetScrollRange(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_R8D, &nMinPos);
     uc_reg_write(uc, UC_X86_REG_R9D, &nMaxPos);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &bRedraw, sizeof(bRedraw));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetScrollRange\n";
+    #endif
 
     return;
 }
@@ -15982,7 +17034,9 @@ void EmuApi::EmuGetScrollRange(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpMaxPos, &rllpMaxPos, sizeof(rllpMaxPos));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetScrollRange\n";
+    #endif
 
     return;
 }
@@ -16017,7 +17071,9 @@ void EmuApi::EmuShowScrollBar(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &wBar);
     uc_reg_write(uc, UC_X86_REG_R8D, &bShow);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShowScrollBar\n";
+    #endif
 
     return;
 }
@@ -16052,7 +17108,9 @@ void EmuApi::EmuEnableScrollBar(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &wSBflags);
     uc_reg_write(uc, UC_X86_REG_R8D, &wArrows);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnableScrollBar\n";
+    #endif
 
     return;
 }
@@ -16090,7 +17148,9 @@ void EmuApi::EmuSetPropA(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in SetPropA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8, &hData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetPropA\n";
+    #endif
 
     return;
 }
@@ -16128,7 +17188,9 @@ void EmuApi::EmuSetPropW(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in SetPropW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8, &hData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetPropW\n";
+    #endif
 
     return;
 }
@@ -16161,7 +17223,9 @@ void EmuApi::EmuGetPropA(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_RAX, &GetPropAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in GetPropA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPropA\n";
+    #endif
 
     return;
 }
@@ -16194,7 +17258,9 @@ void EmuApi::EmuGetPropW(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_RAX, &GetPropWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in GetPropW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPropW\n";
+    #endif
 
     return;
 }
@@ -16227,7 +17293,9 @@ void EmuApi::EmuRemovePropA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &RemovePropAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in RemovePropA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRemovePropA\n";
+    #endif
 
     return;
 }
@@ -16260,7 +17328,9 @@ void EmuApi::EmuRemovePropW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &RemovePropWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in RemovePropW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRemovePropW\n";
+    #endif
 
     return;
 }
@@ -16295,7 +17365,9 @@ void EmuApi::EmuEnumPropsExA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_R8, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumPropsExA\n";
+    #endif
 
     return;
 }
@@ -16330,7 +17402,9 @@ void EmuApi::EmuEnumPropsExW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_R8, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumPropsExW\n";
+    #endif
 
     return;
 }
@@ -16360,7 +17434,9 @@ void EmuApi::EmuEnumPropsA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &EnumPropsAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpEnumFunc);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumPropsA\n";
+    #endif
 
     return;
 }
@@ -16390,7 +17466,9 @@ void EmuApi::EmuEnumPropsW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_EAX, &EnumPropsWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpEnumFunc);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumPropsW\n";
+    #endif
 
     return;
 }
@@ -16423,7 +17501,9 @@ void EmuApi::EmuSetWindowTextA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &SetWindowTextAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in SetWindowTextA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowTextA\n";
+    #endif
 
     return;
 }
@@ -16456,7 +17536,9 @@ void EmuApi::EmuSetWindowTextW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &SetWindowTextWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in SetWindowTextW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowTextW\n";
+    #endif
 
     return;
 }
@@ -16494,7 +17576,9 @@ void EmuApi::EmuGetWindowTextA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in GetWindowTextA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &nMaxCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowTextA\n";
+    #endif
 
     return;
 }
@@ -16532,7 +17616,9 @@ void EmuApi::EmuGetWindowTextW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in GetWindowTextW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &nMaxCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowTextW\n";
+    #endif
 
     return;
 }
@@ -16557,7 +17643,9 @@ void EmuApi::EmuGetWindowTextLengthA(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetWindowTextLengthAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowTextLengthA\n";
+    #endif
 
     return;
 }
@@ -16582,7 +17670,9 @@ void EmuApi::EmuGetWindowTextLengthW(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetWindowTextLengthWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowTextLengthW\n";
+    #endif
 
     return;
 }
@@ -16624,7 +17714,9 @@ void EmuApi::EmuGetClientRect(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClientRect\n";
+    #endif
 
     return;
 }
@@ -16666,7 +17758,9 @@ void EmuApi::EmuGetWindowRect(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowRect\n";
+    #endif
 
     return;
 }
@@ -16713,7 +17807,9 @@ void EmuApi::EmuAdjustWindowRect(uc_engine* uc, DWORD_PTR address, size_t size, 
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwStyle);
     uc_reg_write(uc, UC_X86_REG_R8D, &bMenu);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAdjustWindowRect\n";
+    #endif
 
     return;
 }
@@ -16765,7 +17861,9 @@ void EmuApi::EmuAdjustWindowRectEx(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EDX, &dwStyle);
     uc_reg_write(uc, UC_X86_REG_R8D, &bMenu);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwExStyle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAdjustWindowRectEx\n";
+    #endif
 
     return;
 }
@@ -16825,7 +17923,9 @@ void EmuApi::EmuAdjustWindowRectExForDpi(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_R8D, &bMenu);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwExStyle);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dpi, sizeof(dpi));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAdjustWindowRectExForDpi\n";
+    #endif
 
     return;
 }
@@ -16855,7 +17955,9 @@ void EmuApi::EmuSetWindowContextHelpId(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetWindowContextHelpIdResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &namelessArg_0);
     uc_reg_write(uc, UC_X86_REG_EDX, &namelessArg_1);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowContextHelpId\n";
+    #endif
 
     return;
 }
@@ -16880,7 +17982,9 @@ void EmuApi::EmuGetWindowContextHelpId(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetWindowContextHelpIdResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &namelessArg_0);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowContextHelpId\n";
+    #endif
 
     return;
 }
@@ -16910,7 +18014,9 @@ void EmuApi::EmuSetMenuContextHelpId(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &SetMenuContextHelpIdResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &namelessArg_0);
     uc_reg_write(uc, UC_X86_REG_EDX, &namelessArg_1);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetMenuContextHelpId\n";
+    #endif
 
     return;
 }
@@ -16935,7 +18041,9 @@ void EmuApi::EmuGetMenuContextHelpId(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetMenuContextHelpIdResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &namelessArg_0);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuContextHelpId\n";
+    #endif
 
     return;
 }
@@ -16981,7 +18089,9 @@ void EmuApi::EmuMessageBoxA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpText, rlalpText)) { printf("Error when read lpText in MessageBoxA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpCaption, rlalpCaption)) { printf("Error when read lpCaption in MessageBoxA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &uType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMessageBoxA\n";
+    #endif
 
     return;
 }
@@ -17027,7 +18137,9 @@ void EmuApi::EmuMessageBoxW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpText, rlwlpText)) { printf("Error when read lpText in MessageBoxW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpCaption, rlwlpCaption)) { printf("Error when read lpCaption in MessageBoxW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &uType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMessageBoxW\n";
+    #endif
 
     return;
 }
@@ -17081,7 +18193,9 @@ void EmuApi::EmuMessageBoxExA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpCaption, rlalpCaption)) { printf("Error when read lpCaption in MessageBoxExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &uType);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &wLanguageId, sizeof(wLanguageId));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMessageBoxExA\n";
+    #endif
 
     return;
 }
@@ -17135,7 +18249,9 @@ void EmuApi::EmuMessageBoxExW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpCaption, rlwlpCaption)) { printf("Error when read lpCaption in MessageBoxExW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R9D, &uType);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &wLanguageId, sizeof(wLanguageId));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMessageBoxExW\n";
+    #endif
 
     return;
 }
@@ -17172,7 +18288,9 @@ void EmuApi::EmuMessageBoxIndirectA(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)lpmbp, &stlpmbp, sizeof(stlpmbp));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMessageBoxIndirectA\n";
+    #endif
 
     return;
 }
@@ -17209,7 +18327,9 @@ void EmuApi::EmuMessageBoxIndirectW(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)lpmbp, &stlpmbp, sizeof(stlpmbp));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMessageBoxIndirectW\n";
+    #endif
 
     return;
 }
@@ -17234,7 +18354,9 @@ void EmuApi::EmuMessageBeep(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &MessageBeepResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMessageBeep\n";
+    #endif
 
     return;
 }
@@ -17259,7 +18381,9 @@ void EmuApi::EmuShowCursor(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &ShowCursorResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &bShow);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShowCursor\n";
+    #endif
 
     return;
 }
@@ -17289,7 +18413,9 @@ void EmuApi::EmuSetCursorPos(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EAX, &SetCursorPosResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &X);
     uc_reg_write(uc, UC_X86_REG_EDX, &Y);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetCursorPos\n";
+    #endif
 
     return;
 }
@@ -17319,7 +18445,9 @@ void EmuApi::EmuSetPhysicalCursorPos(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &SetPhysicalCursorPosResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &X);
     uc_reg_write(uc, UC_X86_REG_EDX, &Y);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetPhysicalCursorPos\n";
+    #endif
 
     return;
 }
@@ -17344,7 +18472,9 @@ void EmuApi::EmuSetCursor(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetCursorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hCursor);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetCursor\n";
+    #endif
 
     return;
 }
@@ -17381,7 +18511,9 @@ void EmuApi::EmuGetCursorPos(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCursorPos\n";
+    #endif
 
     return;
 }
@@ -17418,7 +18550,9 @@ void EmuApi::EmuGetPhysicalCursorPos(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPhysicalCursorPos\n";
+    #endif
 
     return;
 }
@@ -17455,7 +18589,9 @@ void EmuApi::EmuGetClipCursor(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClipCursor\n";
+    #endif
 
     return;
 }
@@ -17475,7 +18611,9 @@ void EmuApi::EmuGetCursor(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetCursorResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCursor\n";
+    #endif
 
     return;
 }
@@ -17515,7 +18653,9 @@ void EmuApi::EmuCreateCaret(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RDX, &hBitmap);
     uc_reg_write(uc, UC_X86_REG_R8D, &nWidth);
     uc_reg_write(uc, UC_X86_REG_R9D, &nHeight);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateCaret\n";
+    #endif
 
     return;
 }
@@ -17535,7 +18675,9 @@ void EmuApi::EmuGetCaretBlinkTime(uc_engine* uc, DWORD_PTR address, size_t size,
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetCaretBlinkTimeResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCaretBlinkTime\n";
+    #endif
 
     return;
 }
@@ -17560,7 +18702,9 @@ void EmuApi::EmuSetCaretBlinkTime(uc_engine* uc, DWORD_PTR address, size_t size,
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetCaretBlinkTimeResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &uMSeconds);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetCaretBlinkTime\n";
+    #endif
 
     return;
 }
@@ -17580,7 +18724,9 @@ void EmuApi::EmuDestroyCaret(uc_engine* uc, DWORD_PTR address, size_t size, void
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DestroyCaretResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDestroyCaret\n";
+    #endif
 
     return;
 }
@@ -17605,7 +18751,9 @@ void EmuApi::EmuHideCaret(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
     uc_reg_write(uc, UC_X86_REG_EAX, &HideCaretResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuHideCaret\n";
+    #endif
 
     return;
 }
@@ -17630,7 +18778,9 @@ void EmuApi::EmuShowCaret(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
     uc_reg_write(uc, UC_X86_REG_EAX, &ShowCaretResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShowCaret\n";
+    #endif
 
     return;
 }
@@ -17660,7 +18810,9 @@ void EmuApi::EmuSetCaretPos(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EAX, &SetCaretPosResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &X);
     uc_reg_write(uc, UC_X86_REG_EDX, &Y);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetCaretPos\n";
+    #endif
 
     return;
 }
@@ -17697,7 +18849,9 @@ void EmuApi::EmuGetCaretPos(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCaretPos\n";
+    #endif
 
     return;
 }
@@ -17739,7 +18893,9 @@ void EmuApi::EmuClientToScreen(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuClientToScreen\n";
+    #endif
 
     return;
 }
@@ -17781,7 +18937,9 @@ void EmuApi::EmuScreenToClient(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuScreenToClient\n";
+    #endif
 
     return;
 }
@@ -17823,7 +18981,9 @@ void EmuApi::EmuLogicalToPhysicalPoint(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLogicalToPhysicalPoint\n";
+    #endif
 
     return;
 }
@@ -17865,7 +19025,9 @@ void EmuApi::EmuPhysicalToLogicalPoint(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPhysicalToLogicalPoint\n";
+    #endif
 
     return;
 }
@@ -17907,7 +19069,9 @@ void EmuApi::EmuLogicalToPhysicalPointForPerMonitorDPI(uc_engine* uc, DWORD_PTR 
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLogicalToPhysicalPointForPerMonitorDPI\n";
+    #endif
 
     return;
 }
@@ -17949,7 +19113,9 @@ void EmuApi::EmuPhysicalToLogicalPointForPerMonitorDPI(uc_engine* uc, DWORD_PTR 
     {
         uc_mem_write(uc, (DWORD_PTR)lpPoint, &stlpPoint, sizeof(stlpPoint));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPhysicalToLogicalPointForPerMonitorDPI\n";
+    #endif
 
     return;
 }
@@ -18001,7 +19167,9 @@ void EmuApi::EmuMapWindowPoints(uc_engine* uc, DWORD_PTR address, size_t size, v
         uc_mem_write(uc, (DWORD_PTR)lpPoints, &stlpPoints, sizeof(stlpPoints));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &cPoints);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapWindowPoints\n";
+    #endif
 
     return;
 }
@@ -18026,7 +19194,9 @@ void EmuApi::EmuWindowFromPoint(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_RAX, &WindowFromPointResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Point);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWindowFromPoint\n";
+    #endif
 
     return;
 }
@@ -18051,7 +19221,9 @@ void EmuApi::EmuWindowFromPhysicalPoint(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_RAX, &WindowFromPhysicalPointResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Point);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWindowFromPhysicalPoint\n";
+    #endif
 
     return;
 }
@@ -18081,7 +19253,9 @@ void EmuApi::EmuChildWindowFromPoint(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_RAX, &ChildWindowFromPointResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_RDX, &Point);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuChildWindowFromPoint\n";
+    #endif
 
     return;
 }
@@ -18118,7 +19292,9 @@ void EmuApi::EmuClipCursor(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     {
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuClipCursor\n";
+    #endif
 
     return;
 }
@@ -18153,7 +19329,9 @@ void EmuApi::EmuChildWindowFromPointEx(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &pt);
     uc_reg_write(uc, UC_X86_REG_R8D, &flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuChildWindowFromPointEx\n";
+    #endif
 
     return;
 }
@@ -18178,7 +19356,9 @@ void EmuApi::EmuGetSysColor(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetSysColorResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSysColor\n";
+    #endif
 
     return;
 }
@@ -18203,7 +19383,9 @@ void EmuApi::EmuGetSysColorBrush(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetSysColorBrushResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSysColorBrush\n";
+    #endif
 
     return;
 }
@@ -18262,7 +19444,9 @@ void EmuApi::EmuSetSysColors(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lpaRgbValues, &rllpaRgbValues, sizeof(rllpaRgbValues));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetSysColors\n";
+    #endif
 
     return;
 }
@@ -18304,7 +19488,9 @@ void EmuApi::EmuDrawFocusRect(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawFocusRect\n";
+    #endif
 
     return;
 }
@@ -18351,7 +19537,9 @@ void EmuApi::EmuFillRect(uc_engine* uc, DWORD_PTR address, size_t size, void* us
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
     uc_reg_write(uc, UC_X86_REG_R8, &hbr);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFillRect\n";
+    #endif
 
     return;
 }
@@ -18398,7 +19586,9 @@ void EmuApi::EmuFrameRect(uc_engine* uc, DWORD_PTR address, size_t size, void* u
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
     uc_reg_write(uc, UC_X86_REG_R8, &hbr);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFrameRect\n";
+    #endif
 
     return;
 }
@@ -18440,7 +19630,9 @@ void EmuApi::EmuInvertRect(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     {
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInvertRect\n";
+    #endif
 
     return;
 }
@@ -18500,7 +19692,9 @@ void EmuApi::EmuSetRect(uc_engine* uc, DWORD_PTR address, size_t size, void* use
     uc_reg_write(uc, UC_X86_REG_R8D, &yTop);
     uc_reg_write(uc, UC_X86_REG_R9D, &xRight);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &yBottom, sizeof(yBottom));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetRect\n";
+    #endif
 
     return;
 }
@@ -18537,7 +19731,9 @@ void EmuApi::EmuSetRectEmpty(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetRectEmpty\n";
+    #endif
 
     return;
 }
@@ -18591,7 +19787,9 @@ void EmuApi::EmuCopyRect(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     {
         uc_mem_write(uc, (DWORD_PTR)lprcSrc, &stlprcSrc, sizeof(stlprcSrc));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCopyRect\n";
+    #endif
 
     return;
 }
@@ -18638,7 +19836,9 @@ void EmuApi::EmuInflateRect(uc_engine* uc, DWORD_PTR address, size_t size, void*
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &dx);
     uc_reg_write(uc, UC_X86_REG_R8D, &dy);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInflateRect\n";
+    #endif
 
     return;
 }
@@ -18709,7 +19909,9 @@ void EmuApi::EmuIntersectRect(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lprcSrc2, &stlprcSrc2, sizeof(stlprcSrc2));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIntersectRect\n";
+    #endif
 
     return;
 }
@@ -18780,7 +19982,9 @@ void EmuApi::EmuUnionRect(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     {
         uc_mem_write(uc, (DWORD_PTR)lprcSrc2, &stlprcSrc2, sizeof(stlprcSrc2));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnionRect\n";
+    #endif
 
     return;
 }
@@ -18851,7 +20055,9 @@ void EmuApi::EmuSubtractRect(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lprcSrc2, &stlprcSrc2, sizeof(stlprcSrc2));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSubtractRect\n";
+    #endif
 
     return;
 }
@@ -18898,7 +20104,9 @@ void EmuApi::EmuOffsetRect(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &dx);
     uc_reg_write(uc, UC_X86_REG_R8D, &dy);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOffsetRect\n";
+    #endif
 
     return;
 }
@@ -18935,7 +20143,9 @@ void EmuApi::EmuIsRectEmpty(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsRectEmpty\n";
+    #endif
 
     return;
 }
@@ -18989,7 +20199,9 @@ void EmuApi::EmuEqualRect(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     {
         uc_mem_write(uc, (DWORD_PTR)lprc2, &stlprc2, sizeof(stlprc2));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEqualRect\n";
+    #endif
 
     return;
 }
@@ -19031,7 +20243,9 @@ void EmuApi::EmuPtInRect(uc_engine* uc, DWORD_PTR address, size_t size, void* us
         uc_mem_write(uc, (DWORD_PTR)lprc, &stlprc, sizeof(stlprc));
     }
     uc_reg_write(uc, UC_X86_REG_RDX, &pt);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPtInRect\n";
+    #endif
 
     return;
 }
@@ -19061,7 +20275,9 @@ void EmuApi::EmuGetWindowWord(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_AX, &GetWindowWordResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowWord\n";
+    #endif
 
     return;
 }
@@ -19096,7 +20312,9 @@ void EmuApi::EmuSetWindowWord(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8W, &wNewWord);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowWord\n";
+    #endif
 
     return;
 }
@@ -19126,7 +20344,9 @@ void EmuApi::EmuGetWindowLongA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &GetWindowLongAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowLongA\n";
+    #endif
 
     return;
 }
@@ -19156,7 +20376,9 @@ void EmuApi::EmuGetWindowLongW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EAX, &GetWindowLongWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowLongW\n";
+    #endif
 
     return;
 }
@@ -19191,7 +20413,9 @@ void EmuApi::EmuSetWindowLongA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowLongA\n";
+    #endif
 
     return;
 }
@@ -19226,7 +20450,9 @@ void EmuApi::EmuSetWindowLongW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowLongW\n";
+    #endif
 
     return;
 }
@@ -19256,7 +20482,9 @@ void EmuApi::EmuGetWindowLongPtrA(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RAX, &GetWindowLongPtrAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowLongPtrA\n";
+    #endif
 
     return;
 }
@@ -19286,7 +20514,9 @@ void EmuApi::EmuGetWindowLongPtrW(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RAX, &GetWindowLongPtrWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowLongPtrW\n";
+    #endif
 
     return;
 }
@@ -19321,7 +20551,9 @@ void EmuApi::EmuSetWindowLongPtrA(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowLongPtrA\n";
+    #endif
 
     return;
 }
@@ -19356,7 +20588,9 @@ void EmuApi::EmuSetWindowLongPtrW(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowLongPtrW\n";
+    #endif
 
     return;
 }
@@ -19386,7 +20620,9 @@ void EmuApi::EmuGetClassWord(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_AX, &GetClassWordResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassWord\n";
+    #endif
 
     return;
 }
@@ -19421,7 +20657,9 @@ void EmuApi::EmuSetClassWord(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8W, &wNewWord);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetClassWord\n";
+    #endif
 
     return;
 }
@@ -19451,7 +20689,9 @@ void EmuApi::EmuGetClassLongA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EAX, &GetClassLongAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassLongA\n";
+    #endif
 
     return;
 }
@@ -19481,7 +20721,9 @@ void EmuApi::EmuGetClassLongW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EAX, &GetClassLongWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassLongW\n";
+    #endif
 
     return;
 }
@@ -19516,7 +20758,9 @@ void EmuApi::EmuSetClassLongA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetClassLongA\n";
+    #endif
 
     return;
 }
@@ -19551,7 +20795,9 @@ void EmuApi::EmuSetClassLongW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetClassLongW\n";
+    #endif
 
     return;
 }
@@ -19581,7 +20827,9 @@ void EmuApi::EmuGetClassLongPtrA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetClassLongPtrAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassLongPtrA\n";
+    #endif
 
     return;
 }
@@ -19611,7 +20859,9 @@ void EmuApi::EmuGetClassLongPtrW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetClassLongPtrWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassLongPtrW\n";
+    #endif
 
     return;
 }
@@ -19646,7 +20896,9 @@ void EmuApi::EmuSetClassLongPtrA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetClassLongPtrA\n";
+    #endif
 
     return;
 }
@@ -19681,7 +20933,9 @@ void EmuApi::EmuSetClassLongPtrW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &nIndex);
     uc_reg_write(uc, UC_X86_REG_R8, &dwNewLong);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetClassLongPtrW\n";
+    #endif
 
     return;
 }
@@ -19718,7 +20972,9 @@ void EmuApi::EmuGetProcessDefaultLayout(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)pdwDefaultLayout, &rlpdwDefaultLayout, sizeof(rlpdwDefaultLayout));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessDefaultLayout\n";
+    #endif
 
     return;
 }
@@ -19743,7 +20999,9 @@ void EmuApi::EmuSetProcessDefaultLayout(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessDefaultLayoutResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwDefaultLayout);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessDefaultLayout\n";
+    #endif
 
     return;
 }
@@ -19763,7 +21021,9 @@ void EmuApi::EmuGetDesktopWindow(uc_engine* uc, DWORD_PTR address, size_t size, 
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetDesktopWindowResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDesktopWindow\n";
+    #endif
 
     return;
 }
@@ -19788,7 +21048,9 @@ void EmuApi::EmuGetParent(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetParentResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetParent\n";
+    #endif
 
     return;
 }
@@ -19818,7 +21080,9 @@ void EmuApi::EmuSetParent(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &SetParentResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndChild);
     uc_reg_write(uc, UC_X86_REG_RDX, &hWndNewParent);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetParent\n";
+    #endif
 
     return;
 }
@@ -19853,7 +21117,9 @@ void EmuApi::EmuEnumChildWindows(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RCX, &hWndParent);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_R8, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumChildWindows\n";
+    #endif
 
     return;
 }
@@ -19889,7 +21155,9 @@ void EmuApi::EmuFindWindowA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &FindWindowAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpClassName, rlalpClassName)) { printf("Error when read lpClassName in FindWindowA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpWindowName, rlalpWindowName)) { printf("Error when read lpWindowName in FindWindowA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindWindowA\n";
+    #endif
 
     return;
 }
@@ -19925,7 +21193,9 @@ void EmuApi::EmuFindWindowW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &FindWindowWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpClassName, rlwlpClassName)) { printf("Error when read lpClassName in FindWindowW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpWindowName, rlwlpWindowName)) { printf("Error when read lpWindowName in FindWindowW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindWindowW\n";
+    #endif
 
     return;
 }
@@ -19971,7 +21241,9 @@ void EmuApi::EmuFindWindowExA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RDX, &hWndChildAfter);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszClass, rlalpszClass)) { printf("Error when read lpszClass in FindWindowExA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszWindow, rlalpszWindow)) { printf("Error when read lpszWindow in FindWindowExA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindWindowExA\n";
+    #endif
 
     return;
 }
@@ -20017,7 +21289,9 @@ void EmuApi::EmuFindWindowExW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RDX, &hWndChildAfter);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszClass, rlwlpszClass)) { printf("Error when read lpszClass in FindWindowExW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszWindow, rlwlpszWindow)) { printf("Error when read lpszWindow in FindWindowExW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindWindowExW\n";
+    #endif
 
     return;
 }
@@ -20037,7 +21311,9 @@ void EmuApi::EmuGetShellWindow(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetShellWindowResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetShellWindow\n";
+    #endif
 
     return;
 }
@@ -20062,7 +21338,9 @@ void EmuApi::EmuRegisterShellHookWindow(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterShellHookWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterShellHookWindow\n";
+    #endif
 
     return;
 }
@@ -20087,7 +21365,9 @@ void EmuApi::EmuDeregisterShellHookWindow(uc_engine* uc, DWORD_PTR address, size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DeregisterShellHookWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeregisterShellHookWindow\n";
+    #endif
 
     return;
 }
@@ -20117,7 +21397,9 @@ void EmuApi::EmuEnumWindows(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EAX, &EnumWindowsResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpEnumFunc);
     uc_reg_write(uc, UC_X86_REG_RDX, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumWindows\n";
+    #endif
 
     return;
 }
@@ -20152,7 +21434,9 @@ void EmuApi::EmuEnumThreadWindows(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_ECX, &dwThreadId);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpfn);
     uc_reg_write(uc, UC_X86_REG_R8, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumThreadWindows\n";
+    #endif
 
     return;
 }
@@ -20190,7 +21474,9 @@ void EmuApi::EmuGetClassNameA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpClassName, rlalpClassName)) { printf("Error when read lpClassName in GetClassNameA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &nMaxCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassNameA\n";
+    #endif
 
     return;
 }
@@ -20228,7 +21514,9 @@ void EmuApi::EmuGetClassNameW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpClassName, rlwlpClassName)) { printf("Error when read lpClassName in GetClassNameW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &nMaxCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetClassNameW\n";
+    #endif
 
     return;
 }
@@ -20253,7 +21541,9 @@ void EmuApi::EmuGetTopWindow(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetTopWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTopWindow\n";
+    #endif
 
     return;
 }
@@ -20295,7 +21585,9 @@ void EmuApi::EmuGetWindowThreadProcessId(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwProcessId, &rllpdwProcessId, sizeof(rllpdwProcessId));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowThreadProcessId\n";
+    #endif
 
     return;
 }
@@ -20320,7 +21612,9 @@ void EmuApi::EmuIsGUIThread(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsGUIThreadResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &bConvert);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsGUIThread\n";
+    #endif
 
     return;
 }
@@ -20345,7 +21639,9 @@ void EmuApi::EmuGetLastActivePopup(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetLastActivePopupResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLastActivePopup\n";
+    #endif
 
     return;
 }
@@ -20375,7 +21671,9 @@ void EmuApi::EmuGetWindow(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &GetWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &uCmd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindow\n";
+    #endif
 
     return;
 }
@@ -20405,7 +21703,9 @@ void EmuApi::EmuSetWindowsHookA(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_RAX, &SetWindowsHookAResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nFilterType);
     uc_reg_write(uc, UC_X86_REG_RDX, &pfnFilterProc);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowsHookA\n";
+    #endif
 
     return;
 }
@@ -20435,7 +21735,9 @@ void EmuApi::EmuSetWindowsHookW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_RAX, &SetWindowsHookWResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nFilterType);
     uc_reg_write(uc, UC_X86_REG_RDX, &pfnFilterProc);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowsHookW\n";
+    #endif
 
     return;
 }
@@ -20465,7 +21767,9 @@ void EmuApi::EmuUnhookWindowsHook(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_EAX, &UnhookWindowsHookResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nCode);
     uc_reg_write(uc, UC_X86_REG_RDX, &pfnFilterProc);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnhookWindowsHook\n";
+    #endif
 
     return;
 }
@@ -20505,7 +21809,9 @@ void EmuApi::EmuSetWindowsHookExA(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RDX, &lpfn);
     uc_reg_write(uc, UC_X86_REG_R8, &hmod);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwThreadId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowsHookExA\n";
+    #endif
 
     return;
 }
@@ -20545,7 +21851,9 @@ void EmuApi::EmuSetWindowsHookExW(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RDX, &lpfn);
     uc_reg_write(uc, UC_X86_REG_R8, &hmod);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwThreadId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWindowsHookExW\n";
+    #endif
 
     return;
 }
@@ -20570,7 +21878,9 @@ void EmuApi::EmuUnhookWindowsHookEx(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnhookWindowsHookExResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hhk);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnhookWindowsHookEx\n";
+    #endif
 
     return;
 }
@@ -20610,7 +21920,9 @@ void EmuApi::EmuCallNextHookEx(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_EDX, &nCode);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCallNextHookEx\n";
+    #endif
 
     return;
 }
@@ -20658,7 +21970,9 @@ void EmuApi::EmuCheckMenuRadioItem(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_R8D, &last);
     uc_reg_write(uc, UC_X86_REG_R9D, &check);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCheckMenuRadioItem\n";
+    #endif
 
     return;
 }
@@ -20691,7 +22005,9 @@ void EmuApi::EmuLoadBitmapA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadBitmapAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpBitmapName, rlalpBitmapName)) { printf("Error when read lpBitmapName in LoadBitmapA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadBitmapA\n";
+    #endif
 
     return;
 }
@@ -20724,7 +22040,9 @@ void EmuApi::EmuLoadBitmapW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadBitmapWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpBitmapName, rlwlpBitmapName)) { printf("Error when read lpBitmapName in LoadBitmapW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadBitmapW\n";
+    #endif
 
     return;
 }
@@ -20757,7 +22075,9 @@ void EmuApi::EmuLoadCursorA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadCursorAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpCursorName, rlalpCursorName)) { printf("Error when read lpCursorName in LoadCursorA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadCursorA\n";
+    #endif
 
     return;
 }
@@ -20790,7 +22110,9 @@ void EmuApi::EmuLoadCursorW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadCursorWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpCursorName, rlwlpCursorName)) { printf("Error when read lpCursorName in LoadCursorW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadCursorW\n";
+    #endif
 
     return;
 }
@@ -20818,7 +22140,9 @@ void EmuApi::EmuLoadCursorFromFileA(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadCursorFromFileAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpFileName, rlalpFileName)) { printf("Error when read lpFileName in LoadCursorFromFileA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadCursorFromFileA\n";
+    #endif
 
     return;
 }
@@ -20846,7 +22170,9 @@ void EmuApi::EmuLoadCursorFromFileW(uc_engine* uc, DWORD_PTR address, size_t siz
 
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadCursorFromFileWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFileName, rlwlpFileName)) { printf("Error when read lpFileName in LoadCursorFromFileW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadCursorFromFileW\n";
+    #endif
 
     return;
 }
@@ -20904,7 +22230,9 @@ void EmuApi::EmuCreateCursor(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_mem_write(uc, (DWORD_PTR)SP+40, &nHeight, sizeof(nHeight));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &pvANDPlane, sizeof(pvANDPlane));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &pvXORPlane, sizeof(pvXORPlane));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateCursor\n";
+    #endif
 
     return;
 }
@@ -20929,7 +22257,9 @@ void EmuApi::EmuDestroyCursor(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DestroyCursorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hCursor);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDestroyCursor\n";
+    #endif
 
     return;
 }
@@ -20959,7 +22289,9 @@ void EmuApi::EmuSetSystemCursor(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &SetSystemCursorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hcur);
     uc_reg_write(uc, UC_X86_REG_EDX, &id);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetSystemCursor\n";
+    #endif
 
     return;
 }
@@ -20992,7 +22324,9 @@ void EmuApi::EmuLoadIconA(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadIconAResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpIconName, rlalpIconName)) { printf("Error when read lpIconName in LoadIconA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadIconA\n";
+    #endif
 
     return;
 }
@@ -21025,7 +22359,9 @@ void EmuApi::EmuLoadIconW(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_RAX, &LoadIconWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hInstance);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpIconName, rlwlpIconName)) { printf("Error when read lpIconName in LoadIconW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadIconW\n";
+    #endif
 
     return;
 }
@@ -21103,7 +22439,9 @@ void EmuApi::EmuPrivateExtractIconsA(uc_engine* uc, DWORD_PTR address, size_t si
     }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &nIcons, sizeof(nIcons));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPrivateExtractIconsA\n";
+    #endif
 
     return;
 }
@@ -21181,7 +22519,9 @@ void EmuApi::EmuPrivateExtractIconsW(uc_engine* uc, DWORD_PTR address, size_t si
     }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &nIcons, sizeof(nIcons));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPrivateExtractIconsW\n";
+    #endif
 
     return;
 }
@@ -21263,7 +22603,9 @@ void EmuApi::EmuCreateIcon(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     {
         uc_mem_write(uc, (DWORD_PTR)lpbXORbits, &rllpbXORbits, sizeof(rllpbXORbits));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateIcon\n";
+    #endif
 
     return;
 }
@@ -21288,7 +22630,9 @@ void EmuApi::EmuDestroyIcon(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DestroyIconResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hIcon);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDestroyIcon\n";
+    #endif
 
     return;
 }
@@ -21330,7 +22674,9 @@ void EmuApi::EmuLookupIconIdFromDirectory(uc_engine* uc, DWORD_PTR address, size
         uc_mem_write(uc, (DWORD_PTR)presbits, &rlpresbits, sizeof(rlpresbits));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &fIcon);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLookupIconIdFromDirectory\n";
+    #endif
 
     return;
 }
@@ -21390,7 +22736,9 @@ void EmuApi::EmuLookupIconIdFromDirectoryEx(uc_engine* uc, DWORD_PTR address, si
     uc_reg_write(uc, UC_X86_REG_R8D, &cxDesired);
     uc_reg_write(uc, UC_X86_REG_R9D, &cyDesired);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &Flags, sizeof(Flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLookupIconIdFromDirectoryEx\n";
+    #endif
 
     return;
 }
@@ -21442,7 +22790,9 @@ void EmuApi::EmuCreateIconFromResource(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_EDX, &dwResSize);
     uc_reg_write(uc, UC_X86_REG_R8D, &fIcon);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwVer);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateIconFromResource\n";
+    #endif
 
     return;
 }
@@ -21512,10 +22862,40 @@ void EmuApi::EmuCreateIconFromResourceEx(uc_engine* uc, DWORD_PTR address, size_
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cxDesired, sizeof(cxDesired));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &cyDesired, sizeof(cyDesired));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &Flags, sizeof(Flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateIconFromResourceEx\n";
+    #endif
 
     return;
 }
+
+
+/*
+UINT
+__cdecl
+SetThreadCursorCreationScaling(
+      UINT  cursorDpi  );
+
+*/
+void EmuApi::EmuSetThreadCursorCreationScaling(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    UINT cursorDpi{};
+    uc_reg_read(uc, UC_X86_REG_ECX, &cursorDpi);
+
+
+    UINT SetThreadCursorCreationScalingResult = SetThreadCursorCreationScaling((UINT)cursorDpi);
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadCursorCreationScalingResult);
+    uc_reg_write(uc, UC_X86_REG_ECX, &cursorDpi);
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadCursorCreationScaling\n";
+    #endif
+
+    return;
+}
+
 
 /*
 HANDLE
@@ -21567,7 +22947,9 @@ void EmuApi::EmuLoadImageA(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_R9D, &cx);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cy, sizeof(cy));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &fuLoad, sizeof(fuLoad));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadImageA\n";
+    #endif
 
     return;
 }
@@ -21623,7 +23005,9 @@ void EmuApi::EmuLoadImageW(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_R9D, &cx);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cy, sizeof(cy));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &fuLoad, sizeof(fuLoad));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLoadImageW\n";
+    #endif
 
     return;
 }
@@ -21671,7 +23055,9 @@ void EmuApi::EmuCopyImage(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     uc_reg_write(uc, UC_X86_REG_R8D, &cx);
     uc_reg_write(uc, UC_X86_REG_R9D, &cy);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flags, sizeof(flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCopyImage\n";
+    #endif
 
     return;
 }
@@ -21739,7 +23125,9 @@ void EmuApi::EmuDrawIconEx(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_mem_write(uc, (DWORD_PTR)SP+56, &istepIfAniCur, sizeof(istepIfAniCur));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &hbrFlickerFreeDraw, sizeof(hbrFlickerFreeDraw));
     uc_mem_write(uc, (DWORD_PTR)SP+72, &diFlags, sizeof(diFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDrawIconEx\n";
+    #endif
 
     return;
 }
@@ -21776,7 +23164,9 @@ void EmuApi::EmuCreateIconIndirect(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)piconinfo, &rlpiconinfo, sizeof(rlpiconinfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateIconIndirect\n";
+    #endif
 
     return;
 }
@@ -21801,7 +23191,9 @@ void EmuApi::EmuCopyIcon(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CopyIconResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hIcon);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCopyIcon\n";
+    #endif
 
     return;
 }
@@ -21843,7 +23235,9 @@ void EmuApi::EmuGetIconInfo(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)piconinfo, &rlpiconinfo, sizeof(rlpiconinfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetIconInfo\n";
+    #endif
 
     return;
 }
@@ -21885,7 +23279,9 @@ void EmuApi::EmuGetIconInfoExA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)piconinfo, &stpiconinfo, sizeof(stpiconinfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetIconInfoExA\n";
+    #endif
 
     return;
 }
@@ -21927,7 +23323,9 @@ void EmuApi::EmuGetIconInfoExW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)piconinfo, &stpiconinfo, sizeof(stpiconinfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetIconInfoExW\n";
+    #endif
 
     return;
 }
@@ -21969,7 +23367,9 @@ void EmuApi::EmuIsDialogMessageA(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsDialogMessageA\n";
+    #endif
 
     return;
 }
@@ -22011,7 +23411,9 @@ void EmuApi::EmuIsDialogMessageW(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsDialogMessageW\n";
+    #endif
 
     return;
 }
@@ -22053,7 +23455,9 @@ void EmuApi::EmuMapDialogRect(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpRect, &stlpRect, sizeof(stlpRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapDialogRect\n";
+    #endif
 
     return;
 }
@@ -22104,7 +23508,9 @@ void EmuApi::EmuDlgDirListA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_R8D, &nIDListBox);
     uc_reg_write(uc, UC_X86_REG_R9D, &nIDStaticPath);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &uFileType, sizeof(uFileType));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirListA\n";
+    #endif
 
     return;
 }
@@ -22155,7 +23561,9 @@ void EmuApi::EmuDlgDirListW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_R8D, &nIDListBox);
     uc_reg_write(uc, UC_X86_REG_R9D, &nIDStaticPath);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &uFileType, sizeof(uFileType));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirListW\n";
+    #endif
 
     return;
 }
@@ -22198,7 +23606,9 @@ void EmuApi::EmuDlgDirSelectExA(uc_engine* uc, DWORD_PTR address, size_t size, v
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in DlgDirSelectExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &chCount);
     uc_reg_write(uc, UC_X86_REG_R9D, &idListBox);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirSelectExA\n";
+    #endif
 
     return;
 }
@@ -22241,7 +23651,9 @@ void EmuApi::EmuDlgDirSelectExW(uc_engine* uc, DWORD_PTR address, size_t size, v
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in DlgDirSelectExW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &chCount);
     uc_reg_write(uc, UC_X86_REG_R9D, &idListBox);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirSelectExW\n";
+    #endif
 
     return;
 }
@@ -22292,7 +23704,9 @@ void EmuApi::EmuDlgDirListComboBoxA(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_R8D, &nIDComboBox);
     uc_reg_write(uc, UC_X86_REG_R9D, &nIDStaticPath);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &uFiletype, sizeof(uFiletype));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirListComboBoxA\n";
+    #endif
 
     return;
 }
@@ -22343,7 +23757,9 @@ void EmuApi::EmuDlgDirListComboBoxW(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_R8D, &nIDComboBox);
     uc_reg_write(uc, UC_X86_REG_R9D, &nIDStaticPath);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &uFiletype, sizeof(uFiletype));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirListComboBoxW\n";
+    #endif
 
     return;
 }
@@ -22386,7 +23802,9 @@ void EmuApi::EmuDlgDirSelectComboBoxExA(uc_engine* uc, DWORD_PTR address, size_t
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpString, rlalpString)) { printf("Error when read lpString in DlgDirSelectComboBoxExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchOut);
     uc_reg_write(uc, UC_X86_REG_R9D, &idComboBox);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirSelectComboBoxExA\n";
+    #endif
 
     return;
 }
@@ -22429,7 +23847,9 @@ void EmuApi::EmuDlgDirSelectComboBoxExW(uc_engine* uc, DWORD_PTR address, size_t
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpString, rlwlpString)) { printf("Error when read lpString in DlgDirSelectComboBoxExW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchOut);
     uc_reg_write(uc, UC_X86_REG_R9D, &idComboBox);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDlgDirSelectComboBoxExW\n";
+    #endif
 
     return;
 }
@@ -22481,7 +23901,9 @@ void EmuApi::EmuSetScrollInfo(uc_engine* uc, DWORD_PTR address, size_t size, voi
         uc_mem_write(uc, (DWORD_PTR)lpsi, &rllpsi, sizeof(rllpsi));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &redraw);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetScrollInfo\n";
+    #endif
 
     return;
 }
@@ -22528,7 +23950,9 @@ void EmuApi::EmuGetScrollInfo(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpsi, &stlpsi, sizeof(stlpsi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetScrollInfo\n";
+    #endif
 
     return;
 }
@@ -22576,7 +24000,9 @@ void EmuApi::EmuDefFrameProcA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_R8D, &uMsg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefFrameProcA\n";
+    #endif
 
     return;
 }
@@ -22624,7 +24050,9 @@ void EmuApi::EmuDefFrameProcW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_R8D, &uMsg);
     uc_reg_write(uc, UC_X86_REG_R9, &wParam);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefFrameProcW\n";
+    #endif
 
     return;
 }
@@ -22664,7 +24092,9 @@ void EmuApi::EmuDefMDIChildProcA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EDX, &uMsg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefMDIChildProcA\n";
+    #endif
 
     return;
 }
@@ -22704,7 +24134,9 @@ void EmuApi::EmuDefMDIChildProcW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EDX, &uMsg);
     uc_reg_write(uc, UC_X86_REG_R8, &wParam);
     uc_reg_write(uc, UC_X86_REG_R9, &lParam);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefMDIChildProcW\n";
+    #endif
 
     return;
 }
@@ -22746,7 +24178,9 @@ void EmuApi::EmuTranslateMDISysAccel(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpMsg, &stlpMsg, sizeof(stlpMsg));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTranslateMDISysAccel\n";
+    #endif
 
     return;
 }
@@ -22771,7 +24205,9 @@ void EmuApi::EmuArrangeIconicWindows(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &ArrangeIconicWindowsResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuArrangeIconicWindows\n";
+    #endif
 
     return;
 }
@@ -22850,7 +24286,9 @@ void EmuApi::EmuCreateMDIWindowA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_mem_write(uc, (DWORD_PTR)SP+64, &hWndParent, sizeof(hWndParent));
     uc_mem_write(uc, (DWORD_PTR)SP+72, &hInstance, sizeof(hInstance));
     uc_mem_write(uc, (DWORD_PTR)SP+80, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateMDIWindowA\n";
+    #endif
 
     return;
 }
@@ -22929,7 +24367,9 @@ void EmuApi::EmuCreateMDIWindowW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_mem_write(uc, (DWORD_PTR)SP+64, &hWndParent, sizeof(hWndParent));
     uc_mem_write(uc, (DWORD_PTR)SP+72, &hInstance, sizeof(hInstance));
     uc_mem_write(uc, (DWORD_PTR)SP+80, &lParam, sizeof(lParam));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateMDIWindowW\n";
+    #endif
 
     return;
 }
@@ -22989,7 +24429,9 @@ void EmuApi::EmuTileWindows(uc_engine* uc, DWORD_PTR address, size_t size, void*
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &cKids);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpKids, sizeof(lpKids));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTileWindows\n";
+    #endif
 
     return;
 }
@@ -23049,7 +24491,9 @@ void EmuApi::EmuCascadeWindows(uc_engine* uc, DWORD_PTR address, size_t size, vo
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &cKids);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpKids, sizeof(lpKids));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCascadeWindows\n";
+    #endif
 
     return;
 }
@@ -23092,7 +24536,9 @@ void EmuApi::EmuWinHelpA(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszHelp, rlalpszHelp)) { printf("Error when read lpszHelp in WinHelpA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &uCommand);
     uc_reg_write(uc, UC_X86_REG_R9, &dwData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWinHelpA\n";
+    #endif
 
     return;
 }
@@ -23135,7 +24581,9 @@ void EmuApi::EmuWinHelpW(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszHelp, rlwlpszHelp)) { printf("Error when read lpszHelp in WinHelpW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &uCommand);
     uc_reg_write(uc, UC_X86_REG_R9, &dwData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWinHelpW\n";
+    #endif
 
     return;
 }
@@ -23165,7 +24613,9 @@ void EmuApi::EmuGetGuiResources(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &GetGuiResourcesResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_EDX, &uiFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetGuiResources\n";
+    #endif
 
     return;
 }
@@ -23205,7 +24655,9 @@ void EmuApi::EmuSystemParametersInfoA(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_EDX, &uiParam);
     uc_reg_write(uc, UC_X86_REG_R8, &pvParam);
     uc_reg_write(uc, UC_X86_REG_R9D, &fWinIni);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSystemParametersInfoA\n";
+    #endif
 
     return;
 }
@@ -23245,7 +24697,9 @@ void EmuApi::EmuSystemParametersInfoW(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_EDX, &uiParam);
     uc_reg_write(uc, UC_X86_REG_R8, &pvParam);
     uc_reg_write(uc, UC_X86_REG_R9D, &fWinIni);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSystemParametersInfoW\n";
+    #endif
 
     return;
 }
@@ -23293,7 +24747,9 @@ void EmuApi::EmuSystemParametersInfoForDpi(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_R8, &pvParam);
     uc_reg_write(uc, UC_X86_REG_R9D, &fWinIni);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dpi, sizeof(dpi));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSystemParametersInfoForDpi\n";
+    #endif
 
     return;
 }
@@ -23313,7 +24769,9 @@ void EmuApi::EmuSoundSentry(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SoundSentryResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSoundSentry\n";
+    #endif
 
     return;
 }
@@ -23337,7 +24795,9 @@ void EmuApi::EmuSetDebugErrorLevel(uc_engine* uc, DWORD_PTR address, size_t size
 
 
     uc_reg_write(uc, UC_X86_REG_ECX, &dwLevel);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDebugErrorLevel\n";
+    #endif
 
     return;
 }
@@ -23366,7 +24826,9 @@ void EmuApi::EmuSetLastErrorEx(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
     uc_reg_write(uc, UC_X86_REG_ECX, &dwErrCode);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetLastErrorEx\n";
+    #endif
 
     return;
 }
@@ -23404,7 +24866,9 @@ void EmuApi::EmuInternalGetWindowText(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pString, rlwpString)) { printf("Error when read pString in InternalGetWindowText"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchMaxCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInternalGetWindowText\n";
+    #endif
 
     return;
 }
@@ -23424,7 +24888,9 @@ void EmuApi::EmuCancelShutdown(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CancelShutdownResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCancelShutdown\n";
+    #endif
 
     return;
 }
@@ -23454,7 +24920,9 @@ void EmuApi::EmuMonitorFromPoint(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RAX, &MonitorFromPointResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &pt);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMonitorFromPoint\n";
+    #endif
 
     return;
 }
@@ -23496,7 +24964,9 @@ void EmuApi::EmuMonitorFromRect(uc_engine* uc, DWORD_PTR address, size_t size, v
         uc_mem_write(uc, (DWORD_PTR)lprc, &rllprc, sizeof(rllprc));
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMonitorFromRect\n";
+    #endif
 
     return;
 }
@@ -23526,7 +24996,9 @@ void EmuApi::EmuMonitorFromWindow(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_RAX, &MonitorFromWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMonitorFromWindow\n";
+    #endif
 
     return;
 }
@@ -23568,7 +25040,9 @@ void EmuApi::EmuGetMonitorInfoA(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpmi, &stlpmi, sizeof(stlpmi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMonitorInfoA\n";
+    #endif
 
     return;
 }
@@ -23610,7 +25084,9 @@ void EmuApi::EmuGetMonitorInfoW(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpmi, &stlpmi, sizeof(stlpmi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMonitorInfoW\n";
+    #endif
 
     return;
 }
@@ -23662,7 +25138,9 @@ void EmuApi::EmuEnumDisplayMonitors(uc_engine* uc, DWORD_PTR address, size_t siz
     }
     uc_reg_write(uc, UC_X86_REG_R8, &lpfnEnum);
     uc_reg_write(uc, UC_X86_REG_R9, &dwData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnumDisplayMonitors\n";
+    #endif
 
     return;
 }
@@ -23701,7 +25179,9 @@ void EmuApi::EmuNotifyWinEvent(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_RDX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_R8D, &idObject);
     uc_reg_write(uc, UC_X86_REG_R9D, &idChild);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuNotifyWinEvent\n";
+    #endif
 
     return;
 }
@@ -23759,7 +25239,9 @@ void EmuApi::EmuSetWinEventHook(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_mem_write(uc, (DWORD_PTR)SP+40, &idProcess, sizeof(idProcess));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &idThread, sizeof(idThread));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &dwFlags, sizeof(dwFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetWinEventHook\n";
+    #endif
 
     return;
 }
@@ -23784,7 +25266,9 @@ void EmuApi::EmuIsWinEventHookInstalled(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsWinEventHookInstalledResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &event);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsWinEventHookInstalled\n";
+    #endif
 
     return;
 }
@@ -23809,7 +25293,9 @@ void EmuApi::EmuUnhookWinEvent(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnhookWinEventResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWinEventHook);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnhookWinEvent\n";
+    #endif
 
     return;
 }
@@ -23851,7 +25337,9 @@ void EmuApi::EmuGetGUIThreadInfo(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)pgui, &stpgui, sizeof(stpgui));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetGUIThreadInfo\n";
+    #endif
 
     return;
 }
@@ -23876,7 +25364,9 @@ void EmuApi::EmuBlockInput(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &BlockInputResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &fBlockIt);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuBlockInput\n";
+    #endif
 
     return;
 }
@@ -23896,7 +25386,9 @@ void EmuApi::EmuSetProcessDPIAware(uc_engine* uc, DWORD_PTR address, size_t size
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessDPIAwareResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessDPIAware\n";
+    #endif
 
     return;
 }
@@ -23916,7 +25408,9 @@ void EmuApi::EmuIsProcessDPIAware(uc_engine* uc, DWORD_PTR address, size_t size,
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsProcessDPIAwareResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsProcessDPIAware\n";
+    #endif
 
     return;
 }
@@ -23941,7 +25435,9 @@ void EmuApi::EmuSetThreadDpiAwarenessContext(uc_engine* uc, DWORD_PTR address, s
 
     uc_reg_write(uc, UC_X86_REG_RAX, &SetThreadDpiAwarenessContextResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &dpiContext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadDpiAwarenessContext\n";
+    #endif
 
     return;
 }
@@ -23961,7 +25457,9 @@ void EmuApi::EmuGetThreadDpiAwarenessContext(uc_engine* uc, DWORD_PTR address, s
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetThreadDpiAwarenessContextResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadDpiAwarenessContext\n";
+    #endif
 
     return;
 }
@@ -23986,7 +25484,9 @@ void EmuApi::EmuGetWindowDpiAwarenessContext(uc_engine* uc, DWORD_PTR address, s
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetWindowDpiAwarenessContextResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowDpiAwarenessContext\n";
+    #endif
 
     return;
 }
@@ -24011,7 +25511,9 @@ void EmuApi::EmuGetAwarenessFromDpiAwarenessContext(uc_engine* uc, DWORD_PTR add
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetAwarenessFromDpiAwarenessContextResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &value);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetAwarenessFromDpiAwarenessContext\n";
+    #endif
 
     return;
 }
@@ -24036,7 +25538,9 @@ void EmuApi::EmuGetDpiFromDpiAwarenessContext(uc_engine* uc, DWORD_PTR address, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDpiFromDpiAwarenessContextResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &value);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDpiFromDpiAwarenessContext\n";
+    #endif
 
     return;
 }
@@ -24066,7 +25570,9 @@ void EmuApi::EmuAreDpiAwarenessContextsEqual(uc_engine* uc, DWORD_PTR address, s
     uc_reg_write(uc, UC_X86_REG_EAX, &AreDpiAwarenessContextsEqualResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &dpiContextA);
     uc_reg_write(uc, UC_X86_REG_RDX, &dpiContextB);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAreDpiAwarenessContextsEqual\n";
+    #endif
 
     return;
 }
@@ -24091,7 +25597,9 @@ void EmuApi::EmuIsValidDpiAwarenessContext(uc_engine* uc, DWORD_PTR address, siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsValidDpiAwarenessContextResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &value);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsValidDpiAwarenessContext\n";
+    #endif
 
     return;
 }
@@ -24116,7 +25624,9 @@ void EmuApi::EmuGetDpiForWindow(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDpiForWindowResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDpiForWindow\n";
+    #endif
 
     return;
 }
@@ -24136,7 +25646,9 @@ void EmuApi::EmuGetDpiForSystem(uc_engine* uc, DWORD_PTR address, size_t size, v
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDpiForSystemResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDpiForSystem\n";
+    #endif
 
     return;
 }
@@ -24161,7 +25673,9 @@ void EmuApi::EmuGetSystemDpiForProcess(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetSystemDpiForProcessResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSystemDpiForProcess\n";
+    #endif
 
     return;
 }
@@ -24186,7 +25700,9 @@ void EmuApi::EmuEnableNonClientDpiScaling(uc_engine* uc, DWORD_PTR address, size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &EnableNonClientDpiScalingResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuEnableNonClientDpiScaling\n";
+    #endif
 
     return;
 }
@@ -24216,7 +25732,9 @@ void EmuApi::EmuInheritWindowMonitor(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &InheritWindowMonitorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_RDX, &hwndInherit);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInheritWindowMonitor\n";
+    #endif
 
     return;
 }
@@ -24241,7 +25759,9 @@ void EmuApi::EmuSetProcessDpiAwarenessContext(uc_engine* uc, DWORD_PTR address, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessDpiAwarenessContextResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &value);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessDpiAwarenessContext\n";
+    #endif
 
     return;
 }
@@ -24266,7 +25786,9 @@ void EmuApi::EmuGetDpiAwarenessContextForProcess(uc_engine* uc, DWORD_PTR addres
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetDpiAwarenessContextForProcessResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDpiAwarenessContextForProcess\n";
+    #endif
 
     return;
 }
@@ -24291,7 +25813,9 @@ void EmuApi::EmuSetThreadDpiHostingBehavior(uc_engine* uc, DWORD_PTR address, si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadDpiHostingBehaviorResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &value);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadDpiHostingBehavior\n";
+    #endif
 
     return;
 }
@@ -24311,7 +25835,9 @@ void EmuApi::EmuGetThreadDpiHostingBehavior(uc_engine* uc, DWORD_PTR address, si
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetThreadDpiHostingBehaviorResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadDpiHostingBehavior\n";
+    #endif
 
     return;
 }
@@ -24336,7 +25862,9 @@ void EmuApi::EmuGetWindowDpiHostingBehavior(uc_engine* uc, DWORD_PTR address, si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetWindowDpiHostingBehaviorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowDpiHostingBehavior\n";
+    #endif
 
     return;
 }
@@ -24374,7 +25902,9 @@ void EmuApi::EmuGetWindowModuleFileNameA(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pszFileName, rlapszFileName)) { printf("Error when read pszFileName in GetWindowModuleFileNameA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchFileNameMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowModuleFileNameA\n";
+    #endif
 
     return;
 }
@@ -24412,7 +25942,9 @@ void EmuApi::EmuGetWindowModuleFileNameW(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pszFileName, rlwpszFileName)) { printf("Error when read pszFileName in GetWindowModuleFileNameW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchFileNameMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowModuleFileNameW\n";
+    #endif
 
     return;
 }
@@ -24449,7 +25981,9 @@ void EmuApi::EmuGetCursorInfo(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)pci, &stpci, sizeof(stpci));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCursorInfo\n";
+    #endif
 
     return;
 }
@@ -24491,7 +26025,9 @@ void EmuApi::EmuGetWindowInfo(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)pwi, &stpwi, sizeof(stpwi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWindowInfo\n";
+    #endif
 
     return;
 }
@@ -24533,7 +26069,9 @@ void EmuApi::EmuGetTitleBarInfo(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)pti, &stpti, sizeof(stpti));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTitleBarInfo\n";
+    #endif
 
     return;
 }
@@ -24585,7 +26123,9 @@ void EmuApi::EmuGetMenuBarInfo(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)pmbi, &stpmbi, sizeof(stpmbi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMenuBarInfo\n";
+    #endif
 
     return;
 }
@@ -24632,7 +26172,9 @@ void EmuApi::EmuGetScrollBarInfo(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)psbi, &stpsbi, sizeof(stpsbi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetScrollBarInfo\n";
+    #endif
 
     return;
 }
@@ -24674,7 +26216,9 @@ void EmuApi::EmuGetComboBoxInfo(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)pcbi, &stpcbi, sizeof(stpcbi));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetComboBoxInfo\n";
+    #endif
 
     return;
 }
@@ -24704,7 +26248,9 @@ void EmuApi::EmuGetAncestor(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RAX, &GetAncestorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &gaFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetAncestor\n";
+    #endif
 
     return;
 }
@@ -24734,7 +26280,9 @@ void EmuApi::EmuRealChildWindowFromPoint(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_RAX, &RealChildWindowFromPointResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwndParent);
     uc_reg_write(uc, UC_X86_REG_RDX, &ptParentClientCoords);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRealChildWindowFromPoint\n";
+    #endif
 
     return;
 }
@@ -24772,7 +26320,9 @@ void EmuApi::EmuRealGetWindowClassA(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)ptszClassName, rlaptszClassName)) { printf("Error when read ptszClassName in RealGetWindowClassA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchClassNameMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRealGetWindowClassA\n";
+    #endif
 
     return;
 }
@@ -24810,7 +26360,9 @@ void EmuApi::EmuRealGetWindowClassW(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)ptszClassName, rlwptszClassName)) { printf("Error when read ptszClassName in RealGetWindowClassW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchClassNameMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRealGetWindowClassW\n";
+    #endif
 
     return;
 }
@@ -24873,7 +26425,9 @@ void EmuApi::EmuGetAltTabInfoA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)pszItemText, rlapszItemText)) { printf("Error when read pszItemText in GetAltTabInfoA"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cchItemText, sizeof(cchItemText));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetAltTabInfoA\n";
+    #endif
 
     return;
 }
@@ -24936,7 +26490,9 @@ void EmuApi::EmuGetAltTabInfoW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pszItemText, rlwpszItemText)) { printf("Error when read pszItemText in GetAltTabInfoW"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cchItemText, sizeof(cchItemText));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetAltTabInfoW\n";
+    #endif
 
     return;
 }
@@ -24961,7 +26517,9 @@ void EmuApi::EmuGetListBoxInfo(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetListBoxInfoResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hwnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetListBoxInfo\n";
+    #endif
 
     return;
 }
@@ -24981,7 +26539,9 @@ void EmuApi::EmuLockWorkStation(uc_engine* uc, DWORD_PTR address, size_t size, v
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &LockWorkStationResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLockWorkStation\n";
+    #endif
 
     return;
 }
@@ -25016,7 +26576,9 @@ void EmuApi::EmuUserHandleGrantAccess(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_RCX, &hUserHandle);
     uc_reg_write(uc, UC_X86_REG_RDX, &hJob);
     uc_reg_write(uc, UC_X86_REG_R8D, &bGrant);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUserHandleGrantAccess\n";
+    #endif
 
     return;
 }
@@ -25076,7 +26638,9 @@ void EmuApi::EmuGetRawInputData(uc_engine* uc, DWORD_PTR address, size_t size, v
         uc_mem_write(uc, (DWORD_PTR)pcbSize, &rlpcbSize, sizeof(rlpcbSize));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cbSizeHeader, sizeof(cbSizeHeader));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetRawInputData\n";
+    #endif
 
     return;
 }
@@ -25128,7 +26692,9 @@ void EmuApi::EmuGetRawInputDeviceInfoA(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)pcbSize, &rlpcbSize, sizeof(rlpcbSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetRawInputDeviceInfoA\n";
+    #endif
 
     return;
 }
@@ -25180,7 +26746,9 @@ void EmuApi::EmuGetRawInputDeviceInfoW(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)pcbSize, &rlpcbSize, sizeof(rlpcbSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetRawInputDeviceInfoW\n";
+    #endif
 
     return;
 }
@@ -25239,7 +26807,9 @@ void EmuApi::EmuGetRawInputBuffer(uc_engine* uc, DWORD_PTR address, size_t size,
         uc_mem_write(uc, (DWORD_PTR)pcbSize, &rlpcbSize, sizeof(rlpcbSize));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &cbSizeHeader);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetRawInputBuffer\n";
+    #endif
 
     return;
 }
@@ -25286,7 +26856,9 @@ void EmuApi::EmuRegisterRawInputDevices(uc_engine* uc, DWORD_PTR address, size_t
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &uiNumDevices);
     uc_reg_write(uc, UC_X86_REG_R8D, &cbSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterRawInputDevices\n";
+    #endif
 
     return;
 }
@@ -25345,7 +26917,9 @@ void EmuApi::EmuGetRegisteredRawInputDevices(uc_engine* uc, DWORD_PTR address, s
         uc_mem_write(uc, (DWORD_PTR)puiNumDevices, &rlpuiNumDevices, sizeof(rlpuiNumDevices));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &cbSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetRegisteredRawInputDevices\n";
+    #endif
 
     return;
 }
@@ -25404,7 +26978,9 @@ void EmuApi::EmuGetRawInputDeviceList(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)puiNumDevices, &rlpuiNumDevices, sizeof(rlpuiNumDevices));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &cbSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetRawInputDeviceList\n";
+    #endif
 
     return;
 }
@@ -25463,7 +27039,9 @@ void EmuApi::EmuDefRawInputProc(uc_engine* uc, DWORD_PTR address, size_t size, v
     }
     uc_reg_write(uc, UC_X86_REG_EDX, &nInput);
     uc_reg_write(uc, UC_X86_REG_R8D, &cbSizeHeader);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefRawInputProc\n";
+    #endif
 
     return;
 }
@@ -25517,7 +27095,9 @@ void EmuApi::EmuGetPointerDevices(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)pointerDevices, &dppointerDevices, sizeof(dppointerDevices));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerDevices\n";
+    #endif
 
     return;
 }
@@ -25559,7 +27139,9 @@ void EmuApi::EmuGetPointerDevice(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)pointerDevice, &dppointerDevice, sizeof(dppointerDevice));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerDevice\n";
+    #endif
 
     return;
 }
@@ -25618,7 +27200,9 @@ void EmuApi::EmuGetPointerDeviceProperties(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)pointerProperties, &dppointerProperties, sizeof(dppointerProperties));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerDeviceProperties\n";
+    #endif
 
     return;
 }
@@ -25648,7 +27232,9 @@ void EmuApi::EmuRegisterPointerDeviceNotifications(uc_engine* uc, DWORD_PTR addr
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterPointerDeviceNotificationsResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &window);
     uc_reg_write(uc, UC_X86_REG_EDX, &notifyRange);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterPointerDeviceNotifications\n";
+    #endif
 
     return;
 }
@@ -25707,7 +27293,9 @@ void EmuApi::EmuGetPointerDeviceRects(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)displayRect, &stdisplayRect, sizeof(stdisplayRect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerDeviceRects\n";
+    #endif
 
     return;
 }
@@ -25766,7 +27354,9 @@ void EmuApi::EmuGetPointerDeviceCursors(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)deviceCursors, &dpdeviceCursors, sizeof(dpdeviceCursors));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPointerDeviceCursors\n";
+    #endif
 
     return;
 }
@@ -25838,7 +27428,9 @@ void EmuApi::EmuGetRawPointerDeviceData(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)pValues, &rlpValues, sizeof(rlpValues));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetRawPointerDeviceData\n";
+    #endif
 
     return;
 }
@@ -25868,7 +27460,9 @@ void EmuApi::EmuChangeWindowMessageFilter(uc_engine* uc, DWORD_PTR address, size
     uc_reg_write(uc, UC_X86_REG_EAX, &ChangeWindowMessageFilterResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &message);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlag);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuChangeWindowMessageFilter\n";
+    #endif
 
     return;
 }
@@ -25920,7 +27514,9 @@ void EmuApi::EmuChangeWindowMessageFilterEx(uc_engine* uc, DWORD_PTR address, si
     {
         uc_mem_write(uc, (DWORD_PTR)pChangeFilterStruct, &stpChangeFilterStruct, sizeof(stpChangeFilterStruct));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuChangeWindowMessageFilterEx\n";
+    #endif
 
     return;
 }
@@ -25962,7 +27558,9 @@ void EmuApi::EmuGetGestureInfo(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)pGestureInfo, &stpGestureInfo, sizeof(stpGestureInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetGestureInfo\n";
+    #endif
 
     return;
 }
@@ -26009,7 +27607,9 @@ void EmuApi::EmuGetGestureExtraArgs(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)pExtraArgs, &rlpExtraArgs, sizeof(rlpExtraArgs));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetGestureExtraArgs\n";
+    #endif
 
     return;
 }
@@ -26034,7 +27634,9 @@ void EmuApi::EmuCloseGestureInfoHandle(uc_engine* uc, DWORD_PTR address, size_t 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &CloseGestureInfoHandleResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hGestureInfo);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCloseGestureInfoHandle\n";
+    #endif
 
     return;
 }
@@ -26094,7 +27696,9 @@ void EmuApi::EmuSetGestureConfig(uc_engine* uc, DWORD_PTR address, size_t size, 
         uc_mem_write(uc, (DWORD_PTR)pGestureConfig, &stpGestureConfig, sizeof(stpGestureConfig));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &cbSize, sizeof(cbSize));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetGestureConfig\n";
+    #endif
 
     return;
 }
@@ -26171,7 +27775,9 @@ void EmuApi::EmuGetGestureConfig(uc_engine* uc, DWORD_PTR address, size_t size, 
         uc_mem_write(uc, (DWORD_PTR)pGestureConfig, &stpGestureConfig, sizeof(stpGestureConfig));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &cbSize, sizeof(cbSize));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetGestureConfig\n";
+    #endif
 
     return;
 }
@@ -26204,7 +27810,9 @@ void EmuApi::EmuShutdownBlockReasonCreate(uc_engine* uc, DWORD_PTR address, size
     uc_reg_write(uc, UC_X86_REG_EAX, &ShutdownBlockReasonCreateResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)pwszReason, rlwpwszReason)) { printf("Error when read pwszReason in ShutdownBlockReasonCreate"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShutdownBlockReasonCreate\n";
+    #endif
 
     return;
 }
@@ -26254,7 +27862,9 @@ void EmuApi::EmuShutdownBlockReasonQuery(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)pcchBuff, &rlpcchBuff, sizeof(rlpcchBuff));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShutdownBlockReasonQuery\n";
+    #endif
 
     return;
 }
@@ -26279,7 +27889,9 @@ void EmuApi::EmuShutdownBlockReasonDestroy(uc_engine* uc, DWORD_PTR address, siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &ShutdownBlockReasonDestroyResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuShutdownBlockReasonDestroy\n";
+    #endif
 
     return;
 }
@@ -26316,7 +27928,9 @@ void EmuApi::EmuGetCurrentInputMessageSource(uc_engine* uc, DWORD_PTR address, s
     {
         uc_mem_write(uc, (DWORD_PTR)inputMessageSource, &stinputMessageSource, sizeof(stinputMessageSource));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentInputMessageSource\n";
+    #endif
 
     return;
 }
@@ -26353,7 +27967,9 @@ void EmuApi::EmuGetCIMSSM(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     {
         uc_mem_write(uc, (DWORD_PTR)inputMessageSource, &stinputMessageSource, sizeof(stinputMessageSource));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCIMSSM\n";
+    #endif
 
     return;
 }
@@ -26390,7 +28006,9 @@ void EmuApi::EmuGetAutoRotationState(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)pState, &rlpState, sizeof(rlpState));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetAutoRotationState\n";
+    #endif
 
     return;
 }
@@ -26427,10 +28045,74 @@ void EmuApi::EmuGetDisplayAutoRotationPreferences(uc_engine* uc, DWORD_PTR addre
     {
         uc_mem_write(uc, (DWORD_PTR)pOrientation, &rlpOrientation, sizeof(rlpOrientation));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDisplayAutoRotationPreferences\n";
+    #endif
 
     return;
 }
+
+
+/*
+BOOL
+__cdecl
+GetDisplayAutoRotationPreferencesByProcessId(
+      DWORD                     dwProcessId    ,
+      ORIENTATION_PREFERENCE *  pOrientation   ,
+      BOOL *                    fRotateScreen  );
+
+*/
+void EmuApi::EmuGetDisplayAutoRotationPreferencesByProcessId(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    DWORD dwProcessId{};
+    uc_reg_read(uc, UC_X86_REG_ECX, &dwProcessId);
+
+    ORIENTATION_PREFERENCE * pOrientation{};
+    uc_reg_read(uc, UC_X86_REG_RDX, &pOrientation);
+
+    enum ORIENTATION_PREFERENCE rlpOrientation{};
+
+    if(pOrientation != nullptr)
+    {
+        uc_mem_read(uc, (DWORD_PTR)pOrientation, &rlpOrientation, sizeof(rlpOrientation));
+    }
+
+    PBOOL fRotateScreen{};
+    uc_reg_read(uc, UC_X86_REG_R8, &fRotateScreen);
+
+    BOOL rlfRotateScreen{};
+
+    if(fRotateScreen != nullptr)
+    {
+        uc_mem_read(uc, (DWORD_PTR)fRotateScreen, &rlfRotateScreen, sizeof(rlfRotateScreen));
+    }
+
+
+    BOOL GetDisplayAutoRotationPreferencesByProcessIdResult = GetDisplayAutoRotationPreferencesByProcessId((DWORD)dwProcessId,(ORIENTATION_PREFERENCE *)&rlpOrientation,(BOOL *)&rlfRotateScreen);
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &GetDisplayAutoRotationPreferencesByProcessIdResult);
+    uc_reg_write(uc, UC_X86_REG_ECX, &dwProcessId);
+    uc_reg_write(uc, UC_X86_REG_RDX, &pOrientation);
+
+    if(pOrientation != nullptr)
+    {
+        uc_mem_write(uc, (DWORD_PTR)pOrientation, &rlpOrientation, sizeof(rlpOrientation));
+    }
+    uc_reg_write(uc, UC_X86_REG_R8, &fRotateScreen);
+
+    if(fRotateScreen != nullptr)
+    {
+        uc_mem_write(uc, (DWORD_PTR)fRotateScreen, &rlfRotateScreen, sizeof(rlfRotateScreen));
+    }
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDisplayAutoRotationPreferencesByProcessId\n";
+    #endif
+
+    return;
+}
+
 
 /*
 BOOL
@@ -26451,7 +28133,9 @@ void EmuApi::EmuSetDisplayAutoRotationPreferences(uc_engine* uc, DWORD_PTR addre
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetDisplayAutoRotationPreferencesResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &orientation);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetDisplayAutoRotationPreferences\n";
+    #endif
 
     return;
 }
@@ -26476,7 +28160,9 @@ void EmuApi::EmuIsImmersiveProcess(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsImmersiveProcessResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsImmersiveProcess\n";
+    #endif
 
     return;
 }
@@ -26501,12 +28187,14 @@ void EmuApi::EmuSetProcessRestrictionExemption(uc_engine* uc, DWORD_PTR address,
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessRestrictionExemptionResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &fEnableExemption);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessRestrictionExemption\n";
+    #endif
 
     return;
 }
 
-#ifdef _WIN32_WINNT_WIN11
+
 /*
 BOOL
 __cdecl
@@ -26548,7 +28236,9 @@ void EmuApi::EmuSetAdditionalForegroundBoostProcesses(uc_engine* uc, DWORD_PTR a
     {
         uc_mem_write(uc, (DWORD_PTR)processHandleArray, &rlprocessHandleArray, sizeof(rlprocessHandleArray));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetAdditionalForegroundBoostProcesses\n";
+    #endif
 
     return;
 }
@@ -26578,8 +28268,11 @@ void EmuApi::EmuRegisterForTooltipDismissNotification(uc_engine* uc, DWORD_PTR a
     uc_reg_write(uc, UC_X86_REG_EAX, &RegisterForTooltipDismissNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hWnd);
     uc_reg_write(uc, UC_X86_REG_EDX, &tdFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterForTooltipDismissNotification\n";
+    #endif
 
     return;
 }
-#endif
+
+

@@ -1,4 +1,3 @@
-#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/processthreadsapiEmu.hpp"
 /*
  ███▄ ▄███▓▄▄▄      ██▀███  ██▓█    ██  ██████     ▄▄▄      ██ ▄█▄▄▄          ███▄    █ ██▄▄▄█████▓██▀███  ▒█████   ▄████ 
 ▓██▒▀█▀ ██▒████▄   ▓██ ▒ ██▓██▒██  ▓██▒██    ▒    ▒████▄    ██▄█▒████▄        ██ ▀█   █▓██▓  ██▒ ▓▓██ ▒ ██▒██▒  ██▒██▒ ▀█▒
@@ -12,6 +11,7 @@
                                                                                                                           
 
 */
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/processthreadsapiEmu.hpp"
 /*
 DWORD
 __cdecl
@@ -41,7 +41,9 @@ void EmuApi::EmuQueueUserAPC(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RCX, &pfnAPC);
     uc_reg_write(uc, UC_X86_REG_RDX, &hThread);
     uc_reg_write(uc, UC_X86_REG_R8, &dwData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueueUserAPC\n";
+    #endif
 
     return;
 }
@@ -81,7 +83,9 @@ void EmuApi::EmuQueueUserAPC2(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RDX, &Thread);
     uc_reg_write(uc, UC_X86_REG_R8, &Data);
     uc_reg_write(uc, UC_X86_REG_R9D, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueueUserAPC2\n";
+    #endif
 
     return;
 }
@@ -177,7 +181,9 @@ void EmuApi::EmuGetProcessTimes(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpUserTime, &stlpUserTime, sizeof(stlpUserTime));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessTimes\n";
+    #endif
 
     return;
 }
@@ -197,7 +203,9 @@ void EmuApi::EmuGetCurrentProcess(uc_engine* uc, DWORD_PTR address, size_t size,
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetCurrentProcessResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentProcess\n";
+    #endif
 
     return;
 }
@@ -217,7 +225,9 @@ void EmuApi::EmuGetCurrentProcessId(uc_engine* uc, DWORD_PTR address, size_t siz
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetCurrentProcessIdResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentProcessId\n";
+    #endif
 
     return;
 }
@@ -241,7 +251,9 @@ void EmuApi::EmuExitProcess(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
 
     uc_reg_write(uc, UC_X86_REG_ECX, &uExitCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuExitProcess\n";
+    #endif
 
     return;
 }
@@ -271,7 +283,9 @@ void EmuApi::EmuTerminateProcess(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &TerminateProcessResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_EDX, &uExitCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTerminateProcess\n";
+    #endif
 
     return;
 }
@@ -313,7 +327,9 @@ void EmuApi::EmuGetExitCodeProcess(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpExitCode, &rllpExitCode, sizeof(rllpExitCode));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetExitCodeProcess\n";
+    #endif
 
     return;
 }
@@ -333,7 +349,9 @@ void EmuApi::EmuSwitchToThread(uc_engine* uc, DWORD_PTR address, size_t size, vo
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SwitchToThreadResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSwitchToThread\n";
+    #endif
 
     return;
 }
@@ -410,7 +428,9 @@ void EmuApi::EmuCreateThread(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lpThreadId, &rllpThreadId, sizeof(rllpThreadId));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateThread\n";
+    #endif
 
     return;
 }
@@ -492,7 +512,9 @@ void EmuApi::EmuCreateRemoteThread(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpThreadId, &rllpThreadId, sizeof(rllpThreadId));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateRemoteThread\n";
+    #endif
 
     return;
 }
@@ -512,7 +534,9 @@ void EmuApi::EmuGetCurrentThread(uc_engine* uc, DWORD_PTR address, size_t size, 
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetCurrentThreadResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentThread\n";
+    #endif
 
     return;
 }
@@ -532,7 +556,9 @@ void EmuApi::EmuGetCurrentThreadId(uc_engine* uc, DWORD_PTR address, size_t size
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetCurrentThreadIdResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentThreadId\n";
+    #endif
 
     return;
 }
@@ -567,7 +593,9 @@ void EmuApi::EmuOpenThread(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_ECX, &dwDesiredAccess);
     uc_reg_write(uc, UC_X86_REG_EDX, &bInheritHandle);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwThreadId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenThread\n";
+    #endif
 
     return;
 }
@@ -597,7 +625,9 @@ void EmuApi::EmuSetThreadPriority(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadPriorityResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
     uc_reg_write(uc, UC_X86_REG_EDX, &nPriority);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadPriority\n";
+    #endif
 
     return;
 }
@@ -627,7 +657,9 @@ void EmuApi::EmuSetThreadPriorityBoost(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadPriorityBoostResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
     uc_reg_write(uc, UC_X86_REG_EDX, &bDisablePriorityBoost);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadPriorityBoost\n";
+    #endif
 
     return;
 }
@@ -669,7 +701,9 @@ void EmuApi::EmuGetThreadPriorityBoost(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)pDisablePriorityBoost, &rlpDisablePriorityBoost, sizeof(rlpDisablePriorityBoost));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadPriorityBoost\n";
+    #endif
 
     return;
 }
@@ -694,7 +728,9 @@ void EmuApi::EmuGetThreadPriority(uc_engine* uc, DWORD_PTR address, size_t size,
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetThreadPriorityResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadPriority\n";
+    #endif
 
     return;
 }
@@ -718,7 +754,9 @@ void EmuApi::EmuExitThread(uc_engine* uc, DWORD_PTR address, size_t size, void* 
 
 
     uc_reg_write(uc, UC_X86_REG_ECX, &dwExitCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuExitThread\n";
+    #endif
 
     return;
 }
@@ -748,7 +786,9 @@ void EmuApi::EmuTerminateThread(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &TerminateThreadResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwExitCode);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTerminateThread\n";
+    #endif
 
     return;
 }
@@ -790,7 +830,9 @@ void EmuApi::EmuGetExitCodeThread(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpExitCode, &rllpExitCode, sizeof(rllpExitCode));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetExitCodeThread\n";
+    #endif
 
     return;
 }
@@ -815,7 +857,9 @@ void EmuApi::EmuSuspendThread(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SuspendThreadResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSuspendThread\n";
+    #endif
 
     return;
 }
@@ -840,7 +884,9 @@ void EmuApi::EmuResumeThread(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &ResumeThreadResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuResumeThread\n";
+    #endif
 
     return;
 }
@@ -860,7 +906,9 @@ void EmuApi::EmuTlsAlloc(uc_engine* uc, DWORD_PTR address, size_t size, void* us
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &TlsAllocResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTlsAlloc\n";
+    #endif
 
     return;
 }
@@ -885,7 +933,9 @@ void EmuApi::EmuTlsGetValue(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_RAX, &TlsGetValueResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwTlsIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTlsGetValue\n";
+    #endif
 
     return;
 }
@@ -915,7 +965,9 @@ void EmuApi::EmuTlsSetValue(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EAX, &TlsSetValueResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwTlsIndex);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpTlsValue);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTlsSetValue\n";
+    #endif
 
     return;
 }
@@ -940,7 +992,9 @@ void EmuApi::EmuTlsFree(uc_engine* uc, DWORD_PTR address, size_t size, void* use
 
     uc_reg_write(uc, UC_X86_REG_EAX, &TlsFreeResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwTlsIndex);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuTlsFree\n";
+    #endif
 
     return;
 }
@@ -1070,7 +1124,9 @@ void EmuApi::EmuCreateProcessA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpProcessInformation, &stlpProcessInformation, sizeof(stlpProcessInformation));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateProcessA\n";
+    #endif
 
     return;
 }
@@ -1200,7 +1256,9 @@ void EmuApi::EmuCreateProcessW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpProcessInformation, &stlpProcessInformation, sizeof(stlpProcessInformation));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateProcessW\n";
+    #endif
 
     return;
 }
@@ -1230,7 +1288,9 @@ void EmuApi::EmuSetProcessShutdownParameters(uc_engine* uc, DWORD_PTR address, s
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessShutdownParametersResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &dwLevel);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessShutdownParameters\n";
+    #endif
 
     return;
 }
@@ -1255,7 +1315,9 @@ void EmuApi::EmuGetProcessVersion(uc_engine* uc, DWORD_PTR address, size_t size,
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetProcessVersionResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &ProcessId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessVersion\n";
+    #endif
 
     return;
 }
@@ -1291,7 +1353,9 @@ void EmuApi::EmuGetStartupInfoW(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpStartupInfo, &stlpStartupInfo, sizeof(stlpStartupInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetStartupInfoW\n";
+    #endif
 
     return;
 }
@@ -1426,7 +1490,9 @@ void EmuApi::EmuCreateProcessAsUserW(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpProcessInformation, &stlpProcessInformation, sizeof(stlpProcessInformation));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateProcessAsUserW\n";
+    #endif
 
     return;
 }
@@ -1446,7 +1512,9 @@ void EmuApi::EmuGetCurrentProcessToken(uc_engine* uc, DWORD_PTR address, size_t 
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetCurrentProcessTokenResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentProcessToken\n";
+    #endif
 
     return;
 }
@@ -1466,7 +1534,9 @@ void EmuApi::EmuGetCurrentThreadToken(uc_engine* uc, DWORD_PTR address, size_t s
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetCurrentThreadTokenResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentThreadToken\n";
+    #endif
 
     return;
 }
@@ -1486,7 +1556,9 @@ void EmuApi::EmuGetCurrentThreadEffectiveToken(uc_engine* uc, DWORD_PTR address,
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetCurrentThreadEffectiveTokenResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentThreadEffectiveToken\n";
+    #endif
 
     return;
 }
@@ -1528,7 +1600,9 @@ void EmuApi::EmuSetThreadToken(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)Thread, &dpThread, sizeof(dpThread));
     }
     uc_reg_write(uc, UC_X86_REG_RDX, &Token);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadToken\n";
+    #endif
 
     return;
 }
@@ -1575,7 +1649,9 @@ void EmuApi::EmuOpenProcessToken(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)TokenHandle, &dpTokenHandle, sizeof(dpTokenHandle));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenProcessToken\n";
+    #endif
 
     return;
 }
@@ -1627,7 +1703,9 @@ void EmuApi::EmuOpenThreadToken(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)TokenHandle, &dpTokenHandle, sizeof(dpTokenHandle));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenThreadToken\n";
+    #endif
 
     return;
 }
@@ -1657,7 +1735,9 @@ void EmuApi::EmuSetPriorityClass(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetPriorityClassResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwPriorityClass);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetPriorityClass\n";
+    #endif
 
     return;
 }
@@ -1682,7 +1762,9 @@ void EmuApi::EmuGetPriorityClass(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetPriorityClassResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetPriorityClass\n";
+    #endif
 
     return;
 }
@@ -1719,7 +1801,9 @@ void EmuApi::EmuSetThreadStackGuarantee(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)StackSizeInBytes, &rlStackSizeInBytes, sizeof(rlStackSizeInBytes));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadStackGuarantee\n";
+    #endif
 
     return;
 }
@@ -1761,7 +1845,9 @@ void EmuApi::EmuProcessIdToSessionId(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)pSessionId, &rlpSessionId, sizeof(rlpSessionId));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuProcessIdToSessionId\n";
+    #endif
 
     return;
 }
@@ -1786,7 +1872,9 @@ void EmuApi::EmuGetProcessId(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetProcessIdResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Process);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessId\n";
+    #endif
 
     return;
 }
@@ -1811,7 +1899,9 @@ void EmuApi::EmuGetThreadId(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetThreadIdResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Thread);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadId\n";
+    #endif
 
     return;
 }
@@ -1830,7 +1920,9 @@ void EmuApi::EmuFlushProcessWriteBuffers(uc_engine* uc, DWORD_PTR address, size_
     FlushProcessWriteBuffers();
 
 
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFlushProcessWriteBuffers\n";
+    #endif
 
     return;
 }
@@ -1855,7 +1947,9 @@ void EmuApi::EmuGetProcessIdOfThread(uc_engine* uc, DWORD_PTR address, size_t si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetProcessIdOfThreadResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Thread);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessIdOfThread\n";
+    #endif
 
     return;
 }
@@ -1907,7 +2001,9 @@ void EmuApi::EmuInitializeProcThreadAttributeList(uc_engine* uc, DWORD_PTR addre
     {
         uc_mem_write(uc, (DWORD_PTR)lpSize, &rllpSize, sizeof(rllpSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuInitializeProcThreadAttributeList\n";
+    #endif
 
     return;
 }
@@ -1931,7 +2027,9 @@ void EmuApi::EmuDeleteProcThreadAttributeList(uc_engine* uc, DWORD_PTR address, 
 
 
     uc_reg_write(uc, UC_X86_REG_RCX, &lpAttributeList);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteProcThreadAttributeList\n";
+    #endif
 
     return;
 }
@@ -2001,7 +2099,9 @@ void EmuApi::EmuUpdateProcThreadAttribute(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)lpReturnSize, &rllpReturnSize, sizeof(rllpReturnSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUpdateProcThreadAttribute\n";
+    #endif
 
     return;
 }
@@ -2048,7 +2148,9 @@ void EmuApi::EmuSetProcessDynamicEHContinuationTargets(uc_engine* uc, DWORD_PTR 
     {
         uc_mem_write(uc, (DWORD_PTR)Targets, &stTargets, sizeof(stTargets));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessDynamicEHContinuationTargets\n";
+    #endif
 
     return;
 }
@@ -2095,7 +2197,9 @@ void EmuApi::EmuSetProcessDynamicEnforcedCetCompatibleRanges(uc_engine* uc, DWOR
     {
         uc_mem_write(uc, (DWORD_PTR)Ranges, &stRanges, sizeof(stRanges));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessDynamicEnforcedCetCompatibleRanges\n";
+    #endif
 
     return;
 }
@@ -2125,7 +2229,9 @@ void EmuApi::EmuSetProcessAffinityUpdateMode(uc_engine* uc, DWORD_PTR address, s
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessAffinityUpdateModeResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessAffinityUpdateMode\n";
+    #endif
 
     return;
 }
@@ -2167,7 +2273,9 @@ void EmuApi::EmuQueryProcessAffinityUpdateMode(uc_engine* uc, DWORD_PTR address,
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwFlags, &rllpdwFlags, sizeof(rllpdwFlags));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueryProcessAffinityUpdateMode\n";
+    #endif
 
     return;
 }
@@ -2254,7 +2362,9 @@ void EmuApi::EmuCreateRemoteThreadEx(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpThreadId, &rllpThreadId, sizeof(rllpThreadId));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateRemoteThreadEx\n";
+    #endif
 
     return;
 }
@@ -2307,7 +2417,9 @@ void EmuApi::EmuGetCurrentThreadStackLimits(uc_engine* uc, DWORD_PTR address, si
     {
         uc_mem_write(uc, (DWORD_PTR)HighLimit, &rlHighLimit, sizeof(rlHighLimit));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentThreadStackLimits\n";
+    #endif
 
     return;
 }
@@ -2337,7 +2449,9 @@ void EmuApi::EmuGetThreadContext(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetThreadContextResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpContext);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadContext\n";
+    #endif
 
     return;
 }
@@ -2377,7 +2491,9 @@ void EmuApi::EmuGetProcessMitigationPolicy(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_EDX, &MitigationPolicy);
     uc_reg_write(uc, UC_X86_REG_R8, &lpBuffer);
     uc_reg_write(uc, UC_X86_REG_R9, &dwLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessMitigationPolicy\n";
+    #endif
 
     return;
 }
@@ -2419,7 +2535,9 @@ void EmuApi::EmuSetThreadContext(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpContext, &stlpContext, sizeof(stlpContext));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadContext\n";
+    #endif
 
     return;
 }
@@ -2454,7 +2572,9 @@ void EmuApi::EmuSetProcessMitigationPolicy(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_ECX, &MitigationPolicy);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpBuffer);
     uc_reg_write(uc, UC_X86_REG_R8, &dwLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessMitigationPolicy\n";
+    #endif
 
     return;
 }
@@ -2489,7 +2609,9 @@ void EmuApi::EmuFlushInstructionCache(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpBaseAddress);
     uc_reg_write(uc, UC_X86_REG_R8, &dwSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFlushInstructionCache\n";
+    #endif
 
     return;
 }
@@ -2585,7 +2707,9 @@ void EmuApi::EmuGetThreadTimes(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpUserTime, &stlpUserTime, sizeof(stlpUserTime));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadTimes\n";
+    #endif
 
     return;
 }
@@ -2620,7 +2744,9 @@ void EmuApi::EmuOpenProcess(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_ECX, &dwDesiredAccess);
     uc_reg_write(uc, UC_X86_REG_EDX, &bInheritHandle);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwProcessId);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenProcess\n";
+    #endif
 
     return;
 }
@@ -2645,7 +2771,9 @@ void EmuApi::EmuIsProcessorFeaturePresent(uc_engine* uc, DWORD_PTR address, size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &IsProcessorFeaturePresentResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &ProcessorFeature);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsProcessorFeaturePresent\n";
+    #endif
 
     return;
 }
@@ -2687,7 +2815,9 @@ void EmuApi::EmuGetProcessHandleCount(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)pdwHandleCount, &rlpdwHandleCount, sizeof(rlpdwHandleCount));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessHandleCount\n";
+    #endif
 
     return;
 }
@@ -2707,7 +2837,9 @@ void EmuApi::EmuGetCurrentProcessorNumber(uc_engine* uc, DWORD_PTR address, size
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetCurrentProcessorNumberResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentProcessorNumber\n";
+    #endif
 
     return;
 }
@@ -2766,7 +2898,9 @@ void EmuApi::EmuSetThreadIdealProcessorEx(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)lpPreviousIdealProcessor, &stlpPreviousIdealProcessor, sizeof(stlpPreviousIdealProcessor));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadIdealProcessorEx\n";
+    #endif
 
     return;
 }
@@ -2808,7 +2942,9 @@ void EmuApi::EmuGetThreadIdealProcessorEx(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)lpIdealProcessor, &stlpIdealProcessor, sizeof(stlpIdealProcessor));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadIdealProcessorEx\n";
+    #endif
 
     return;
 }
@@ -2844,7 +2980,9 @@ void EmuApi::EmuGetCurrentProcessorNumberEx(uc_engine* uc, DWORD_PTR address, si
     {
         uc_mem_write(uc, (DWORD_PTR)ProcNumber, &stProcNumber, sizeof(stProcNumber));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCurrentProcessorNumberEx\n";
+    #endif
 
     return;
 }
@@ -2886,7 +3024,9 @@ void EmuApi::EmuGetProcessPriorityBoost(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)pDisablePriorityBoost, &rlpDisablePriorityBoost, sizeof(rlpDisablePriorityBoost));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessPriorityBoost\n";
+    #endif
 
     return;
 }
@@ -2916,7 +3056,9 @@ void EmuApi::EmuSetProcessPriorityBoost(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_EAX, &SetProcessPriorityBoostResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_EDX, &bDisablePriorityBoost);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessPriorityBoost\n";
+    #endif
 
     return;
 }
@@ -2958,7 +3100,9 @@ void EmuApi::EmuGetThreadIOPendingFlag(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpIOIsPending, &rllpIOIsPending, sizeof(rllpIOIsPending));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadIOPendingFlag\n";
+    #endif
 
     return;
 }
@@ -3029,7 +3173,9 @@ void EmuApi::EmuGetSystemTimes(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpUserTime, &stlpUserTime, sizeof(stlpUserTime));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSystemTimes\n";
+    #endif
 
     return;
 }
@@ -3069,7 +3215,9 @@ void EmuApi::EmuGetThreadInformation(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EDX, &ThreadInformationClass);
     uc_reg_write(uc, UC_X86_REG_R8, &ThreadInformation);
     uc_reg_write(uc, UC_X86_REG_R9D, &ThreadInformationSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadInformation\n";
+    #endif
 
     return;
 }
@@ -3109,7 +3257,9 @@ void EmuApi::EmuSetThreadInformation(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EDX, &ThreadInformationClass);
     uc_reg_write(uc, UC_X86_REG_R8, &ThreadInformation);
     uc_reg_write(uc, UC_X86_REG_R9D, &ThreadInformationSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadInformation\n";
+    #endif
 
     return;
 }
@@ -3151,7 +3301,9 @@ void EmuApi::EmuIsProcessCritical(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)Critical, &rlCritical, sizeof(rlCritical));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuIsProcessCritical\n";
+    #endif
 
     return;
 }
@@ -3210,7 +3362,9 @@ void EmuApi::EmuSetProtectedPolicy(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)OldPolicyValue, &rlOldPolicyValue, sizeof(rlOldPolicyValue));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProtectedPolicy\n";
+    #endif
 
     return;
 }
@@ -3264,7 +3418,9 @@ void EmuApi::EmuQueryProtectedPolicy(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)PolicyValue, &rlPolicyValue, sizeof(rlPolicyValue));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueryProtectedPolicy\n";
+    #endif
 
     return;
 }
@@ -3294,7 +3450,9 @@ void EmuApi::EmuSetThreadIdealProcessor(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadIdealProcessorResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
     uc_reg_write(uc, UC_X86_REG_EDX, &dwIdealProcessor);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadIdealProcessor\n";
+    #endif
 
     return;
 }
@@ -3334,7 +3492,9 @@ void EmuApi::EmuSetProcessInformation(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_EDX, &ProcessInformationClass);
     uc_reg_write(uc, UC_X86_REG_R8, &ProcessInformation);
     uc_reg_write(uc, UC_X86_REG_R9D, &ProcessInformationSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessInformation\n";
+    #endif
 
     return;
 }
@@ -3374,7 +3534,9 @@ void EmuApi::EmuGetProcessInformation(uc_engine* uc, DWORD_PTR address, size_t s
     uc_reg_write(uc, UC_X86_REG_EDX, &ProcessInformationClass);
     uc_reg_write(uc, UC_X86_REG_R8, &ProcessInformation);
     uc_reg_write(uc, UC_X86_REG_R9D, &ProcessInformationSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessInformation\n";
+    #endif
 
     return;
 }
@@ -3446,7 +3608,9 @@ void EmuApi::EmuGetSystemCpuSetInformation(uc_engine* uc, DWORD_PTR address, siz
     }
     uc_reg_write(uc, UC_X86_REG_R9, &Process);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &Flags, sizeof(Flags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSystemCpuSetInformation\n";
+    #endif
 
     return;
 }
@@ -3510,7 +3674,9 @@ void EmuApi::EmuGetProcessDefaultCpuSets(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)RequiredIdCount, &rlRequiredIdCount, sizeof(rlRequiredIdCount));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessDefaultCpuSets\n";
+    #endif
 
     return;
 }
@@ -3557,7 +3723,9 @@ void EmuApi::EmuSetProcessDefaultCpuSets(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)CpuSetIds, &rlCpuSetIds, sizeof(rlCpuSetIds));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &CpuSetIdCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessDefaultCpuSets\n";
+    #endif
 
     return;
 }
@@ -3621,7 +3789,9 @@ void EmuApi::EmuGetThreadSelectedCpuSets(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)RequiredIdCount, &rlRequiredIdCount, sizeof(rlRequiredIdCount));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadSelectedCpuSets\n";
+    #endif
 
     return;
 }
@@ -3668,7 +3838,9 @@ void EmuApi::EmuSetThreadSelectedCpuSets(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)CpuSetIds, &rlCpuSetIds, sizeof(rlCpuSetIds));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &CpuSetIdCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadSelectedCpuSets\n";
+    #endif
 
     return;
 }
@@ -3803,7 +3975,9 @@ void EmuApi::EmuCreateProcessAsUserA(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)lpProcessInformation, &stlpProcessInformation, sizeof(stlpProcessInformation));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateProcessAsUserA\n";
+    #endif
 
     return;
 }
@@ -3857,7 +4031,9 @@ void EmuApi::EmuGetProcessShutdownParameters(uc_engine* uc, DWORD_PTR address, s
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwFlags, &rllpdwFlags, sizeof(rllpdwFlags));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessShutdownParameters\n";
+    #endif
 
     return;
 }
@@ -3921,7 +4097,9 @@ void EmuApi::EmuGetProcessDefaultCpuSetMasks(uc_engine* uc, DWORD_PTR address, s
     {
         uc_mem_write(uc, (DWORD_PTR)RequiredMaskCount, &rlRequiredMaskCount, sizeof(rlRequiredMaskCount));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessDefaultCpuSetMasks\n";
+    #endif
 
     return;
 }
@@ -3968,7 +4146,9 @@ void EmuApi::EmuSetProcessDefaultCpuSetMasks(uc_engine* uc, DWORD_PTR address, s
         uc_mem_write(uc, (DWORD_PTR)CpuSetMasks, &stCpuSetMasks, sizeof(stCpuSetMasks));
     }
     uc_reg_write(uc, UC_X86_REG_R8W, &CpuSetMaskCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessDefaultCpuSetMasks\n";
+    #endif
 
     return;
 }
@@ -4032,7 +4212,9 @@ void EmuApi::EmuGetThreadSelectedCpuSetMasks(uc_engine* uc, DWORD_PTR address, s
     {
         uc_mem_write(uc, (DWORD_PTR)RequiredMaskCount, &rlRequiredMaskCount, sizeof(rlRequiredMaskCount));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadSelectedCpuSetMasks\n";
+    #endif
 
     return;
 }
@@ -4079,7 +4261,9 @@ void EmuApi::EmuSetThreadSelectedCpuSetMasks(uc_engine* uc, DWORD_PTR address, s
         uc_mem_write(uc, (DWORD_PTR)CpuSetMasks, &stCpuSetMasks, sizeof(stCpuSetMasks));
     }
     uc_reg_write(uc, UC_X86_REG_R8W, &CpuSetMaskCount);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadSelectedCpuSetMasks\n";
+    #endif
 
     return;
 }
@@ -4121,7 +4305,9 @@ void EmuApi::EmuGetMachineTypeAttributes(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)MachineTypeAttributes, &rlMachineTypeAttributes, sizeof(rlMachineTypeAttributes));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMachineTypeAttributes\n";
+    #endif
 
     return;
 }
@@ -4154,7 +4340,9 @@ void EmuApi::EmuSetThreadDescription(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &SetThreadDescriptionResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpThreadDescription, rlwlpThreadDescription)) { printf("Error when read lpThreadDescription in SetThreadDescription"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetThreadDescription\n";
+    #endif
 
     return;
 }
@@ -4194,7 +4382,9 @@ void EmuApi::EmuGetThreadDescription(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &GetThreadDescriptionResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hThread);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)ppszThreadDescription, rlwppszThreadDescription)) { printf("Error when read ppszThreadDescription in GetThreadDescription"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetThreadDescription\n";
+    #endif
 
     return;
 }

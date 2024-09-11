@@ -1,12 +1,13 @@
 #include "Emu/EmuUtils.hpp"
 
 namespace InternalEmuApi {
-	bool EmuWriteNullTermString(_In_ uc_engine* uc, _Inout_ DWORD_PTR address, _In_ const std::string& str)
+	bool EmuWriteNullTermString(_In_ uc_engine* uc, _Inout_ DWORD_PTR address, _In_ const std::string& str, _In_opt_ bool OnLengthLimit,
+		_In_opt_ size_t Length)
 	{
 		char c;
 		uc_err err;
 		size_t len = 0;
-		while (len < str.size())
+		while (OnLengthLimit ? len <= Length : len < str.size())
 		{
 			c = str[len];
 			err = uc_mem_write(uc, address + len, &c, sizeof(char));
@@ -25,12 +26,13 @@ namespace InternalEmuApi {
 		return true;
 	}
 
-	bool EmuWriteNullTermUnicodeString(_In_ uc_engine* uc, _Inout_ DWORD_PTR address, _In_ const std::wstring& str)
+	bool EmuWriteNullTermUnicodeString(_In_ uc_engine* uc, _Inout_ DWORD_PTR address, _In_ const std::wstring& str, _In_opt_ bool OnLengthLimit,
+		_In_opt_ size_t Length)
 	{
 		wchar_t c;
 		uc_err err;
 		size_t len = 0;
-		while (len < str.size())
+		while (OnLengthLimit ? len <= Length : len < str.size())
 		{
 			c = str[len];
 			err = uc_mem_write(uc, address + len, &c, sizeof(wchar_t));

@@ -1,4 +1,3 @@
-#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/memoryapiEmu.hpp"
 /*
  ███▄ ▄███▓▄▄▄      ██▀███  ██▓█    ██  ██████     ▄▄▄      ██ ▄█▄▄▄          ███▄    █ ██▄▄▄█████▓██▀███  ▒█████   ▄████ 
 ▓██▒▀█▀ ██▒████▄   ▓██ ▒ ██▓██▒██  ▓██▒██    ▒    ▒████▄    ██▄█▒████▄        ██ ▀█   █▓██▓  ██▒ ▓▓██ ▒ ██▒██▒  ██▒██▒ ▀█▒
@@ -12,6 +11,7 @@
                                                                                                                           
 
 */
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/memoryapiEmu.hpp"
 /*
 LPVOID
 __cdecl
@@ -46,7 +46,9 @@ void EmuApi::EmuVirtualAlloc(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_RDX, &dwSize);
     uc_reg_write(uc, UC_X86_REG_R8D, &flAllocationType);
     uc_reg_write(uc, UC_X86_REG_R9D, &flProtect);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualAlloc\n";
+    #endif
 
     return;
 }
@@ -98,7 +100,9 @@ void EmuApi::EmuVirtualProtect(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpflOldProtect, &rllpflOldProtect, sizeof(rllpflOldProtect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualProtect\n";
+    #endif
 
     return;
 }
@@ -133,7 +137,9 @@ void EmuApi::EmuVirtualFree(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_RCX, &lpAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwSize);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFreeType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualFree\n";
+    #endif
 
     return;
 }
@@ -180,7 +186,9 @@ void EmuApi::EmuVirtualQuery(uc_engine* uc, DWORD_PTR address, size_t size, void
         uc_mem_write(uc, (DWORD_PTR)lpBuffer, &stlpBuffer, sizeof(stlpBuffer));
     }
     uc_reg_write(uc, UC_X86_REG_R8, &dwLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualQuery\n";
+    #endif
 
     return;
 }
@@ -228,7 +236,9 @@ void EmuApi::EmuVirtualAllocEx(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_reg_write(uc, UC_X86_REG_R8, &dwSize);
     uc_reg_write(uc, UC_X86_REG_R9D, &flAllocationType);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flProtect, sizeof(flProtect));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualAllocEx\n";
+    #endif
 
     return;
 }
@@ -288,7 +298,9 @@ void EmuApi::EmuVirtualProtectEx(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpflOldProtect, &rllpflOldProtect, sizeof(rllpflOldProtect));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualProtectEx\n";
+    #endif
 
     return;
 }
@@ -340,7 +352,9 @@ void EmuApi::EmuVirtualQueryEx(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)lpBuffer, &stlpBuffer, sizeof(stlpBuffer));
     }
     uc_reg_write(uc, UC_X86_REG_R9, &dwLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualQueryEx\n";
+    #endif
 
     return;
 }
@@ -400,7 +414,9 @@ void EmuApi::EmuReadProcessMemory(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpNumberOfBytesRead, &rllpNumberOfBytesRead, sizeof(rllpNumberOfBytesRead));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReadProcessMemory\n";
+    #endif
 
     return;
 }
@@ -460,7 +476,9 @@ void EmuApi::EmuWriteProcessMemory(uc_engine* uc, DWORD_PTR address, size_t size
     {
         uc_mem_write(uc, (DWORD_PTR)lpNumberOfBytesWritten, &rllpNumberOfBytesWritten, sizeof(rllpNumberOfBytesWritten));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWriteProcessMemory\n";
+    #endif
 
     return;
 }
@@ -528,7 +546,9 @@ void EmuApi::EmuCreateFileMappingW(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_R9D, &dwMaximumSizeHigh);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwMaximumSizeLow, sizeof(dwMaximumSizeLow));
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpName, rlwlpName)) { printf("Error when read lpName in CreateFileMappingW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateFileMappingW\n";
+    #endif
 
     return;
 }
@@ -566,7 +586,9 @@ void EmuApi::EmuOpenFileMappingW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_ECX, &dwDesiredAccess);
     uc_reg_write(uc, UC_X86_REG_EDX, &bInheritHandle);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpName, rlwlpName)) { printf("Error when read lpName in OpenFileMappingW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenFileMappingW\n";
+    #endif
 
     return;
 }
@@ -614,7 +636,9 @@ void EmuApi::EmuMapViewOfFile(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFileOffsetHigh);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFileOffsetLow);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwNumberOfBytesToMap, sizeof(dwNumberOfBytesToMap));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapViewOfFile\n";
+    #endif
 
     return;
 }
@@ -667,7 +691,9 @@ void EmuApi::EmuMapViewOfFileEx(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFileOffsetLow);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwNumberOfBytesToMap, sizeof(dwNumberOfBytesToMap));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &lpBaseAddress, sizeof(lpBaseAddress));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapViewOfFileEx\n";
+    #endif
 
     return;
 }
@@ -707,7 +733,9 @@ void EmuApi::EmuVirtualFreeEx(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_RDX, &lpAddress);
     uc_reg_write(uc, UC_X86_REG_R8, &dwSize);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFreeType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualFreeEx\n";
+    #endif
 
     return;
 }
@@ -737,7 +765,9 @@ void EmuApi::EmuFlushViewOfFile(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &FlushViewOfFileResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpBaseAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwNumberOfBytesToFlush);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFlushViewOfFile\n";
+    #endif
 
     return;
 }
@@ -762,7 +792,9 @@ void EmuApi::EmuUnmapViewOfFile(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnmapViewOfFileResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpBaseAddress);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnmapViewOfFile\n";
+    #endif
 
     return;
 }
@@ -782,7 +814,9 @@ void EmuApi::EmuGetLargePageMinimum(uc_engine* uc, DWORD_PTR address, size_t siz
 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &GetLargePageMinimumResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLargePageMinimum\n";
+    #endif
 
     return;
 }
@@ -841,7 +875,9 @@ void EmuApi::EmuGetProcessWorkingSetSize(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)lpMaximumWorkingSetSize, &rllpMaximumWorkingSetSize, sizeof(rllpMaximumWorkingSetSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessWorkingSetSize\n";
+    #endif
 
     return;
 }
@@ -917,7 +953,9 @@ void EmuApi::EmuGetProcessWorkingSetSizeEx(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)Flags, &rlFlags, sizeof(rlFlags));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetProcessWorkingSetSizeEx\n";
+    #endif
 
     return;
 }
@@ -952,7 +990,9 @@ void EmuApi::EmuSetProcessWorkingSetSize(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_RCX, &hProcess);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwMinimumWorkingSetSize);
     uc_reg_write(uc, UC_X86_REG_R8, &dwMaximumWorkingSetSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessWorkingSetSize\n";
+    #endif
 
     return;
 }
@@ -992,7 +1032,9 @@ void EmuApi::EmuSetProcessWorkingSetSizeEx(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_RDX, &dwMinimumWorkingSetSize);
     uc_reg_write(uc, UC_X86_REG_R8, &dwMaximumWorkingSetSize);
     uc_reg_write(uc, UC_X86_REG_R9D, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessWorkingSetSizeEx\n";
+    #endif
 
     return;
 }
@@ -1022,7 +1064,9 @@ void EmuApi::EmuVirtualLock(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_reg_write(uc, UC_X86_REG_EAX, &VirtualLockResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualLock\n";
+    #endif
 
     return;
 }
@@ -1052,7 +1096,9 @@ void EmuApi::EmuVirtualUnlock(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EAX, &VirtualUnlockResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualUnlock\n";
+    #endif
 
     return;
 }
@@ -1141,7 +1187,9 @@ void EmuApi::EmuGetWriteWatch(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpdwGranularity, &rllpdwGranularity, sizeof(rllpdwGranularity));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetWriteWatch\n";
+    #endif
 
     return;
 }
@@ -1171,7 +1219,9 @@ void EmuApi::EmuResetWriteWatch(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &ResetWriteWatchResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &lpBaseAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &dwRegionSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuResetWriteWatch\n";
+    #endif
 
     return;
 }
@@ -1196,7 +1246,9 @@ void EmuApi::EmuCreateMemoryResourceNotification(uc_engine* uc, DWORD_PTR addres
 
     uc_reg_write(uc, UC_X86_REG_RAX, &CreateMemoryResourceNotificationResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &NotificationType);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateMemoryResourceNotification\n";
+    #endif
 
     return;
 }
@@ -1238,7 +1290,9 @@ void EmuApi::EmuQueryMemoryResourceNotification(uc_engine* uc, DWORD_PTR address
     {
         uc_mem_write(uc, (DWORD_PTR)ResourceState, &rlResourceState, sizeof(rlResourceState));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueryMemoryResourceNotification\n";
+    #endif
 
     return;
 }
@@ -1309,7 +1363,9 @@ void EmuApi::EmuGetSystemFileCacheSize(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpFlags, &rllpFlags, sizeof(rllpFlags));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetSystemFileCacheSize\n";
+    #endif
 
     return;
 }
@@ -1344,7 +1400,9 @@ void EmuApi::EmuSetSystemFileCacheSize(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_RCX, &MinimumFileCacheSize);
     uc_reg_write(uc, UC_X86_REG_RDX, &MaximumFileCacheSize);
     uc_reg_write(uc, UC_X86_REG_R8D, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetSystemFileCacheSize\n";
+    #endif
 
     return;
 }
@@ -1417,7 +1475,9 @@ void EmuApi::EmuCreateFileMappingNumaW(uc_engine* uc, DWORD_PTR address, size_t 
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwMaximumSizeLow, sizeof(dwMaximumSizeLow));
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpName, rlwlpName)) { printf("Error when read lpName in CreateFileMappingNumaW"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &nndPreferred, sizeof(nndPreferred));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateFileMappingNumaW\n";
+    #endif
 
     return;
 }
@@ -1469,7 +1529,9 @@ void EmuApi::EmuPrefetchVirtualMemory(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)VirtualAddresses, &stVirtualAddresses, sizeof(stVirtualAddresses));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &Flags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuPrefetchVirtualMemory\n";
+    #endif
 
     return;
 }
@@ -1532,7 +1594,9 @@ void EmuApi::EmuCreateFileMappingFromApp(uc_engine* uc, DWORD_PTR address, size_
     uc_reg_write(uc, UC_X86_REG_R8D, &PageProtection);
     uc_reg_write(uc, UC_X86_REG_R9, &MaximumSize);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)Name, rlwName)) { printf("Error when read Name in CreateFileMappingFromApp"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateFileMappingFromApp\n";
+    #endif
 
     return;
 }
@@ -1572,7 +1636,9 @@ void EmuApi::EmuMapViewOfFileFromApp(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EDX, &DesiredAccess);
     uc_reg_write(uc, UC_X86_REG_R8, &FileOffset);
     uc_reg_write(uc, UC_X86_REG_R9, &NumberOfBytesToMap);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapViewOfFileFromApp\n";
+    #endif
 
     return;
 }
@@ -1602,7 +1668,9 @@ void EmuApi::EmuUnmapViewOfFileEx(uc_engine* uc, DWORD_PTR address, size_t size,
     uc_reg_write(uc, UC_X86_REG_EAX, &UnmapViewOfFileExResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &BaseAddress);
     uc_reg_write(uc, UC_X86_REG_EDX, &UnmapFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnmapViewOfFileEx\n";
+    #endif
 
     return;
 }
@@ -1661,7 +1729,9 @@ void EmuApi::EmuAllocateUserPhysicalPages(uc_engine* uc, DWORD_PTR address, size
     {
         uc_mem_write(uc, (DWORD_PTR)PageArray, &rlPageArray, sizeof(rlPageArray));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAllocateUserPhysicalPages\n";
+    #endif
 
     return;
 }
@@ -1720,7 +1790,9 @@ void EmuApi::EmuFreeUserPhysicalPages(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)PageArray, &rlPageArray, sizeof(rlPageArray));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFreeUserPhysicalPages\n";
+    #endif
 
     return;
 }
@@ -1767,7 +1839,9 @@ void EmuApi::EmuMapUserPhysicalPages(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)PageArray, &rlPageArray, sizeof(rlPageArray));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapUserPhysicalPages\n";
+    #endif
 
     return;
 }
@@ -1831,7 +1905,9 @@ void EmuApi::EmuAllocateUserPhysicalPagesNuma(uc_engine* uc, DWORD_PTR address, 
         uc_mem_write(uc, (DWORD_PTR)PageArray, &rlPageArray, sizeof(rlPageArray));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &nndPreferred);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAllocateUserPhysicalPagesNuma\n";
+    #endif
 
     return;
 }
@@ -1884,7 +1960,9 @@ void EmuApi::EmuVirtualAllocExNuma(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_R9D, &flAllocationType);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &flProtect, sizeof(flProtect));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &nndPreferred, sizeof(nndPreferred));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualAllocExNuma\n";
+    #endif
 
     return;
 }
@@ -1921,29 +1999,12 @@ void EmuApi::EmuGetMemoryErrorHandlingCapabilities(uc_engine* uc, DWORD_PTR addr
     {
         uc_mem_write(uc, (DWORD_PTR)Capabilities, &rlCapabilities, sizeof(rlCapabilities));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetMemoryErrorHandlingCapabilities\n";
+    #endif
 
     return;
 }
-
-
-/*
-void
-__cdecl
-BAD_MEMORY_CALLBACK_ROUTINE(VOID);
-
-*/
-//void EmuApi::EmuBAD_MEMORY_CALLBACK_ROUTINE(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-//{
-//
-//
-//    BAD_MEMORY_CALLBACK_ROUTINE();
-//
-//
-//
-//
-//    return;
-//}
 
 
 /*
@@ -1965,7 +2026,9 @@ void EmuApi::EmuRegisterBadMemoryNotification(uc_engine* uc, DWORD_PTR address, 
 
     uc_reg_write(uc, UC_X86_REG_RAX, &RegisterBadMemoryNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &Callback);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRegisterBadMemoryNotification\n";
+    #endif
 
     return;
 }
@@ -1990,7 +2053,9 @@ void EmuApi::EmuUnregisterBadMemoryNotification(uc_engine* uc, DWORD_PTR address
 
     uc_reg_write(uc, UC_X86_REG_EAX, &UnregisterBadMemoryNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &RegistrationHandle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnregisterBadMemoryNotification\n";
+    #endif
 
     return;
 }
@@ -2025,7 +2090,9 @@ void EmuApi::EmuOfferVirtualMemory(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_RCX, &VirtualAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &Size);
     uc_reg_write(uc, UC_X86_REG_R8D, &Priority);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOfferVirtualMemory\n";
+    #endif
 
     return;
 }
@@ -2055,7 +2122,9 @@ void EmuApi::EmuReclaimVirtualMemory(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &ReclaimVirtualMemoryResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &VirtualAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &Size);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReclaimVirtualMemory\n";
+    #endif
 
     return;
 }
@@ -2085,7 +2154,9 @@ void EmuApi::EmuDiscardVirtualMemory(uc_engine* uc, DWORD_PTR address, size_t si
     uc_reg_write(uc, UC_X86_REG_EAX, &DiscardVirtualMemoryResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &VirtualAddress);
     uc_reg_write(uc, UC_X86_REG_RDX, &Size);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDiscardVirtualMemory\n";
+    #endif
 
     return;
 }
@@ -2145,7 +2216,9 @@ void EmuApi::EmuSetProcessValidCallTargets(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)OffsetInformation, &stOffsetInformation, sizeof(stOffsetInformation));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessValidCallTargets\n";
+    #endif
 
     return;
 }
@@ -2215,7 +2288,9 @@ void EmuApi::EmuSetProcessValidCallTargetsForMappedView(uc_engine* uc, DWORD_PTR
     }
     uc_mem_write(uc, (DWORD_PTR)SP+48, &Section, sizeof(Section));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &ExpectedFileOffset, sizeof(ExpectedFileOffset));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetProcessValidCallTargetsForMappedView\n";
+    #endif
 
     return;
 }
@@ -2255,7 +2330,9 @@ void EmuApi::EmuVirtualAllocFromApp(uc_engine* uc, DWORD_PTR address, size_t siz
     uc_reg_write(uc, UC_X86_REG_RDX, &Size);
     uc_reg_write(uc, UC_X86_REG_R8D, &AllocationType);
     uc_reg_write(uc, UC_X86_REG_R9D, &Protection);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualAllocFromApp\n";
+    #endif
 
     return;
 }
@@ -2307,7 +2384,9 @@ void EmuApi::EmuVirtualProtectFromApp(uc_engine* uc, DWORD_PTR address, size_t s
     {
         uc_mem_write(uc, (DWORD_PTR)OldProtection, &rlOldProtection, sizeof(rlOldProtection));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualProtectFromApp\n";
+    #endif
 
     return;
 }
@@ -2345,7 +2424,9 @@ void EmuApi::EmuOpenFileMappingFromApp(uc_engine* uc, DWORD_PTR address, size_t 
     uc_reg_write(uc, UC_X86_REG_ECX, &DesiredAccess);
     uc_reg_write(uc, UC_X86_REG_EDX, &InheritHandle);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)Name, rlwName)) { printf("Error when read Name in OpenFileMappingFromApp"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenFileMappingFromApp\n";
+    #endif
 
     return;
 }
@@ -2410,7 +2491,9 @@ void EmuApi::EmuQueryVirtualMemoryInformation(uc_engine* uc, DWORD_PTR address, 
     {
         uc_mem_write(uc, (DWORD_PTR)ReturnSize, &rlReturnSize, sizeof(rlReturnSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueryVirtualMemoryInformation\n";
+    #endif
 
     return;
 }
@@ -2473,7 +2556,9 @@ void EmuApi::EmuMapViewOfFileNuma2(uc_engine* uc, DWORD_PTR address, size_t size
     uc_mem_write(uc, (DWORD_PTR)SP+48, &AllocationType, sizeof(AllocationType));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &PageProtection, sizeof(PageProtection));
     uc_mem_write(uc, (DWORD_PTR)SP+64, &PreferredNode, sizeof(PreferredNode));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapViewOfFileNuma2\n";
+    #endif
 
     return;
 }
@@ -2531,7 +2616,9 @@ void EmuApi::EmuMapViewOfFile2(uc_engine* uc, DWORD_PTR address, size_t size, vo
     uc_mem_write(uc, (DWORD_PTR)SP+40, &ViewSize, sizeof(ViewSize));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &AllocationType, sizeof(AllocationType));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &PageProtection, sizeof(PageProtection));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapViewOfFile2\n";
+    #endif
 
     return;
 }
@@ -2566,7 +2653,9 @@ void EmuApi::EmuUnmapViewOfFile2(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RCX, &Process);
     uc_reg_write(uc, UC_X86_REG_RDX, &BaseAddress);
     uc_reg_write(uc, UC_X86_REG_R8D, &UnmapFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnmapViewOfFile2\n";
+    #endif
 
     return;
 }
@@ -2601,7 +2690,9 @@ void EmuApi::EmuVirtualUnlockEx(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_RCX, &Process);
     uc_reg_write(uc, UC_X86_REG_RDX, &Address);
     uc_reg_write(uc, UC_X86_REG_R8, &Size);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualUnlockEx\n";
+    #endif
 
     return;
 }
@@ -2671,7 +2762,9 @@ void EmuApi::EmuVirtualAlloc2(uc_engine* uc, DWORD_PTR address, size_t size, voi
         uc_mem_write(uc, (DWORD_PTR)ExtendedParameters, &stExtendedParameters, sizeof(stExtendedParameters));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &ParameterCount, sizeof(ParameterCount));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualAlloc2\n";
+    #endif
 
     return;
 }
@@ -2751,7 +2844,9 @@ void EmuApi::EmuMapViewOfFile3(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)ExtendedParameters, &stExtendedParameters, sizeof(stExtendedParameters));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+72, &ParameterCount, sizeof(ParameterCount));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapViewOfFile3\n";
+    #endif
 
     return;
 }
@@ -2821,7 +2916,9 @@ void EmuApi::EmuVirtualAlloc2FromApp(uc_engine* uc, DWORD_PTR address, size_t si
         uc_mem_write(uc, (DWORD_PTR)ExtendedParameters, &stExtendedParameters, sizeof(stExtendedParameters));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &ParameterCount, sizeof(ParameterCount));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuVirtualAlloc2FromApp\n";
+    #endif
 
     return;
 }
@@ -2901,7 +2998,9 @@ void EmuApi::EmuMapViewOfFile3FromApp(uc_engine* uc, DWORD_PTR address, size_t s
         uc_mem_write(uc, (DWORD_PTR)ExtendedParameters, &stExtendedParameters, sizeof(stExtendedParameters));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+72, &ParameterCount, sizeof(ParameterCount));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuMapViewOfFile3FromApp\n";
+    #endif
 
     return;
 }
@@ -2996,7 +3095,9 @@ void EmuApi::EmuCreateFileMapping2(uc_engine* uc, DWORD_PTR address, size_t size
         uc_mem_write(uc, (DWORD_PTR)ExtendedParameters, &stExtendedParameters, sizeof(stExtendedParameters));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+64, &ParameterCount, sizeof(ParameterCount));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateFileMapping2\n";
+    #endif
 
     return;
 }
@@ -3080,7 +3181,9 @@ void EmuApi::EmuAllocateUserPhysicalPages2(uc_engine* uc, DWORD_PTR address, siz
         uc_mem_write(uc, (DWORD_PTR)ExtendedParameters, &stExtendedParameters, sizeof(stExtendedParameters));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &ExtendedParameterCount, sizeof(ExtendedParameterCount));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAllocateUserPhysicalPages2\n";
+    #endif
 
     return;
 }
@@ -3120,7 +3223,9 @@ void EmuApi::EmuOpenDedicatedMemoryPartition(uc_engine* uc, DWORD_PTR address, s
     uc_reg_write(uc, UC_X86_REG_RDX, &DedicatedMemoryTypeId);
     uc_reg_write(uc, UC_X86_REG_R8D, &DesiredAccess);
     uc_reg_write(uc, UC_X86_REG_R9D, &InheritHandle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuOpenDedicatedMemoryPartition\n";
+    #endif
 
     return;
 }
@@ -3136,44 +3241,35 @@ QueryPartitionInformation(
       ULONG                                     PartitionInformationLength  );
 
 */
-//void EmuApi::EmuQueryPartitionInformation(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
-//{
-//
-//    HANDLE Partition{};
-//    uc_reg_read(uc, UC_X86_REG_RCX, &Partition);
-//
-//    WIN32_MEMORY_PARTITION_INFORMATION_CLASS PartitionInformationClass{};
-//    uc_reg_read(uc, UC_X86_REG_EDX, &PartitionInformationClass);
-//
-//    PVOID PartitionInformation{};
-//    uc_reg_read(uc, UC_X86_REG_R8, &PartitionInformation);
-//
-//    ULONG PartitionInformationLength{};
-//    uc_reg_read(uc, UC_X86_REG_R9D, &PartitionInformationLength);
-//
-//    std::vector<BYTE> svPartitionInformation;
-//    svPartitionInformation.resize(PartitionInformationLength);
-//
-//    if(PartitionInformation != nullptr)
-//    {
-//        uc_mem_read(uc, (DWORD_PTR)PartitionInformation, svPartitionInformation.data(), sizeof(PartitionInformationLength));
-//    }
-//
-//
-//    BOOL QueryPartitionInformationResult = QueryPartitionInformation((HANDLE)Partition,(WIN32_MEMORY_PARTITION_INFORMATION_CLASS)PartitionInformationClass,(PVOID)&svPartitionInformation.data(),(ULONG)svPartitionInformation.size());
-//
-//
-//    uc_reg_write(uc, UC_X86_REG_EAX, &QueryPartitionInformationResult);
-//    uc_reg_write(uc, UC_X86_REG_RCX, &Partition);
-//    uc_reg_write(uc, UC_X86_REG_EDX, &PartitionInformationClass);
-//
-//    if(PartitionInformation != nullptr)
-//    {
-//        uc_mem_write(uc, (DWORD_PTR)PartitionInformation, svsvPartitionInformation.data().data(), sizeof(PartitionInformationLength));
-//    }
-//
-//
-//    return;
-//}
-//
+void EmuApi::EmuQueryPartitionInformation(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data)
+{
+
+    HANDLE Partition{};
+    uc_reg_read(uc, UC_X86_REG_RCX, &Partition);
+
+    WIN32_MEMORY_PARTITION_INFORMATION_CLASS PartitionInformationClass{};
+    uc_reg_read(uc, UC_X86_REG_EDX, &PartitionInformationClass);
+
+    PVOID PartitionInformation{};
+    uc_reg_read(uc, UC_X86_REG_R8, &PartitionInformation);
+
+    ULONG PartitionInformationLength{};
+    uc_reg_read(uc, UC_X86_REG_R9D, &PartitionInformationLength);
+
+
+    BOOL QueryPartitionInformationResult = QueryPartitionInformation((HANDLE)Partition,(WIN32_MEMORY_PARTITION_INFORMATION_CLASS)PartitionInformationClass,(PVOID)&PartitionInformation,(ULONG)PartitionInformationLength);
+
+
+    uc_reg_write(uc, UC_X86_REG_EAX, &QueryPartitionInformationResult);
+    uc_reg_write(uc, UC_X86_REG_RCX, &Partition);
+    uc_reg_write(uc, UC_X86_REG_EDX, &PartitionInformationClass);
+    uc_reg_write(uc, UC_X86_REG_R8, &PartitionInformation);
+    uc_reg_write(uc, UC_X86_REG_R9D, &PartitionInformationLength);
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueryPartitionInformation\n";
+    #endif
+
+    return;
+}
+
 

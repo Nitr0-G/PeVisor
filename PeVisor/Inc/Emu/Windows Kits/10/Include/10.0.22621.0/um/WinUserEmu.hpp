@@ -19,6 +19,10 @@
 #include <vector>
 
 namespace EmuApi {
+    void EmuwvsprintfA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    void EmuwvsprintfW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    void EmuwsprintfA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    void EmuwsprintfW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuLoadKeyboardLayoutA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuLoadKeyboardLayoutW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuActivateKeyboardLayout(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -200,6 +204,7 @@ namespace EmuApi {
     void EmuChangeClipboardChain(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetClipboardData(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetClipboardData(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    void EmuGetClipboardMetadata(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuRegisterClipboardFormatA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuRegisterClipboardFormatW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCountClipboardFormats(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -295,6 +300,7 @@ namespace EmuApi {
     void EmuDestroySyntheticPointerDevice(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuEnableMouseInPointer(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuIsMouseInPointerEnabled(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    void EmuEnableMouseInPointerForThread(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuRegisterTouchHitTestingWindow(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuEvaluateProximityToRect(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuEvaluateProximityToPolygon(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -577,6 +583,7 @@ namespace EmuApi {
     void EmuLookupIconIdFromDirectoryEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCreateIconFromResource(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCreateIconFromResourceEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    void EmuSetThreadCursorCreationScaling(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuLoadImageA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuLoadImageW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCopyImage(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -697,15 +704,14 @@ namespace EmuApi {
     void EmuGetCIMSSM(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetAutoRotationState(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetDisplayAutoRotationPreferences(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    void EmuGetDisplayAutoRotationPreferencesByProcessId(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetDisplayAutoRotationPreferences(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuIsImmersiveProcess(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetProcessRestrictionExemption(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-#ifdef _WIN32_WINNT_WIN11
     void EmuSetAdditionalForegroundBoostProcesses(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuRegisterForTooltipDismissNotification(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-#endif
 
 }
 
 
-/* number of functions: 684*/
+/* number of functions: 691*/

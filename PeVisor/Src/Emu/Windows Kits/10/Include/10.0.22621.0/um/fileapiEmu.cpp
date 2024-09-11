@@ -1,4 +1,3 @@
-#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/fileapiEmu.hpp"
 /*
  ███▄ ▄███▓▄▄▄      ██▀███  ██▓█    ██  ██████     ▄▄▄      ██ ▄█▄▄▄          ███▄    █ ██▄▄▄█████▓██▀███  ▒█████   ▄████ 
 ▓██▒▀█▀ ██▒████▄   ▓██ ▒ ██▓██▒██  ▓██▒██    ▒    ▒████▄    ██▄█▒████▄        ██ ▀█   █▓██▓  ██▒ ▓▓██ ▒ ██▒██▒  ██▒██▒ ▀█▒
@@ -12,6 +11,7 @@
                                                                                                                           
 
 */
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/fileapiEmu.hpp"
 /*
 LONG
 __cdecl
@@ -60,7 +60,9 @@ void EmuApi::EmuCompareFileTime(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpFileTime2, &stlpFileTime2, sizeof(stlpFileTime2));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCompareFileTime\n";
+    #endif
 
     return;
 }
@@ -105,7 +107,9 @@ void EmuApi::EmuCreateDirectoryA(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpSecurityAttributes, &stlpSecurityAttributes, sizeof(stlpSecurityAttributes));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateDirectoryA\n";
+    #endif
 
     return;
 }
@@ -150,7 +154,9 @@ void EmuApi::EmuCreateDirectoryW(uc_engine* uc, DWORD_PTR address, size_t size, 
     {
         uc_mem_write(uc, (DWORD_PTR)lpSecurityAttributes, &stlpSecurityAttributes, sizeof(stlpSecurityAttributes));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateDirectoryW\n";
+    #endif
 
     return;
 }
@@ -223,7 +229,9 @@ void EmuApi::EmuCreateFileA(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwCreationDisposition, sizeof(dwCreationDisposition));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwFlagsAndAttributes, sizeof(dwFlagsAndAttributes));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &hTemplateFile, sizeof(hTemplateFile));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateFileA\n";
+    #endif
 
     return;
 }
@@ -296,7 +304,9 @@ void EmuApi::EmuCreateFileW(uc_engine* uc, DWORD_PTR address, size_t size, void*
     uc_mem_write(uc, (DWORD_PTR)SP+40, &dwCreationDisposition, sizeof(dwCreationDisposition));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwFlagsAndAttributes, sizeof(dwFlagsAndAttributes));
     uc_mem_write(uc, (DWORD_PTR)SP+56, &hTemplateFile, sizeof(hTemplateFile));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateFileW\n";
+    #endif
 
     return;
 }
@@ -337,7 +347,9 @@ void EmuApi::EmuDefineDosDeviceW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_ECX, &dwFlags);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpDeviceName, rlwlpDeviceName)) { printf("Error when read lpDeviceName in DefineDosDeviceW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpTargetPath, rlwlpTargetPath)) { printf("Error when read lpTargetPath in DefineDosDeviceW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDefineDosDeviceW\n";
+    #endif
 
     return;
 }
@@ -365,7 +377,9 @@ void EmuApi::EmuDeleteFileA(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DeleteFileAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpFileName, rlalpFileName)) { printf("Error when read lpFileName in DeleteFileA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteFileA\n";
+    #endif
 
     return;
 }
@@ -393,7 +407,9 @@ void EmuApi::EmuDeleteFileW(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DeleteFileWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFileName, rlwlpFileName)) { printf("Error when read lpFileName in DeleteFileW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteFileW\n";
+    #endif
 
     return;
 }
@@ -421,7 +437,9 @@ void EmuApi::EmuDeleteVolumeMountPointW(uc_engine* uc, DWORD_PTR address, size_t
 
     uc_reg_write(uc, UC_X86_REG_EAX, &DeleteVolumeMountPointWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszVolumeMountPoint, rlwlpszVolumeMountPoint)) { printf("Error when read lpszVolumeMountPoint in DeleteVolumeMountPointW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuDeleteVolumeMountPointW\n";
+    #endif
 
     return;
 }
@@ -475,7 +493,9 @@ void EmuApi::EmuFileTimeToLocalFileTime(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)lpLocalFileTime, &stlpLocalFileTime, sizeof(stlpLocalFileTime));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFileTimeToLocalFileTime\n";
+    #endif
 
     return;
 }
@@ -500,7 +520,9 @@ void EmuApi::EmuFindClose(uc_engine* uc, DWORD_PTR address, size_t size, void* u
 
     uc_reg_write(uc, UC_X86_REG_EAX, &FindCloseResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFindFile);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindClose\n";
+    #endif
 
     return;
 }
@@ -525,7 +547,9 @@ void EmuApi::EmuFindCloseChangeNotification(uc_engine* uc, DWORD_PTR address, si
 
     uc_reg_write(uc, UC_X86_REG_EAX, &FindCloseChangeNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hChangeHandle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindCloseChangeNotification\n";
+    #endif
 
     return;
 }
@@ -563,7 +587,9 @@ void EmuApi::EmuFindFirstChangeNotificationA(uc_engine* uc, DWORD_PTR address, s
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpPathName, rlalpPathName)) { printf("Error when read lpPathName in FindFirstChangeNotificationA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &bWatchSubtree);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwNotifyFilter);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstChangeNotificationA\n";
+    #endif
 
     return;
 }
@@ -601,7 +627,9 @@ void EmuApi::EmuFindFirstChangeNotificationW(uc_engine* uc, DWORD_PTR address, s
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpPathName, rlwlpPathName)) { printf("Error when read lpPathName in FindFirstChangeNotificationW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &bWatchSubtree);
     uc_reg_write(uc, UC_X86_REG_R8D, &dwNotifyFilter);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstChangeNotificationW\n";
+    #endif
 
     return;
 }
@@ -646,7 +674,9 @@ void EmuApi::EmuFindFirstFileA(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpFindFileData, &stlpFindFileData, sizeof(stlpFindFileData));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstFileA\n";
+    #endif
 
     return;
 }
@@ -691,7 +721,9 @@ void EmuApi::EmuFindFirstFileW(uc_engine* uc, DWORD_PTR address, size_t size, vo
     {
         uc_mem_write(uc, (DWORD_PTR)lpFindFileData, &stlpFindFileData, sizeof(stlpFindFileData));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstFileW\n";
+    #endif
 
     return;
 }
@@ -747,7 +779,9 @@ void EmuApi::EmuFindFirstFileExA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_R9D, &fSearchOp);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpSearchFilter, sizeof(lpSearchFilter));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwAdditionalFlags, sizeof(dwAdditionalFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstFileExA\n";
+    #endif
 
     return;
 }
@@ -803,7 +837,9 @@ void EmuApi::EmuFindFirstFileExW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_R9D, &fSearchOp);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpSearchFilter, sizeof(lpSearchFilter));
     uc_mem_write(uc, (DWORD_PTR)SP+48, &dwAdditionalFlags, sizeof(dwAdditionalFlags));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstFileExW\n";
+    #endif
 
     return;
 }
@@ -836,7 +872,9 @@ void EmuApi::EmuFindFirstVolumeW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_RAX, &FindFirstVolumeWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszVolumeName, rlwlpszVolumeName)) { printf("Error when read lpszVolumeName in FindFirstVolumeW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &cchBufferLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstVolumeW\n";
+    #endif
 
     return;
 }
@@ -861,7 +899,9 @@ void EmuApi::EmuFindNextChangeNotification(uc_engine* uc, DWORD_PTR address, siz
 
     uc_reg_write(uc, UC_X86_REG_EAX, &FindNextChangeNotificationResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hChangeHandle);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextChangeNotification\n";
+    #endif
 
     return;
 }
@@ -903,7 +943,9 @@ void EmuApi::EmuFindNextFileA(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpFindFileData, &stlpFindFileData, sizeof(stlpFindFileData));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextFileA\n";
+    #endif
 
     return;
 }
@@ -945,7 +987,9 @@ void EmuApi::EmuFindNextFileW(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpFindFileData, &stlpFindFileData, sizeof(stlpFindFileData));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextFileW\n";
+    #endif
 
     return;
 }
@@ -983,7 +1027,9 @@ void EmuApi::EmuFindNextVolumeW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_RCX, &hFindVolume);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszVolumeName, rlwlpszVolumeName)) { printf("Error when read lpszVolumeName in FindNextVolumeW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchBufferLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextVolumeW\n";
+    #endif
 
     return;
 }
@@ -1008,7 +1054,9 @@ void EmuApi::EmuFindVolumeClose(uc_engine* uc, DWORD_PTR address, size_t size, v
 
     uc_reg_write(uc, UC_X86_REG_EAX, &FindVolumeCloseResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFindVolume);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindVolumeClose\n";
+    #endif
 
     return;
 }
@@ -1033,7 +1081,9 @@ void EmuApi::EmuFlushFileBuffers(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &FlushFileBuffersResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFile);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFlushFileBuffers\n";
+    #endif
 
     return;
 }
@@ -1132,7 +1182,9 @@ void EmuApi::EmuGetDiskFreeSpaceA(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpTotalNumberOfClusters, &rllpTotalNumberOfClusters, sizeof(rllpTotalNumberOfClusters));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDiskFreeSpaceA\n";
+    #endif
 
     return;
 }
@@ -1231,7 +1283,9 @@ void EmuApi::EmuGetDiskFreeSpaceW(uc_engine* uc, DWORD_PTR address, size_t size,
     {
         uc_mem_write(uc, (DWORD_PTR)lpTotalNumberOfClusters, &rllpTotalNumberOfClusters, sizeof(rllpTotalNumberOfClusters));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDiskFreeSpaceW\n";
+    #endif
 
     return;
 }
@@ -1310,7 +1364,9 @@ void EmuApi::EmuGetDiskFreeSpaceExA(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)lpTotalNumberOfFreeBytes, &rllpTotalNumberOfFreeBytes, sizeof(rllpTotalNumberOfFreeBytes));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDiskFreeSpaceExA\n";
+    #endif
 
     return;
 }
@@ -1389,7 +1445,9 @@ void EmuApi::EmuGetDiskFreeSpaceExW(uc_engine* uc, DWORD_PTR address, size_t siz
     {
         uc_mem_write(uc, (DWORD_PTR)lpTotalNumberOfFreeBytes, &rllpTotalNumberOfFreeBytes, sizeof(rllpTotalNumberOfFreeBytes));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDiskFreeSpaceExW\n";
+    #endif
 
     return;
 }
@@ -1434,7 +1492,9 @@ void EmuApi::EmuGetDiskSpaceInformationA(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)diskSpaceInfo, &stdiskSpaceInfo, sizeof(stdiskSpaceInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDiskSpaceInformationA\n";
+    #endif
 
     return;
 }
@@ -1479,7 +1539,9 @@ void EmuApi::EmuGetDiskSpaceInformationW(uc_engine* uc, DWORD_PTR address, size_
     {
         uc_mem_write(uc, (DWORD_PTR)diskSpaceInfo, &stdiskSpaceInfo, sizeof(stdiskSpaceInfo));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDiskSpaceInformationW\n";
+    #endif
 
     return;
 }
@@ -1507,7 +1569,9 @@ void EmuApi::EmuGetDriveTypeA(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDriveTypeAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpRootPathName, rlalpRootPathName)) { printf("Error when read lpRootPathName in GetDriveTypeA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDriveTypeA\n";
+    #endif
 
     return;
 }
@@ -1535,7 +1599,9 @@ void EmuApi::EmuGetDriveTypeW(uc_engine* uc, DWORD_PTR address, size_t size, voi
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetDriveTypeWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpRootPathName, rlwlpRootPathName)) { printf("Error when read lpRootPathName in GetDriveTypeW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetDriveTypeW\n";
+    #endif
 
     return;
 }
@@ -1563,7 +1629,9 @@ void EmuApi::EmuGetFileAttributesA(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetFileAttributesAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpFileName, rlalpFileName)) { printf("Error when read lpFileName in GetFileAttributesA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileAttributesA\n";
+    #endif
 
     return;
 }
@@ -1591,7 +1659,9 @@ void EmuApi::EmuGetFileAttributesW(uc_engine* uc, DWORD_PTR address, size_t size
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetFileAttributesWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFileName, rlwlpFileName)) { printf("Error when read lpFileName in GetFileAttributesW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileAttributesW\n";
+    #endif
 
     return;
 }
@@ -1629,7 +1699,9 @@ void EmuApi::EmuGetFileAttributesExA(uc_engine* uc, DWORD_PTR address, size_t si
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpFileName, rlalpFileName)) { printf("Error when read lpFileName in GetFileAttributesExA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &fInfoLevelId);
     uc_reg_write(uc, UC_X86_REG_R8, &lpFileInformation);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileAttributesExA\n";
+    #endif
 
     return;
 }
@@ -1667,7 +1739,9 @@ void EmuApi::EmuGetFileAttributesExW(uc_engine* uc, DWORD_PTR address, size_t si
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFileName, rlwlpFileName)) { printf("Error when read lpFileName in GetFileAttributesExW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &fInfoLevelId);
     uc_reg_write(uc, UC_X86_REG_R8, &lpFileInformation);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileAttributesExW\n";
+    #endif
 
     return;
 }
@@ -1709,7 +1783,9 @@ void EmuApi::EmuGetFileInformationByHandle(uc_engine* uc, DWORD_PTR address, siz
     {
         uc_mem_write(uc, (DWORD_PTR)lpFileInformation, &stlpFileInformation, sizeof(stlpFileInformation));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileInformationByHandle\n";
+    #endif
 
     return;
 }
@@ -1751,7 +1827,9 @@ void EmuApi::EmuGetFileSize(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)lpFileSizeHigh, &rllpFileSizeHigh, sizeof(rllpFileSizeHigh));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileSize\n";
+    #endif
 
     return;
 }
@@ -1793,7 +1871,9 @@ void EmuApi::EmuGetFileSizeEx(uc_engine* uc, DWORD_PTR address, size_t size, voi
     {
         uc_mem_write(uc, (DWORD_PTR)lpFileSize, &rllpFileSize, sizeof(rllpFileSize));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileSizeEx\n";
+    #endif
 
     return;
 }
@@ -1818,7 +1898,9 @@ void EmuApi::EmuGetFileType(uc_engine* uc, DWORD_PTR address, size_t size, void*
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetFileTypeResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFile);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileType\n";
+    #endif
 
     return;
 }
@@ -1861,7 +1943,9 @@ void EmuApi::EmuGetFinalPathNameByHandleA(uc_engine* uc, DWORD_PTR address, size
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszFilePath, rlalpszFilePath)) { printf("Error when read lpszFilePath in GetFinalPathNameByHandleA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchFilePath);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFinalPathNameByHandleA\n";
+    #endif
 
     return;
 }
@@ -1904,7 +1988,9 @@ void EmuApi::EmuGetFinalPathNameByHandleW(uc_engine* uc, DWORD_PTR address, size
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFilePath, rlwlpszFilePath)) { printf("Error when read lpszFilePath in GetFinalPathNameByHandleW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchFilePath);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFinalPathNameByHandleW\n";
+    #endif
 
     return;
 }
@@ -1980,7 +2066,9 @@ void EmuApi::EmuGetFileTime(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)lpLastWriteTime, &stlpLastWriteTime, sizeof(stlpLastWriteTime));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFileTime\n";
+    #endif
 
     return;
 }
@@ -2036,7 +2124,9 @@ void EmuApi::EmuGetFullPathNameW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EDX, &nBufferLength);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpBuffer, rlwlpBuffer)) { printf("Error when read lpBuffer in GetFullPathNameW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFilePart, rlwlpFilePart)) { printf("Error when read lpFilePart in GetFullPathNameW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFullPathNameW\n";
+    #endif
 
     return;
 }
@@ -2092,7 +2182,9 @@ void EmuApi::EmuGetFullPathNameA(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EDX, &nBufferLength);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpBuffer, rlalpBuffer)) { printf("Error when read lpBuffer in GetFullPathNameA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpFilePart, rlalpFilePart)) { printf("Error when read lpFilePart in GetFullPathNameA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetFullPathNameA\n";
+    #endif
 
     return;
 }
@@ -2112,7 +2204,9 @@ void EmuApi::EmuGetLogicalDrives(uc_engine* uc, DWORD_PTR address, size_t size, 
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &GetLogicalDrivesResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLogicalDrives\n";
+    #endif
 
     return;
 }
@@ -2145,7 +2239,9 @@ void EmuApi::EmuGetLogicalDriveStringsW(uc_engine* uc, DWORD_PTR address, size_t
     uc_reg_write(uc, UC_X86_REG_EAX, &GetLogicalDriveStringsWResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nBufferLength);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpBuffer, rlwlpBuffer)) { printf("Error when read lpBuffer in GetLogicalDriveStringsW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLogicalDriveStringsW\n";
+    #endif
 
     return;
 }
@@ -2186,7 +2282,9 @@ void EmuApi::EmuGetLongPathNameA(uc_engine* uc, DWORD_PTR address, size_t size, 
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszShortPath, rlalpszShortPath)) { printf("Error when read lpszShortPath in GetLongPathNameA"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpszLongPath, rlalpszLongPath)) { printf("Error when read lpszLongPath in GetLongPathNameA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchBuffer);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLongPathNameA\n";
+    #endif
 
     return;
 }
@@ -2227,7 +2325,9 @@ void EmuApi::EmuGetLongPathNameW(uc_engine* uc, DWORD_PTR address, size_t size, 
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszShortPath, rlwlpszShortPath)) { printf("Error when read lpszShortPath in GetLongPathNameW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszLongPath, rlwlpszLongPath)) { printf("Error when read lpszLongPath in GetLongPathNameW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchBuffer);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetLongPathNameW\n";
+    #endif
 
     return;
 }
@@ -2269,7 +2369,9 @@ void EmuApi::EmuAreShortNamesEnabled(uc_engine* uc, DWORD_PTR address, size_t si
     {
         uc_mem_write(uc, (DWORD_PTR)Enabled, &rlEnabled, sizeof(rlEnabled));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAreShortNamesEnabled\n";
+    #endif
 
     return;
 }
@@ -2310,7 +2412,9 @@ void EmuApi::EmuGetShortPathNameW(uc_engine* uc, DWORD_PTR address, size_t size,
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszLongPath, rlwlpszLongPath)) { printf("Error when read lpszLongPath in GetShortPathNameW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszShortPath, rlwlpszShortPath)) { printf("Error when read lpszShortPath in GetShortPathNameW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchBuffer);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetShortPathNameW\n";
+    #endif
 
     return;
 }
@@ -2359,7 +2463,9 @@ void EmuApi::EmuGetTempFileNameW(uc_engine* uc, DWORD_PTR address, size_t size, 
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpPrefixString, rlwlpPrefixString)) { printf("Error when read lpPrefixString in GetTempFileNameW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &uUnique);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpTempFileName, rlwlpTempFileName)) { printf("Error when read lpTempFileName in GetTempFileNameW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTempFileNameW\n";
+    #endif
 
     return;
 }
@@ -2464,7 +2570,9 @@ void EmuApi::EmuGetVolumeInformationByHandleW(uc_engine* uc, DWORD_PTR address, 
     }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFileSystemNameBuffer, rlwlpFileSystemNameBuffer)) { printf("Error when read lpFileSystemNameBuffer in GetVolumeInformationByHandleW"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &nFileSystemNameSize, sizeof(nFileSystemNameSize));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetVolumeInformationByHandleW\n";
+    #endif
 
     return;
 }
@@ -2572,7 +2680,9 @@ void EmuApi::EmuGetVolumeInformationW(uc_engine* uc, DWORD_PTR address, size_t s
     }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFileSystemNameBuffer, rlwlpFileSystemNameBuffer)) { printf("Error when read lpFileSystemNameBuffer in GetVolumeInformationW"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &nFileSystemNameSize, sizeof(nFileSystemNameSize));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetVolumeInformationW\n";
+    #endif
 
     return;
 }
@@ -2613,7 +2723,9 @@ void EmuApi::EmuGetVolumePathNameW(uc_engine* uc, DWORD_PTR address, size_t size
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszFileName, rlwlpszFileName)) { printf("Error when read lpszFileName in GetVolumePathNameW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszVolumePathName, rlwlpszVolumePathName)) { printf("Error when read lpszVolumePathName in GetVolumePathNameW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchBufferLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetVolumePathNameW\n";
+    #endif
 
     return;
 }
@@ -2667,7 +2779,9 @@ void EmuApi::EmuLocalFileTimeToFileTime(uc_engine* uc, DWORD_PTR address, size_t
     {
         uc_mem_write(uc, (DWORD_PTR)lpFileTime, &stlpFileTime, sizeof(stlpFileTime));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLocalFileTimeToFileTime\n";
+    #endif
 
     return;
 }
@@ -2715,7 +2829,9 @@ void EmuApi::EmuLockFile(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFileOffsetHigh);
     uc_reg_write(uc, UC_X86_REG_R9D, &nNumberOfBytesToLockLow);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &nNumberOfBytesToLockHigh, sizeof(nNumberOfBytesToLockHigh));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLockFile\n";
+    #endif
 
     return;
 }
@@ -2780,7 +2896,9 @@ void EmuApi::EmuLockFileEx(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     {
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuLockFileEx\n";
+    #endif
 
     return;
 }
@@ -2821,7 +2939,9 @@ void EmuApi::EmuQueryDosDeviceW(uc_engine* uc, DWORD_PTR address, size_t size, v
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpDeviceName, rlwlpDeviceName)) { printf("Error when read lpDeviceName in QueryDosDeviceW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpTargetPath, rlwlpTargetPath)) { printf("Error when read lpTargetPath in QueryDosDeviceW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &ucchMax);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuQueryDosDeviceW\n";
+    #endif
 
     return;
 }
@@ -2893,7 +3013,9 @@ void EmuApi::EmuReadFile(uc_engine* uc, DWORD_PTR address, size_t size, void* us
     {
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReadFile\n";
+    #endif
 
     return;
 }
@@ -2953,7 +3075,9 @@ void EmuApi::EmuReadFileEx(uc_engine* uc, DWORD_PTR address, size_t size, void* 
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpCompletionRoutine, sizeof(lpCompletionRoutine));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReadFileEx\n";
+    #endif
 
     return;
 }
@@ -3037,7 +3161,9 @@ void EmuApi::EmuReadFileScatter(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuReadFileScatter\n";
+    #endif
 
     return;
 }
@@ -3065,7 +3191,9 @@ void EmuApi::EmuRemoveDirectoryA(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RemoveDirectoryAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpPathName, rlalpPathName)) { printf("Error when read lpPathName in RemoveDirectoryA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRemoveDirectoryA\n";
+    #endif
 
     return;
 }
@@ -3093,7 +3221,9 @@ void EmuApi::EmuRemoveDirectoryW(uc_engine* uc, DWORD_PTR address, size_t size, 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &RemoveDirectoryWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpPathName, rlwlpPathName)) { printf("Error when read lpPathName in RemoveDirectoryW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuRemoveDirectoryW\n";
+    #endif
 
     return;
 }
@@ -3118,7 +3248,9 @@ void EmuApi::EmuSetEndOfFile(uc_engine* uc, DWORD_PTR address, size_t size, void
 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetEndOfFileResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFile);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetEndOfFile\n";
+    #endif
 
     return;
 }
@@ -3151,7 +3283,9 @@ void EmuApi::EmuSetFileAttributesA(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EAX, &SetFileAttributesAResult);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpFileName, rlalpFileName)) { printf("Error when read lpFileName in SetFileAttributesA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFileAttributes);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileAttributesA\n";
+    #endif
 
     return;
 }
@@ -3184,7 +3318,9 @@ void EmuApi::EmuSetFileAttributesW(uc_engine* uc, DWORD_PTR address, size_t size
     uc_reg_write(uc, UC_X86_REG_EAX, &SetFileAttributesWResult);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpFileName, rlwlpFileName)) { printf("Error when read lpFileName in SetFileAttributesW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_EDX, &dwFileAttributes);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileAttributesW\n";
+    #endif
 
     return;
 }
@@ -3224,7 +3360,9 @@ void EmuApi::EmuSetFileInformationByHandle(uc_engine* uc, DWORD_PTR address, siz
     uc_reg_write(uc, UC_X86_REG_EDX, &FileInformationClass);
     uc_reg_write(uc, UC_X86_REG_R8, &lpFileInformation);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwBufferSize);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileInformationByHandle\n";
+    #endif
 
     return;
 }
@@ -3276,7 +3414,9 @@ void EmuApi::EmuSetFilePointer(uc_engine* uc, DWORD_PTR address, size_t size, vo
         uc_mem_write(uc, (DWORD_PTR)lpDistanceToMoveHigh, &rllpDistanceToMoveHigh, sizeof(rllpDistanceToMoveHigh));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwMoveMethod);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFilePointer\n";
+    #endif
 
     return;
 }
@@ -3328,7 +3468,9 @@ void EmuApi::EmuSetFilePointerEx(uc_engine* uc, DWORD_PTR address, size_t size, 
         uc_mem_write(uc, (DWORD_PTR)lpNewFilePointer, &rllpNewFilePointer, sizeof(rllpNewFilePointer));
     }
     uc_reg_write(uc, UC_X86_REG_R9D, &dwMoveMethod);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFilePointerEx\n";
+    #endif
 
     return;
 }
@@ -3404,7 +3546,9 @@ void EmuApi::EmuSetFileTime(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)lpLastWriteTime, &stlpLastWriteTime, sizeof(stlpLastWriteTime));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileTime\n";
+    #endif
 
     return;
 }
@@ -3434,7 +3578,9 @@ void EmuApi::EmuSetFileValidData(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EAX, &SetFileValidDataResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFile);
     uc_reg_write(uc, UC_X86_REG_RDX, &ValidDataLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileValidData\n";
+    #endif
 
     return;
 }
@@ -3482,7 +3628,9 @@ void EmuApi::EmuUnlockFile(uc_engine* uc, DWORD_PTR address, size_t size, void* 
     uc_reg_write(uc, UC_X86_REG_R8D, &dwFileOffsetHigh);
     uc_reg_write(uc, UC_X86_REG_R9D, &nNumberOfBytesToUnlockLow);
     uc_mem_write(uc, (DWORD_PTR)SP+40, &nNumberOfBytesToUnlockHigh, sizeof(nNumberOfBytesToUnlockHigh));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnlockFile\n";
+    #endif
 
     return;
 }
@@ -3542,7 +3690,9 @@ void EmuApi::EmuUnlockFileEx(uc_engine* uc, DWORD_PTR address, size_t size, void
     {
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuUnlockFileEx\n";
+    #endif
 
     return;
 }
@@ -3614,7 +3764,9 @@ void EmuApi::EmuWriteFile(uc_engine* uc, DWORD_PTR address, size_t size, void* u
     {
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWriteFile\n";
+    #endif
 
     return;
 }
@@ -3674,7 +3826,9 @@ void EmuApi::EmuWriteFileEx(uc_engine* uc, DWORD_PTR address, size_t size, void*
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
     uc_mem_write(uc, (DWORD_PTR)SP+40, &lpCompletionRoutine, sizeof(lpCompletionRoutine));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWriteFileEx\n";
+    #endif
 
     return;
 }
@@ -3758,7 +3912,9 @@ void EmuApi::EmuWriteFileGather(uc_engine* uc, DWORD_PTR address, size_t size, v
     {
         uc_mem_write(uc, (DWORD_PTR)lpOverlapped, &stlpOverlapped, sizeof(stlpOverlapped));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuWriteFileGather\n";
+    #endif
 
     return;
 }
@@ -3791,7 +3947,9 @@ void EmuApi::EmuGetTempPathW(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EAX, &GetTempPathWResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nBufferLength);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpBuffer, rlwlpBuffer)) { printf("Error when read lpBuffer in GetTempPathW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTempPathW\n";
+    #endif
 
     return;
 }
@@ -3832,7 +3990,9 @@ void EmuApi::EmuGetVolumeNameForVolumeMountPointW(uc_engine* uc, DWORD_PTR addre
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszVolumeMountPoint, rlwlpszVolumeMountPoint)) { printf("Error when read lpszVolumeMountPoint in GetVolumeNameForVolumeMountPointW"); _CrtDbgBreak(); }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)lpszVolumeName, rlwlpszVolumeName)) { printf("Error when read lpszVolumeName in GetVolumeNameForVolumeMountPointW"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &cchBufferLength);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetVolumeNameForVolumeMountPointW\n";
+    #endif
 
     return;
 }
@@ -3890,7 +4050,9 @@ void EmuApi::EmuGetVolumePathNamesForVolumeNameW(uc_engine* uc, DWORD_PTR addres
     {
         uc_mem_write(uc, (DWORD_PTR)lpcchReturnLength, &rllpcchReturnLength, sizeof(rllpcchReturnLength));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetVolumePathNamesForVolumeNameW\n";
+    #endif
 
     return;
 }
@@ -3953,7 +4115,9 @@ void EmuApi::EmuCreateFile2(uc_engine* uc, DWORD_PTR address, size_t size, void*
     {
         uc_mem_write(uc, (DWORD_PTR)pCreateExParams, &stpCreateExParams, sizeof(stpCreateExParams));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuCreateFile2\n";
+    #endif
 
     return;
 }
@@ -4000,7 +4164,9 @@ void EmuApi::EmuSetFileIoOverlappedRange(uc_engine* uc, DWORD_PTR address, size_
         uc_mem_write(uc, (DWORD_PTR)OverlappedRangeStart, &rlOverlappedRangeStart, sizeof(rlOverlappedRangeStart));
     }
     uc_reg_write(uc, UC_X86_REG_R8D, &Length);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileIoOverlappedRange\n";
+    #endif
 
     return;
 }
@@ -4045,7 +4211,9 @@ void EmuApi::EmuGetCompressedFileSizeA(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpFileSizeHigh, &rllpFileSizeHigh, sizeof(rllpFileSizeHigh));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCompressedFileSizeA\n";
+    #endif
 
     return;
 }
@@ -4090,7 +4258,9 @@ void EmuApi::EmuGetCompressedFileSizeW(uc_engine* uc, DWORD_PTR address, size_t 
     {
         uc_mem_write(uc, (DWORD_PTR)lpFileSizeHigh, &rllpFileSizeHigh, sizeof(rllpFileSizeHigh));
     }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetCompressedFileSizeW\n";
+    #endif
 
     return;
 }
@@ -4133,7 +4303,9 @@ void EmuApi::EmuFindFirstStreamW(uc_engine* uc, DWORD_PTR address, size_t size, 
     uc_reg_write(uc, UC_X86_REG_EDX, &InfoLevel);
     uc_reg_write(uc, UC_X86_REG_R8, &lpFindStreamData);
     uc_reg_write(uc, UC_X86_REG_R9D, &dwFlags);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstStreamW\n";
+    #endif
 
     return;
 }
@@ -4163,7 +4335,9 @@ void EmuApi::EmuFindNextStreamW(uc_engine* uc, DWORD_PTR address, size_t size, v
     uc_reg_write(uc, UC_X86_REG_EAX, &FindNextStreamWResult);
     uc_reg_write(uc, UC_X86_REG_RCX, &hFindStream);
     uc_reg_write(uc, UC_X86_REG_RDX, &lpFindStreamData);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextStreamW\n";
+    #endif
 
     return;
 }
@@ -4183,7 +4357,9 @@ void EmuApi::EmuAreFileApisANSI(uc_engine* uc, DWORD_PTR address, size_t size, v
 
 
     uc_reg_write(uc, UC_X86_REG_EAX, &AreFileApisANSIResult);
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuAreFileApisANSI\n";
+    #endif
 
     return;
 }
@@ -4216,7 +4392,9 @@ void EmuApi::EmuGetTempPathA(uc_engine* uc, DWORD_PTR address, size_t size, void
     uc_reg_write(uc, UC_X86_REG_EAX, &GetTempPathAResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &nBufferLength);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpBuffer, rlalpBuffer)) { printf("Error when read lpBuffer in GetTempPathA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTempPathA\n";
+    #endif
 
     return;
 }
@@ -4274,7 +4452,9 @@ void EmuApi::EmuFindFirstFileNameW(uc_engine* uc, DWORD_PTR address, size_t size
         uc_mem_write(uc, (DWORD_PTR)StringLength, &rlStringLength, sizeof(rlStringLength));
     }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)LinkName, rlwLinkName)) { printf("Error when read LinkName in FindFirstFileNameW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindFirstFileNameW\n";
+    #endif
 
     return;
 }
@@ -4324,7 +4504,9 @@ void EmuApi::EmuFindNextFileNameW(uc_engine* uc, DWORD_PTR address, size_t size,
         uc_mem_write(uc, (DWORD_PTR)StringLength, &rlStringLength, sizeof(rlStringLength));
     }
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)LinkName, rlwLinkName)) { printf("Error when read LinkName in FindNextFileNameW"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuFindNextFileNameW\n";
+    #endif
 
     return;
 }
@@ -4432,7 +4614,9 @@ void EmuApi::EmuGetVolumeInformationA(uc_engine* uc, DWORD_PTR address, size_t s
     }
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpFileSystemNameBuffer, rlalpFileSystemNameBuffer)) { printf("Error when read lpFileSystemNameBuffer in GetVolumeInformationA"); _CrtDbgBreak(); }
     uc_mem_write(uc, (DWORD_PTR)SP+56, &nFileSystemNameSize, sizeof(nFileSystemNameSize));
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetVolumeInformationA\n";
+    #endif
 
     return;
 }
@@ -4481,7 +4665,9 @@ void EmuApi::EmuGetTempFileNameA(uc_engine* uc, DWORD_PTR address, size_t size, 
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpPrefixString, rlalpPrefixString)) { printf("Error when read lpPrefixString in GetTempFileNameA"); _CrtDbgBreak(); }
     uc_reg_write(uc, UC_X86_REG_R8D, &uUnique);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)lpTempFileName, rlalpTempFileName)) { printf("Error when read lpTempFileName in GetTempFileNameA"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTempFileNameA\n";
+    #endif
 
     return;
 }
@@ -4500,7 +4686,9 @@ void EmuApi::EmuSetFileApisToOEM(uc_engine* uc, DWORD_PTR address, size_t size, 
     SetFileApisToOEM();
 
 
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileApisToOEM\n";
+    #endif
 
     return;
 }
@@ -4519,7 +4707,9 @@ void EmuApi::EmuSetFileApisToANSI(uc_engine* uc, DWORD_PTR address, size_t size,
     SetFileApisToANSI();
 
 
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuSetFileApisToANSI\n";
+    #endif
 
     return;
 }
@@ -4552,7 +4742,9 @@ void EmuApi::EmuGetTempPath2W(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EAX, &GetTempPath2WResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &BufferLength);
     if(!EmuWriteNullTermUnicodeString(uc, (DWORD_PTR)Buffer, rlwBuffer)) { printf("Error when read Buffer in GetTempPath2W"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTempPath2W\n";
+    #endif
 
     return;
 }
@@ -4585,7 +4777,9 @@ void EmuApi::EmuGetTempPath2A(uc_engine* uc, DWORD_PTR address, size_t size, voi
     uc_reg_write(uc, UC_X86_REG_EAX, &GetTempPath2AResult);
     uc_reg_write(uc, UC_X86_REG_ECX, &BufferLength);
     if(!EmuWriteNullTermString(uc, (DWORD_PTR)Buffer, rlaBuffer)) { printf("Error when read Buffer in GetTempPath2A"); _CrtDbgBreak(); }
-
+    #ifdef TRACE_LOG_CONSOLE
+    *outs << "EmuGetTempPath2A\n";
+    #endif
 
     return;
 }

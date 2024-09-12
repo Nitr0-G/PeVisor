@@ -498,6 +498,7 @@ int main(int argc, char** argv)
 		sysinfoapiEmuRegister(ctx);
 		WinBaseEmuRegister(ctx);
 		wininetEmuRegister(ctx);
+		wingdiEmuRegister(ctx);
 		WinUserEmuRegister(ctx);
 		////DebugApiEmu.hpp
 		//{

@@ -13,6 +13,7 @@
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/sysinfoapiEmu.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/WinBaseEmu.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/wininetEmu.hpp"
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/wingdiEmu.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/WinUserEmu.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/debugapiEmuRegister.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/errhandlingapiEmuRegister.hpp"
@@ -28,4 +29,5 @@
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/sysinfoapiEmuRegister.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/WinBaseEmuRegister.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/wininetEmuRegister.hpp"
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/wingdiEmuRegister.hpp"
 #include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/WinUserEmuRegister.hpp"

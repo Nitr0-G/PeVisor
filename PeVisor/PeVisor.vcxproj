@@ -45,12 +45,14 @@
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\synchapiEmuRegister.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\sysinfoapiEmuRegister.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinBaseEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wingdiEmuRegister.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wininetEmuRegister.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\stringapisetEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\synchapiEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\sysinfoapiEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinBaseEmu.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\wingdiEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\wininetEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.cpp" />
     <ClCompile Include="Src\Encode.cpp" />
@@ -93,12 +95,14 @@
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\synchapiEmuRegister.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\sysinfoapiEmuRegister.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinBaseEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wingdiEmuRegister.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wininetEmuRegister.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\stringapisetEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\synchapiEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\sysinfoapiEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinBaseEmu.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\wingdiEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\wininetEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.hpp" />
     <ClInclude Include="Inc\Encode.hpp" />
@@ -204,7 +208,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\unicorn\bld\Debug;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Dependency\zydis\msvc\bin\DebugX64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>unicorn-common.lib;unicorn-import.lib;x86_64-softmmu.lib;Zydis.lib;BlackBone.lib;ntdll.lib;Wininet.lib;Onecore.lib;WindowsApp.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.Ntdll.Hash.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.WinAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>unicorn-common.lib;unicorn-import.lib;x86_64-softmmu.lib;Zydis.lib;BlackBone.lib;ntdll.lib;Opengl32.lib;Msimg32.lib;gdi32.lib;Wininet.lib;Onecore.lib;WindowsApp.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.Ntdll.Hash.lib;$(SolutionDir)Dependency\KNSoft.NDK\Source\OutDir\x64\KNSoft.NDK.WinAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <BaseAddress>
       </BaseAddress>

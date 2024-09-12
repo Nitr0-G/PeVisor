@@ -186,6 +186,12 @@
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.cpp">
       <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\wingdiEmu.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wingdiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\UCPE.hpp">
@@ -312,6 +318,12 @@
       <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\wingdiEmu.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wingdiEmuRegister.hpp">
       <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
     </ClInclude>
   </ItemGroup>

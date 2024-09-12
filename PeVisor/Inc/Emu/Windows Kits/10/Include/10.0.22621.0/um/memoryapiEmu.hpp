@@ -59,7 +59,7 @@ namespace EmuApi {
     void EmuAllocateUserPhysicalPagesNuma(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuVirtualAllocExNuma(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetMemoryErrorHandlingCapabilities(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuBAD_MEMORY_CALLBACK_ROUTINE(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuBAD_MEMORY_CALLBACK_ROUTINE(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuRegisterBadMemoryNotification(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuUnregisterBadMemoryNotification(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuOfferVirtualMemory(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);

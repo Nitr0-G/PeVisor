@@ -25,8 +25,8 @@ namespace EmuApi {
     void EmuGetSystemTimeAsFileTime(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetLocalTime(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuIsUserCetAvailableInEnvironment(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuGetSystemLeapSecondInformation(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuGetVersion(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuGetSystemLeapSecondInformation(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuGetVersion(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetLocalTime(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetTickCount(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetTickCount64(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -42,8 +42,8 @@ namespace EmuApi {
     void EmuGetComputerNameExW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetComputerNameExW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetSystemTime(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuGetVersionExA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuGetVersionExW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuGetVersionExA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuGetVersionExW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetLogicalProcessorInformation(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetLogicalProcessorInformationEx(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetNativeSystemInfo(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -65,7 +65,7 @@ namespace EmuApi {
     void EmuSetComputerNameA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetComputerNameW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetComputerNameExA(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuGetDeveloperDriveEnablementState(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuGetDeveloperDriveEnablementState(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
 
 }
 

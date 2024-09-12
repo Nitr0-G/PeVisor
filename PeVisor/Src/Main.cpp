@@ -484,312 +484,488 @@ int main(int argc, char** argv)
 	
 	if (!ctx.m_IsKernel)
 	{
-		//DebugApiEmu.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "IsDebuggerPresent", EmuApi::EmuIsDebuggerPresent);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DebugBreak", EmuApi::EmuDebugBreak);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "OutputDebugStringA", EmuApi::EmuOutputDebugStringA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "OutputDebugStringW", EmuApi::EmuOutputDebugStringW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ContinueDebugEvent", EmuApi::EmuContinueDebugEvent);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "WaitForDebugEvent", EmuApi::EmuWaitForDebugEvent);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DebugActiveProcess", EmuApi::EmuDebugActiveProcess);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DebugActiveProcessStop", EmuApi::EmuDebugActiveProcessStop);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CheckRemoteDebuggerPresent", EmuApi::EmuCheckRemoteDebuggerPresent);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "WaitForDebugEventEx", EmuApi::EmuWaitForDebugEventEx);
-		}
-		//ErrHandlingApiEmu.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "RaiseException", EmuApi::EmuRaiseException);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "UnhandledExceptionFilter", EmuApi::EmuUnhandledExceptionFilter);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetUnhandledExceptionFilter", EmuApi::EmuSetUnhandledExceptionFilter);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLastError", EmuApi::EmuGetLastError);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetLastError", EmuApi::EmuSetLastError);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetErrorMode", EmuApi::EmuGetErrorMode);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetErrorMode", EmuApi::EmuSetErrorMode);
-			ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAddVectoredExceptionHandler", EmuApi::EmuAddVectoredExceptionHandler);
-			ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlRemoveVectoredExceptionHandler", EmuApi::EmuRemoveVectoredExceptionHandler);
-			ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAddVectoredContinueHandler", EmuApi::EmuAddVectoredContinueHandler);
-			ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlRemoveVectoredContinueHandler", EmuApi::EmuRemoveVectoredContinueHandler);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "RaiseFailFastException", EmuApi::EmuRaiseFailFastException);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FatalAppExitA", EmuApi::EmuFatalAppExitA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FatalAppExitW", EmuApi::EmuFatalAppExitW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetThreadErrorMode", EmuApi::EmuGetThreadErrorMode);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetThreadErrorMode", EmuApi::EmuSetThreadErrorMode);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "TerminateProcessOnMemoryExhaustion", EmuApi::EmuTerminateProcessOnMemoryExhaustion);
-		}
-		//FileApiEmu.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareFileTime", EmuApi::EmuCompareFileTime);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateDirectoryA", EmuApi::EmuCreateDirectoryA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateDirectoryW", EmuApi::EmuCreateDirectoryW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileA", EmuApi::EmuCreateFileA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileW", EmuApi::EmuCreateFileW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DefineDosDeviceW", EmuApi::EmuDefineDosDeviceW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteFileA", EmuApi::EmuDeleteFileA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteFileW", EmuApi::EmuDeleteFileW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteVolumeMountPointW", EmuApi::EmuDeleteVolumeMountPointW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FileTimeToLocalFileTime", EmuApi::EmuFileTimeToLocalFileTime);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindClose", EmuApi::EmuFindClose);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindCloseChangeNotification", EmuApi::EmuFindCloseChangeNotification);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstChangeNotificationA", EmuApi::EmuFindFirstChangeNotificationA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstChangeNotificationW", EmuApi::EmuFindFirstChangeNotificationW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileA", EmuApi::EmuFindFirstFileA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileW", EmuApi::EmuFindFirstFileW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileExA", EmuApi::EmuFindFirstFileExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileExW", EmuApi::EmuFindFirstFileExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstVolumeW", EmuApi::EmuFindFirstVolumeW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextChangeNotification", EmuApi::EmuFindNextChangeNotification);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextFileA", EmuApi::EmuFindNextFileA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextFileW", EmuApi::EmuFindNextFileW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextVolumeW", EmuApi::EmuFindNextVolumeW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindVolumeClose", EmuApi::EmuFindVolumeClose);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FlushFileBuffers", EmuApi::EmuFlushFileBuffers);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceA", EmuApi::EmuGetDiskFreeSpaceA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceW", EmuApi::EmuGetDiskFreeSpaceW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceExA", EmuApi::EmuGetDiskFreeSpaceExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceExW", EmuApi::EmuGetDiskFreeSpaceExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDriveTypeA", EmuApi::EmuGetDriveTypeA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDriveTypeW", EmuApi::EmuGetDriveTypeW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesA", EmuApi::EmuGetFileAttributesA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesW", EmuApi::EmuGetFileAttributesW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesExA", EmuApi::EmuGetFileAttributesExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesExW", EmuApi::EmuGetFileAttributesExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileInformationByHandle", EmuApi::EmuGetFileInformationByHandle);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileSize", EmuApi::EmuGetFileSize);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileSizeEx", EmuApi::EmuGetFileSizeEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileType", EmuApi::EmuGetFileType);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFinalPathNameByHandleA", EmuApi::EmuGetFinalPathNameByHandleA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFinalPathNameByHandleW", EmuApi::EmuGetFinalPathNameByHandleW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileTime", EmuApi::EmuGetFileTime);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFullPathNameW", EmuApi::EmuGetFullPathNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFullPathNameA", EmuApi::EmuGetFullPathNameA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLogicalDrives", EmuApi::EmuGetLogicalDrives);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLogicalDriveStringsW", EmuApi::EmuGetLogicalDriveStringsW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLongPathNameA", EmuApi::EmuGetLongPathNameA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLongPathNameW", EmuApi::EmuGetLongPathNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "AreShortNamesEnabled", EmuApi::EmuAreShortNamesEnabled);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetShortPathNameW", EmuApi::EmuGetShortPathNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempFileNameW", EmuApi::EmuGetTempFileNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeInformationByHandleW", EmuApi::EmuGetVolumeInformationByHandleW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeInformationW", EmuApi::EmuGetVolumeInformationW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumePathNameW", EmuApi::EmuGetVolumePathNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalFileTimeToFileTime", EmuApi::EmuLocalFileTimeToFileTime);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LockFile", EmuApi::EmuLockFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LockFileEx", EmuApi::EmuLockFileEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryDosDeviceW", EmuApi::EmuQueryDosDeviceW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadFile", EmuApi::EmuReadFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadFileEx", EmuApi::EmuReadFileEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadFileScatter", EmuApi::EmuReadFileScatter);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "RemoveDirectoryA", EmuApi::EmuRemoveDirectoryA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "RemoveDirectoryW", EmuApi::EmuRemoveDirectoryW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEndOfFile", EmuApi::EmuSetEndOfFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileAttributesA", EmuApi::EmuSetFileAttributesA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileAttributesW", EmuApi::EmuSetFileAttributesW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileInformationByHandle", EmuApi::EmuSetFileInformationByHandle);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFilePointer", EmuApi::EmuSetFilePointer);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFilePointerEx", EmuApi::EmuSetFilePointerEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileTime", EmuApi::EmuSetFileTime);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileValidData", EmuApi::EmuSetFileValidData);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "UnlockFile", EmuApi::EmuUnlockFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "UnlockFileEx", EmuApi::EmuUnlockFileEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFile", EmuApi::EmuWriteFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFileEx", EmuApi::EmuWriteFileEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFileGather", EmuApi::EmuWriteFileGather);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPathW", EmuApi::EmuGetTempPathW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeNameForVolumeMountPointW", EmuApi::EmuGetVolumeNameForVolumeMountPointW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumePathNamesForVolumeNameW", EmuApi::EmuGetVolumePathNamesForVolumeNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFile2", EmuApi::EmuCreateFile2);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileIoOverlappedRange", EmuApi::EmuSetFileIoOverlappedRange);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCompressedFileSizeA", EmuApi::EmuGetCompressedFileSizeA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCompressedFileSizeW", EmuApi::EmuGetCompressedFileSizeW);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "FindFirstStreamW", EmuApi::EmuFindFirstStreamW);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "FindNextStreamW", EmuApi::EmuFindNextStreamW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "AreFileApisANSI", EmuApi::EmuAreFileApisANSI);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPathA", EmuApi::EmuGetTempPathA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileNameW", EmuApi::EmuFindFirstFileNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextFileNameW", EmuApi::EmuFindNextFileNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeInformationA", EmuApi::EmuGetVolumeInformationA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempFileNameA", EmuApi::EmuGetTempFileNameA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileApisToOEM", EmuApi::EmuSetFileApisToOEM);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileApisToANSI", EmuApi::EmuSetFileApisToANSI);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPath2W", EmuApi::EmuGetTempPath2W);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPath2A", EmuApi::EmuGetTempPath2A);
-		}
-		//LibLoaderApiEmu.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "DisableThreadLibraryCalls", EmuApi::EmuDisableThreadLibraryCalls);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindResourceExW", EmuApi::EmuFindResourceExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindStringOrdinal", EmuApi::EmuFindStringOrdinal);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeLibrary", EmuApi::EmuFreeLibrary);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeLibraryAndExitThread", EmuApi::EmuFreeLibraryAndExitThread);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeResource", EmuApi::EmuFreeResource);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameA", EmuApi::EmuGetModuleFileNameA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameW", EmuApi::EmuGetModuleFileNameW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleA", EmuApi::EmuGetModuleHandleA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleW", EmuApi::EmuGetModuleHandleW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleExA", EmuApi::EmuGetModuleHandleExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleExW", EmuApi::EmuGetModuleHandleExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcAddress", EmuApi::EmuGetProcAddress);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryExA", EmuApi::EmuLoadLibraryExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryExW", EmuApi::EmuLoadLibraryExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadResource", EmuApi::EmuLoadResource);
-			ctx.RegisterAPIEmulation(L"user32.dll", "LoadStringA", EmuApi::EmuLoadStringA);
-			ctx.RegisterAPIEmulation(L"user32.dll", "LoadStringW", EmuApi::EmuLoadStringW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LockResource", EmuApi::EmuLockResource);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SizeofResource", EmuApi::EmuSizeofResource);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "AddDllDirectory", EmuApi::EmuAddDllDirectory);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "RemoveDllDirectory", EmuApi::EmuRemoveDllDirectory);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetDefaultDllDirectories", EmuApi::EmuSetDefaultDllDirectories);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceLanguagesExA", EmuApi::EmuEnumResourceLanguagesExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceLanguagesExW", EmuApi::EmuEnumResourceLanguagesExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesExA", EmuApi::EmuEnumResourceNamesExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesExW", EmuApi::EmuEnumResourceNamesExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceTypesExA", EmuApi::EmuEnumResourceTypesExA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceTypesExW", EmuApi::EmuEnumResourceTypesExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FindResourceW", EmuApi::EmuFindResourceW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryA", EmuApi::EmuLoadLibraryA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryW", EmuApi::EmuLoadLibraryW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesW", EmuApi::EmuEnumResourceNamesW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesA", EmuApi::EmuEnumResourceNamesA);
-		}
-		//MemoryApiEmu.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualAlloc", EmuApi::EmuVirtualAlloc);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualProtect", EmuApi::EmuVirtualProtect);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualFree", EmuApi::EmuVirtualFree);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualQuery", EmuApi::EmuVirtualQuery);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualAllocEx", EmuApi::EmuVirtualAllocEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualProtectEx", EmuApi::EmuVirtualProtectEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualQueryEx", EmuApi::EmuVirtualQueryEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadProcessMemory", EmuApi::EmuReadProcessMemory);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteProcessMemory", EmuApi::EmuWriteProcessMemory);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileMappingW", EmuApi::EmuCreateFileMappingW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "OpenFileMappingW", EmuApi::EmuOpenFileMappingW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "MapViewOfFile", EmuApi::EmuMapViewOfFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "MapViewOfFileEx", EmuApi::EmuMapViewOfFileEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualFreeEx", EmuApi::EmuVirtualFreeEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FlushViewOfFile", EmuApi::EmuFlushViewOfFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "UnmapViewOfFile", EmuApi::EmuUnmapViewOfFile);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLargePageMinimum", EmuApi::EmuGetLargePageMinimum);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessWorkingSetSize", EmuApi::EmuGetProcessWorkingSetSize);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessWorkingSetSizeEx", EmuApi::EmuGetProcessWorkingSetSizeEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetProcessWorkingSetSize", EmuApi::EmuSetProcessWorkingSetSize);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetProcessWorkingSetSizeEx", EmuApi::EmuSetProcessWorkingSetSizeEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualLock", EmuApi::EmuVirtualLock);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualUnlock", EmuApi::EmuVirtualUnlock);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetWriteWatch", EmuApi::EmuGetWriteWatch);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ResetWriteWatch", EmuApi::EmuResetWriteWatch);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateMemoryResourceNotification", EmuApi::EmuCreateMemoryResourceNotification);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryMemoryResourceNotification", EmuApi::EmuQueryMemoryResourceNotification);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemFileCacheSize", EmuApi::EmuGetSystemFileCacheSize);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetSystemFileCacheSize", EmuApi::EmuSetSystemFileCacheSize);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileMappingNumaW", EmuApi::EmuCreateFileMappingNumaW);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "PrefetchVirtualMemory", EmuApi::EmuPrefetchVirtualMemory);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "CreateFileMappingFromApp", EmuApi::EmuCreateFileMappingFromApp);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFileFromApp", EmuApi::EmuMapViewOfFileFromApp);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "UnmapViewOfFileEx", EmuApi::EmuUnmapViewOfFileEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "AllocateUserPhysicalPages", EmuApi::EmuAllocateUserPhysicalPages);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeUserPhysicalPages", EmuApi::EmuFreeUserPhysicalPages);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "MapUserPhysicalPages", EmuApi::EmuMapUserPhysicalPages);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "AllocateUserPhysicalPagesNuma", EmuApi::EmuAllocateUserPhysicalPagesNuma);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualAllocExNuma", EmuApi::EmuVirtualAllocExNuma);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetMemoryErrorHandlingCapabilities", EmuApi::EmuGetMemoryErrorHandlingCapabilities);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "RegisterBadMemoryNotification", EmuApi::EmuRegisterBadMemoryNotification);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "UnregisterBadMemoryNotification", EmuApi::EmuUnregisterBadMemoryNotification);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "OfferVirtualMemory", EmuApi::EmuOfferVirtualMemory);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "ReclaimVirtualMemory", EmuApi::EmuReclaimVirtualMemory);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "DiscardVirtualMemory", EmuApi::EmuDiscardVirtualMemory);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetProcessValidCallTargets", EmuApi::EmuSetProcessValidCallTargets);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetProcessValidCallTargetsForMappedView", EmuApi::EmuSetProcessValidCallTargetsForMappedView);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualAllocFromApp", EmuApi::EmuVirtualAllocFromApp);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualProtectFromApp", EmuApi::EmuVirtualProtectFromApp);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "OpenFileMappingFromApp", EmuApi::EmuOpenFileMappingFromApp);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "QueryVirtualMemoryInformation", EmuApi::EmuQueryVirtualMemoryInformation);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFileNuma2", EmuApi::EmuMapViewOfFileNuma2);
-			//ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFile2", EmuApi::EmuMapViewOfFile2);
-			//ctx.RegisterAPIEmulation(L"kernelbase.dll", "UnmapViewOfFile2", EmuApi::EmuUnmapViewOfFile2);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualUnlockEx", EmuApi::EmuVirtualUnlockEx);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualAlloc2", EmuApi::EmuVirtualAlloc2);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFile3", EmuApi::EmuMapViewOfFile3);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualAlloc2FromApp", EmuApi::EmuVirtualAlloc2FromApp);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFile3FromApp", EmuApi::EmuMapViewOfFile3FromApp);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "CreateFileMapping2", EmuApi::EmuCreateFileMapping2);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "AllocateUserPhysicalPages2", EmuApi::EmuAllocateUserPhysicalPages2);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "OpenDedicatedMemoryPartition", EmuApi::EmuOpenDedicatedMemoryPartition);
-			ctx.RegisterAPIEmulation(L"kernelbase.dll", "QueryPartitionInformation", EmuApi::EmuQueryPartitionInformation);
-		}
-		//NtdllEmu.hpp
-		{
+		debugapiEmuRegister(ctx);
+		errhandlingapiEmuRegister(ctx);
+		fileapiEmuRegister(ctx);
+		libloaderapiEmuRegister(ctx);
+		memoryapiEmuRegister(ctx);
+		ntdllEmuRegister(ctx);
+		processenvEmuRegister(ctx);
+		processthreadsapiEmuRegister(ctx);
+		profileapiEmuRegister(ctx);
+		stringapisetEmuRegister(ctx);
+		synchapiEmuRegister(ctx);
+		sysinfoapiEmuRegister(ctx);
+		WinBaseEmuRegister(ctx);
+		wininetEmuRegister(ctx);
+		WinUserEmuRegister(ctx);
+		////DebugApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "IsDebuggerPresent", EmuApi::EmuIsDebuggerPresent);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DebugBreak", EmuApi::EmuDebugBreak);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OutputDebugStringA", EmuApi::EmuOutputDebugStringA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OutputDebugStringW", EmuApi::EmuOutputDebugStringW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ContinueDebugEvent", EmuApi::EmuContinueDebugEvent);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WaitForDebugEvent", EmuApi::EmuWaitForDebugEvent);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DebugActiveProcess", EmuApi::EmuDebugActiveProcess);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DebugActiveProcessStop", EmuApi::EmuDebugActiveProcessStop);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CheckRemoteDebuggerPresent", EmuApi::EmuCheckRemoteDebuggerPresent);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "WaitForDebugEventEx", EmuApi::EmuWaitForDebugEventEx);
+		//}
+		////ErrHandlingApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "RaiseException", EmuApi::EmuRaiseException);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "UnhandledExceptionFilter", EmuApi::EmuUnhandledExceptionFilter);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetUnhandledExceptionFilter", EmuApi::EmuSetUnhandledExceptionFilter);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLastError", EmuApi::EmuGetLastError);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetLastError", EmuApi::EmuSetLastError);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetErrorMode", EmuApi::EmuGetErrorMode);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetErrorMode", EmuApi::EmuSetErrorMode);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAddVectoredExceptionHandler", EmuApi::EmuAddVectoredExceptionHandler);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlRemoveVectoredExceptionHandler", EmuApi::EmuRemoveVectoredExceptionHandler);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAddVectoredContinueHandler", EmuApi::EmuAddVectoredContinueHandler);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlRemoveVectoredContinueHandler", EmuApi::EmuRemoveVectoredContinueHandler);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "RaiseFailFastException", EmuApi::EmuRaiseFailFastException);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FatalAppExitA", EmuApi::EmuFatalAppExitA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FatalAppExitW", EmuApi::EmuFatalAppExitW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetThreadErrorMode", EmuApi::EmuGetThreadErrorMode);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetThreadErrorMode", EmuApi::EmuSetThreadErrorMode);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "TerminateProcessOnMemoryExhaustion", EmuApi::EmuTerminateProcessOnMemoryExhaustion);
+		//}
+		////FileApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareFileTime", EmuApi::EmuCompareFileTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateDirectoryA", EmuApi::EmuCreateDirectoryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateDirectoryW", EmuApi::EmuCreateDirectoryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileA", EmuApi::EmuCreateFileA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileW", EmuApi::EmuCreateFileW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DefineDosDeviceW", EmuApi::EmuDefineDosDeviceW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteFileA", EmuApi::EmuDeleteFileA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteFileW", EmuApi::EmuDeleteFileW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteVolumeMountPointW", EmuApi::EmuDeleteVolumeMountPointW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FileTimeToLocalFileTime", EmuApi::EmuFileTimeToLocalFileTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindClose", EmuApi::EmuFindClose);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindCloseChangeNotification", EmuApi::EmuFindCloseChangeNotification);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstChangeNotificationA", EmuApi::EmuFindFirstChangeNotificationA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstChangeNotificationW", EmuApi::EmuFindFirstChangeNotificationW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileA", EmuApi::EmuFindFirstFileA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileW", EmuApi::EmuFindFirstFileW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileExA", EmuApi::EmuFindFirstFileExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileExW", EmuApi::EmuFindFirstFileExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstVolumeW", EmuApi::EmuFindFirstVolumeW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextChangeNotification", EmuApi::EmuFindNextChangeNotification);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextFileA", EmuApi::EmuFindNextFileA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextFileW", EmuApi::EmuFindNextFileW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextVolumeW", EmuApi::EmuFindNextVolumeW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindVolumeClose", EmuApi::EmuFindVolumeClose);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FlushFileBuffers", EmuApi::EmuFlushFileBuffers);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceA", EmuApi::EmuGetDiskFreeSpaceA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceW", EmuApi::EmuGetDiskFreeSpaceW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceExA", EmuApi::EmuGetDiskFreeSpaceExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDiskFreeSpaceExW", EmuApi::EmuGetDiskFreeSpaceExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDriveTypeA", EmuApi::EmuGetDriveTypeA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetDriveTypeW", EmuApi::EmuGetDriveTypeW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesA", EmuApi::EmuGetFileAttributesA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesW", EmuApi::EmuGetFileAttributesW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesExA", EmuApi::EmuGetFileAttributesExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileAttributesExW", EmuApi::EmuGetFileAttributesExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileInformationByHandle", EmuApi::EmuGetFileInformationByHandle);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileSize", EmuApi::EmuGetFileSize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileSizeEx", EmuApi::EmuGetFileSizeEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileType", EmuApi::EmuGetFileType);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFinalPathNameByHandleA", EmuApi::EmuGetFinalPathNameByHandleA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFinalPathNameByHandleW", EmuApi::EmuGetFinalPathNameByHandleW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFileTime", EmuApi::EmuGetFileTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFullPathNameW", EmuApi::EmuGetFullPathNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetFullPathNameA", EmuApi::EmuGetFullPathNameA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLogicalDrives", EmuApi::EmuGetLogicalDrives);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLogicalDriveStringsW", EmuApi::EmuGetLogicalDriveStringsW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLongPathNameA", EmuApi::EmuGetLongPathNameA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLongPathNameW", EmuApi::EmuGetLongPathNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "AreShortNamesEnabled", EmuApi::EmuAreShortNamesEnabled);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetShortPathNameW", EmuApi::EmuGetShortPathNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempFileNameW", EmuApi::EmuGetTempFileNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeInformationByHandleW", EmuApi::EmuGetVolumeInformationByHandleW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeInformationW", EmuApi::EmuGetVolumeInformationW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumePathNameW", EmuApi::EmuGetVolumePathNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalFileTimeToFileTime", EmuApi::EmuLocalFileTimeToFileTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LockFile", EmuApi::EmuLockFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LockFileEx", EmuApi::EmuLockFileEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryDosDeviceW", EmuApi::EmuQueryDosDeviceW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadFile", EmuApi::EmuReadFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadFileEx", EmuApi::EmuReadFileEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadFileScatter", EmuApi::EmuReadFileScatter);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "RemoveDirectoryA", EmuApi::EmuRemoveDirectoryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "RemoveDirectoryW", EmuApi::EmuRemoveDirectoryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEndOfFile", EmuApi::EmuSetEndOfFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileAttributesA", EmuApi::EmuSetFileAttributesA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileAttributesW", EmuApi::EmuSetFileAttributesW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileInformationByHandle", EmuApi::EmuSetFileInformationByHandle);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFilePointer", EmuApi::EmuSetFilePointer);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFilePointerEx", EmuApi::EmuSetFilePointerEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileTime", EmuApi::EmuSetFileTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileValidData", EmuApi::EmuSetFileValidData);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "UnlockFile", EmuApi::EmuUnlockFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "UnlockFileEx", EmuApi::EmuUnlockFileEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFile", EmuApi::EmuWriteFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFileEx", EmuApi::EmuWriteFileEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteFileGather", EmuApi::EmuWriteFileGather);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPathW", EmuApi::EmuGetTempPathW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeNameForVolumeMountPointW", EmuApi::EmuGetVolumeNameForVolumeMountPointW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumePathNamesForVolumeNameW", EmuApi::EmuGetVolumePathNamesForVolumeNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFile2", EmuApi::EmuCreateFile2);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileIoOverlappedRange", EmuApi::EmuSetFileIoOverlappedRange);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCompressedFileSizeA", EmuApi::EmuGetCompressedFileSizeA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCompressedFileSizeW", EmuApi::EmuGetCompressedFileSizeW);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "FindFirstStreamW", EmuApi::EmuFindFirstStreamW);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "FindNextStreamW", EmuApi::EmuFindNextStreamW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "AreFileApisANSI", EmuApi::EmuAreFileApisANSI);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPathA", EmuApi::EmuGetTempPathA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindFirstFileNameW", EmuApi::EmuFindFirstFileNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindNextFileNameW", EmuApi::EmuFindNextFileNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetVolumeInformationA", EmuApi::EmuGetVolumeInformationA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempFileNameA", EmuApi::EmuGetTempFileNameA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileApisToOEM", EmuApi::EmuSetFileApisToOEM);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetFileApisToANSI", EmuApi::EmuSetFileApisToANSI);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPath2W", EmuApi::EmuGetTempPath2W);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTempPath2A", EmuApi::EmuGetTempPath2A);
+		//}
+		////LibLoaderApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DisableThreadLibraryCalls", EmuApi::EmuDisableThreadLibraryCalls);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindResourceExW", EmuApi::EmuFindResourceExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindStringOrdinal", EmuApi::EmuFindStringOrdinal);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeLibrary", EmuApi::EmuFreeLibrary);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeLibraryAndExitThread", EmuApi::EmuFreeLibraryAndExitThread);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeResource", EmuApi::EmuFreeResource);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameA", EmuApi::EmuGetModuleFileNameA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleFileNameW", EmuApi::EmuGetModuleFileNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleA", EmuApi::EmuGetModuleHandleA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleW", EmuApi::EmuGetModuleHandleW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleExA", EmuApi::EmuGetModuleHandleExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetModuleHandleExW", EmuApi::EmuGetModuleHandleExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcAddress", EmuApi::EmuGetProcAddress);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryExA", EmuApi::EmuLoadLibraryExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryExW", EmuApi::EmuLoadLibraryExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadResource", EmuApi::EmuLoadResource);
+		//	ctx.RegisterAPIEmulation(L"user32.dll", "LoadStringA", EmuApi::EmuLoadStringA);
+		//	ctx.RegisterAPIEmulation(L"user32.dll", "LoadStringW", EmuApi::EmuLoadStringW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LockResource", EmuApi::EmuLockResource);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SizeofResource", EmuApi::EmuSizeofResource);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "AddDllDirectory", EmuApi::EmuAddDllDirectory);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "RemoveDllDirectory", EmuApi::EmuRemoveDllDirectory);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetDefaultDllDirectories", EmuApi::EmuSetDefaultDllDirectories);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceLanguagesExA", EmuApi::EmuEnumResourceLanguagesExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceLanguagesExW", EmuApi::EmuEnumResourceLanguagesExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesExA", EmuApi::EmuEnumResourceNamesExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesExW", EmuApi::EmuEnumResourceNamesExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceTypesExA", EmuApi::EmuEnumResourceTypesExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceTypesExW", EmuApi::EmuEnumResourceTypesExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FindResourceW", EmuApi::EmuFindResourceW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryA", EmuApi::EmuLoadLibraryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LoadLibraryW", EmuApi::EmuLoadLibraryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesW", EmuApi::EmuEnumResourceNamesW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumResourceNamesA", EmuApi::EmuEnumResourceNamesA);
+		//}
+		////MemoryApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualAlloc", EmuApi::EmuVirtualAlloc);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualProtect", EmuApi::EmuVirtualProtect);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualFree", EmuApi::EmuVirtualFree);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualQuery", EmuApi::EmuVirtualQuery);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualAllocEx", EmuApi::EmuVirtualAllocEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualProtectEx", EmuApi::EmuVirtualProtectEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualQueryEx", EmuApi::EmuVirtualQueryEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ReadProcessMemory", EmuApi::EmuReadProcessMemory);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WriteProcessMemory", EmuApi::EmuWriteProcessMemory);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileMappingW", EmuApi::EmuCreateFileMappingW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OpenFileMappingW", EmuApi::EmuOpenFileMappingW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "MapViewOfFile", EmuApi::EmuMapViewOfFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "MapViewOfFileEx", EmuApi::EmuMapViewOfFileEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualFreeEx", EmuApi::EmuVirtualFreeEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FlushViewOfFile", EmuApi::EmuFlushViewOfFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "UnmapViewOfFile", EmuApi::EmuUnmapViewOfFile);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLargePageMinimum", EmuApi::EmuGetLargePageMinimum);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessWorkingSetSize", EmuApi::EmuGetProcessWorkingSetSize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessWorkingSetSizeEx", EmuApi::EmuGetProcessWorkingSetSizeEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetProcessWorkingSetSize", EmuApi::EmuSetProcessWorkingSetSize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetProcessWorkingSetSizeEx", EmuApi::EmuSetProcessWorkingSetSizeEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualLock", EmuApi::EmuVirtualLock);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualUnlock", EmuApi::EmuVirtualUnlock);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetWriteWatch", EmuApi::EmuGetWriteWatch);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ResetWriteWatch", EmuApi::EmuResetWriteWatch);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateMemoryResourceNotification", EmuApi::EmuCreateMemoryResourceNotification);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryMemoryResourceNotification", EmuApi::EmuQueryMemoryResourceNotification);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemFileCacheSize", EmuApi::EmuGetSystemFileCacheSize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetSystemFileCacheSize", EmuApi::EmuSetSystemFileCacheSize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFileMappingNumaW", EmuApi::EmuCreateFileMappingNumaW);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "PrefetchVirtualMemory", EmuApi::EmuPrefetchVirtualMemory);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "CreateFileMappingFromApp", EmuApi::EmuCreateFileMappingFromApp);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFileFromApp", EmuApi::EmuMapViewOfFileFromApp);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "UnmapViewOfFileEx", EmuApi::EmuUnmapViewOfFileEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "AllocateUserPhysicalPages", EmuApi::EmuAllocateUserPhysicalPages);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeUserPhysicalPages", EmuApi::EmuFreeUserPhysicalPages);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "MapUserPhysicalPages", EmuApi::EmuMapUserPhysicalPages);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "AllocateUserPhysicalPagesNuma", EmuApi::EmuAllocateUserPhysicalPagesNuma);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "VirtualAllocExNuma", EmuApi::EmuVirtualAllocExNuma);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetMemoryErrorHandlingCapabilities", EmuApi::EmuGetMemoryErrorHandlingCapabilities);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "RegisterBadMemoryNotification", EmuApi::EmuRegisterBadMemoryNotification);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "UnregisterBadMemoryNotification", EmuApi::EmuUnregisterBadMemoryNotification);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "OfferVirtualMemory", EmuApi::EmuOfferVirtualMemory);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "ReclaimVirtualMemory", EmuApi::EmuReclaimVirtualMemory);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "DiscardVirtualMemory", EmuApi::EmuDiscardVirtualMemory);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetProcessValidCallTargets", EmuApi::EmuSetProcessValidCallTargets);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetProcessValidCallTargetsForMappedView", EmuApi::EmuSetProcessValidCallTargetsForMappedView);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualAllocFromApp", EmuApi::EmuVirtualAllocFromApp);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualProtectFromApp", EmuApi::EmuVirtualProtectFromApp);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "OpenFileMappingFromApp", EmuApi::EmuOpenFileMappingFromApp);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "QueryVirtualMemoryInformation", EmuApi::EmuQueryVirtualMemoryInformation);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFileNuma2", EmuApi::EmuMapViewOfFileNuma2);
+		//	//ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFile2", EmuApi::EmuMapViewOfFile2);
+		//	//ctx.RegisterAPIEmulation(L"kernelbase.dll", "UnmapViewOfFile2", EmuApi::EmuUnmapViewOfFile2);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualUnlockEx", EmuApi::EmuVirtualUnlockEx);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualAlloc2", EmuApi::EmuVirtualAlloc2);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFile3", EmuApi::EmuMapViewOfFile3);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "VirtualAlloc2FromApp", EmuApi::EmuVirtualAlloc2FromApp);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "MapViewOfFile3FromApp", EmuApi::EmuMapViewOfFile3FromApp);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "CreateFileMapping2", EmuApi::EmuCreateFileMapping2);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "AllocateUserPhysicalPages2", EmuApi::EmuAllocateUserPhysicalPages2);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "OpenDedicatedMemoryPartition", EmuApi::EmuOpenDedicatedMemoryPartition);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "QueryPartitionInformation", EmuApi::EmuQueryPartitionInformation);
+		//}
+		////NtdllEmu.hpp
+		//{
 
-		}
-		//ProcessEnvEmu.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEnvironmentStringsW", EmuApi::EmuSetEnvironmentStringsW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStdHandle", EmuApi::EmuGetStdHandle);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetStdHandle", EmuApi::EmuSetStdHandle);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetStdHandleEx", EmuApi::EmuSetStdHandleEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCommandLineA", EmuApi::EmuGetCommandLineA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCommandLineW", EmuApi::EmuGetCommandLineW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentStrings", EmuApi::EmuGetEnvironmentStrings);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentStringsW", EmuApi::EmuGetEnvironmentStringsW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeEnvironmentStringsA", EmuApi::EmuFreeEnvironmentStringsA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeEnvironmentStringsW", EmuApi::EmuFreeEnvironmentStringsW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentVariableA", EmuApi::EmuGetEnvironmentVariableA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentVariableW", EmuApi::EmuGetEnvironmentVariableW);
+		//}
+		////ProcessEnvEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEnvironmentStringsW", EmuApi::EmuSetEnvironmentStringsW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStdHandle", EmuApi::EmuGetStdHandle);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetStdHandle", EmuApi::EmuSetStdHandle);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetStdHandleEx", EmuApi::EmuSetStdHandleEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCommandLineA", EmuApi::EmuGetCommandLineA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCommandLineW", EmuApi::EmuGetCommandLineW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentStrings", EmuApi::EmuGetEnvironmentStrings);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentStringsW", EmuApi::EmuGetEnvironmentStringsW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeEnvironmentStringsA", EmuApi::EmuFreeEnvironmentStringsA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FreeEnvironmentStringsW", EmuApi::EmuFreeEnvironmentStringsW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentVariableA", EmuApi::EmuGetEnvironmentVariableA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetEnvironmentVariableW", EmuApi::EmuGetEnvironmentVariableW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEnvironmentVariableA", EmuApi::EmuSetEnvironmentVariableA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEnvironmentVariableW", EmuApi::EmuSetEnvironmentVariableW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ExpandEnvironmentStringsA", EmuApi::EmuExpandEnvironmentStringsA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ExpandEnvironmentStringsW", EmuApi::EmuExpandEnvironmentStringsW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetCurrentDirectoryA", EmuApi::EmuSetCurrentDirectoryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetCurrentDirectoryW", EmuApi::EmuSetCurrentDirectoryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCurrentDirectoryA", EmuApi::EmuGetCurrentDirectoryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCurrentDirectoryW", EmuApi::EmuGetCurrentDirectoryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SearchPathW", EmuApi::EmuSearchPathW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SearchPathA", EmuApi::EmuSearchPathA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "NeedCurrentDirectoryForExePathA", EmuApi::EmuNeedCurrentDirectoryForExePathA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "NeedCurrentDirectoryForExePathW", EmuApi::EmuNeedCurrentDirectoryForExePathW);
+		//}
+		////ProcessThreadsApiEmu.hpp
+		//{
 
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEnvironmentVariableA", EmuApi::EmuSetEnvironmentVariableA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEnvironmentVariableW", EmuApi::EmuSetEnvironmentVariableW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ExpandEnvironmentStringsA", EmuApi::EmuExpandEnvironmentStringsA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "ExpandEnvironmentStringsW", EmuApi::EmuExpandEnvironmentStringsW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetCurrentDirectoryA", EmuApi::EmuSetCurrentDirectoryA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SetCurrentDirectoryW", EmuApi::EmuSetCurrentDirectoryW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCurrentDirectoryA", EmuApi::EmuGetCurrentDirectoryA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCurrentDirectoryW", EmuApi::EmuGetCurrentDirectoryW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SearchPathW", EmuApi::EmuSearchPathW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "SearchPathA", EmuApi::EmuSearchPathA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "NeedCurrentDirectoryForExePathA", EmuApi::EmuNeedCurrentDirectoryForExePathA);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "NeedCurrentDirectoryForExePathW", EmuApi::EmuNeedCurrentDirectoryForExePathW);
-		}
-		//ProcessThreadsApiEmu.hpp
-		{
+		//}
+		////ProfileApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryPerformanceCounter", EmuApi::EmuQueryPerformanceCounter);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryPerformanceFrequency", EmuApi::EmuQueryPerformanceFrequency);
+		//}
+		////StringApiSet.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareStringEx", EmuApi::EmuCompareStringEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareStringOrdinal", EmuApi::EmuCompareStringOrdinal);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareStringW", EmuApi::EmuCompareStringW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FoldStringW", EmuApi::EmuFoldStringW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStringTypeExW", EmuApi::EmuGetStringTypeExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStringTypeW", EmuApi::EmuGetStringTypeW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "MultiByteToWideChar", EmuApi::EmuMultiByteToWideChar);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WideCharToMultiByte", EmuApi::EmuWideCharToMultiByte);
+		//}
+		////SynchApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlInitializeSRWLock", EmuApi::EmuInitializeSRWLock);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlReleaseSRWLockExclusive", EmuApi::EmuReleaseSRWLockExclusive);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlReleaseSRWLockShared", EmuApi::EmuReleaseSRWLockShared);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAcquireSRWLockExclusive", EmuApi::EmuAcquireSRWLockExclusive);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlAcquireSRWLockShared", EmuApi::EmuAcquireSRWLockShared);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlTryAcquireSRWLockExclusive", EmuApi::EmuTryAcquireSRWLockExclusive);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlTryAcquireSRWLockShared", EmuApi::EmuTryAcquireSRWLockShared);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlInitializeCriticalSection", EmuApi::EmuInitializeCriticalSection);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlEnterCriticalSection", EmuApi::EmuEnterCriticalSection);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlLeaveCriticalSection", EmuApi::EmuLeaveCriticalSection);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "InitializeCriticalSectionAndSpinCount", EmuApi::EmuInitializeCriticalSectionAndSpinCount);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "InitializeCriticalSectionEx", EmuApi::EmuInitializeCriticalSectionEx);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlSetCriticalSectionSpinCount", EmuApi::EmuSetCriticalSectionSpinCount);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlTryEnterCriticalSection", EmuApi::EmuTryEnterCriticalSection);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlDeleteCriticalSection", EmuApi::EmuDeleteCriticalSection);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlRunOnceInitialize", EmuApi::EmuInitOnceInitialize);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "InitOnceExecuteOnce", EmuApi::EmuInitOnceExecuteOnce);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "InitOnceBeginInitialize", EmuApi::EmuInitOnceBeginInitialize);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "InitOnceComplete", EmuApi::EmuInitOnceComplete);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlInitializeConditionVariable", EmuApi::EmuInitializeConditionVariable);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlWakeConditionVariable", EmuApi::EmuWakeConditionVariable);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlWakeAllConditionVariable", EmuApi::EmuWakeAllConditionVariable);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "SleepConditionVariableCS", EmuApi::EmuSleepConditionVariableCS);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "SleepConditionVariableSRW", EmuApi::EmuSleepConditionVariableSRW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEvent", EmuApi::EmuSetEvent);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ResetEvent", EmuApi::EmuResetEvent);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ReleaseSemaphore", EmuApi::EmuReleaseSemaphore);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ReleaseMutex", EmuApi::EmuReleaseMutex);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WaitForSingleObject", EmuApi::EmuWaitForSingleObject);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SleepEx", EmuApi::EmuSleepEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WaitForSingleObjectEx", EmuApi::EmuWaitForSingleObjectEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WaitForMultipleObjectsEx", EmuApi::EmuWaitForMultipleObjectsEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateMutexA", EmuApi::EmuCreateMutexA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateMutexW", EmuApi::EmuCreateMutexW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OpenMutexW", EmuApi::EmuOpenMutexW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateEventA", EmuApi::EmuCreateEventA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateEventW", EmuApi::EmuCreateEventW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OpenEventA", EmuApi::EmuOpenEventA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OpenEventW", EmuApi::EmuOpenEventW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OpenSemaphoreW", EmuApi::EmuOpenSemaphoreW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "OpenWaitableTimerW", EmuApi::EmuOpenWaitableTimerW);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetWaitableTimerEx", EmuApi::EmuSetWaitableTimerEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetWaitableTimer", EmuApi::EmuSetWaitableTimer);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CancelWaitableTimer", EmuApi::EmuCancelWaitableTimer);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateMutexExA", EmuApi::EmuCreateMutexExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateMutexExW", EmuApi::EmuCreateMutexExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateEventExA", EmuApi::EmuCreateEventExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateEventExW", EmuApi::EmuCreateEventExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateSemaphoreExW", EmuApi::EmuCreateSemaphoreExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateWaitableTimerExW", EmuApi::EmuCreateWaitableTimerExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnterSynchronizationBarrier", EmuApi::EmuEnterSynchronizationBarrier);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "InitializeSynchronizationBarrier", EmuApi::EmuInitializeSynchronizationBarrier);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteSynchronizationBarrier", EmuApi::EmuDeleteSynchronizationBarrier);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "Sleep", EmuApi::EmuSleep);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "WaitOnAddress", EmuApi::EmuWaitOnAddress);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlWakeAddressSingle", EmuApi::EmuWakeByAddressSingle);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "RtlWakeAddressAll", EmuApi::EmuWakeByAddressAll);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SignalObjectAndWait", EmuApi::EmuSignalObjectAndWait);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "WaitForMultipleObjects", EmuApi::EmuWaitForMultipleObjects);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateSemaphoreW", EmuApi::EmuCreateSemaphoreW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateWaitableTimerW", EmuApi::EmuCreateWaitableTimerW);
+		//}
+		////SysInfoApiEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalMemoryStatusEx", EmuApi::EmuGlobalMemoryStatusEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemInfo", EmuApi::EmuGetSystemInfo);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemTime", EmuApi::EmuGetSystemTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemTimeAsFileTime", EmuApi::EmuGetSystemTimeAsFileTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLocalTime", EmuApi::EmuGetLocalTime);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "IsUserCetAvailableInEnvironment", EmuApi::EmuIsUserCetAvailableInEnvironment);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetLocalTime", EmuApi::EmuSetLocalTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTickCountKernel32", EmuApi::EmuGetTickCount);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetTickCount64Kernel32", EmuApi::EmuGetTickCount64);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemTimeAdjustment", EmuApi::EmuGetSystemTimeAdjustment);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "GetSystemTimeAdjustmentPrecise", EmuApi::EmuGetSystemTimeAdjustmentPrecise);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemDirectoryA", EmuApi::EmuGetSystemDirectoryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemDirectoryW", EmuApi::EmuGetSystemDirectoryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetWindowsDirectoryA", EmuApi::EmuGetWindowsDirectoryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetWindowsDirectoryW", EmuApi::EmuGetWindowsDirectoryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemWindowsDirectoryA", EmuApi::EmuGetSystemWindowsDirectoryA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemWindowsDirectoryW", EmuApi::EmuGetSystemWindowsDirectoryW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetComputerNameExA", EmuApi::EmuGetComputerNameExA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetComputerNameExW", EmuApi::EmuGetComputerNameExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetComputerNameExW", EmuApi::EmuSetComputerNameExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetSystemTime", EmuApi::EmuSetSystemTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLogicalProcessorInformation", EmuApi::EmuGetLogicalProcessorInformation);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLogicalProcessorInformationEx", EmuApi::EmuGetLogicalProcessorInformationEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetNativeSystemInfo", EmuApi::EmuGetNativeSystemInfo);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemTimePreciseAsFileTime", EmuApi::EmuGetSystemTimePreciseAsFileTime);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProductInfo", EmuApi::EmuGetProductInfo);
+		//	ctx.RegisterAPIEmulation(L"ntdll.dll", "VerSetConditionMask", EmuApi::EmuVerSetConditionMask);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "GetOsSafeBootMode", EmuApi::EmuGetOsSafeBootMode);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnumSystemFirmwareTables", EmuApi::EmuEnumSystemFirmwareTables);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetSystemFirmwareTable", EmuApi::EmuGetSystemFirmwareTable);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DnsHostnameToComputerNameExW", EmuApi::EmuDnsHostnameToComputerNameExW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetPhysicallyInstalledSystemMemory", EmuApi::EmuGetPhysicallyInstalledSystemMemory);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetComputerNameEx2W", EmuApi::EmuSetComputerNameEx2W);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetSystemTimeAdjustment", EmuApi::EmuSetSystemTimeAdjustment);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "SetSystemTimeAdjustmentPrecise", EmuApi::EmuSetSystemTimeAdjustmentPrecise);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "InstallELAMCertificateInfo", EmuApi::EmuInstallELAMCertificateInfo);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "GetProcessorSystemCycleTime", EmuApi::EmuGetProcessorSystemCycleTime);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "GetOsManufacturingMode", EmuApi::EmuGetOsManufacturingMode);
+		//	ctx.RegisterAPIEmulation(L"kernelbase.dll", "GetIntegratedDisplaySize", EmuApi::EmuGetIntegratedDisplaySize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetComputerNameA", EmuApi::EmuSetComputerNameA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetComputerNameW", EmuApi::EmuSetComputerNameW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetComputerNameExA", EmuApi::EmuSetComputerNameExA);
+		//}
+		////WinBaseEmu.hpp
+		//{
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalAlloc", EmuApi::EmuGlobalAlloc);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalReAlloc", EmuApi::EmuGlobalReAlloc);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalSize", EmuApi::EmuGlobalSize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalUnlock", EmuApi::EmuGlobalUnlock);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalLock", EmuApi::EmuGlobalLock);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalFlags", EmuApi::EmuGlobalFlags);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalHandle", EmuApi::EmuGlobalHandle);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalFree", EmuApi::EmuGlobalFree);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalCompact", EmuApi::EmuGlobalCompact);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalFix", EmuApi::EmuGlobalFix);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalUnfix", EmuApi::EmuGlobalUnfix);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalWire", EmuApi::EmuGlobalWire);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalUnWire", EmuApi::EmuGlobalUnWire);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GlobalMemoryStatus", EmuApi::EmuGlobalMemoryStatus);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalAlloc", EmuApi::EmuLocalAlloc);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalReAlloc", EmuApi::EmuLocalReAlloc);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalLock", EmuApi::EmuLocalLock);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalHandle", EmuApi::EmuLocalHandle);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalUnlock", EmuApi::EmuLocalUnlock);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalSize", EmuApi::EmuLocalSize);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalFlags", EmuApi::EmuLocalFlags);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalFree", EmuApi::EmuLocalFree);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalShrink", EmuApi::EmuLocalShrink);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "LocalCompact", EmuApi::EmuLocalCompact);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetBinaryTypeA", EmuApi::EmuGetBinaryTypeA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetBinaryTypeW", EmuApi::EmuGetBinaryTypeW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetShortPathNameA", EmuApi::EmuGetShortPathNameA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLongPathNameTransactedA", EmuApi::EmuGetLongPathNameTransactedA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetLongPathNameTransactedW", EmuApi::EmuGetLongPathNameTransactedW);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessAffinityMask", EmuApi::EmuGetProcessAffinityMask);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetProcessAffinityMask", EmuApi::EmuSetProcessAffinityMask);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessIoCounters", EmuApi::EmuGetProcessIoCounters);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "FatalExit", EmuApi::EmuFatalExit);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetEnvironmentStringsA", EmuApi::EmuSetEnvironmentStringsA);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SwitchToFiber", EmuApi::EmuSwitchToFiber);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteFiber", EmuApi::EmuDeleteFiber);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ConvertFiberToThread", EmuApi::EmuConvertFiberToThread);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFiberEx", EmuApi::EmuCreateFiberEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ConvertThreadToFiberEx", EmuApi::EmuConvertThreadToFiberEx);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateFiber", EmuApi::EmuCreateFiber);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ConvertThreadToFiber", EmuApi::EmuConvertThreadToFiber);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateUmsCompletionList", EmuApi::EmuCreateUmsCompletionList);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DequeueUmsCompletionListItems", EmuApi::EmuDequeueUmsCompletionListItems);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetUmsCompletionListEvent", EmuApi::EmuGetUmsCompletionListEvent);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "ExecuteUmsThread", EmuApi::EmuExecuteUmsThread);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "UmsThreadYield", EmuApi::EmuUmsThreadYield);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteUmsCompletionList", EmuApi::EmuDeleteUmsCompletionList);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetCurrentUmsThread", EmuApi::EmuGetCurrentUmsThread);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetNextUmsListItem", EmuApi::EmuGetNextUmsListItem);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryUmsThreadInformation", EmuApi::EmuQueryUmsThreadInformation);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetUmsThreadInformation", EmuApi::EmuSetUmsThreadInformation);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "DeleteUmsThreadContext", EmuApi::EmuDeleteUmsThreadContext);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "CreateUmsThreadContext", EmuApi::EmuCreateUmsThreadContext);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "EnterUmsSchedulingMode", EmuApi::EmuEnterUmsSchedulingMode);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetUmsSystemThreadInformation", EmuApi::EmuGetUmsSystemThreadInformation);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetThreadAffinityMask", EmuApi::EmuSetThreadAffinityMask);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetProcessDEPPolicy", EmuApi::EmuSetProcessDEPPolicy);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetProcessDEPPolicy", EmuApi::EmuGetProcessDEPPolicy);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "RequestWakeupLatency", EmuApi::EmuRequestWakeupLatency);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "IsSystemResumeAutomatic", EmuApi::EmuIsSystemResumeAutomatic);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "GetThreadSelectorEntry", EmuApi::EmuGetThreadSelectorEntry);
+		//	ctx.RegisterAPIEmulation(L"kernel32.dll", "SetThreadExecutionState", EmuApi::EmuSetThreadExecutionState);
+		//}
+		////WinInetEmu.hpp
+		//{
 
-		}
-		//ProfileApiEmu.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryPerformanceCounter", EmuApi::EmuQueryPerformanceCounter);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "QueryPerformanceFrequency", EmuApi::EmuQueryPerformanceFrequency);
-		}
-		//StringApiSet.hpp
-		{
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareStringEx", EmuApi::EmuCompareStringEx);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareStringOrdinal", EmuApi::EmuCompareStringOrdinal);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "CompareStringW", EmuApi::EmuCompareStringW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "FoldStringW", EmuApi::EmuFoldStringW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStringTypeExW", EmuApi::EmuGetStringTypeExW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "GetStringTypeW", EmuApi::EmuGetStringTypeW);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "MultiByteToWideChar", EmuApi::EmuMultiByteToWideChar);
-			ctx.RegisterAPIEmulation(L"kernel32.dll", "WideCharToMultiByte", EmuApi::EmuWideCharToMultiByte);
-		}
-		//SynchApiEmu.hpp
-		{
+		//}
+		////WinUserEmu.hpp
+		//{
 
-		}
-		//SysInfoApiEmu.hpp
-		{
-
-		}
-		//WinBaseEmu.hpp
-		{
-
-		}
-		//WinInetEmu.hpp
-		{
-
-		}
-		//WinUserEmu.hpp
-		{
-
-		}
+		//}
 	}
 	else
 	{

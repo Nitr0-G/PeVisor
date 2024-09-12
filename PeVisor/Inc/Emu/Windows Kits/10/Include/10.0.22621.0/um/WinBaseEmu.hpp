@@ -19,8 +19,8 @@
 #include <vector>
 
 namespace EmuApi {
-    void EmuWinMain(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuwWinMain(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuWinMain(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuwWinMain(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGlobalAlloc(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGlobalReAlloc(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGlobalSize(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -409,8 +409,8 @@ namespace EmuApi {
     void EmuSetTimerQueueTimer(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuCancelTimerQueueTimer(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuInitializeThreadpoolEnvironment(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuSetThreadpoolCallbackPool(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuSetThreadpoolCallbackCleanupGroup(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuSetThreadpoolCallbackPool(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuSetThreadpoolCallbackCleanupGroup(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetThreadpoolCallbackRunsLong(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetThreadpoolCallbackLibrary(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuSetThreadpoolCallbackPriority(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
@@ -456,8 +456,8 @@ namespace EmuApi {
     void EmuFindActCtxSectionGuid(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuQueryActCtxW(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuWTSGetActiveConsoleSessionId(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuWTSGetServiceSessionId(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
-    void EmuWTSIsServerContainer(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuWTSGetServiceSessionId(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
+    //void EmuWTSIsServerContainer(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetActiveProcessorGroupCount(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetMaximumProcessorGroupCount(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);
     void EmuGetActiveProcessorCount(uc_engine* uc, DWORD_PTR address, size_t size, void* user_data);

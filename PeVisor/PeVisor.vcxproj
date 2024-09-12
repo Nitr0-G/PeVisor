@@ -32,6 +32,21 @@
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\processenvEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\processthreadsapiEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\profileapiEmu.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\debugapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\errhandlingapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\fileapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\libloaderapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\memoryapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\ntdllEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processenvEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processthreadsapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\profileapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\stringapisetEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\synchapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\sysinfoapiEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinBaseEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wininetEmuRegister.cpp" />
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\stringapisetEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\synchapiEmu.cpp" />
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\sysinfoapiEmu.cpp" />
@@ -65,6 +80,21 @@
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\processenvEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\processthreadsapiEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\profileapiEmu.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\debugapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\errhandlingapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\fileapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\libloaderapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\memoryapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\ntdllEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processenvEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processthreadsapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\profileapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\stringapisetEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\synchapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\sysinfoapiEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinBaseEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wininetEmuRegister.hpp" />
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\stringapisetEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\synchapiEmu.hpp" />
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\sysinfoapiEmu.hpp" />
@@ -163,7 +193,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;TRACE_LOG_CONSOLE = 1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependency\KNSoft.NDK\Source\Include\KNSoft\NDK\3rdParty\phnt;$(SolutionDir)Dependency\KNSoft.NDK\Source\Include;$(SolutionDir)PeVisor\Inc;$(SolutionDir)Dependency\Blackbone\src;$(SolutionDir)Dependency\zydis\dependencies\zycore\include;$(SolutionDir)Dependency\zydis\include;$(SolutionDir)Dependency\unicorn\include</AdditionalIncludeDirectories>

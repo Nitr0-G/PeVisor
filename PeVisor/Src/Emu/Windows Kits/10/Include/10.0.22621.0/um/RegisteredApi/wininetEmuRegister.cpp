@@ -1,0 +1,189 @@
+/*
+ ███▄ ▄███▓▄▄▄      ██▀███  ██▓█    ██  ██████     ▄▄▄      ██ ▄█▄▄▄          ███▄    █ ██▄▄▄█████▓██▀███  ▒█████   ▄████ 
+▓██▒▀█▀ ██▒████▄   ▓██ ▒ ██▓██▒██  ▓██▒██    ▒    ▒████▄    ██▄█▒████▄        ██ ▀█   █▓██▓  ██▒ ▓▓██ ▒ ██▒██▒  ██▒██▒ ▀█▒
+▓██    ▓██▒██  ▀█▄ ▓██ ░▄█ ▒██▓██  ▒██░ ▓██▄      ▒██  ▀█▄ ▓███▄▒██  ▀█▄     ▓██  ▀█ ██▒██▒ ▓██░ ▒▓██ ░▄█ ▒██░  ██▒██░▄▄▄░
+▒██    ▒██░██▄▄▄▄██▒██▀▀█▄ ░██▓▓█  ░██░ ▒   ██▒   ░██▄▄▄▄██▓██ █░██▄▄▄▄██    ▓██▒  ▐▌██░██░ ▓██▓ ░▒██▀▀█▄ ▒██   ██░▓█  ██▓
+▒██▒   ░██▒▓█   ▓██░██▓ ▒██░██▒▒█████▓▒██████▒▒    ▓█   ▓██▒██▒ █▓█   ▓██▒   ▒██░   ▓██░██░ ▒██▒ ░░██▓ ▒██░ ████▓▒░▒▓███▀▒
+░ ▒░   ░  ░▒▒   ▓▒█░ ▒▓ ░▒▓░▓ ░▒▓▒ ▒ ▒▒ ▒▓▒ ▒ ░    ▒▒   ▓▒█▒ ▒▒ ▓▒▒   ▓▒█░   ░ ▒░   ▒ ▒░▓   ▒ ░░  ░ ▒▓ ░▒▓░ ▒░▒░▒░ ░▒   ▒ 
+░  ░      ░ ▒   ▒▒ ░ ░▒ ░ ▒░▒ ░░▒░ ░ ░░ ░▒  ░ ░     ▒   ▒▒ ░ ░▒ ▒░▒   ▒▒ ░   ░ ░░   ░ ▒░▒ ░   ░     ░▒ ░ ▒░ ░ ▒ ▒░  ░   ░ 
+░      ░    ░   ▒    ░░   ░ ▒ ░░░░ ░ ░░  ░  ░       ░   ▒  ░ ░░ ░ ░   ▒         ░   ░ ░ ▒ ░ ░       ░░   ░░ ░ ░ ▒ ░ ░   ░ 
+       ░        ░  ░  ░     ░    ░          ░           ░  ░  ░       ░  ░            ░ ░            ░        ░ ░       ░ 
+                                                                                                                          
+
+*/
+#include "Emu/Windows Kits/10/Include/10.0.22621.0/um/RegisteredApi/wininetEmuRegister.hpp"
+void wininetEmuRegister(PeEmulation& ctx)
+{
+    ctx.RegisterAPIEmulation(L"kernelbase.dll", "InternetTimeFromSystemTimeA", EmuApi::EmuInternetTimeFromSystemTimeA);
+    ctx.RegisterAPIEmulation(L"kernelbase.dll", "InternetTimeFromSystemTimeW", EmuApi::EmuInternetTimeFromSystemTimeW);
+    ctx.RegisterAPIEmulation(L"kernelbase.dll", "InternetTimeToSystemTimeA", EmuApi::EmuInternetTimeToSystemTimeA);
+    ctx.RegisterAPIEmulation(L"kernelbase.dll", "InternetTimeToSystemTimeW", EmuApi::EmuInternetTimeToSystemTimeW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCrackUrlA", EmuApi::EmuInternetCrackUrlA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCrackUrlW", EmuApi::EmuInternetCrackUrlW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCreateUrlA", EmuApi::EmuInternetCreateUrlA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCreateUrlW", EmuApi::EmuInternetCreateUrlW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCanonicalizeUrlA", EmuApi::EmuInternetCanonicalizeUrlA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCanonicalizeUrlW", EmuApi::EmuInternetCanonicalizeUrlW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCombineUrlA", EmuApi::EmuInternetCombineUrlA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCombineUrlW", EmuApi::EmuInternetCombineUrlW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetOpenA", EmuApi::EmuInternetOpenA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetOpenW", EmuApi::EmuInternetOpenW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCloseHandle", EmuApi::EmuInternetCloseHandle);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetConnectA", EmuApi::EmuInternetConnectA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetConnectW", EmuApi::EmuInternetConnectW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetOpenUrlA", EmuApi::EmuInternetOpenUrlA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetOpenUrlW", EmuApi::EmuInternetOpenUrlW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetReadFile", EmuApi::EmuInternetReadFile);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetReadFileExA", EmuApi::EmuInternetReadFileExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetReadFileExW", EmuApi::EmuInternetReadFileExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetFilePointer", EmuApi::EmuInternetSetFilePointer);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetWriteFile", EmuApi::EmuInternetWriteFile);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetQueryDataAvailable", EmuApi::EmuInternetQueryDataAvailable);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetFindNextFileA", EmuApi::EmuInternetFindNextFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetFindNextFileW", EmuApi::EmuInternetFindNextFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetQueryOptionA", EmuApi::EmuInternetQueryOptionA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetQueryOptionW", EmuApi::EmuInternetQueryOptionW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetOptionA", EmuApi::EmuInternetSetOptionA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetOptionW", EmuApi::EmuInternetSetOptionW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetOptionExA", EmuApi::EmuInternetSetOptionExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetOptionExW", EmuApi::EmuInternetSetOptionExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetLockRequestFile", EmuApi::EmuInternetLockRequestFile);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetUnlockRequestFile", EmuApi::EmuInternetUnlockRequestFile);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetLastResponseInfoA", EmuApi::EmuInternetGetLastResponseInfoA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetLastResponseInfoW", EmuApi::EmuInternetGetLastResponseInfoW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetStatusCallbackA", EmuApi::EmuInternetSetStatusCallbackA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetStatusCallbackW", EmuApi::EmuInternetSetStatusCallbackW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpFindFirstFileA", EmuApi::EmuFtpFindFirstFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpFindFirstFileW", EmuApi::EmuFtpFindFirstFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpGetFileA", EmuApi::EmuFtpGetFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpGetFileW", EmuApi::EmuFtpGetFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpPutFileA", EmuApi::EmuFtpPutFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpPutFileW", EmuApi::EmuFtpPutFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpGetFileEx", EmuApi::EmuFtpGetFileEx);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpPutFileEx", EmuApi::EmuFtpPutFileEx);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpDeleteFileA", EmuApi::EmuFtpDeleteFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpDeleteFileW", EmuApi::EmuFtpDeleteFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpRenameFileA", EmuApi::EmuFtpRenameFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpRenameFileW", EmuApi::EmuFtpRenameFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpOpenFileA", EmuApi::EmuFtpOpenFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpOpenFileW", EmuApi::EmuFtpOpenFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpCreateDirectoryA", EmuApi::EmuFtpCreateDirectoryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpCreateDirectoryW", EmuApi::EmuFtpCreateDirectoryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpRemoveDirectoryA", EmuApi::EmuFtpRemoveDirectoryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpRemoveDirectoryW", EmuApi::EmuFtpRemoveDirectoryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpSetCurrentDirectoryA", EmuApi::EmuFtpSetCurrentDirectoryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpSetCurrentDirectoryW", EmuApi::EmuFtpSetCurrentDirectoryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpGetCurrentDirectoryA", EmuApi::EmuFtpGetCurrentDirectoryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpGetCurrentDirectoryW", EmuApi::EmuFtpGetCurrentDirectoryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpCommandA", EmuApi::EmuFtpCommandA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpCommandW", EmuApi::EmuFtpCommandW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FtpGetFileSize", EmuApi::EmuFtpGetFileSize);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherCreateLocatorA", EmuApi::EmuGopherCreateLocatorA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherCreateLocatorW", EmuApi::EmuGopherCreateLocatorW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherGetLocatorTypeA", EmuApi::EmuGopherGetLocatorTypeA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherGetLocatorTypeW", EmuApi::EmuGopherGetLocatorTypeW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherFindFirstFileA", EmuApi::EmuGopherFindFirstFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherFindFirstFileW", EmuApi::EmuGopherFindFirstFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherOpenFileA", EmuApi::EmuGopherOpenFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherOpenFileW", EmuApi::EmuGopherOpenFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherGetAttributeA", EmuApi::EmuGopherGetAttributeA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GopherGetAttributeW", EmuApi::EmuGopherGetAttributeW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpOpenRequestA", EmuApi::EmuHttpOpenRequestA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpOpenRequestW", EmuApi::EmuHttpOpenRequestW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpAddRequestHeadersA", EmuApi::EmuHttpAddRequestHeadersA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpAddRequestHeadersW", EmuApi::EmuHttpAddRequestHeadersW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpSendRequestA", EmuApi::EmuHttpSendRequestA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpSendRequestW", EmuApi::EmuHttpSendRequestW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpSendRequestExA", EmuApi::EmuHttpSendRequestExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpSendRequestExW", EmuApi::EmuHttpSendRequestExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpEndRequestA", EmuApi::EmuHttpEndRequestA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpEndRequestW", EmuApi::EmuHttpEndRequestW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpQueryInfoA", EmuApi::EmuHttpQueryInfoA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpQueryInfoW", EmuApi::EmuHttpQueryInfoW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetCookieA", EmuApi::EmuInternetSetCookieA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetCookieW", EmuApi::EmuInternetSetCookieW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetCookieA", EmuApi::EmuInternetGetCookieA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetCookieW", EmuApi::EmuInternetGetCookieW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetCookieExA", EmuApi::EmuInternetSetCookieExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetCookieExW", EmuApi::EmuInternetSetCookieExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetCookieExA", EmuApi::EmuInternetGetCookieExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetCookieExW", EmuApi::EmuInternetGetCookieExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetFreeCookies", EmuApi::EmuInternetFreeCookies);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetCookieEx2", EmuApi::EmuInternetGetCookieEx2);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetCookieEx2", EmuApi::EmuInternetSetCookieEx2);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetAttemptConnect", EmuApi::EmuInternetAttemptConnect);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCheckConnectionA", EmuApi::EmuInternetCheckConnectionA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetCheckConnectionW", EmuApi::EmuInternetCheckConnectionW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "ResumeSuspendedDownload", EmuApi::EmuResumeSuspendedDownload);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetErrorDlg", EmuApi::EmuInternetErrorDlg);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetConfirmZoneCrossingA", EmuApi::EmuInternetConfirmZoneCrossingA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetConfirmZoneCrossingW", EmuApi::EmuInternetConfirmZoneCrossingW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "CreateUrlCacheEntryA", EmuApi::EmuCreateUrlCacheEntryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "CreateUrlCacheEntryW", EmuApi::EmuCreateUrlCacheEntryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "CommitUrlCacheEntryA", EmuApi::EmuCommitUrlCacheEntryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "CommitUrlCacheEntryW", EmuApi::EmuCommitUrlCacheEntryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "RetrieveUrlCacheEntryFileA", EmuApi::EmuRetrieveUrlCacheEntryFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "RetrieveUrlCacheEntryFileW", EmuApi::EmuRetrieveUrlCacheEntryFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "UnlockUrlCacheEntryFileA", EmuApi::EmuUnlockUrlCacheEntryFileA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "UnlockUrlCacheEntryFileW", EmuApi::EmuUnlockUrlCacheEntryFileW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "RetrieveUrlCacheEntryStreamA", EmuApi::EmuRetrieveUrlCacheEntryStreamA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "RetrieveUrlCacheEntryStreamW", EmuApi::EmuRetrieveUrlCacheEntryStreamW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "ReadUrlCacheEntryStream", EmuApi::EmuReadUrlCacheEntryStream);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "ReadUrlCacheEntryStreamEx", EmuApi::EmuReadUrlCacheEntryStreamEx);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "UnlockUrlCacheEntryStream", EmuApi::EmuUnlockUrlCacheEntryStream);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GetUrlCacheEntryInfoA", EmuApi::EmuGetUrlCacheEntryInfoA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GetUrlCacheEntryInfoW", EmuApi::EmuGetUrlCacheEntryInfoW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindFirstUrlCacheGroup", EmuApi::EmuFindFirstUrlCacheGroup);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindNextUrlCacheGroup", EmuApi::EmuFindNextUrlCacheGroup);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GetUrlCacheGroupAttributeA", EmuApi::EmuGetUrlCacheGroupAttributeA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GetUrlCacheGroupAttributeW", EmuApi::EmuGetUrlCacheGroupAttributeW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "SetUrlCacheGroupAttributeA", EmuApi::EmuSetUrlCacheGroupAttributeA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "SetUrlCacheGroupAttributeW", EmuApi::EmuSetUrlCacheGroupAttributeW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GetUrlCacheEntryInfoExA", EmuApi::EmuGetUrlCacheEntryInfoExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "GetUrlCacheEntryInfoExW", EmuApi::EmuGetUrlCacheEntryInfoExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "SetUrlCacheEntryInfoA", EmuApi::EmuSetUrlCacheEntryInfoA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "SetUrlCacheEntryInfoW", EmuApi::EmuSetUrlCacheEntryInfoW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "CreateUrlCacheGroup", EmuApi::EmuCreateUrlCacheGroup);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "DeleteUrlCacheGroup", EmuApi::EmuDeleteUrlCacheGroup);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "SetUrlCacheEntryGroupA", EmuApi::EmuSetUrlCacheEntryGroupA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "SetUrlCacheEntryGroupW", EmuApi::EmuSetUrlCacheEntryGroupW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindFirstUrlCacheEntryExA", EmuApi::EmuFindFirstUrlCacheEntryExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindFirstUrlCacheEntryExW", EmuApi::EmuFindFirstUrlCacheEntryExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindNextUrlCacheEntryExA", EmuApi::EmuFindNextUrlCacheEntryExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindNextUrlCacheEntryExW", EmuApi::EmuFindNextUrlCacheEntryExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindFirstUrlCacheEntryA", EmuApi::EmuFindFirstUrlCacheEntryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindFirstUrlCacheEntryW", EmuApi::EmuFindFirstUrlCacheEntryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindNextUrlCacheEntryA", EmuApi::EmuFindNextUrlCacheEntryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindNextUrlCacheEntryW", EmuApi::EmuFindNextUrlCacheEntryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "FindCloseUrlCache", EmuApi::EmuFindCloseUrlCache);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "DeleteUrlCacheEntryA", EmuApi::EmuDeleteUrlCacheEntryA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "DeleteUrlCacheEntryW", EmuApi::EmuDeleteUrlCacheEntryW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetDialA", EmuApi::EmuInternetDialA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetDialW", EmuApi::EmuInternetDialW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetHangUp", EmuApi::EmuInternetHangUp);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGoOnlineA", EmuApi::EmuInternetGoOnlineA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGoOnlineW", EmuApi::EmuInternetGoOnlineW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetAutodial", EmuApi::EmuInternetAutodial);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetAutodialHangup", EmuApi::EmuInternetAutodialHangup);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetConnectedState", EmuApi::EmuInternetGetConnectedState);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetConnectedStateExA", EmuApi::EmuInternetGetConnectedStateExA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetConnectedStateExW", EmuApi::EmuInternetGetConnectedStateExW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "DeleteWpadCacheForNetworks", EmuApi::EmuDeleteWpadCacheForNetworks);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetInitializeAutoProxyDll", EmuApi::EmuInternetInitializeAutoProxyDll);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "DetectAutoProxyUrl", EmuApi::EmuDetectAutoProxyUrl);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "CreateMD5SSOHash", EmuApi::EmuCreateMD5SSOHash);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetDialStateA", EmuApi::EmuInternetSetDialStateA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetDialStateW", EmuApi::EmuInternetSetDialStateW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetPerSiteCookieDecisionA", EmuApi::EmuInternetSetPerSiteCookieDecisionA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetSetPerSiteCookieDecisionW", EmuApi::EmuInternetSetPerSiteCookieDecisionW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetPerSiteCookieDecisionA", EmuApi::EmuInternetGetPerSiteCookieDecisionA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetGetPerSiteCookieDecisionW", EmuApi::EmuInternetGetPerSiteCookieDecisionW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetClearAllPerSiteCookieDecisions", EmuApi::EmuInternetClearAllPerSiteCookieDecisions);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetEnumPerSiteCookieDecisionA", EmuApi::EmuInternetEnumPerSiteCookieDecisionA);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "InternetEnumPerSiteCookieDecisionW", EmuApi::EmuInternetEnumPerSiteCookieDecisionW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "PrivacySetZonePreferenceW", EmuApi::EmuPrivacySetZonePreferenceW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "PrivacyGetZonePreferenceW", EmuApi::EmuPrivacyGetZonePreferenceW);
+    ctx.RegisterAPIEmulation(L"wininet.dll", "HttpIsHostHstsEnabled", EmuApi::EmuHttpIsHostHstsEnabled);
+}
+
+/* number of functions: 170*/

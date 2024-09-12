@@ -43,6 +43,12 @@
     <Filter Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um">
       <UniqueIdentifier>{9286c9b1-c076-49e2-98e7-2b0da5426ff6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi">
+      <UniqueIdentifier>{bb1f761f-d467-43a8-a775-0130c4a1d4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi">
+      <UniqueIdentifier>{19176539-d5a0-4a23-8b4a-d15dc4f02155}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Main.cpp">
@@ -135,6 +141,51 @@
     <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.cpp">
       <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\debugapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\errhandlingapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\fileapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\libloaderapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\memoryapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\ntdllEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processenvEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processthreadsapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\profileapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\stringapisetEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\synchapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\sysinfoapiEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinBaseEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wininetEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.cpp">
+      <Filter>Src\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\UCPE.hpp">
@@ -217,6 +268,51 @@
     </ClInclude>
     <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\WinUserEmu.hpp">
       <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\debugapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\errhandlingapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\fileapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\libloaderapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\memoryapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\ntdllEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processenvEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\processthreadsapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\profileapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\stringapisetEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\synchapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\sysinfoapiEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinBaseEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\wininetEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi\WinUserEmuRegister.hpp">
+      <Filter>Inc\Emu\Windows Kits\10\Include\10.0.22621.0\um\RegisteredApi</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

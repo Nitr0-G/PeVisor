@@ -156,7 +156,7 @@ public:
 	void InitProcessorState();
 	void InitLdrModuleList();
 	void InitTebPeb();
-
+	
 	//Kernelmode only
 	void SortModuleList();
 	void InitPsLoadedModuleList();
@@ -185,6 +185,7 @@ public: //Memory block
 	//Heap
 	DWORD_PTR HeapAlloc(_In_ size_t AllocBytes, _In_opt_ bool IsPageAlign = false);
 	bool HeapFree(_In_ DWORD_PTR FreeAddress);
+	PVOID getProcessHeap() const; // use this to access heap of current process
 
 	//Mem mapping
 	bool CreateMemMapping(_In_ DWORD_PTR BaseAddress, _In_ DWORD_PTR MapAddress, _In_ size_t Bytes);
@@ -269,6 +270,7 @@ public: //RTLs
 	);
 private:
 	LPTOP_LEVEL_EXCEPTION_FILTER BasepCurrentTopLevelFilter = 0;
+	PEB peb{};
 public:
 	//PPEB_LDR_DATA InternalLdr = nullptr;
 

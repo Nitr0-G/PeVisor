@@ -157,7 +157,7 @@ void PeEmulation::InitTebPeb()
 
 	uc_mem_write(m_uc, (DWORD_PTR)EmuProcessParameters, &LocalProcessParameters, sizeof(RTL_USER_PROCESS_PARAMETERS));
 
-	PEB peb{};
+	
 
 	m_PebBase = 0x90000ull;
 	m_PebEnd = m_PebBase + AlignSize(sizeof(PEB), PAGE_SIZE);
@@ -546,6 +546,7 @@ int main(int argc, char** argv)
 	ctx.m_StackEnd = Stack + ctx.m_StackSize;
 	ctx.m_LoadModuleBase = (!ctx.m_IsKernel) ? 0x180000000ull : 0xFFFFF80000000000ull;
 	ctx.m_HeapBase = (!ctx.m_IsKernel) ? 0x10000000ull : 0xFFFFFA0000000000ull;
+	ctx.m_HeapBase = (!ctx.m_IsKernel) ? (DWORD_PTR)ctx.getProcessHeap() : 0xFFFFFA0000000000ull; // my code
 	ctx.m_HeapEnd = ctx.m_HeapBase + 0x1000000ull;
 
 	DWORD_PTR Zero = 0;

@@ -99,6 +99,11 @@ bool PeEmulation::HeapFree(_In_ DWORD_PTR FreeAddress)
 	return false;
 }
 
+PVOID PeEmulation::getProcessHeap() const
+{
+	return peb.ProcessHeap;
+}
+
 // About: Function for create memory mapping
 // Param 1: src address
 // Param 2: dst address

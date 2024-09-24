@@ -269,6 +269,9 @@ public: //RTLs
 	);
 private:
 	LPTOP_LEVEL_EXCEPTION_FILTER BasepCurrentTopLevelFilter = 0;
+
+	
+	TEB teb = { 0 };
 public:
 	//PPEB_LDR_DATA InternalLdr = nullptr;
 

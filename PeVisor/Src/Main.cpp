@@ -1,6 +1,6 @@
 #include "UCPE.hpp"
 #include <EmuApiFuncs.hpp>
-
+#include "../../Dependency/KNSoft.NDK/Source/Include/KNSoft/NDK/3rdParty/phnt/ntpebteb.h"
 std::ostream* outs;
 
 static ULONG ExtractEntryPointRva(PVOID ModuleBase)
@@ -174,9 +174,129 @@ void PeEmulation::InitTebPeb()
 	m_TebBase = 0x80000ull;
 	m_TebEnd = m_TebBase + AlignSize(sizeof(TEB), PAGE_SIZE);
 
-	TEB teb = { 0 };
-
-	teb.ProcessEnvironmentBlock = (PPEB)m_PebBase;
+	
+	teb.NtTib = NtCurrentTeb()->NtTib; // teb base address
+	teb.EnvironmentPointer = NtCurrentTeb()->EnvironmentPointer;
+	teb.ClientId = NtCurrentTeb()->ClientId;
+	teb.ActiveRpcHandle = NtCurrentTeb()->ActiveRpcHandle;
+	teb.ThreadLocalStoragePointer = NtCurrentTeb()->ThreadLocalStoragePointer;
+	teb.ProcessEnvironmentBlock = NtCurrentTeb()->ProcessEnvironmentBlock; // this should be something like getPEB()
+	teb.LastErrorValue = NtCurrentTeb()->LastErrorValue;
+	teb.CountOfOwnedCriticalSections = NtCurrentTeb()->CountOfOwnedCriticalSections;
+	teb.CsrClientThread = NtCurrentTeb()->CsrClientThread;
+	teb.Win32ThreadInfo = NtCurrentTeb()->Win32ThreadInfo;
+	teb.User32Reserved[25] = NtCurrentTeb()->User32Reserved[25];
+	teb.UserReserved[4] = NtCurrentTeb()->UserReserved[4];
+	teb.WOW32Reserved = NtCurrentTeb()->WOW32Reserved;
+	teb.CurrentLocale = NtCurrentTeb()->CurrentLocale;
+	teb.FpSoftwareStatusRegister = NtCurrentTeb()->FpSoftwareStatusRegister;
+	teb.ReservedForDebuggerInstrumentation[15] = NtCurrentTeb()->ReservedForDebuggerInstrumentation[15];
+	teb.SystemReserved1[24] = NtCurrentTeb()->SystemReserved1[24]; // Accroding to vergilious it should contain values from 0 to 30...
+	teb.PlaceholderCompatibilityMode = NtCurrentTeb()->PlaceholderCompatibilityMode;
+	teb.PlaceholderHydrationAlwaysExplicit = NtCurrentTeb()->PlaceholderHydrationAlwaysExplicit;
+	teb.PlaceholderReserved[9] = NtCurrentTeb()->PlaceholderReserved[9];
+	teb.ProxiedProcessId = NtCurrentTeb()->ProxiedProcessId;
+	teb.ActivationStack = NtCurrentTeb()->ActivationStack;
+	teb.WorkingOnBehalfTicket[7] = NtCurrentTeb()->WorkingOnBehalfTicket[7];
+	teb.ExceptionCode = NtCurrentTeb()->ExceptionCode;
+	teb.ActivationContextStackPointer = NtCurrentTeb()->ActivationContextStackPointer;
+	teb.InstrumentationCallbackSp = NtCurrentTeb()->InstrumentationCallbackSp;
+	teb.InstrumentationCallbackPreviousPc = NtCurrentTeb()->InstrumentationCallbackPreviousPc;
+	teb.InstrumentationCallbackPreviousSp = NtCurrentTeb()->InstrumentationCallbackPreviousSp;
+	teb.TxFsContext = NtCurrentTeb()->TxFsContext;
+	teb.InstrumentationCallbackDisabled = NtCurrentTeb()->InstrumentationCallbackDisabled;
+	teb.UnalignedLoadStoreExceptions = NtCurrentTeb()->UnalignedLoadStoreExceptions;
+	teb.GdiTebBatch = NtCurrentTeb()->GdiTebBatch;
+	teb.RealClientId = NtCurrentTeb()->RealClientId;
+	teb.GdiCachedProcessHandle = NtCurrentTeb()->GdiCachedProcessHandle;
+	teb.GdiClientPID = NtCurrentTeb()->GdiClientPID;
+	teb.GdiClientTID = NtCurrentTeb()->GdiClientTID;
+	teb.GdiThreadLocalInfo = NtCurrentTeb()->GdiThreadLocalInfo;
+	teb.Win32ClientInfo[61] = NtCurrentTeb()->Win32ClientInfo[61];
+	teb.glDispatchTable[232] = NtCurrentTeb()->glDispatchTable[232];
+	teb.glReserved1[28] = NtCurrentTeb()->glReserved1[28];
+	teb.glReserved2 = NtCurrentTeb()->glReserved2;
+	teb.glSectionInfo = NtCurrentTeb()->glSectionInfo;
+	teb.glSection = NtCurrentTeb()->glSection;
+	teb.glTable = NtCurrentTeb()->glTable;
+	teb.glCurrentRC = NtCurrentTeb()->glCurrentRC;
+	teb.glContext = NtCurrentTeb()->glContext;
+	teb.LastStatusValue = NtCurrentTeb()->LastStatusValue;
+	teb.StaticUnicodeString = NtCurrentTeb()->StaticUnicodeString;
+	teb.StaticUnicodeBuffer[260] = NtCurrentTeb()->StaticUnicodeBuffer[260];
+	teb.DeallocationStack = NtCurrentTeb()->DeallocationStack;
+	teb.TlsSlots[63] = NtCurrentTeb()->TlsSlots[63];
+	teb.TlsLinks = NtCurrentTeb()->TlsLinks;
+	teb.Vdm = NtCurrentTeb()->Vdm;
+	teb.ReservedForNtRpc = NtCurrentTeb()->ReservedForNtRpc;
+	teb.DbgSsReserved[1] = NtCurrentTeb()->DbgSsReserved[1];
+	teb.HardErrorMode = NtCurrentTeb()->HardErrorMode;
+	teb.Instrumentation[10] = NtCurrentTeb()->Instrumentation[10];
+	teb.ActivityId = NtCurrentTeb()->ActivityId;
+	teb.SubProcessTag = NtCurrentTeb()->SubProcessTag;
+	teb.PerflibData = NtCurrentTeb()->PerflibData;
+	teb.EtwTraceData = NtCurrentTeb()->EtwTraceData;
+	teb.WinSockData = NtCurrentTeb()->WinSockData;
+	teb.GdiBatchCount = NtCurrentTeb()->GdiBatchCount;
+	teb.CurrentIdealProcessor = NtCurrentTeb()->CurrentIdealProcessor;
+	teb.IdealProcessorValue = NtCurrentTeb()->IdealProcessorValue;
+	teb.ReservedPad0 = NtCurrentTeb()->ReservedPad0;
+	teb.ReservedPad1 = NtCurrentTeb()->ReservedPad1;
+	teb.ReservedPad2 = NtCurrentTeb()->ReservedPad2;
+	teb.IdealProcessor = NtCurrentTeb()->IdealProcessor;
+	teb.GuaranteedStackBytes = NtCurrentTeb()->GuaranteedStackBytes;
+	teb.ReservedForPerf = NtCurrentTeb()->ReservedForPerf;
+	teb.ReservedForOle = NtCurrentTeb()->ReservedForOle;
+	teb.WaitingOnLoaderLock = NtCurrentTeb()->WaitingOnLoaderLock;
+	teb.SavedPriorityState = NtCurrentTeb()->SavedPriorityState;
+	teb.ReservedForCodeCoverage = NtCurrentTeb()->ReservedForCodeCoverage;
+	teb.ThreadPoolData = NtCurrentTeb()->ThreadPoolData;
+	teb.TlsExpansionSlots = NtCurrentTeb()->TlsExpansionSlots;
+	teb.ChpeV2CpuAreaInfo = NtCurrentTeb()->ChpeV2CpuAreaInfo;
+	teb.Unused = NtCurrentTeb()->Unused;
+	teb.MuiGeneration = NtCurrentTeb()->MuiGeneration;
+	teb.IsImpersonating = NtCurrentTeb()->IsImpersonating;
+	teb.NlsCache = NtCurrentTeb()->NlsCache;
+	teb.pShimData = NtCurrentTeb()->pShimData;
+	teb.HeapData = NtCurrentTeb()->HeapData;
+	teb.CurrentTransactionHandle = NtCurrentTeb()->CurrentTransactionHandle;
+	teb.ActiveFrame = NtCurrentTeb()->ActiveFrame;
+	teb.FlsData = NtCurrentTeb()->FlsData;
+	teb.PreferredLanguages = NtCurrentTeb()->PreferredLanguages;
+	teb.UserPrefLanguages = NtCurrentTeb()->UserPrefLanguages;
+	teb.MergedPrefLanguages = NtCurrentTeb()->MergedPrefLanguages;
+	teb.MuiImpersonation = NtCurrentTeb()->MuiImpersonation;
+	teb.CrossTebFlags = NtCurrentTeb()->CrossTebFlags;
+	teb.SpareCrossTebBits = NtCurrentTeb()->SpareCrossTebBits;
+	teb.SameTebFlags = NtCurrentTeb()->SameTebFlags;
+	teb.SafeThunkCall = NtCurrentTeb()->SafeThunkCall;
+	teb.InDebugPrint = NtCurrentTeb()->InDebugPrint;
+	teb.HasFiberData = NtCurrentTeb()->HasFiberData;
+	teb.SkipThreadAttach = NtCurrentTeb()->SkipThreadAttach;
+	teb.WerInShipAssertCode = NtCurrentTeb()->WerInShipAssertCode;
+	teb.RanProcessInit = NtCurrentTeb()->RanProcessInit;
+	teb.ClonedThread = NtCurrentTeb()->ClonedThread;
+	teb.SuppressDebugMsg = NtCurrentTeb()->SuppressDebugMsg;
+	teb.DisableUserStackWalk = NtCurrentTeb()->DisableUserStackWalk;
+	teb.RtlExceptionAttached = NtCurrentTeb()->RtlExceptionAttached;
+	teb.InitialThread = NtCurrentTeb()->InitialThread;
+	teb.SessionAware = NtCurrentTeb()->SessionAware;
+	teb.LoadOwner = NtCurrentTeb()->LoadOwner;
+	teb.LoaderWorker = NtCurrentTeb()->LoaderWorker;
+	teb.SkipLoaderInit = NtCurrentTeb()->SkipLoaderInit;
+	teb.SkipFileAPIBrokering = NtCurrentTeb()->SkipFileAPIBrokering;
+	teb.TxnScopeEnterCallback = NtCurrentTeb()->TxnScopeEnterCallback;
+	teb.TxnScopeExitCallback = NtCurrentTeb()->TxnScopeExitCallback;
+	teb.TxnScopeContext = NtCurrentTeb()->TxnScopeContext;
+	teb.LockCount = NtCurrentTeb()->LockCount;
+	teb.WowTebOffset = NtCurrentTeb()->WowTebOffset;
+	teb.ResourceRetValue = NtCurrentTeb()->ResourceRetValue;
+	teb.ReservedForWdf = NtCurrentTeb()->ReservedForWdf;
+	teb.ReservedForCrt = NtCurrentTeb()->ReservedForCrt;
+	teb.EffectiveContainerId = NtCurrentTeb()->EffectiveContainerId;
+	teb.LastSleepCounter = NtCurrentTeb()->LastSleepCounter;
+	teb.SpinCallCount = NtCurrentTeb()->SpinCallCount;
+	teb.ExtendedFeatureDisableMask = NtCurrentTeb()->ExtendedFeatureDisableMask;
 
 	uc_mem_map(m_uc, m_TebBase, m_TebEnd - m_TebBase, UC_PROT_READ);
 	uc_mem_write(m_uc, m_TebBase, &teb, sizeof(TEB));
